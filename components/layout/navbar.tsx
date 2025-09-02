@@ -17,11 +17,11 @@ export default function Navbar() {
 
   return (
     <div>
-      <nav className="block w-full max-w-screen px-4 py-4 mx-auto bg-white bg-opacity-90 sticky top-3 shadow lg:px-8 backdrop-blur-lg backdrop-saturate-150 z-[9999]">
+      <nav className="block w-full max-w-screen px-2 py-2 mx-auto bg-red-950 bg-opacity-90 sticky top-3 shadow lg:px-8 backdrop-blur-lg backdrop-saturate-150 z-[9999]">
         <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
           <Link
             href="/"
-            className="mr-4 block cursor-pointer py-1.5 text-red-600 font-bold text-2xl"
+            className="mr-4 block cursor-pointer py-1.5 text-white font-bold text-2xl"
           >
             ARABIAN FRAGANCE
           </Link>
@@ -113,7 +113,7 @@ export default function Navbar() {
               {navItems.map((item, index) => (
                 <li
                   key={index}
-                  className="flex items-center p-1 text-lg gap-x-2 text-slate-600 hover:text-red-500"
+                  className="flex items-center p-1 text-lg gap-x-2 text-white hover:text-red-500"
                 >
                   <Link href={item.href} className="flex items-center">
                     {item.name}
