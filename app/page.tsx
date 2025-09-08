@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Button from "@/components/ui/button";
 import Link from "next/link";
+import DiscoverSection from "@/components/sections/DiscoverSection";
 
 export default function Home() {
   return (
@@ -41,7 +42,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="relative min-h-screen">
+      <section className="relative min-h-full border-b-1 border-white">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
           <div className="relative aspect-[3/4]">
             <Image
@@ -123,6 +124,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <DiscoverSection />
     </div>
   );
 }
