@@ -25,27 +25,28 @@ export default function DiscoverSection() {
   }, [active]);
 
   return (
-    <section>
-      <div className="bg-bordeaux text-white border-b border-white/60">
-        <div className="px-6 md:px-12 xl:px-16 py-3 flex items-center justify-between">
+    <section className="bg-bordeaux text-white w-full">
+      <div className="w-full px-2 md:px-4 xl:px-6 border-b border-white/60">
+        <div className="flex items-center justify-between py-3">
           <h2 className="font-display text-2xl md:text-3xl tracking-wide">
             DISCOVER AF
           </h2>
         </div>
       </div>
-      <div className="px-6 md:px-12 xl:px-16 py-6 flex items-end justify-between">
+  
+      <div className="w-full px-2 md:px-4 xl:px-6 py-5 flex items-end justify-between">
         <nav className="flex flex-wrap gap-6 text-base">
           {TABS.map((t) => {
-            const activeTab = t === active;
+            const isActive = t === active;
             return (
               <button
                 key={t}
                 onClick={() => setActive(t)}
-                aria-current={activeTab ? "page" : undefined}
+                aria-current={isActive ? "page" : undefined}
                 className={
-                  activeTab
+                  isActive
                     ? "underline underline-offset-4 decoration-2"
-                    : "text-black/60 hover:text-black"
+                    : "text-gray-400/60 hover:text-black"
                 }
               >
                 {t}
@@ -60,11 +61,15 @@ export default function DiscoverSection() {
           Shop All
         </Link>
       </div>
-      <div className=" max-w-7xl mx-auto px-6 md:px-12 xl:px-16 pb-10 grid [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))] gap-8">
-        {filtered.map((p) => (
-          <ProductCard key={p.id} p={p} />
-        ))}
+  
+      <div className="w-full px-2 md:px-4 xl:px-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-1 md:gap-2">
+          {filtered.map((p) => (
+            <ProductCard key={p.id} p={p} />
+          ))}
+        </div>
       </div>
     </section>
   );
+  
 }
