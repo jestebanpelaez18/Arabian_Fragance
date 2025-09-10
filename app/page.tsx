@@ -2,6 +2,7 @@ import Image from "next/image";
 import Button from "@/components/ui/button";
 import Link from "next/link";
 import DiscoverSection from "@/components/sections/DiscoverSection";
+import PhotoMosaicCarousel from "@/components/sections/PhotoMosaicCarousel";
 
 export default function Home() {
   return (
@@ -125,6 +126,37 @@ export default function Home() {
         </div>
       </section>
       <DiscoverSection />
+      <PhotoMosaicCarousel />
+      {/* <section className="grid grid-cols-1 md:grid-cols-2 gap-0 pt-6 md:pt-12 h-[80vh]">
+        <div className="relative">
+          <Image
+            src="/collections/Coleccion1.jpg"
+            alt="Lado izquierdo"
+            fill
+            className="object-cover object-[50%_25%]"
+            priority
+          />
+        </div>
+
+        <div className="grid grid-rows-2 gap-0">
+          <div className="relative">
+            <Image
+              src="/collections/Coleccion2.jpg"
+              alt="Arriba derecha"
+              fill
+              className="object-cover object-center"
+            />
+          </div>
+          <div className="relative">
+            <Image
+              src="/collections/Coleccion3.jpg"
+              alt="Abajo derecha"
+              fill
+              className="object-cover object-[50%_30%]" // ejemplo de foco
+            />
+          </div>
+        </div>
+      </section> */}
     </div>
   );
 }
