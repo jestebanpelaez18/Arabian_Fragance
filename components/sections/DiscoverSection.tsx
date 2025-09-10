@@ -26,17 +26,14 @@ export default function DiscoverSection() {
 
   return (
     <section>
-      <div className="bg-bordeaux text-white border-y border-white/60">
+      <div className="bg-bordeaux text-white border-b border-white/60">
         <div className="px-6 md:px-12 xl:px-16 py-3 flex items-center justify-between">
           <h2 className="font-display text-2xl md:text-3xl tracking-wide">
             DISCOVER AF
           </h2>
-          <span className="hidden md:block uppercase tracking-widest text-xs md:text-sm">
-            [Best Sellers] Fragrances Minis Sets
-          </span>
         </div>
       </div>
-      <div className="px-6 md:px-12 xl:px-16 py-5 flex items-end justify-between">
+      <div className="px-6 md:px-12 xl:px-16 py-6 flex items-end justify-between">
         <nav className="flex flex-wrap gap-6 text-base">
           {TABS.map((t) => {
             const activeTab = t === active;
@@ -63,8 +60,7 @@ export default function DiscoverSection() {
           Shop All
         </Link>
       </div>
-
-      <div className="px-6 md:px-12 xl:px-16 pb-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className=" max-w-7xl mx-auto px-6 md:px-12 xl:px-16 pb-10 grid [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))] gap-8">
         {filtered.map((p) => (
           <ProductCard key={p.id} p={p} />
         ))}
