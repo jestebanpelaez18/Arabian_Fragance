@@ -39,7 +39,7 @@ export default function PhotoMosaicCarousel() {
           }
         `}</style>
 
-        <div className="flex gap-3 md:gap-4 px-3 md:px-4 py-6 md:py-8">
+        <div className="flex gap-3 md:gap-4 px-3 md:px-4 py-2.5 md:py-5">
           {SLIDES.map((s, idx) => (
             <article
               key={idx}

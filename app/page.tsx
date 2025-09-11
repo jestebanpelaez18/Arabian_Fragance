@@ -127,36 +127,122 @@ export default function Home() {
       </section>
       <DiscoverSection />
       <PhotoMosaicCarousel />
-      {/* <section className="grid grid-cols-1 md:grid-cols-2 gap-0 pt-6 md:pt-12 h-[80vh]">
+      <section className="relative min-h-screen md:min-h-[90vh]">
+        <Image
+          src="/hero/gift.jpg"
+          alt="Gift the essence of luxury"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6">
+          <span className="uppercase tracking-[0.25em] text-sm text-white/70 mb-4">
+            Exclusive Gift Collection
+          </span>
+          <h1 className="font-display text-4xl md:text-5xl xl:text-6xl leading-tight tracking-[-0.01em] text-white max-w-3xl text-shadow-lg/30">
+            GIFT THE ESSENCE OF LUXURY
+          </h1>
+          <p className="mt-6 font-serif text-lg md:text-xl text-white/85 max-w-xl">
+            Transform any occasion into a memory with our exclusive fragrances.
+          </p>
+        </div>
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4">
+          <div className="h-px w-16 bg-white/30" />
+          <Button
+            href="/shop"
+            variant="secondary"
+            className="rounded-full px-8 py-3 border border-white/70 hover:bg-white hover:text-bordeaux transition shadow-sm"
+          >
+            Shop Gifts
+          </Button>
+        </div>
+      </section>
+      <section className="grid grid-cols-1 md:grid-cols-2 min-h-[680px] py-2.5 px-5">
+        <div className="bg-bordeaux text-white py-20 px-16 lg:px-20 flex flex-col justify-center border-r border-white/20">
+          <span className="font-serif uppercase tracking-[0.2em] text-xs/relaxed opacity-70 mb-6">
+            Experience
+          </span>
+          <h2 className="font-display text-4xl md:text-5xl leading-tight tracking-[-0.01em]">
+            DISCOVER OUR LUXURIOUS HELSINKI SHOWROOM
+          </h2>
+          <p className="mt-6 font-serif text-lg/relaxed opacity-85 max-w-lg">
+            Step into a world of elegance and sophistication at our Helsinki
+            showroom. Immerse yourself in the captivating scents of Arabian
+            Fragrance and find your perfect signature scent.
+          </p>
+          <div className="mt-10 h-px w-full bg-white/15" />
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div>
+              <h3 className="font-display text-[15px] uppercase tracking-[0.08em]">
+                Helsinki Showroom
+              </h3>
+              <p className="mt-2 font-serif text-base/relaxed opacity-80">
+                Visit us to explore our exquisite fragrance collection in a
+                luxurious setting.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-display text-[15px] uppercase tracking-[0.08em]">
+                Book Your Visit
+              </h3>
+              <p className="mt-2 font-serif text-base/relaxed opacity-80">
+                Join us at our address: Helsinki city center
+              </p>
+            </div>
+          </div>
+          <div className="mt-10 flex items-center gap-6">
+            <div className="h-px w-16 bg-white/30" />
+            <Button
+              variant="secondary"
+              className="rounded-full px-6 py-3 shadow-sm shadow-black/5 hover:shadow-lg hover:shadow-black/10 hover:-translate-y-[1px] transition"
+            >
+              Book your visit
+            </Button>
+          </div>
+        </div>
         <div className="relative">
+          <div className="absolute inset-0 bg-black/0 lg:bg-black/0" />
           <Image
-            src="/collections/Coleccion1.jpg"
-            alt="Lado izquierdo"
+            src="/hero/shop.jpg"
+            alt="Helsinki showroom"
             fill
-            className="object-cover object-[50%_25%]"
+            className="object-cover object-[50%_35%]"
             priority
           />
         </div>
-
-        <div className="grid grid-rows-2 gap-0">
-          <div className="relative">
-            <Image
-              src="/collections/Coleccion2.jpg"
-              alt="Arriba derecha"
-              fill
-              className="object-cover object-center"
-            />
-          </div>
-          <div className="relative">
-            <Image
-              src="/collections/Coleccion3.jpg"
-              alt="Abajo derecha"
-              fill
-              className="object-cover object-[50%_30%]" // ejemplo de foco
-            />
-          </div>
+      </section>
+      <section className="relative min-h-screen md:min-h-[90vh]">
+        <Image
+          src="/hero/party.jpg"
+          alt="Gift the essence of luxury"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6">
+          <span className="uppercase tracking-[0.25em] text-sm text-white/70 mb-4">
+            Invitation
+          </span>
+          <h1 className="font-display text-4xl md:text-5xl xl:text-6xl leading-tight tracking-[-0.01em] text-white max-w-3xl text-shadow-lg/30">
+           ARABIAN FRAGANCE PARTY AWAITS YOU
+          </h1>
+          <p className="mt-6 font-serif text-lg md:text-xl text-white/85 max-w-xl">
+            Join us for an unforgettable evening filled with elegance and allure. Experience the essence of Arabian luxury as we unveil our exquisite fragrance collection
+          </p>
         </div>
-      </section> */}
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4">
+          <div className="h-px w-16 bg-white/30" />
+          <Button
+            href="/shop"
+            variant="secondary"
+            className="rounded-full px-8 py-3 border border-white/70 hover:bg-white hover:text-bordeaux transition shadow-sm"
+          >
+            Explore Now
+          </Button>
+        </div>
+      </section>
     </div>
   );
 }
