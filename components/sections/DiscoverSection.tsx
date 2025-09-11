@@ -26,16 +26,24 @@ export default function DiscoverSection() {
 
   return (
     <section className="bg-bordeaux text-white w-full">
-      <div className="w-full px-2 md:px-4 xl:px-6 border-b border-white/60">
-        <div className="flex items-center justify-between py-3">
+      {/* Header */}
+      <div className="w-full px-4 md:px-8 xl:px-12 border-b border-white/15">
+        <div className="flex items-center justify-between py-4">
           <h2 className="font-display text-2xl md:text-3xl tracking-wide">
             DISCOVER AF
           </h2>
+          <Link
+            href="/shop"
+            className="hidden sm:block underline underline-offset-4 decoration-2 hover:opacity-80"
+          >
+            Shop All
+          </Link>
         </div>
       </div>
-  
-      <div className="w-full px-2 md:px-4 xl:px-6 py-5 flex items-end justify-between">
-        <nav className="flex flex-wrap gap-6 text-base">
+
+      {/* Tabs */}
+      <div className="w-full px-4 md:px-8 xl:px-12 py-4">
+        <nav className="flex gap-6 text-sm md:text-base">
           {TABS.map((t) => {
             const isActive = t === active;
             return (
@@ -43,27 +51,27 @@ export default function DiscoverSection() {
                 key={t}
                 onClick={() => setActive(t)}
                 aria-current={isActive ? "page" : undefined}
-                className={
+                className={`relative pb-1 transition-colors ${
                   isActive
-                    ? "underline underline-offset-4 decoration-2"
-                    : "text-gray-400/60 hover:text-black"
-                }
+                    ? "text-white after:absolute after:inset-x-0 after:-bottom-[2px] after:h-[2px] after:bg-white"
+                    : "text-white/60 hover:text-white"
+                }`}
               >
                 {t}
               </button>
             );
           })}
         </nav>
-        <Link
-          href="/shop"
-          className="hidden sm:block underline underline-offset-4 decoration-2 hover:opacity-80"
-        >
-          Shop All
-        </Link>
       </div>
-  
-      <div className="w-full px-2 md:px-4 xl:px-6">
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-1 md:gap-2">
+
+      {/* Grid sin huecos con separadores hairline */}
+      <div className="w-full">
+        <div
+          className="
+            grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4
+            gap-2
+          "
+        >
           {filtered.map((p) => (
             <ProductCard key={p.id} p={p} />
           ))}
@@ -71,5 +79,5 @@ export default function DiscoverSection() {
       </div>
     </section>
   );
-  
 }
+

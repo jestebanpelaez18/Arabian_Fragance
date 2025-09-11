@@ -3,33 +3,42 @@ import Button from "@/components/ui/button";
 import { type Product } from "@/data/products";
 
 export default function ProductCard({ p }: { p: Product }) {
-    return (
-      <article className="flex flex-col">
-        <div className="relative w-full bg-white h-[360px] md:h-[400px] xl:h-[440px]">
-          {p.image ? (
-            <Image
-              src={p.image}
-              alt={p.name}
-              fill
-              className="object-contain p-6 md:p-8 xl:p-8"
-              sizes="(min-width:1280px) 25vw, (min-width:768px) 33vw, 50vw"
-            />
-          ) : (
-            <div className="absolute inset-0 grid place-items-center text-black/50">
-              No image
-            </div>
-          )}
-        </div>
-        <div className="text-center pt-5 flex flex-col items-center gap-2 min-h-[120px]">
-          <h3 className="font-serif text-lg md:text-xl uppercase">{p.name}</h3>
-          <p className="opacity-80">€{p.price}</p>
-          <Button href={`/product/${p.slug}`} variant="discover" className="mt-1">
-            Quick Add
-          </Button>
-        </div>
-      </article>
-    );
-  }
+  return (
+    <article className="flex flex-col bg-bordeaux text-white px-2.5">
+      <div className="relative w-full aspect-[3/4] bg-white flex items-center justify-center">
+        {p.image ? (
+          <Image
+            src={p.image}
+            alt={p.name}
+            fill
+            className="object-contain p-6"
+            sizes="(min-width: 1280px) 20vw, (min-width: 768px) 30vw, 45vw"
+          />
+        ) : (
+          <div className="absolute inset-0 grid place-items-center text-white/60">
+            No image yet
+          </div>
+        )}
+      </div>
+      <div className="px-6 py-6 text-center flex flex-col items-center">
+        <h3 className="font-serif text-lg uppercase tracking-wide">
+          {p.name}
+        </h3>
+        <p className="text-white/75 mt-1">€{p.price}</p>
+
+        <Button
+          href={`/product/${p.slug}`}
+          variant="secondary"
+          className="mt-5 px-6 py-2 hover:bg-white hover:text-[var(--bordeaux)] transition"
+        >
+          Quick Add
+        </Button>
+      </div>
+    </article>
+  );
+}
+
+
   
 
   
