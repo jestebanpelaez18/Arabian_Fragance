@@ -26,8 +26,7 @@ export default function DiscoverSection() {
 
   return (
     <section className="bg-bordeaux text-white w-full">
-      {/* Header */}
-      <div className="w-full px-4 md:px-8 xl:px-12 border-b border-white/15">
+      <div className="w-full px-4 md:px-8 xl:px-12">
         <div className="flex items-center justify-between py-4">
           <h2 className="font-display text-2xl md:text-3xl tracking-wide">
             DISCOVER AF
@@ -40,8 +39,6 @@ export default function DiscoverSection() {
           </Link>
         </div>
       </div>
-
-      {/* Tabs */}
       <div className="w-full px-4 md:px-8 xl:px-12 py-4">
         <nav className="flex gap-6 text-sm md:text-base">
           {TABS.map((t) => {
@@ -63,15 +60,8 @@ export default function DiscoverSection() {
           })}
         </nav>
       </div>
-
-      {/* Grid sin huecos con separadores hairline */}
       <div className="w-full">
-        <div
-          className="
-            grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4
-            gap-2
-          "
-        >
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 items-stretch">
           {filtered.map((p) => (
             <ProductCard key={p.id} p={p} />
           ))}
@@ -80,4 +70,3 @@ export default function DiscoverSection() {
     </section>
   );
 }
-

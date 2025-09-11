@@ -7,43 +7,40 @@ import PhotoMosaicCarousel from "@/components/sections/PhotoMosaicCarousel";
 export default function Home() {
   return (
     <div>
-      <section className="relative min-h-screen">
+      <section className="relative min-h-[90vh] md:min-h-screen">
         <Image
-          className="object-cover object-center"
           src="/hero/heroPicture.jpg"
-          alt="Arabian Fragance - Hero Picture"
-          fill={true}
+          alt="Discover Arabian Luxury"
+          fill
+          className="object-cover"
           priority
-          sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent z-0" />
-        <div className="absolute inset-0 z-10 flex items-center">
-          <div className="w-full max-w-7xl mx-auto px-6 md:px-12 xl:px-16 flex flex-col items-start gap-4 text-white">
-            <h1 className="font-display text-4xl md:text-6xl xl:text-7xl leading-none tracking-tight">
-              DISCOVER THE
-              <br />
-              ESSENCE OF
-              <br />
-              ARABIAN
-              <br />
-              LUXURY
-            </h1>
-            <p className="font-serif text-base md:text-lg max-w-md">
-              Experience exclusive fragrances from Dubai: bold, sensual, and
-              unforgettable.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 mt-4">
-              <Button href="\shop" variant="primary">
-                Shop Now
-              </Button>
-              <Button href="about" variant="secondary">
-                Discover Now
-              </Button>
-            </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-transparent" />
+
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6">
+          <p className="uppercase tracking-[0.2em] text-sm md:text-base opacity-70 mb-4">
+            Introducing
+          </p>
+          <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-tight tracking-wide text-shadow-lg/30">
+            DISCOVER THE ESSENCE
+            <br />
+            OF ARABIAN LUXURY
+          </h1>
+          <p className="mt-6 max-w-2xl text-base md:text-lg font-light opacity-80 text-shadow-lg/30">
+            Experience fragrances from Dubai: bold, sensual and unforgettable.
+          </p>
+          <div className="mt-10">
+            <Button
+              href="/shop"
+              variant="secondary"
+              className="px-10 py-3 text-sm md:text-base border border-white/80 hover:bg-white hover:text-[var(--bordeaux)] transition"
+            >
+              Discover Now
+            </Button>
           </div>
         </div>
       </section>
-      <section className="relative min-h-full border-b-1 border-white">
+      <section className="relative min-h-full ">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
           <div className="relative aspect-[3/4]">
             <Image
@@ -192,10 +189,10 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-10 flex items-center gap-6">
-            <div className="h-px w-16 bg-white/30" />
+            <div className="h-px w-16" />
             <Button
               variant="secondary"
-              className="rounded-full px-6 py-3 shadow-sm shadow-black/5 hover:shadow-lg hover:shadow-black/10 hover:-translate-y-[1px] transition"
+              className="px-6 py-3 shadow-sm shadow-black/5 hover:shadow-lg hover:shadow-black/10 hover:-translate-y-[1px] transition"
             >
               Book your visit
             </Button>
@@ -226,10 +223,12 @@ export default function Home() {
             Invitation
           </span>
           <h1 className="font-display text-4xl md:text-5xl xl:text-6xl leading-tight tracking-[-0.01em] text-white max-w-3xl text-shadow-lg/30">
-           ARABIAN FRAGANCE PARTY AWAITS YOU
+            ARABIAN FRAGANCE PARTY AWAITS YOU
           </h1>
           <p className="mt-6 font-serif text-lg md:text-xl text-white/85 max-w-xl">
-            Join us for an unforgettable evening filled with elegance and allure. Experience the essence of Arabian luxury as we unveil our exquisite fragrance collection
+            Join us for an unforgettable evening filled with elegance and
+            allure. Experience the essence of Arabian luxury as we unveil our
+            exquisite fragrance collection
           </p>
         </div>
         <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4">
