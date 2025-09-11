@@ -189,7 +189,6 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-10 flex items-center gap-6">
-            <div className="h-px w-16" />
             <Button
               variant="secondary"
               className="px-6 py-3 shadow-sm shadow-black/5 hover:shadow-lg hover:shadow-black/10 hover:-translate-y-[1px] transition"
@@ -240,6 +239,44 @@ export default function Home() {
           >
             Explore Now
           </Button>
+        </div>
+      </section>
+      <section className="grid grid-cols-1 md:grid-cols-2 min-h-[680px] py-2.5 px-5">
+        <div className="relative">
+          <div className="absolute inset-0 bg-black/0 lg:bg-black/0" />
+          <Image
+            src="/hero/story.jpg"
+            alt="Helsinki showroom"
+            fill
+            className="object-cover object-[50%_35%]"
+            priority
+          />
+        </div>
+        <div className="bg-bordeaux text-white py-20 px-16 lg:px-20 flex flex-col justify-center border-r border-white/20">
+          <span className="font-serif uppercase tracking-[0.2em] text-xs/relaxed opacity-70 mb-6">
+            About Arabian Fragance
+          </span>
+          <h2 className="font-display text-4xl md:text-5xl leading-tight tracking-[-0.01em]">
+            OUR STORY OF LUXURIOUS ARABIAN FRAGANCES
+          </h2>
+          <p className="mt-6 font-serif text-lg/relaxed opacity-85 max-w-lg">
+            Born in Dubai, the heart of Arabian perfumery, our brand blends
+            tradition and luxury to create unique fragrances that embody
+            elegance and sophistication. Each scent is carefully crafted with
+            exquisite ingredients, capturing the essence of Arabian perfume
+            artistry and delivering an exclusive olfactory experience that lasts
+            over time.
+          </p>
+          <div className="mt-10 h-px w-full bg-white/15" />
+          <div className="mt-10 flex items-center gap-6">
+            <Button
+              href="/about"
+              variant="secondary"
+              className="px-6 py-3 shadow-sm shadow-black/5 hover:shadow-lg hover:shadow-black/10 hover:-translate-y-[1px] transition"
+            >
+              Read More
+            </Button>
+          </div>
         </div>
       </section>
     </div>
