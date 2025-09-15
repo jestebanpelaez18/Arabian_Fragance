@@ -1,17 +1,24 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import {Cormorant_Garamond, Playfair_Display, Lato} from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+
+const geistGaramond = Cormorant_Garamond({
+  variable: "--font-cormorand-garamond",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const geistPlayfairDisplay = Playfair_Display({
+  variable: "--font-playfair-display",
   subsets: ["latin"],
+});
+
+const geistLato = Lato({
+  variable: "--font-lato",
+  subsets: ["latin"],
+  weight: "300"
 });
 
 export const metadata: Metadata = {
@@ -27,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistGaramond.variable} ${geistPlayfairDisplay.variable} ${geistLato.variable}antialiased`}
       >
         <Navbar />
         <main>{children}</main>

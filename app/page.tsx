@@ -21,19 +21,19 @@ export default function Home() {
           <p className="uppercase tracking-[0.2em] text-sm md:text-base opacity-70 mb-4">
             Introducing
           </p>
-          <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-tight tracking-wide text-shadow-lg/30">
+          <h1 className="font-playfair-display text-4xl md:text-6xl lg:text-7xl leading-tight tracking-wide text-shadow-lg/30">
             DISCOVER THE ESSENCE
             <br />
             OF ARABIAN LUXURY
           </h1>
-          <p className="mt-6 max-w-2xl text-base md:text-lg font-light opacity-80 text-shadow-lg/30">
+          <p className="font-garamond mt-6 max-w-2xl text-lg md:text-xl opacity-90 text-shadow-lg/30">
             Experience fragrances from Dubai: bold, sensual and unforgettable.
           </p>
           <div className="mt-10">
             <Button
               href="/shop"
               variant="secondary"
-              className="px-10 py-3 text-sm md:text-base border border-white/80 hover:bg-white hover:text-[var(--bordeaux)] transition"
+              className="rounded-full px-10 py-3 text-sm md:text-base border border-white/80 hover:bg-white hover:text-[var(--bordeaux)] transition"
             >
               Discover Now
             </Button>
@@ -53,15 +53,15 @@ export default function Home() {
             />
             <div className="absolute inset-0 z-10 flex items-end">
               <div className="w-full max-w-7xl mx-auto px-6 md:px-12 xl:px-16 flex flex-col items-start gap-2 text-white pb-8">
-                <h1 className="font-display text-3xl md:text-[32px] xl:text-[36px] leading-tight tracking-tight text-shadow-lg/30">
+                <h1 className="font-playfair-display text-3xl md:text-[32px] xl:text-[36px] leading-tight tracking-tight text-shadow-lg/30">
                   DESERD OUD
                 </h1>
-                <p className="font-serif text-base md:text-lg max-w-md">
+                <p className="font-garamond text-lg md:text-xl max-w-md">
                   Deep Smoky oud with warm amber notes
                 </p>
                 <Link
                   href="/collections/desert-oud"
-                  className="underline text-sm font-medium hover:text-gray-200 transition"
+                  className="font-lato underline text-sm font-medium hover:text-gray-200 transition"
                 >
                   Shop now
                 </Link>
@@ -79,15 +79,15 @@ export default function Home() {
             />
             <div className="absolute inset-0 z-10 flex items-end">
               <div className="w-full max-w-7xl mx-auto px-6 md:px-12 xl:px-16 flex flex-col items-start gap-2 text-white pb-8">
-                <h1 className="font-display text-3xl md:text-[32px] xl:text-[36px] leading-tight tracking-tight text-shadow-lg/30">
+                <h1 className="font-playfair-display text-3xl md:text-[32px] xl:text-[36px] leading-tight tracking-tight text-shadow-lg/30">
                   GOLDEN SANS
                 </h1>
-                <p className="font-serif text-base md:text-lg max-w-md">
+                <p className="font-garamond text-lg md:text-xl max-w-md">
                   Deep Smoky oud with warm amber notes
                 </p>
                 <Link
                   href="/collections/desert-oud"
-                  className="underline text-sm font-medium hover:text-gray-200 transition"
+                  className="font-lato underline text-sm font-medium hover:text-gray-200 transition"
                 >
                   Shop now
                 </Link>
@@ -105,15 +105,15 @@ export default function Home() {
             />
             <div className="absolute inset-0 z-10 flex items-end">
               <div className="w-full max-w-7xl mx-auto px-6 md:px-12 xl:px-16 flex flex-col items-start gap-2 text-white pb-8">
-                <h1 className="font-display text-3xl md:text-[32px] xl:text-[36px] leading-tight tracking-tight text-shadow-lg/30">
+                <h1 className="font-playfair-display text-3xl md:text-[32px] xl:text-[36px] leading-tight tracking-tight text-shadow-lg/30">
                   ROSE OF DUBAI
                 </h1>
-                <p className="font-serif text-base md:text-lg max-w-md">
+                <p className="font-garamond text-lg md:text-xl max-w-md">
                   Lush rose intertwined with saffron spice
                 </p>
                 <Link
                   href="/collections/desert-oud"
-                  className="underline text-sm font-medium hover:text-gray-200 transition"
+                  className="font-lato underline text-sm font-medium hover:text-gray-200 transition"
                 >
                   Shop now
                 </Link>
@@ -134,13 +134,13 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-black/50" />
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6">
-          <span className="uppercase tracking-[0.25em] text-sm text-white/70 mb-4">
+          <span className="font-garamond uppercase tracking-[0.25em] text-sm text-white/70 mb-4">
             Exclusive Gift Collection
           </span>
-          <h1 className="font-display text-4xl md:text-5xl xl:text-6xl leading-tight tracking-[-0.01em] text-white max-w-3xl text-shadow-lg/30">
+          <h1 className="font-playfair-display text-4xl md:text-5xl xl:text-6xl leading-tight tracking-[-0.01em] text-white max-w-3xl text-shadow-lg/30">
             GIFT THE ESSENCE OF LUXURY
           </h1>
-          <p className="mt-6 font-serif text-lg md:text-xl text-white/85 max-w-xl">
+          <p className="font-garamond mt-6 text-lg md:text-xl text-white/85 max-w-xl">
             Transform any occasion into a memory with our exclusive fragrances.
           </p>
         </div>
@@ -149,7 +149,7 @@ export default function Home() {
           <Button
             href="/shop"
             variant="secondary"
-            className="rounded-full px-8 py-3 border border-white/70 hover:bg-white hover:text-bordeaux transition shadow-sm"
+            className="font-lato rounded-full px-8 py-3 border border-white/70 hover:bg-white hover:text-bordeaux transition shadow-sm"
           >
             Shop Gifts
           </Button>
@@ -160,10 +160,10 @@ export default function Home() {
           <span className="font-serif uppercase tracking-[0.2em] text-xs/relaxed opacity-70 mb-6">
             Experience
           </span>
-          <h2 className="font-display text-4xl md:text-5xl leading-tight tracking-[-0.01em]">
+          <h2 className="font-playfair-display text-4xl md:text-5xl leading-tight tracking-[-0.01em]">
             DISCOVER OUR LUXURIOUS HELSINKI SHOWROOM
           </h2>
-          <p className="mt-6 font-serif text-lg/relaxed opacity-85 max-w-lg">
+          <p className="mt-6 font-garamond text-lg/relaxed opacity-85 max-w-lg">
             Step into a world of elegance and sophistication at our Helsinki
             showroom. Immerse yourself in the captivating scents of Arabian
             Fragrance and find your perfect signature scent.
@@ -171,19 +171,19 @@ export default function Home() {
           <div className="mt-10 h-px w-full bg-white/15" />
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div>
-              <h3 className="font-display text-[15px] uppercase tracking-[0.08em]">
+              <h3 className="font-playfair-display text-[15px] uppercase tracking-[0.08em]">
                 Helsinki Showroom
               </h3>
-              <p className="mt-2 font-serif text-base/relaxed opacity-80">
+              <p className="mt-2 font-garamond text-base/relaxed opacity-80">
                 Visit us to explore our exquisite fragrance collection in a
                 luxurious setting.
               </p>
             </div>
             <div>
-              <h3 className="font-display text-[15px] uppercase tracking-[0.08em]">
+              <h3 className="font-playfair-display text-[15px] uppercase tracking-[0.08em]">
                 Book Your Visit
               </h3>
-              <p className="mt-2 font-serif text-base/relaxed opacity-80">
+              <p className="mt-2 font-garamond text-base/relaxed opacity-80">
                 Join us at our address: Helsinki city center
               </p>
             </div>
@@ -191,7 +191,7 @@ export default function Home() {
           <div className="mt-10 flex items-center gap-6">
             <Button
               variant="secondary"
-              className="px-6 py-3 shadow-sm shadow-black/5 hover:shadow-lg hover:shadow-black/10 hover:-translate-y-[1px] transition"
+              className="font-lato rounded-full px-6 py-3 shadow-sm shadow-black/5 hover:shadow-lg hover:shadow-black/10 hover:-translate-y-[1px] transition"
             >
               Book your visit
             </Button>
@@ -221,10 +221,10 @@ export default function Home() {
           <span className="uppercase tracking-[0.25em] text-sm text-white/70 mb-4">
             Invitation
           </span>
-          <h1 className="font-display text-4xl md:text-5xl xl:text-6xl leading-tight tracking-[-0.01em] text-white max-w-3xl text-shadow-lg/30">
+          <h1 className="font-playfair-display text-4xl md:text-5xl xl:text-6xl leading-tight tracking-[-0.01em] text-white max-w-3xl text-shadow-lg/30">
             ARABIAN FRAGANCE PARTY AWAITS YOU
           </h1>
-          <p className="mt-6 font-serif text-lg md:text-xl text-white/85 max-w-xl">
+          <p className="mt-6 font-garamond text-lg md:text-xl text-white/85 max-w-xl">
             Join us for an unforgettable evening filled with elegance and
             allure. Experience the essence of Arabian luxury as we unveil our
             exquisite fragrance collection
@@ -253,13 +253,13 @@ export default function Home() {
           />
         </div>
         <div className="bg-bordeaux text-white py-20 px-16 lg:px-20 flex flex-col justify-center border-r border-white/20">
-          <span className="font-serif uppercase tracking-[0.2em] text-xs/relaxed opacity-70 mb-6">
+          <span className="font-garamond uppercase tracking-[0.2em] text-xs/relaxed opacity-70 mb-6">
             About Arabian Fragance
           </span>
-          <h2 className="font-display text-4xl md:text-5xl leading-tight tracking-[-0.01em]">
+          <h2 className="font-playfair-display text-4xl md:text-5xl leading-tight tracking-[-0.01em]">
             OUR STORY OF LUXURIOUS ARABIAN FRAGANCES
           </h2>
-          <p className="mt-6 font-serif text-lg/relaxed opacity-85 max-w-lg">
+          <p className="mt-6 font-garamond text-lg/relaxed opacity-85 max-w-lg">
             Born in Dubai, the heart of Arabian perfumery, our brand blends
             tradition and luxury to create unique fragrances that embody
             elegance and sophistication. Each scent is carefully crafted with
@@ -272,7 +272,7 @@ export default function Home() {
             <Button
               href="/about"
               variant="secondary"
-              className="px-6 py-3 shadow-sm shadow-black/5 hover:shadow-lg hover:shadow-black/10 hover:-translate-y-[1px] transition"
+              className="rounded-full px-6 py-3 shadow-sm shadow-black/5 hover:shadow-lg hover:shadow-black/10 hover:-translate-y-[1px] transition"
             >
               Read More
             </Button>
