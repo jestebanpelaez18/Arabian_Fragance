@@ -26,7 +26,7 @@ export default function ProductCard({ p }: { p: Product }) {
         <Button
           href={`/product/${p.slug}`}
           variant="secondary"
-          className="mt-5 rounded-full px-6 py-2 border border-white/60 hover:bg-white hover:text-[var(--bordeaux)] transition"
+          className="font-roboto mt-5 rounded-full px-6 py-2 border border-white/60 hover:bg-white hover:text-[var(--bordeaux)] transition"
         >
           Quick Add
         </Button>

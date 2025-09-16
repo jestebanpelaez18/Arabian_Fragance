@@ -12,7 +12,7 @@
   --font-mono: var(--font-geist-mono);
   --font-garamond: var(--font-cormorand-garamond);
   --font-playfair-display: var(--font-playfair-display);
-  --font-lato: var(--font-lato);
+  --font-roboto: var(--font-roboto);
 }
 
 @media (prefers-color-scheme: dark) {

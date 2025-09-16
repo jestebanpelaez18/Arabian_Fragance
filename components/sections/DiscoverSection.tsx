@@ -28,12 +28,12 @@ export default function DiscoverSection() {
     <section className="bg-bordeaux text-white w-full">
       <div className="w-full px-4 md:px-8 xl:px-12">
         <div className="flex items-center justify-between py-4">
-          <h2 className="font-display text-2xl md:text-3xl tracking-wide">
+          <h2 className="font-playfair-display text-2xl md:text-3xl tracking-wide">
             DISCOVER AF
           </h2>
           <Link
             href="/shop"
-            className="hidden sm:block underline underline-offset-4 decoration-2 hover:opacity-80"
+            className="font-roboto hidden sm:block underline underline-offset-4 decoration-2 hover:opacity-80"
           >
             Shop All
           </Link>

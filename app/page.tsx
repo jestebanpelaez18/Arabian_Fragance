@@ -33,7 +33,7 @@ export default function Home() {
             <Button
               href="/shop"
               variant="secondary"
-              className="rounded-full px-10 py-3 text-sm md:text-base border border-white/80 hover:bg-white hover:text-[var(--bordeaux)] transition"
+              className="font-roboto rounded-full px-10 py-3 text-sm md:text-base border border-white/80 hover:bg-white hover:text-[var(--bordeaux)] transition"
             >
               Discover Now
             </Button>
@@ -61,7 +61,7 @@ export default function Home() {
                 </p>
                 <Link
                   href="/collections/desert-oud"
-                  className="font-lato underline text-sm font-medium hover:text-gray-200 transition"
+                  className="font-roboto underline text-sm font-medium hover:text-gray-200 transition"
                 >
                   Shop now
                 </Link>
@@ -87,7 +87,7 @@ export default function Home() {
                 </p>
                 <Link
                   href="/collections/desert-oud"
-                  className="font-lato underline text-sm font-medium hover:text-gray-200 transition"
+                  className="font-roboto underline text-sm font-medium hover:text-gray-200 transition"
                 >
                   Shop now
                 </Link>
@@ -113,7 +113,7 @@ export default function Home() {
                 </p>
                 <Link
                   href="/collections/desert-oud"
-                  className="font-lato underline text-sm font-medium hover:text-gray-200 transition"
+                  className="font-roboto underline text-sm font-medium hover:text-gray-200 transition"
                 >
                   Shop now
                 </Link>
@@ -149,7 +149,7 @@ export default function Home() {
           <Button
             href="/shop"
             variant="secondary"
-            className="font-lato rounded-full px-8 py-3 border border-white/70 hover:bg-white hover:text-bordeaux transition shadow-sm"
+            className="font-roboto rounded-full px-8 py-3 border border-white/70 hover:bg-white hover:text-bordeaux transition shadow-sm"
           >
             Shop Gifts
           </Button>

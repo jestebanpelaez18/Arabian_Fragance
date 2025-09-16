@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import {Cormorant_Garamond, Playfair_Display, Lato} from "next/font/google";
+import {Cormorant_Garamond, Playfair_Display, Roboto} from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
@@ -15,10 +15,9 @@ const geistPlayfairDisplay = Playfair_Display({
   subsets: ["latin"],
 });
 
-const geistLato = Lato({
-  variable: "--font-lato",
+const geistRoboto = Roboto({
+  variable: "--font-roboto",
   subsets: ["latin"],
-  weight: "300"
 });
 
 export const metadata: Metadata = {
@@ -34,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistGaramond.variable} ${geistPlayfairDisplay.variable} ${geistLato.variable}antialiased`}
+        className={`${geistGaramond.variable} ${geistPlayfairDisplay.variable} ${geistRoboto.variable}antialiased`}
       >
         <Navbar />
         <main>{children}</main>
