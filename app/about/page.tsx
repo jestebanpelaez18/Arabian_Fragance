@@ -1,6 +1,4 @@
 import Image from "next/image";
-import Button from "@/components/ui/button";
-import Link from "next/link";
 
 export default function aboutPage() {
   return (
@@ -14,7 +12,6 @@ export default function aboutPage() {
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-transparent" />
-
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6">
           <p className="uppercase tracking-[0.2em] text-sm md:text-base opacity-70 mb-4">
             Introducing
@@ -72,6 +69,14 @@ export default function aboutPage() {
           />
         </div>
       </section>
+      <section className="relative h-[200px] md:h-[220px]">
+        <div className="absolute inset-0 z-10 flex items-center justify-center text-center px-16">
+          <p className="font-garamond text-2xl md:text-3xl text-white max-w-7xl leading-relaxed">
+            “Arabian Fragrance brings the soul of Dubai’s perfumery heritage to
+            life, crafted with authenticity, depth, and modern elegance.”
+          </p>
+        </div>
+      </section>
       <section className="grid grid-cols-1 md:grid-cols-2 min-h-[680px] py-2.5 px-5">
         <div className="relative">
           <div className="absolute inset-0 bg-black/0 lg:bg-black/0" />
@@ -88,34 +93,30 @@ export default function aboutPage() {
             Discover
           </span>
           <h2 className="font-playfair-display text-4xl md:text-5xl leading-tight tracking-[-0.01em]">
-            OUR STORY
+            OUR PERFUMES
           </h2>
           <p className="mt-6 font-garamond text-lg/relaxed opacity-85 max-w-lg">
-            Arabian Fragrance was founded by Juha Toivanen, a well-known Finnish
-            chef with a long career creating some of Finland’s most recognized
-            restaurants. After years dedicated to taste, atmosphere, and the art
-            of hospitality, Juha wanted to explore a new way of creating
-            experiences, through scent.
+            At Arabian Fragrance, each perfume is more than a scent, it is an
+            experience. Rooted in the rich traditions of Arabic perfumery and
+            crafted in Dubai, our creations combine rare natural ingredients
+            with a modern touch of elegance.
           </p>
           <p className="mt-6 font-garamond text-lg/relaxed opacity-85 max-w-lg">
-            That journey led him to Dubai and the Emirates, where perfumery is
-            part of everyday culture. Inspired by the richness of Arabic
-            traditions and rare natural ingredients, he began working with local
-            expertise to shape a collection of perfumes that bring together
-            depth, authenticity, and modern elegance.
+            Every fragrance carries its own story: the warmth of oud, the
+            delicacy of rose, the freshness of citrus. Together, they form a
+            collection that is sophisticated, authentic, and impossible to
+            forget.
           </p>
           <p className="mt-6 font-garamond text-lg/relaxed opacity-85 max-w-lg">
-            Arabian Fragrance is built on contrasts.the boldness of oud with the
-            delicacy of rose, the heritage of the Middle East with the clarity
-            of Nordic design. Every fragrance carries a story, meant to be worn
-            not just as a scent, but as an expression of identity.
+            We invite you to discover perfumes that don’t just complement your
+            presence, they define it.
           </p>
         </div>
       </section>
       <section className="relative min-h-screen md:min-h-[90vh]">
         <Image
           src="/about/aboutusPicture2.jpg"
-          alt="Gift the essence of luxury"
+          alt="Our Perfumes"
           fill
           className="object-cover object-center"
           priority

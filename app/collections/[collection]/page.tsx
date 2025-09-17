@@ -1,3 +1,4 @@
 export default function collectionPage() {
-    return <h1>Hello collectionPage!</h1>
-  }
+  return <h1>Hello Collections</h1>
+}
+
