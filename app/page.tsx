@@ -80,13 +80,13 @@ export default function Home() {
             <div className="absolute inset-0 z-10 flex items-end">
               <div className="w-full max-w-7xl mx-auto px-6 md:px-12 xl:px-16 flex flex-col items-start gap-2 text-white pb-8">
                 <h1 className="font-playfair-display text-3xl md:text-[32px] xl:text-[36px] leading-tight tracking-tight text-shadow-lg/30">
-                  GOLDEN SANS
+                  GOLDEN SANDS
                 </h1>
                 <p className="font-garamond text-lg md:text-xl max-w-md">
                   Deep Smoky oud with warm amber notes
                 </p>
                 <Link
-                  href="/collections/desert-oud"
+                  href="/collections/golden-sands"
                   className="font-roboto underline text-sm font-medium hover:text-gray-200 transition"
                 >
                   Shop now
@@ -112,7 +112,7 @@ export default function Home() {
                   Lush rose intertwined with saffron spice
                 </p>
                 <Link
-                  href="/collections/desert-oud"
+                  href="/collections/rose-of-dubai"
                   className="font-roboto underline text-sm font-medium hover:text-gray-200 transition"
                 >
                   Shop now
