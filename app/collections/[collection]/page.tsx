@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Image from "next/image";
-import ProductCard from "@/components/shop/ProductCard";
+import CollectionClient from "@/components/shop/CollectionClient";
 import { PRODUCTS } from "@/data/products";
 import {
   COLLECTIONS,
@@ -62,31 +62,7 @@ export default async function CollectionPage({
           )}
         </div>
       </section>
-
-      <section className="text-white">
-        <div className="w-full px-4 md:px-8 xl:px-12 2xl:px-16 py-10 md:py-14">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 md:gap-x-10 gap-y-16">
-            {items.map((p) => (
-              <article key={p.id} className="group flex flex-col">
-                <div className="relative aspect-[3/4] bg-white ring-1 ring-black/10 rounded-sm overflow-hidden">
-                  <Image
-                    src={p.image ?? "/placeholder.png"}
-                    alt={p.name}
-                    fill
-                    sizes="(min-width:1280px) 25vw, (min-width:768px) 33vw, 50vw"
-                    className="object-contain p-8 md:p-10 lg:p-12 transition-transform duration-300 group-hover:scale-[1.02]"
-                    priority={false}
-                  />
-                </div>
-                <h3 className="mt-5 font-playfair-display text-base md:text-lg tracking-[0.02em] leading-snug">
-                  {p.name}
-                </h3>
-                <p className="mt-1 text-sm opacity-70">€{p.price}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <CollectionClient items={items} />
     </main>
   );
 }
