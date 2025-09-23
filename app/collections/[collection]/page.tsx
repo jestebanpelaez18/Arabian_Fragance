@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Image from "next/image";
 import CollectionClient from "@/components/shop/CollectionClient";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { PRODUCTS } from "@/data/products";
 import {
   COLLECTIONS,
@@ -62,7 +63,14 @@ export default async function CollectionPage({
           )}
         </div>
       </section>
-      <CollectionClient items={items} />
+      <CollectionClient
+        items={items}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Collections", href: "/collections" },
+          { label: current.name, current: true },
+        ]}
+      />
     </main>
   );
 }

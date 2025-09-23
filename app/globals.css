@@ -13,6 +13,7 @@
   --font-garamond: var(--font-cormorand-garamond);
   --font-playfair-display: var(--font-playfair-display);
   --font-roboto: var(--font-roboto);
+  --font-carlito: var(--font-carlito):
 }
 
 @media (prefers-color-scheme: dark) {

@@ -2,12 +2,21 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import type { Product } from "@/data/products";
+
+type Crumb = { label: string; href?: string; current?: boolean };
 
 type GenderTab = "All" | "Women" | "Men" | "Unisex";
 type SortKey = "best" | "price-asc" | "price-desc";
 
-export default function CollectionClient({ items }: { items: Product[] }) {
+export default function CollectionClient({
+  items,
+  breadcrumbs,
+}: {
+  items: Product[];
+  breadcrumbs?: Crumb[];
+}) {
   const [tab, setTab] = useState<GenderTab>("All");
   const [sort, setSort] = useState<SortKey>("best");
   const [open, setOpen] = useState(false);
@@ -48,25 +57,8 @@ export default function CollectionClient({ items }: { items: Product[] }) {
 
   return (
     <section className="text-white">
-      <div className="w-full px-4 md:px-8 xl:px-12 py-4 flex items-center justify-between gap-4">
-        <nav className="flex flex-wrap items-center gap-3 text-sm">
-          {(["All", "Women", "Men", "Unisex"] as const).map((t) => {
-            const active = tab === t;
-            return (
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                className={`px-3 py-1 rounded-full border transition
-                ${active ? "opacity-100" : "opacity-70 hover:opacity-100"}
-                border-current`}
-                aria-pressed={active}
-              >
-                {t}
-              </button>
-            );
-          })}
-        </nav>
-
+      <div className="w-full px-5 py-4 flex items-center justify-between gap-4">
+        {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
         <button
           onClick={() => setOpen(true)}
           className="inline-flex items-center gap-2 text-sm opacity-80 hover:opacity-100 transition"
@@ -76,7 +68,6 @@ export default function CollectionClient({ items }: { items: Product[] }) {
             height="18"
             viewBox="0 0 24 24"
             fill="none"
-            xmlns="http://www.w3.org/2000/svg"
             aria-hidden
           >
             <path
@@ -86,12 +77,12 @@ export default function CollectionClient({ items }: { items: Product[] }) {
               strokeLinecap="round"
             />
           </svg>
-          Filters & Sort
+          Filters &amp; Sort
         </button>
       </div>
 
-      <div className="w-full px-4 md:px-8 xl:px-12 py-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 md:gap-x-10 gap-y-16">
+      <div className="w-full px-5 pb-5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-2.5 md:gap-x-5 gap-y-16">
           {visible.map((p) => (
             <article key={p.id} className="group flex flex-col">
               <div className="relative aspect-[3/4] bg-white ring-1 ring-black/10 rounded-sm overflow-hidden">
@@ -103,11 +94,11 @@ export default function CollectionClient({ items }: { items: Product[] }) {
                   className="object-contain p-8 md:p-10 lg:p-12 transition-transform duration-300 group-hover:scale-[1.02]"
                 />
               </div>
-              <div className="mt-5">
-                <h3 className="font-playfair-display text-base md:text-lg leading-snug tracking-[0.02em] min-h-[2.5rem]">
+              <div className="mt-2.5">
+                <h3 className="font-garamond font-light text-base md:text-lg leading-snug tracking-[0.02em] min-h-[1.5rem]">
                   {p.name}
                 </h3>
-                <p className="mt-1 text-sm opacity-70">€{p.price}</p>
+                <p className="mt-2.5 font-carlito text-xs">{p.price} EUR</p>
               </div>
             </article>
           ))}
@@ -123,9 +114,7 @@ export default function CollectionClient({ items }: { items: Product[] }) {
           />
           <aside
             className="absolute right-0 top-0 h-full w-full sm:w-[420px] md:w-[480px]
-                            bg-bordeaux text-white shadow-xl
-                            border-l border-white/10
-                            flex flex-col"
+                       bg-bordeaux text-white shadow-xl border-l border-white/10 flex flex-col"
           >
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
               <h2 className="text-lg font-medium">Filters &amp; Sort</h2>
@@ -145,6 +134,7 @@ export default function CollectionClient({ items }: { items: Product[] }) {
                 </button>
               </div>
             </div>
+
             <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8">
               <section>
                 <h3 className="text-base font-medium mb-4">Sort by</h3>
@@ -171,6 +161,7 @@ export default function CollectionClient({ items }: { items: Product[] }) {
                   ))}
                 </div>
               </section>
+
               <section>
                 <h3 className="text-base font-medium mb-4">Filter by</h3>
                 <div className="space-y-3 text-sm">
@@ -193,6 +184,7 @@ export default function CollectionClient({ items }: { items: Product[] }) {
                 </div>
               </section>
             </div>
+
             <div className="px-6 py-4 border-t border-white/10">
               <button
                 onClick={() => setOpen(false)}
