@@ -26,20 +26,20 @@ export default function DiscoverSection() {
 
   return (
     <section className="bg-bordeaux text-white w-full">
-      <div className="w-full px-4 md:px-8 xl:px-12">
+      <div className="w-full px-5">
         <div className="flex items-center justify-between py-4">
           <h2 className="font-playfair-display text-2xl md:text-3xl tracking-wide">
             DISCOVER AF
           </h2>
           <Link
             href="/shop"
-            className="font-roboto hidden sm:block underline underline-offset-4 decoration-2 hover:opacity-80"
+            className="hidden sm:block underline underline-offset-4 decoration-2 hover:opacity-80"
           >
             Shop All
           </Link>
         </div>
       </div>
-      <div className="w-full px-4 md:px-8 xl:px-12 py-4">
+      <div className="w-full px-5 py-4">
         <nav className="flex gap-6 text-sm md:text-base">
           {TABS.map((t) => {
             const isActive = t === active;
