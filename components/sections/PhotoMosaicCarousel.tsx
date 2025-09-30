@@ -12,17 +12,17 @@ type Slide = {
 
 const SLIDES: Slide[] = [
   {
-    left: "/collections/Coleccion3.jpg",
-    topRight: "/collections/Coleccion2.jpg",
-    bottomRight: "/collections/Coleccion1.jpg",
+    left: "/collections/collection-rose-dubai.jpg",
+    topRight: "/collections/collection-golden-sands.jpg",
+    bottomRight: "/collections/collection-desert-oud.jpg",
     altLeft: "Lifestyle 1",
     altTopRight: "Lifestyle 2",
     altBottomRight: "Lifestyle 3",
   },
   {
-    left: "/collections/Coleccion3.jpg",
-    topRight: "/collections/Coleccion2.jpg",
-    bottomRight: "/collections/Coleccion1.jpg",
+    left: "/collections/collection-rose-dubai.jpg",
+    topRight: "/collections/collection-golden-sands.jpg",
+    bottomRight: "/collections/collection-desert-oud.jpg",
   },
 ];
 

@@ -81,7 +81,7 @@ export default function aboutPage() {
         <div className="relative">
           <div className="absolute inset-0 bg-black/0 lg:bg-black/0" />
           <Image
-            src="/collections/Coleccion1.jpg"
+            src="/collections/collection-desert-oud.jpg"
             alt="Arabian Frangance Story"
             fill
             className="object-cover object-[50%_35%]"

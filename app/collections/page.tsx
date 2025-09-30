@@ -46,8 +46,8 @@ export default function collectionPage() {
         <div className="grid grid-cols-1 gap-0 md:grid-cols-3">
           <div className="relative aspect-[3/4]">
             <Image
-              src="/collections/Coleccion1.jpg"
-              alt="Arabian Fragrance - Collection 1"
+              src="/collections/collection-desert-oud.jpg"
+              alt="Arabian Fragrance - Collection Desert Oud"
               fill
               sizes="(min-width: 768px) 33vw, 100vw"
               className="object-cover"
@@ -56,7 +56,7 @@ export default function collectionPage() {
             <div className="absolute inset-0 z-10 flex items-end">
               <div className="mx-auto flex w-full max-w-7xl flex-col items-start gap-2 px-6 pb-8 text-white md:px-12 xl:px-16">
                 <h1 className="font-playfair-display text-3xl leading-tight tracking-tight text-shadow-lg/30 md:text-[32px] xl:text-[36px]">
-                  DESERD OUD
+                  DESERT OUD
                 </h1>
                 <p className="font-garamond max-w-md text-lg md:text-xl">
                   Deep Smoky oud with warm amber notes
@@ -72,8 +72,8 @@ export default function collectionPage() {
           </div>
           <div className="relative aspect-[3/4]">
             <Image
-              src="/collections/Coleccion2.jpg"
-              alt="Arabian Fragrance - Collection 2"
+              src="/collections/collection-golden-sands.jpg"
+              alt="Arabian Fragrance - Collection Golden Sands"
               fill
               sizes="(min-width: 768px) 33vw, 100vw"
               className="object-cover"
@@ -98,8 +98,8 @@ export default function collectionPage() {
           </div>
           <div className="relative aspect-[3/4]">
             <Image
-              src="/collections/Coleccion3.jpg"
-              alt="Arabian Fragrance - Collection 3"
+              src="/collections/collection-rose-dubai.jpg"
+              alt="Arabian Fragrance - Collection Rose of Dubai"
               fill
               sizes="(min-width: 768px) 33vw, 100vw"
               className="object-cover"
