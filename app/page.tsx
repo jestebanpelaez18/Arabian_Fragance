@@ -45,7 +45,7 @@ export default function Home() {
           <div className="relative aspect-[3/4]">
             <Image
               src="/collections/collection-desert-oud.jpg"
-              alt="Arabian Fragrance - Collection Deserd Oud"
+              alt="Arabian Fragrance - Collection Desert Oud"
               fill
               sizes="(min-width: 768px) 33vw, 100vw"
               className="object-cover"
