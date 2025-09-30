@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Image from "next/image";
 import CollectionClient from "@/components/shop/CollectionClient";
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { PRODUCTS } from "@/data/products";
 import {
   COLLECTIONS,
@@ -49,15 +48,15 @@ export default async function CollectionPage({
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/50 to-transparent" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6">
-          <p className="uppercase tracking-[0.2em] text-sm md:text-base opacity-70 mb-4">
+        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-white">
+          <p className="mb-4 text-sm tracking-[0.2em] uppercase opacity-70 md:text-base">
             Introducing
           </p>
-          <h1 className="font-playfair-display text-4xl md:text-6xl lg:text-7xl leading-tight tracking-wide text-shadow-lg/30">
+          <h1 className="font-playfair-display text-4xl leading-tight tracking-wide text-shadow-lg/30 md:text-6xl lg:text-7xl">
             {current.name.toUpperCase()}
           </h1>
           {current.hero.subtitle && (
-            <p className="font-garamond mt-6 max-w-2xl text-lg md:text-xl opacity-90 text-shadow-lg/30">
+            <p className="font-garamond mt-6 max-w-2xl text-lg opacity-90 text-shadow-lg/30 md:text-xl">
               {current.hero.subtitle}
             </p>
           )}

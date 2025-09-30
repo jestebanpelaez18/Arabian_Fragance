@@ -30,24 +30,19 @@ export default function Navbar() {
   };
 
   return (
-    <header
-      className="sticky top-0 z-[9999]
-                 bg-[var(--background)] backdrop-blur supports-[backdrop-filter]:bg-[var(--background)]
-                 border-b border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
-    >
+    <header className="sticky top-0 z-[9999] border-b border-white/10 bg-[var(--background)] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur supports-[backdrop-filter]:bg-[var(--background)]">
       <nav className="w-full px-5 md:px-8 xl:px-12">
         <div className="grid h-14 grid-cols-[1fr_auto_1fr] items-center">
-          <div className="hidden lg:flex items-center gap-8 justify-self-start">
+          <div className="hidden items-center gap-8 justify-self-start lg:flex">
             <div
               className="relative"
               onPointerEnter={openShopNow}
               onPointerLeave={closeShopSoon}
             >
-              <span className="pointer-events-none absolute left-0 right-0 top-full h-2" />
+              <span className="pointer-events-none absolute top-full right-0 left-0 h-2" />
 
               <button
-                className="nav-link text-white relative
-                           before:absolute before:left-0 before:right-0 before:top-full before:h-2 before:content-['']"
+                className="nav-link relative text-white before:absolute before:top-full before:right-0 before:left-0 before:h-2 before:content-['']"
                 aria-haspopup="true"
                 aria-expanded={openShop}
                 aria-controls="shop-panel"
@@ -56,9 +51,7 @@ export default function Navbar() {
               </button>
               <div
                 id="shop-panel"
-                className={`fixed left-0 right-0 top-14 z-[9990]
-                            transition-[opacity,visibility] duration-150
-                            ${openShop ? "opacity-100 visible" : "opacity-0 invisible"}`}
+                className={`fixed top-14 right-0 left-0 z-[9990] transition-[opacity,visibility] duration-150 ${openShop ? "visible opacity-100" : "invisible opacity-0"}`}
                 role="dialog"
                 aria-hidden={!openShop}
               >
@@ -177,14 +170,14 @@ export default function Navbar() {
           <div className="justify-self-center">
             <Link
               href="/"
-              className="brand text-[18px] md:text-[20px] text-white/95"
+              className="brand text-[18px] text-white/95 md:text-[20px]"
             >
               ARABIAN FRAGRANCE
             </Link>
           </div>
 
           {/* RIGHT (desktop) */}
-          <div className="hidden lg:flex items-center justify-end gap-6 text-white">
+          <div className="hidden items-center justify-end gap-6 text-white lg:flex">
             <Link href="/search" className="nav-link">
               Search
             </Link>
@@ -197,7 +190,7 @@ export default function Navbar() {
           </div>
 
           {/* BURGER (mobile) */}
-          <div className="lg:hidden flex items-center justify-self-end">
+          <div className="flex items-center justify-self-end lg:hidden">
             <button
               aria-label="Open menu"
               onClick={() => setOpenMobile(true)}
@@ -225,15 +218,13 @@ export default function Navbar() {
             className="absolute inset-0 bg-black/40"
           />
           <aside
-            className="absolute left-0 top-0 h-full w-[86vw] max-w-[360px]
-                       bg-[var(--background)] text-white border-r border-white/10 shadow-xl
-                       flex flex-col"
+            className="absolute top-0 left-0 flex h-full w-[86vw] max-w-[360px] flex-col border-r border-white/10 bg-[var(--background)] text-white shadow-xl"
             style={{
               paddingTop: "env(safe-area-inset-top)",
               paddingBottom: "env(safe-area-inset-bottom)",
             }}
           >
-            <div className="flex items-center justify-between px-4 h-14 border-b border-white/10">
+            <div className="flex h-14 items-center justify-between border-b border-white/10 px-4">
               <Link
                 href="/"
                 onClick={() => setOpenMobile(false)}
@@ -244,15 +235,15 @@ export default function Navbar() {
               <button
                 aria-label="Close"
                 onClick={() => setOpenMobile(false)}
-                className="p-2 -m-2 text-white/85"
+                className="-m-2 p-2 text-white/85"
               >
                 ✕
               </button>
             </div>
 
-            <nav className="flex-1 overflow-y-auto px-4 py-5 space-y-5">
+            <nav className="flex-1 space-y-5 overflow-y-auto px-4 py-5">
               <details className="[&_summary::-webkit-details-marker]:hidden">
-                <summary className="cursor-pointer list-none nav-link text-white">
+                <summary className="nav-link cursor-pointer list-none text-white">
                   Shop
                 </summary>
                 <ul className="mt-3 ml-3 space-y-3 text-white/90">
@@ -260,7 +251,7 @@ export default function Navbar() {
                     <Link
                       href="/shop"
                       onClick={() => setOpenMobile(false)}
-                      className="block nav-link"
+                      className="nav-link block"
                     >
                       Shop All
                     </Link>
@@ -269,7 +260,7 @@ export default function Navbar() {
                     <Link
                       href="/shop?gender=women"
                       onClick={() => setOpenMobile(false)}
-                      className="block nav-link"
+                      className="nav-link block"
                     >
                       Women Perfumes
                     </Link>
@@ -278,7 +269,7 @@ export default function Navbar() {
                     <Link
                       href="/shop?gender=men"
                       onClick={() => setOpenMobile(false)}
-                      className="block nav-link"
+                      className="nav-link block"
                     >
                       Men Perfumes
                     </Link>
@@ -287,7 +278,7 @@ export default function Navbar() {
                     <Link
                       href="/shop?gender=unisex"
                       onClick={() => setOpenMobile(false)}
-                      className="block nav-link"
+                      className="nav-link block"
                     >
                       Unisex
                     </Link>
@@ -298,20 +289,20 @@ export default function Navbar() {
               <Link
                 href="/collections"
                 onClick={() => setOpenMobile(false)}
-                className="block nav-link text-white"
+                className="nav-link block text-white"
               >
                 Collections
               </Link>
               <Link
                 href="/about"
                 onClick={() => setOpenMobile(false)}
-                className="block nav-link text-white"
+                className="nav-link block text-white"
               >
                 About
               </Link>
             </nav>
 
-            <div className="px-4 py-4 border-t border-white/10 space-y-3 text-white/85">
+            <div className="space-y-3 border-t border-white/10 px-4 py-4 text-white/85">
               <Link
                 href="/search"
                 onClick={() => setOpenMobile(false)}

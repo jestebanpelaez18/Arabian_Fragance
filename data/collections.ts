@@ -34,7 +34,7 @@ export const COLLECTIONS: {
 ];
 
 export const COLLECTION_PRODUCTS: Record<CollectionSlug, string[]> = {
-    "desert-oud":   ["p1","p2","p3","p4"], 
-    "golden-sands": ["p2","p1","p3","p4"],
-    "rose-of-dubai":["p3","p4","p1","p2"],
+  "desert-oud": ["p1", "p2", "p3", "p4"],
+  "golden-sands": ["p2", "p1", "p3", "p4"],
+  "rose-of-dubai": ["p3", "p4", "p1", "p2"],
 };
