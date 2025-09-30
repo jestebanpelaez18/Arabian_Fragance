@@ -51,7 +51,9 @@ const isProd = process.env.VERCEL_ENV === "production";
 export const metadata: Metadata = {
   title: "Arabian Fragrance",
   description: "Luxury fragrances",
-  robots: isProd ? { index: true, follow: true } : { index: false, follow: false },
+  robots: isProd
+    ? { index: true, follow: true }
+    : { index: false, follow: false },
 };
 
 export default function RootLayout({
