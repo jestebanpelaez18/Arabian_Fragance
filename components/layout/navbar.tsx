@@ -143,8 +143,8 @@ export default function Navbar() {
                       <div className="col-span-4">
                         <div className="relative aspect-[3/4] w-full overflow-hidden rounded-md border border-white/10">
                           <Image
-                            src="/collections/Coleccion1.jpg"
-                            alt="Arabian Fragrance - Collection 1"
+                            src="/collections/collection-desert-oud.jpg"
+                            alt="Arabian Fragrance - Collection: Desert Oud"
                             fill
                             sizes="(min-width: 1024px) 25vw, 50vw"
                             className="object-cover"
