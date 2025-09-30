@@ -72,7 +72,7 @@ export default function collectionPage() {
           </div>
           <div className="relative aspect-[3/4]">
             <Image
-              src="/collections/golden-sands.jpg"
+              src="/collections/collection-golden-sands.jpg"
               alt="Arabian Fragrance - Collection Golden Sands"
               fill
               sizes="(min-width: 768px) 33vw, 100vw"
