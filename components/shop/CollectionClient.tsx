@@ -44,7 +44,7 @@ export default function CollectionClient({
         break;
       default:
         list = [...list].sort(
-          (a, b) => Number(!!b.bestSeller) - Number(!!a.bestSeller)
+          (a, b) => Number(!!b.bestSeller) - Number(!!a.bestSeller),
         );
     }
     return list;
@@ -57,11 +57,11 @@ export default function CollectionClient({
 
   return (
     <section className="text-white">
-      <div className="w-full px-5 py-4 flex items-center justify-between gap-4">
+      <div className="flex w-full items-center justify-between gap-4 px-5 py-4">
         {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
         <button
           onClick={() => setOpen(true)}
-          className="inline-flex items-center gap-2 text-sm opacity-80 hover:opacity-100 transition"
+          className="inline-flex items-center gap-2 text-sm opacity-80 transition hover:opacity-100"
         >
           <svg
             width="18"
@@ -82,23 +82,23 @@ export default function CollectionClient({
       </div>
 
       <div className="w-full px-5 pb-5">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-2.5 md:gap-x-5 gap-y-16">
+        <div className="grid grid-cols-2 gap-x-2.5 gap-y-16 md:gap-x-5 lg:grid-cols-4">
           {visible.map((p) => (
             <article key={p.id} className="group flex flex-col">
-              <div className="relative aspect-[3/4] bg-white ring-1 ring-black/10 rounded-sm overflow-hidden">
+              <div className="relative aspect-[3/4] overflow-hidden rounded-sm bg-white ring-1 ring-black/10">
                 <Image
                   src={p.image ?? "/placeholder.png"}
                   alt={p.name}
                   fill
                   sizes="(min-width:1280px) 25vw, (min-width:768px) 33vw, 50vw"
-                  className="object-contain p-8 md:p-10 lg:p-12 transition-transform duration-300 group-hover:scale-[1.02]"
+                  className="object-contain p-8 transition-transform duration-300 group-hover:scale-[1.02] md:p-10 lg:p-12"
                 />
               </div>
               <div className="mt-2.5">
-                <h3 className="font-garamond font-light text-base md:text-lg leading-snug tracking-[0.02em] min-h-[1.5rem]">
+                <h3 className="font-garamond min-h-[1.5rem] text-base leading-snug font-light tracking-[0.02em] md:text-lg">
                   {p.name}
                 </h3>
-                <p className="mt-2.5 font-carlito text-xs">{p.price} EUR</p>
+                <p className="font-carlito mt-2.5 text-xs">{p.price} EUR</p>
               </div>
             </article>
           ))}
@@ -112,22 +112,19 @@ export default function CollectionClient({
             onClick={() => setOpen(false)}
             className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
           />
-          <aside
-            className="absolute right-0 top-0 h-full w-full sm:w-[420px] md:w-[480px]
-                       bg-bordeaux text-white shadow-xl border-l border-white/10 flex flex-col"
-          >
-            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+          <aside className="bg-bordeaux absolute top-0 right-0 flex h-full w-full flex-col border-l border-white/10 text-white shadow-xl sm:w-[420px] md:w-[480px]">
+            <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
               <h2 className="text-lg font-medium">Filters &amp; Sort</h2>
               <div className="flex items-center gap-4">
                 <button
                   onClick={clearAll}
-                  className="underline underline-offset-4 decoration-1 opacity-80 hover:opacity-100 text-sm"
+                  className="text-sm underline decoration-1 underline-offset-4 opacity-80 hover:opacity-100"
                 >
                   Clear All
                 </button>
                 <button
                   onClick={() => setOpen(false)}
-                  className="p-2 -m-2 opacity-80 hover:opacity-100"
+                  className="-m-2 p-2 opacity-80 hover:opacity-100"
                   aria-label="Close"
                 >
                   ✕
@@ -135,9 +132,9 @@ export default function CollectionClient({
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8">
+            <div className="flex-1 space-y-8 overflow-y-auto px-6 py-6">
               <section>
-                <h3 className="text-base font-medium mb-4">Sort by</h3>
+                <h3 className="mb-4 text-base font-medium">Sort by</h3>
                 <div className="space-y-3 text-sm">
                   {[
                     { id: "best", label: "Best Selling" },
@@ -146,7 +143,7 @@ export default function CollectionClient({
                   ].map((opt) => (
                     <label
                       key={opt.id}
-                      className="flex items-center gap-3 cursor-pointer"
+                      className="flex cursor-pointer items-center gap-3"
                     >
                       <input
                         type="radio"
@@ -163,12 +160,12 @@ export default function CollectionClient({
               </section>
 
               <section>
-                <h3 className="text-base font-medium mb-4">Filter by</h3>
+                <h3 className="mb-4 text-base font-medium">Filter by</h3>
                 <div className="space-y-3 text-sm">
                   {(["All", "Women", "Men", "Unisex"] as const).map((g) => (
                     <label
                       key={g}
-                      className="flex items-center gap-3 cursor-pointer"
+                      className="flex cursor-pointer items-center gap-3"
                     >
                       <input
                         type="radio"
@@ -185,10 +182,10 @@ export default function CollectionClient({
               </section>
             </div>
 
-            <div className="px-6 py-4 border-t border-white/10">
+            <div className="border-t border-white/10 px-6 py-4">
               <button
                 onClick={() => setOpen(false)}
-                className="w-full py-2 rounded border border-white/20 hover:border-white/40 transition"
+                className="w-full rounded border border-white/20 py-2 transition hover:border-white/40"
               >
                 Apply
               </button>

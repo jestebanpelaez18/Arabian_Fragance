@@ -4,10 +4,7 @@ type Crumb = { label: string; href?: string; current?: boolean };
 
 export default function Breadcrumbs({ items }: { items: Crumb[] }) {
   return (
-    <nav
-      aria-label="Breadcrumb"
-      className="w-7xl py-4"
-    >
+    <nav aria-label="Breadcrumb" className="w-7xl py-4">
       <ol className="font-garamond flex items-center gap-2 text-sm md:text-base">
         {items.map((it, i) => {
           const isLast = i === items.length - 1;
@@ -17,7 +14,7 @@ export default function Breadcrumbs({ items }: { items: Crumb[] }) {
               {it.href && !current ? (
                 <Link
                   href={it.href}
-                  className="opacity-70 hover:opacity-100 transition"
+                  className="opacity-70 transition hover:opacity-100"
                 >
                   {it.label}
                 </Link>

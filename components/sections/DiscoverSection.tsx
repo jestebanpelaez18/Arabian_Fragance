@@ -25,15 +25,15 @@ export default function DiscoverSection() {
   }, [active]);
 
   return (
-    <section className="bg-bordeaux text-white w-full">
+    <section className="bg-bordeaux w-full text-white">
       <div className="w-full px-5">
         <div className="flex items-center justify-between py-4">
-          <h2 className="font-playfair-display text-2xl md:text-3xl tracking-wide">
+          <h2 className="font-playfair-display text-2xl tracking-wide md:text-3xl">
             DISCOVER AF
           </h2>
           <Link
             href="/shop"
-            className="hidden sm:block underline underline-offset-4 decoration-2 hover:opacity-80"
+            className="hidden underline decoration-2 underline-offset-4 hover:opacity-80 sm:block"
           >
             Shop All
           </Link>
@@ -61,7 +61,7 @@ export default function DiscoverSection() {
         </nav>
       </div>
       <div className="w-full">
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 items-stretch">
+        <div className="grid grid-cols-2 items-stretch gap-2 md:grid-cols-3 xl:grid-cols-4">
           {filtered.map((p) => (
             <ProductCard key={p.id} p={p} />
           ))}

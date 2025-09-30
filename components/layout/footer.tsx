@@ -41,7 +41,6 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
 const BRAND_COPY =
   "Arabian Fragrance is a contemporary perfumery house crafting evocative scents with ethically sourced ingredients. Explore signature blends, layered rituals and limited editions in-store or online.";
 
-
 function ArrowRightIcon({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
@@ -67,33 +66,33 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-bordeaux text-white border-t border-white/10">
-      <div className="mx-auto max-w-7xl px-6 md:px-12 xl:px-16 py-14">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-10">
+    <footer className="bg-bordeaux border-t border-white/10 text-white">
+      <div className="mx-auto max-w-7xl px-6 py-14 md:px-12 xl:px-16">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
+          <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:col-span-7">
             {COLUMNS.map((col) => (
               <section key={col.title}>
-            <h4 className="pb-3 text-sm tracking-widest uppercase text-white">
-              {col.title}
-            </h4>
-                  <ul className="space-y-3 text-white">
-                    {col.links.map((l) => (
-                      <li key={l.label}>
-                        <Link
-                          href={l.href}
-                          className="inline-flex items-center gap-2 hover:text-white transition"
-                        >
-                          {l.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                <h4 className="pb-3 text-sm tracking-widest text-white uppercase">
+                  {col.title}
+                </h4>
+                <ul className="space-y-3 text-white">
+                  {col.links.map((l) => (
+                    <li key={l.label}>
+                      <Link
+                        href={l.href}
+                        className="inline-flex items-center gap-2 transition hover:text-white"
+                      >
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </section>
             ))}
           </div>
 
           <aside className="lg:col-span-5">
-            <h3 className="text-lg tracking-wide uppercase text-white">
+            <h3 className="text-lg tracking-wide text-white uppercase">
               Join the list
             </h3>
             <p className="mt-3 max-w-xl text-white">
@@ -105,7 +104,7 @@ export default function Footer() {
               <label htmlFor="footerEmail" className="sr-only">
                 Email address
               </label>
-              <div className="flex items-stretch rounded-md ring-1 ring-stone-300 focus-within:ring-stone-900 overflow-hidden">
+              <div className="flex items-stretch overflow-hidden rounded-md ring-1 ring-stone-300 focus-within:ring-stone-900">
                 <input
                   id="footerEmail"
                   type="email"
@@ -124,7 +123,7 @@ export default function Footer() {
               </div>
             </form>
 
-            <p className="mt-8 max-w-xl text-white leading-relaxed">
+            <p className="mt-8 max-w-xl leading-relaxed text-white">
               {BRAND_COPY}
             </p>
             <div className="mt-8">
@@ -133,7 +132,7 @@ export default function Footer() {
               </label>
               <select
                 id="currency"
-                className="rounded-md border  border-white/70 px-3 py-2 text-sm"
+                className="rounded-md border border-white/70 px-3 py-2 text-sm"
                 defaultValue="EUR"
                 aria-label="Select currency"
               >
@@ -147,7 +146,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-stone-200">
-        <div className="mx-auto max-w-7xl px-6 md:px-12 xl:px-16 py-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-6 md:flex-row md:items-center md:justify-between md:px-12 xl:px-16">
           <p className="text-sm text-white">
             © {year} Arabian Fragrance. All rights reserved.
           </p>
