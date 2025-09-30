@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Image from "next/image";
 import CollectionClient from "@/components/shop/CollectionClient";
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { PRODUCTS } from "@/data/products";
 import {
   COLLECTIONS,
