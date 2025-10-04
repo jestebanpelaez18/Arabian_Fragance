@@ -10,7 +10,7 @@ export default function Navbar() {
   // --- State ---
   const [openMobile, setOpenMobile] = useState(false);
   const [mobileView, setMobileView] = useState<MobileView>("root");
-  const [openShop, setOpenShop] = useState(false); 
+  const [openShop, setOpenShop] = useState(false);
 
   // Close drawer with ESC
   useEffect(() => {
