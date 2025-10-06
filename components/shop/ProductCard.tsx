@@ -1,36 +1,32 @@
+import Link from "next/link";
 import Image from "next/image";
-import Button from "@/components/ui/button";
 import { type Product } from "@/data/products";
 
 export default function ProductCard({ p }: { p: Product }) {
-  return (
-    <article className="bg-bordeaux flex h-full flex-col text-white">
-      <div className="relative aspect-[3/4] bg-white">
-        {p.image ? (
-          <Image
-            src={p.image}
-            alt={p.name}
-            fill
-            className="object-contain p-2 md:p-4"
-          />
-        ) : (
-          <div className="absolute inset-0 grid place-items-center text-white/60">
-            No image yet
-          </div>
-        )}
-      </div>
-      <div className="flex flex-col items-center px-6 py-6 text-center">
-        <h3 className="font-serif text-lg tracking-wide uppercase">{p.name}</h3>
-        <p className="mt-1 text-white/75">€{p.price}</p>
+  const href = `/products/${p.slug ?? p.id}`;
 
-        <Button
-          href={`/product/${p.slug}`}
-          variant="secondary"
-          className="font-roboto mt-5 rounded-full border border-white/60 px-6 py-2 transition hover:bg-white hover:text-[var(--bordeaux)]"
-        >
-          Quick Add
-        </Button>
+  return (
+    <article className="group flex flex-col">
+      <Link
+        href={href}
+        className="relative block aspect-[3/4] overflow-hidden rounded-sm bg-white ring-1 ring-black/10"
+      >
+        <Image
+          src={p.image ?? "/placeholder.png"}
+          alt={p.name}
+          fill
+          sizes="(min-width:1280px) 25vw, (min-width:768px) 33vw, 50vw"
+          className="object-contain p-8 md:p-10 lg:p-12 transition-transform duration-300 group-hover:scale-[1.02]"
+        />
+      </Link>
+
+      <div className="mt-2.5">
+        <Link href={href} className="font-garamond min-h-[1.5rem] text-base md:text-lg font-light tracking-[0.02em] hover:underline">
+          {p.name}
+        </Link>
+        <p className="font-carlito mt-2.5 text-xs">{p.price} EUR</p>
       </div>
     </article>
   );
 }
+

@@ -60,8 +60,8 @@ export default function DiscoverSection() {
           })}
         </nav>
       </div>
-      <div className="w-full">
-        <div className="grid grid-cols-2 items-stretch gap-2 md:grid-cols-3 xl:grid-cols-4">
+      <div className="w-full px-5 pb-5">
+        <div className="grid grid-cols-2 items-stretch gap-x-2.5 gap-y-16 md:gap-x-5 md:grid-cols-3 xl:grid-cols-4">
           {filtered.map((p) => (
             <ProductCard key={p.id} p={p} />
           ))}
