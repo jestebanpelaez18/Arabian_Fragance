@@ -16,12 +16,15 @@ export default function ProductCard({ p }: { p: Product }) {
           alt={p.name}
           fill
           sizes="(min-width:1280px) 25vw, (min-width:768px) 33vw, 50vw"
-          className="object-contain p-8 md:p-10 lg:p-12 transition-transform duration-300 group-hover:scale-[1.02]"
+          className="object-contain p-8 transition-transform duration-300 group-hover:scale-[1.02] md:p-10 lg:p-12"
         />
       </Link>
 
       <div className="mt-2.5">
-        <Link href={href} className="font-garamond min-h-[1.5rem] text-base md:text-lg font-light tracking-[0.02em] hover:underline">
+        <Link
+          href={href}
+          className="font-garamond min-h-[1.5rem] text-base font-light tracking-[0.02em] hover:underline md:text-lg"
+        >
           {p.name}
         </Link>
         <p className="font-carlito mt-2.5 text-xs">{p.price} EUR</p>
@@ -29,4 +32,3 @@ export default function ProductCard({ p }: { p: Product }) {
     </article>
   );
 }
-

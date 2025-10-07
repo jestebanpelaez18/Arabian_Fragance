@@ -54,6 +54,10 @@ export const metadata: Metadata = {
   robots: isProd
     ? { index: true, follow: true }
     : { index: false, follow: false },
+  icons: {
+    icon: [{ url: "/favicon.ico" }],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
 };
 
 export default function RootLayout({
