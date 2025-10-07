@@ -9,36 +9,38 @@ import PhotoMosaicCarousel from "@/components/sections/PhotoMosaicCarousel";
 export default function Home() {
   return (
     <div>
-      <section className="relative min-h-[90svh] md:min-h-screen">
+      {/* ===== HERO principal ===== */}
+      <section className="relative min-h-[90svh] md:min-h-screen grain">
         <Image
           src="/hero/heroPicture.jpg"
           alt="Discover Arabian Luxury"
           fill
           sizes="100vw"
-          className="object-cover object-[50%_22%] md:object-[50%_35%]"
+          className="object-cover object-[50%_22%] md:object-[50%_35%] ease-luxe"
           priority
           fetchPriority="high"
           decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/25 to-transparent" />
+        <div className="absolute inset-0 overlay-amber" />
 
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 pt-14 text-center text-white md:pt-0">
+        <div className="absolute inset-0 safe-area flex flex-col items-center justify-center px-6 pt-14 text-center text-white md:pt-0">
           <p className="mb-4 text-sm tracking-[0.2em] uppercase opacity-70 md:text-base">
             Introducing
           </p>
-          <h1 className="font-playfair-display text-4xl leading-tight tracking-wide text-shadow-lg/30 md:text-6xl lg:text-7xl">
+          <h1 className="font-playfair-display text-4xl leading-tight tracking-[0.08em] text-shadow-soft md:text-6xl lg:text-7xl">
             DISCOVER THE ESSENCE
             <br />
             OF ARABIAN LUXURY
           </h1>
-          <p className="font-garamond mt-6 max-w-2xl text-lg opacity-90 text-shadow-lg/30 md:text-xl">
+          <p className="font-garamond mt-6 max-w-2xl text-lg opacity-90 md:text-xl">
             Experience fragrances from Dubai: bold, sensual and unforgettable.
           </p>
           <div className="mt-10">
             <Button
               href="/shop"
               variant="secondary"
-              className="font-roboto rounded-full border border-white/80 px-10 py-3 text-sm transition hover:bg-white hover:text-[var(--bordeaux)] md:text-base min-h-11"
+              className="btn-luxe min-h-11"
             >
               Discover Now
             </Button>
@@ -46,80 +48,96 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== 3 colecciones destacadas ===== */}
       <section className="relative min-h-full">
         <div className="grid grid-cols-1 gap-0 md:grid-cols-3">
-          <Link href="/collections/desert-oud" prefetch className="group relative block aspect-[3/4]">
+          {/* Desert Oud */}
+          <Link
+            href="/collections/desert-oud"
+            prefetch
+            className="group relative block aspect-[3/4] card-luxe"
+          >
             <Image
               src="/collections/collection-desert-oud.jpg"
               alt="Arabian Fragrance - Collection Desert Oud"
               fill
               sizes="(min-width:768px) 33vw, 100vw"
-              className="object-cover transition-transform duration-300 group-active:scale-[0.99]"
+              className="object-cover transition-transform duration-500 ease-luxe group-active:scale-[0.99]"
               loading="lazy"
               priority={false}
               decoding="async"
             />
             <div className="absolute inset-0 z-10 flex items-end bg-black/30 md:bg-transparent">
               <div className="mx-auto w-full max-w-7xl px-6 pb-8 text-white md:px-12 xl:px-16">
-                <h2 className="font-playfair-display text-3xl leading-tight tracking-tight text-shadow-lg/30 md:text-[32px] xl:text-[36px]">
+                <h2 className="font-playfair-display text-3xl leading-tight tracking-tight text-shadow-soft md:text-[32px] xl:text-[36px]">
                   DESERT OUD
                 </h2>
                 <p className="font-garamond mt-1 max-w-md text-lg md:text-xl">
-                  Deep Smoky oud with warm amber notes
+                  Deep smoky oud with warm amber notes
                 </p>
-                <span className="font-roboto mt-2 inline-block text-sm font-medium underline">
+                <span className="font-roboto mt-2 inline-block text-sm font-medium underline link-gold">
                   Shop now
                 </span>
               </div>
             </div>
           </Link>
 
-          <Link href="/collections/golden-sands" prefetch className="group relative block aspect-[3/4]">
+          {/* Golden Sands */}
+          <Link
+            href="/collections/golden-sands"
+            prefetch
+            className="group relative block aspect-[3/4] card-luxe"
+          >
             <Image
               src="/collections/collection-golden-sands.jpg"
               alt="Arabian Fragrance - Collection Golden Sands"
               fill
               sizes="(min-width:768px) 33vw, 100vw"
-              className="object-cover transition-transform duration-300 group-active:scale-[0.99]"
+              className="object-cover transition-transform duration-500 ease-luxe group-active:scale-[0.99]"
               loading="lazy"
               priority={false}
               decoding="async"
             />
             <div className="absolute inset-0 z-10 flex items-end bg-black/30 md:bg-transparent">
               <div className="mx-auto w-full max-w-7xl px-6 pb-8 text-white md:px-12 xl:px-16">
-                <h2 className="font-playfair-display text-3xl leading-tight tracking-tight text-shadow-lg/30 md:text-[32px] xl:text-[36px]">
+                <h2 className="font-playfair-display text-3xl leading-tight tracking-tight text-shadow-soft md:text-[32px] xl:text-[36px]">
                   GOLDEN SANDS
                 </h2>
                 <p className="font-garamond mt-1 max-w-md text-lg md:text-xl">
-                  Deep Smoky oud with warm amber notes
+                  Sun-warmed amber with desert spice
                 </p>
-                <span className="font-roboto mt-2 inline-block text-sm font-medium underline">
+                <span className="font-roboto mt-2 inline-block text-sm font-medium underline link-gold">
                   Shop now
                 </span>
               </div>
             </div>
           </Link>
 
-          <Link href="/collections/rose-of-dubai" prefetch className="group relative block aspect-[3/4]">
+          {/* Rose of Dubai */}
+          <Link
+            href="/collections/rose-of-dubai"
+            prefetch
+            className="group relative block aspect-[3/4] card-luxe"
+          >
             <Image
               src="/collections/collection-rose-dubai.jpg"
               alt="Arabian Fragrance - Collection Rose of Dubai"
               fill
               sizes="(min-width:768px) 33vw, 100vw"
-              className="object-cover transition-transform duration-300 group-active:scale-[0.99]"
+              className="object-cover transition-transform duration-500 ease-luxe group-active:scale-[0.99]"
               loading="lazy"
               priority={false}
               decoding="async"
             />
             <div className="absolute inset-0 z-10 flex items-end bg-black/30 md:bg-transparent">
               <div className="mx-auto w-full max-w-7xl px-6 pb-8 text-white md:px-12 xl:px-16">
-                <h2 className="font-playfair-display text-3xl leading-tight tracking-tight text-shadow-lg/30 md:text-[32px] xl:text-[36px]">
+                <h2 className="font-playfair-display text-3xl leading-tight tracking-tight text-shadow-soft md:text-[32px] xl:text-[36px]">
                   ROSE OF DUBAI
                 </h2>
                 <p className="font-garamond mt-1 max-w-md text-lg md:text-xl">
                   Lush rose intertwined with saffron spice
                 </p>
-                <span className="font-roboto mt-2 inline-block text-sm font-medium underline">
+                <span className="font-roboto mt-2 inline-block text-sm font-medium underline link-gold">
                   Shop now
                 </span>
               </div>
@@ -128,26 +146,28 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== Secciones personalizadas ===== */}
       <DiscoverSection />
       <PhotoMosaicCarousel />
 
-      <section className="relative min-h-screen md:min-h-[90vh]">
+      {/* ===== Gift hero ===== */}
+      <section className="relative min-h-screen md:min-h-[90vh] grain">
         <Image
           src="/hero/gift.jpg"
           alt="Gift the essence of luxury"
           fill
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-center ease-luxe"
           loading="lazy"
           priority={false}
           decoding="async"
         />
         <div className="absolute inset-0 bg-black/50" />
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center" style={{ paddingTop: "env(safe-area-inset-top)", paddingBottom: "env(safe-area-inset-bottom)" }}>
+        <div className="absolute inset-0 z-10 safe-area flex flex-col items-center justify-center px-6 text-center">
           <span className="font-garamond mb-4 text-sm tracking-[0.25em] text-white/70 uppercase">
             Exclusive Gift Collection
           </span>
-          <h2 className="font-playfair-display max-w-3xl text-4xl leading-snug tracking-[-0.01em] text-white text-shadow-lg/30 md:text-5xl xl:text-6xl">
+          <h2 className="font-playfair-display max-w-3xl text-4xl leading-snug tracking-[-0.01em] text-white text-shadow-soft md:text-5xl xl:text-6xl">
             GIFT THE ESSENCE OF LUXURY
           </h2>
           <p className="font-garamond mt-4 max-w-xl text-base text-white/85 md:text-xl">
@@ -159,14 +179,16 @@ export default function Home() {
           <Button
             href="/shop"
             variant="secondary"
-            className="font-roboto hover:text-bordeaux rounded-full border border-white/70 px-8 py-3 shadow-sm transition hover:bg-white min-h-11"
+            className="btn-luxe min-h-11"
           >
             Shop Gifts
           </Button>
         </div>
       </section>
 
+      {/* ===== Showroom (texto izq en desktop, imagen der) ===== */}
       <section className="grid min-h-[680px] grid-cols-1 px-5 py-2.5 md:grid-cols-2">
+        {/* Imagen arriba en mobile, derecha en desktop */}
         <div className="relative order-1 aspect-[4/3] md:order-2 md:aspect-auto md:min-h-[680px]">
           <Image
             src="/hero/shop.jpg"
@@ -180,9 +202,9 @@ export default function Home() {
           />
         </div>
 
-        {/* Showroom Part*/}
+        {/* Texto */}
         <div className="bg-bordeaux order-2 flex flex-col justify-center border-b border-white/20 px-16 py-20 text-white md:order-1 md:border-r md:border-b-0 lg:px-20">
-          <span className="mb-6 font-serif text-xs/relaxed tracking-[0.2em] uppercase opacity-70">
+          <span className="mb-6 font-serif text-xs tracking-[0.2em] uppercase opacity-70">
             Experience
           </span>
           <h2 className="font-playfair-display text-4xl leading-tight tracking-[-0.01em] md:text-5xl">
@@ -214,34 +236,29 @@ export default function Home() {
           </div>
 
           <div className="mt-10 flex items-center gap-6">
-            <Button
-              variant="secondary"
-              className="font-lato rounded-full px-6 py-3 shadow-sm shadow-black/5 transition hover:-translate-y-[1px] hover:shadow-lg hover:shadow-black/10 min-h-11"
-            >
-              Book your visit
-            </Button>
+            <Button className="btn-luxe min-h-11">Book your visit</Button>
           </div>
         </div>
       </section>
 
-      {/* Party hero */}
-      <section className="relative min-h-screen md:min-h-[90vh]">
+      {/* ===== Party hero ===== */}
+      <section className="relative min-h-screen md:min-h-[90vh] grain">
         <Image
           src="/hero/party.jpg"
           alt="A special invitation"
           fill
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-center ease-luxe"
           loading="lazy"
           priority={false}
           decoding="async"
         />
         <div className="absolute inset-0 bg-black/50" />
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center" style={{ paddingTop: "env(safe-area-inset-top)", paddingBottom: "env(safe-area-inset-bottom)" }}>
+        <div className="absolute inset-0 z-10 safe-area flex flex-col items-center justify-center px-6 text-center">
           <span className="mb-4 text-sm tracking-[0.25em] text-white/70 uppercase">
             Invitation
           </span>
-          <h2 className="font-playfair-display max-w-3xl text-4xl leading-snug tracking-[-0.01em] text-white text-shadow-lg/30 md:text-5xl xl:text-6xl">
+          <h2 className="font-playfair-display max-w-3xl text-4xl leading-snug tracking-[-0.01em] text-white text-shadow-soft md:text-5xl xl:text-6xl">
             ARABIAN FRAGANCE PARTY AWAITS YOU
           </h2>
           <p className="font-garamond mt-4 max-w-xl text-base text-white/85 md:text-xl">
@@ -250,17 +267,13 @@ export default function Home() {
         </div>
         <div className="absolute bottom-12 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-4">
           <div className="h-px w-16 bg-white/30" />
-          <Button
-            href="/shop"
-            variant="secondary"
-            className="hover:text-bordeaux rounded-full border border-white/70 px-8 py-3 shadow-sm transition hover:bg-white min-h-11"
-          >
+          <Button href="/shop" className="btn-luxe min-h-11">
             Explore Now
           </Button>
         </div>
       </section>
 
-      {/* Story (foto izq en desktop) */}
+      {/* ===== Story (foto izq en desktop) ===== */}
       <section className="grid min-h-[680px] grid-cols-1 px-2.5 py-2.5 md:grid-cols-2 md:px-5">
         {/* Imagen izquierda en desktop, arriba en móvil */}
         <div className="relative order-1 aspect-[4/3] md:order-1 md:aspect-auto md:min-h-[680px]">
@@ -276,12 +289,13 @@ export default function Home() {
           />
         </div>
 
+        {/* Texto derecha */}
         <div className="bg-bordeaux order-2 flex flex-col justify-center px-16 py-20 text-white md:order-2 md:border-l md:border-white/20 lg:px-20">
           <span className="font-garamond mb-6 text-xs/relaxed tracking-[0.2em] uppercase opacity-70">
             About Arabian Fragance
           </span>
           <h2 className="font-playfair-display text-4xl leading-tight tracking-[-0.01em] md:text-5xl">
-            OUR STORY OF LUXURIOUS ARABIAN FRAGANCES
+            OUR STORY OF LUXURIOUS ARABIAN FRAGRANCES
           </h2>
           <p className="font-garamond mt-6 max-w-lg text-lg/relaxed opacity-85">
             Born in Dubai, the heart of Arabian perfumery, our brand blends tradition and luxury to create unique fragrances that embody elegance and sophistication. Each scent is carefully crafted with exquisite ingredients, capturing the essence of Arabian perfume artistry and delivering an exclusive olfactory experience that lasts over time.
@@ -290,11 +304,7 @@ export default function Home() {
           <div className="mt-10 h-px w-full bg-white/15" />
 
           <div className="mt-10 flex items-center gap-6">
-            <Button
-              href="/about"
-              variant="secondary"
-              className="rounded-full px-6 py-3 shadow-sm shadow-black/5 transition hover:-translate-y-[1px] hover:shadow-lg hover:shadow-black/10 min-h-11"
-            >
+            <Button href="/about" className="btn-luxe min-h-11">
               Read More
             </Button>
           </div>
