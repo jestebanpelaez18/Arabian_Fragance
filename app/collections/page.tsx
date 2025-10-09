@@ -22,9 +22,7 @@ export default function collectionPage() {
             <br />
             EXQUISITE
             <br />
-            FRAGANCE
-            <br />
-            COLLECTIONS
+            FRAGANCES
           </h1>
           <p className="font-garamond mt-6 max-w-2xl text-lg opacity-90 text-shadow-lg/30 md:text-xl">
             Dive into a world where each fragrance tells a story. Discover the
@@ -37,7 +35,7 @@ export default function collectionPage() {
         <div className="w-full px-4 md:px-6 xl:px-10">
           <div className="flex items-center justify-between py-4">
             <h2 className="font-playfair-display text-2xl tracking-wide md:text-3xl">
-              SHOP OUR COLLECTION
+              SHOP OUR PERFUMES
             </h2>
           </div>
         </div>
