@@ -105,7 +105,7 @@ export default function Navbar() {
                             </li>
                             <li>
                               <Link
-                                href="/shop?gender=women"
+                                href="/shop/women"
                                 className="nav-link inline-block"
                               >
                                 Women Perfumes
@@ -113,7 +113,7 @@ export default function Navbar() {
                             </li>
                             <li>
                               <Link
-                                href="/shop?gender=men"
+                                href="/shop/men"
                                 className="nav-link inline-block"
                               >
                                 Men Perfumes
@@ -121,7 +121,7 @@ export default function Navbar() {
                             </li>
                             <li>
                               <Link
-                                href="/shop?gender=unisex"
+                                href="/shop/unisex"
                                 className="nav-link inline-block"
                               >
                                 Unisex
