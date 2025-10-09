@@ -1,4 +1,3 @@
-// app/shop/page.tsx
 import Link from "next/link";
 import { PRODUCTS, type Note } from "@/data/products";
 import ProductCard from "@/components/shop/ProductCard";
@@ -8,13 +7,11 @@ import NoteFilterChips from "@/components/shop/NoteFilterChips";
 export default async function ShopIndexPage({
   searchParams,
 }: {
-  // Next 15: puede venir como Promise
   searchParams: Promise<{ notes?: string }>;
 }) {
   const sp = await searchParams;
   const selected = (sp.notes?.split(",").filter(Boolean) ?? []) as Note[];
 
-  // Filtrado
   const filtered = PRODUCTS.filter((p) =>
     selected.length === 0
       ? true
@@ -24,8 +21,7 @@ export default async function ShopIndexPage({
 
   return (
     <main>
-      {/* Breadcrumb ARRIBA */}
-      <nav className="w-full px-5 pt-4 pb-2 text-xs tracking-[0.08em] text-white/60 md:px-8 xl:px-12">
+      <nav className="w-full px-5 pt-4 pb-2 text-xs tracking-[0.08em] text-white/60 md:px-5 xl:px-7">
         <ol className="flex items-center gap-2">
           <li>
             <Link href="/" className="hover:text-white/80">
@@ -37,7 +33,7 @@ export default async function ShopIndexPage({
         </ol>
       </nav>
 
-      {/* Intro editorial */}
+      {/* Intro */}
       <IntroCompact
         title="ALL ARABIAN FRAGRANCE"
         count={filtered.length}
@@ -50,17 +46,17 @@ export default async function ShopIndexPage({
         }
       />
 
-      {/* Chips (separadas y con aire) */}
-      <section className="mt-6 w-full px-5 md:mt-8 md:px-8 xl:px-12">
+      {/* Chips */}
+      <section className="mt-6 w-full px-5 md:mt-8 md:px-5 xl:px-6">
         <NoteFilterChips
           allNotes={["Woody", "Floral", "Amber", "Spice", "Musk", "Citrus"]}
         />
-        {/* divisor entre chips y productos */}
-        <div className="mt-6 h-px w-full bg-white/12 md:mt-8" />
+        {/* Separation between filter and products */}
+        <div className="mt-6 h-px w-ful md:mt-8" />
       </section>
 
       {/* Grid */}
-      <section className="w-full px-5 pb-12 md:px-8 xl:px-12">
+      <section className="w-full px-5 pb-12 md:px-5 xl:px-6">
         <div className="grid grid-cols-2 gap-x-2.5 gap-y-16 md:gap-x-5 lg:grid-cols-4">
           {filtered.map((p) => (
             <ProductCard key={p.id} p={p} />

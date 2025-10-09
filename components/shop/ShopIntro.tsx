@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export default function ShopIntro() {
   return (
     <section className="w-full px-5 md:px-8 xl:px-12 py-10 md:py-12 text-white">
@@ -15,7 +13,6 @@ export default function ShopIntro() {
             selection of timeless signatures for every style.
           </p>
 
-          {/* Chips editoriales (UI) */}
           <div className="mt-3 flex flex-wrap gap-2">
             {["Woody", "Floral", "Amber"].map((t) => (
               <button

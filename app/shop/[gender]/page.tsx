@@ -1,4 +1,3 @@
-// app/shop/[gender]/page.tsx
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -57,8 +56,8 @@ export default async function ShopByGenderPage({
 
   return (
     <main>
-      {/* Breadcrumb arriba */}
-      <nav className="w-full px-5 pt-4 pb-2 text-xs tracking-[0.08em] text-white/60 md:px-8 xl:px-12">
+      {/* Breadcrumb */}
+      <nav className="w-full px-5 pt-4 pb-2 text-xs tracking-[0.08em] text-white/60 md:px-5 xl:px-6">
         <ol className="flex items-center gap-2">
           <li>
             <Link href="/" className="hover:text-white/80">
@@ -83,15 +82,15 @@ export default async function ShopByGenderPage({
         subtitle={<>{COPY[gender]}</>}
       />
 
-      <section className="mt-6 w-full px-5 md:mt-8 md:px-8 xl:px-12">
+      <section className="mt-6 w-full px-5 md:mt-8 md:px-5 xl:px-6">
         <NoteFilterChips
           allNotes={["Woody", "Floral", "Amber", "Spice", "Musk", "Citrus"]}
         />
-        <div className="mt-6 h-px w-full bg-white/12 md:mt-8" />
+        <div className="mt-6 h-px w-full md:mt-8" />
       </section>
 
       {/* Grid */}
-      <section className="w-full px-5 pb-12 md:px-8 xl:px-12">
+      <section className="w-full px-5 pb-12 md:px-5 xl:px-6">
         <div className="grid grid-cols-2 gap-x-2.5 gap-y-16 md:gap-x-5 lg:grid-cols-4">
           {filtered.map((p) => (
             <ProductCard key={p.id} p={p} />

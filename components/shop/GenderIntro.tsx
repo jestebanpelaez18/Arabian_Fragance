@@ -1,4 +1,3 @@
-// components/shop/GenderIntro.tsx
 import Link from "next/link";
 
 type Gender = "women" | "men" | "unisex";
@@ -36,7 +35,6 @@ export default function GenderIntro({ gender }: { gender: Gender }) {
             {copy[gender]}
           </p>
 
-          {/* Quicklinks */}
           <div className="mt-4 flex flex-wrap gap-4 text-sm">
             {quicklinks[gender].map((q) => (
               <Link
@@ -49,7 +47,6 @@ export default function GenderIntro({ gender }: { gender: Gender }) {
             ))}
           </div>
 
-          {/* ← AQUÍ va el mini–filtro (solo UI por ahora) */}
           <div className="mt-3 flex flex-wrap gap-2">
             {["Woody", "Floral", "Amber"].map((t) => (
               <button

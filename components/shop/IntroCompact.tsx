@@ -1,4 +1,3 @@
-// components/shop/IntroCompact.tsx
 import { ReactNode } from "react";
 
 export default function IntroCompact({
@@ -13,7 +12,7 @@ export default function IntroCompact({
   chips?: string[];
 }) {
   return (
-    <section className="w-full px-5 md:px-8 xl:px-12 pt-6 md:pt-8 text-white">
+    <section className="w-full px-5 md:px-5 xl:px-6 pt-6 md:pt-8 text-white">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-[1.05fr_1fr] items-start">
         <h1 className="font-playfair-display text-[28px] leading-tight md:text-[40px]">
           {title}
@@ -29,7 +28,7 @@ export default function IntroCompact({
       {/* Divider */}
       <div className="mt-6 md:mt-8 h-px w-full bg-white/15" />
 
-      {/* Chips (opcional) */}
+      {/* Chips */}
       {!!chips?.length && (
         <div className="mt-5 flex flex-wrap gap-6">
           {chips.map((t) => (
