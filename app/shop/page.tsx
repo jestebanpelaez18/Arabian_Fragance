@@ -52,7 +52,7 @@ export default async function ShopIndexPage({
           allNotes={["Woody", "Floral", "Amber", "Spice", "Musk", "Citrus"]}
         />
         {/* Separation between filter and products */}
-        <div className="w-ful mt-6 h-px md:mt-8" />
+        <div className="w-full mt-6 h-px md:mt-8" />
       </section>
 
       {/* Grid */}

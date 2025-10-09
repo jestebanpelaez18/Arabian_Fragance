@@ -29,21 +29,6 @@ export default function IntroCompact({
 
       {/* Divider */}
       <div className="mt-6 h-px w-full bg-white/15 md:mt-8" />
-
-      {/* Chips */}
-      {!!chips?.length && (
-        <div className="mt-5 flex flex-wrap gap-6">
-          {chips.map((t) => (
-            <button
-              key={t}
-              type="button"
-              className="rounded-full border border-white/25 px-3 py-1 text-[12px] opacity-85 transition hover:opacity-100"
-            >
-              {t}
-            </button>
-          ))}
-        </div>
-      )}
     </section>
   );
 }
