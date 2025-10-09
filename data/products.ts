@@ -6,11 +6,11 @@ export type Note = "Woody" | "Floral" | "Amber" | "Spice" | "Musk" | "Citrus";
 
 export type Product = {
   id: string;
-  slug: string;             
+  slug: string;
   name: string;
-  price: number;           
-  image?: string | null;    
-  images?: string[];        
+  price: number;
+  image?: string | null;
+  images?: string[];
   gender: "women" | "men" | "unisex";
   notes?: Note[];
   bestSeller?: boolean;
@@ -18,9 +18,8 @@ export type Product = {
   volumeMl?: number;
   stock?: number;
   stripe_price_id?: string;
-  status?: ProductStatus;   
+  status?: ProductStatus;
 };
-
 
 export const PRODUCTS: Product[] = [
   {
@@ -240,7 +239,7 @@ export const PRODUCTS: Product[] = [
     price: 75,
     image: "/catalog/Bottle_3.png",
     gender: "unisex",
-    notes : ["Woody", "Amber"],
+    notes: ["Woody", "Amber"],
     bestSeller: true,
     sku: "AF-DR-50",
     volumeMl: 50,

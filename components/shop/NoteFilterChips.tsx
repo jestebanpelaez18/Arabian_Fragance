@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type Props = {
-  allNotes: string[];         
+  allNotes: string[];
   className?: string;
 };
 
@@ -20,7 +20,11 @@ export default function NoteFilterChips({ allNotes, className }: Props) {
 
   const toggle = (note: string) => {
     const set = new Set(selected);
-    set.has(note) ? set.delete(note) : set.add(note);
+    if (set.has(note)) {
+      set.delete(note);
+    } else {
+      set.add(note);
+    }
     const next = [...set].join(",");
     const qs = new URLSearchParams(sp.toString());
     if (next) qs.set("notes", next);

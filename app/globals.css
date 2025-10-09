@@ -201,7 +201,13 @@ body {
   color: var(--ink);
 }
 
-.link-gold { text-decoration: none; }
-.link-gold:hover { text-decoration: underline; }
+.link-gold {
+  text-decoration: none;
+}
+.link-gold:hover {
+  text-decoration: underline;
+}
 
-.text-shadow-soft { text-shadow: 0 1px 10px rgba(0,0,0,.18); }
+.text-shadow-soft {
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.18);
+}
