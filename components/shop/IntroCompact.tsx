@@ -4,7 +4,6 @@ export default function IntroCompact({
   title,
   subtitle,
   count,
-  chips,
 }: {
   title: string;
   subtitle?: ReactNode;
