@@ -1,24 +1,31 @@
+// app/shop/[gender]/page.tsx
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PRODUCTS, type Gender } from "@/data/products";
+import { PRODUCTS, type Gender, type Note } from "@/data/products";
 import ProductCard from "@/components/shop/ProductCard";
-import GenderIntro from "@/components/shop/GenderIntro";
+import IntroCompact from "@/components/shop/IntroCompact";
+import NoteFilterChips from "@/components/shop/NoteFilterChips";
 
 const GENDERS: Gender[] = ["women", "men", "unisex"];
+const COPY: Record<Gender, string> = {
+  women:
+    "Luminous florals with oriental warmth. Compositions crafted for elegance, sensuality and a lasting trail—unmistakably Arabian.",
+  men: "Smoky woods, spice and amber facets in measured balance. Distinctive signatures designed for modern understatement.",
+  unisex:
+    "Refined, versatile compositions: resinous depth, airy florals and citrus lift—contemporary scents made to be shared.",
+};
 
-// Pre-render de rutas válidas
 export function generateStaticParams() {
   return GENDERS.map((g) => ({ gender: g }));
 }
 
-// ⚠️ Next 15: params puede ser Promise -> hay que await
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ gender: Gender }>;
 }): Promise<Metadata> {
-  const { gender } = await params; // <-- await
+  const { gender } = await params;
   if (!GENDERS.includes(gender)) return {};
   const name = gender[0].toUpperCase() + gender.slice(1);
   return {
@@ -27,42 +34,66 @@ export async function generateMetadata({
   };
 }
 
-// ⚠️ Next 15: también await aquí
 export default async function ShopByGenderPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ gender: Gender }>;
+  searchParams: Promise<{ notes?: string }>;
 }) {
-  const { gender } = await params; // <-- await
+  const { gender } = await params;
   if (!GENDERS.includes(gender)) return notFound();
 
-  const items = PRODUCTS.filter((p) => p.gender === gender);
+  const sp = await searchParams;
+  const selected = (sp.notes?.split(",").filter(Boolean) ?? []) as Note[];
+
+  const base = PRODUCTS.filter((p) => p.gender === gender);
+  const filtered = base.filter((p) =>
+    selected.length === 0
+      ? true
+      : (p.notes ?? []).length > 0 &&
+        selected.every((n) => (p.notes ?? []).includes(n)),
+  );
 
   return (
     <main>
-      {/* 1) Intro compacto (título + copy) */}
-      <GenderIntro gender={gender} />
-
-      {/* 2) Breadcrumbs + tabs */}
-      <nav className="w-full px-5 md:px-8 xl:px-12 pt-2 pb-6 text-white/80">
-        <ol className="flex items-center gap-2 text-sm">
-          <li><Link href="/" className="link-gold">Home</Link></li>
+      {/* Breadcrumb arriba */}
+      <nav className="w-full px-5 pt-4 pb-2 text-xs tracking-[0.08em] text-white/60 md:px-8 xl:px-12">
+        <ol className="flex items-center gap-2">
+          <li>
+            <Link href="/" className="hover:text-white/80">
+              Home
+            </Link>
+          </li>
           <li>/</li>
-          <li><Link href="/shop" className="link-gold">Shop</Link></li>
+          <li>
+            <Link href="/shop" className="hover:text-white/80">
+              Shop
+            </Link>
+          </li>
           <li>/</li>
-          <li className="opacity-100 capitalize">{gender}</li>
+          <li className="capitalize opacity-100">{gender}</li>
         </ol>
-        <div className="mt-3 flex gap-4 text-xs uppercase tracking-[0.18em]">
-          <Link href="/shop/women"  className={`nav-link ${gender==="women"?"opacity-100":""}`}>Women</Link>
-          <Link href="/shop/men"    className={`nav-link ${gender==="men"?"opacity-100":""}`}>Men</Link>
-          <Link href="/shop/unisex" className={`nav-link ${gender==="unisex"?"opacity-100":""}`}>Unisex</Link>
-        </div>
       </nav>
 
-      {/* 3) Grid de productos */}
-      <section className="w-full px-5 pb-5 md:px-8 xl:px-12">
+      {/* Intro */}
+      <IntroCompact
+        title={`${gender.toUpperCase()} FRAGRANCES`}
+        count={filtered.length}
+        subtitle={<>{COPY[gender]}</>}
+      />
+
+      <section className="mt-6 w-full px-5 md:mt-8 md:px-8 xl:px-12">
+        <NoteFilterChips
+          allNotes={["Woody", "Floral", "Amber", "Spice", "Musk", "Citrus"]}
+        />
+        <div className="mt-6 h-px w-full bg-white/12 md:mt-8" />
+      </section>
+
+      {/* Grid */}
+      <section className="w-full px-5 pb-12 md:px-8 xl:px-12">
         <div className="grid grid-cols-2 gap-x-2.5 gap-y-16 md:gap-x-5 lg:grid-cols-4">
-          {items.map((p) => (
+          {filtered.map((p) => (
             <ProductCard key={p.id} p={p} />
           ))}
         </div>
@@ -70,4 +101,3 @@ export default async function ShopByGenderPage({
     </main>
   );
 }
-

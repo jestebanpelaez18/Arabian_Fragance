@@ -2,6 +2,8 @@ export type ProductStatus = "draft" | "active";
 
 export type Gender = "women" | "men" | "unisex";
 
+export type Note = "Woody" | "Floral" | "Amber" | "Spice" | "Musk" | "Citrus";
+
 export type Product = {
   id: string;
   slug: string;             
@@ -10,6 +12,7 @@ export type Product = {
   image?: string | null;    
   images?: string[];        
   gender: "women" | "men" | "unisex";
+  notes?: Note[];
   bestSeller?: boolean;
   sku?: string;
   volumeMl?: number;
@@ -27,6 +30,7 @@ export const PRODUCTS: Product[] = [
     price: 65,
     image: "/catalog/Bottle_2.png",
     gender: "women",
+    notes: ["Amber", "Musk"],
     bestSeller: true,
     sku: "AF-DR-50",
     volumeMl: 50,
@@ -40,6 +44,7 @@ export const PRODUCTS: Product[] = [
     price: 65,
     image: "/catalog/Bottle_3.png",
     gender: "women",
+    notes: ["Woody", "Floral"],
     bestSeller: true,
     sku: "AF-DR-50",
     volumeMl: 50,
@@ -53,6 +58,7 @@ export const PRODUCTS: Product[] = [
     price: 75,
     image: "/catalog/Bottle_3.png",
     gender: "women",
+    notes: ["Citrus", "Spice"],
     bestSeller: true,
     sku: "AF-DR-50",
     volumeMl: 50,
@@ -66,6 +72,7 @@ export const PRODUCTS: Product[] = [
     price: 75,
     image: "/catalog/Bottle_3.png",
     gender: "women",
+    notes: ["Floral"],
     bestSeller: false,
     sku: "AF-DR-50",
     volumeMl: 50,
@@ -79,6 +86,7 @@ export const PRODUCTS: Product[] = [
     price: 75,
     image: "/catalog/Bottle_3.png",
     gender: "women",
+    notes: ["Amber"],
     bestSeller: false,
     sku: "AF-DR-50",
     volumeMl: 50,
@@ -92,6 +100,7 @@ export const PRODUCTS: Product[] = [
     price: 75,
     image: "/catalog/Bottle_3.png",
     gender: "men",
+    notes: ["Woody", "Spice"],
     bestSeller: true,
     sku: "AF-DR-50",
     volumeMl: 50,
@@ -105,6 +114,7 @@ export const PRODUCTS: Product[] = [
     price: 75,
     image: "/catalog/Bottle_3.png",
     gender: "men",
+    notes: ["Citrus", "Woody"],
     bestSeller: false,
     sku: "AF-DR-50",
     volumeMl: 50,
@@ -118,6 +128,7 @@ export const PRODUCTS: Product[] = [
     price: 75,
     image: "/catalog/Bottle_3.png",
     gender: "men",
+    notes: ["Woody", "Amber"],
     bestSeller: false,
     sku: "AF-DR-50",
     volumeMl: 50,
@@ -131,6 +142,7 @@ export const PRODUCTS: Product[] = [
     price: 75,
     image: "/catalog/Bottle_3.png",
     gender: "men",
+    notes: ["Woody", "Spice"],
     bestSeller: true,
     sku: "AF-DR-50",
     volumeMl: 50,
@@ -144,6 +156,7 @@ export const PRODUCTS: Product[] = [
     price: 75,
     image: "/catalog/Bottle_3.png",
     gender: "men",
+    notes: ["Spice", "Musk"],
     bestSeller: true,
     sku: "AF-DR-50",
     volumeMl: 50,
@@ -157,6 +170,7 @@ export const PRODUCTS: Product[] = [
     price: 75,
     image: "/catalog/Bottle_3.png",
     gender: "unisex",
+    notes: ["Woody", "Amber"],
     bestSeller: true,
     sku: "AF-DR-50",
     volumeMl: 50,
@@ -170,6 +184,7 @@ export const PRODUCTS: Product[] = [
     price: 75,
     image: "/catalog/Bottle_3.png",
     gender: "unisex",
+    notes: ["Citrus", "Woody"],
     bestSeller: false,
     sku: "AF-DR-50",
     volumeMl: 50,
@@ -183,6 +198,7 @@ export const PRODUCTS: Product[] = [
     price: 75,
     image: "/catalog/Bottle_3.png",
     gender: "unisex",
+    notes: ["Floral", "Musk"],
     bestSeller: false,
     sku: "AF-DR-50",
     volumeMl: 50,
@@ -196,6 +212,7 @@ export const PRODUCTS: Product[] = [
     price: 75,
     image: "/catalog/Bottle_3.png",
     gender: "unisex",
+    notes: ["Woody", "Spice"],
     bestSeller: true,
     sku: "AF-DR-50",
     volumeMl: 50,
@@ -209,6 +226,7 @@ export const PRODUCTS: Product[] = [
     price: 75,
     image: "/catalog/Bottle_3.png",
     gender: "unisex",
+    notes: ["Citrus", "Woody"],
     bestSeller: true,
     sku: "AF-DR-50",
     volumeMl: 50,
@@ -222,6 +240,7 @@ export const PRODUCTS: Product[] = [
     price: 75,
     image: "/catalog/Bottle_3.png",
     gender: "unisex",
+    notes : ["Woody", "Amber"],
     bestSeller: true,
     sku: "AF-DR-50",
     volumeMl: 50,
@@ -235,6 +254,7 @@ export const PRODUCTS: Product[] = [
     price: 75,
     image: "/catalog/Bottle_3.png",
     gender: "unisex",
+    notes: ["Woody", "Musk"],
     bestSeller: false,
     sku: "AF-DR-50",
     volumeMl: 50,

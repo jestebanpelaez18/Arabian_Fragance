@@ -1,38 +1,68 @@
 // app/shop/page.tsx
 import Link from "next/link";
-import { PRODUCTS } from "@/data/products";
+import { PRODUCTS, type Note } from "@/data/products";
 import ProductCard from "@/components/shop/ProductCard";
-import ShopIntro from "@/components/shop/ShopIntro";
+import IntroCompact from "@/components/shop/IntroCompact";
+import NoteFilterChips from "@/components/shop/NoteFilterChips";
 
-export const metadata = {
-  title: "Shop | Arabian Fragrance",
-  description: "Shop perfumes by gender.",
-};
+export default async function ShopIndexPage({
+  searchParams,
+}: {
+  // Next 15: puede venir como Promise
+  searchParams: Promise<{ notes?: string }>;
+}) {
+  const sp = await searchParams;
+  const selected = (sp.notes?.split(",").filter(Boolean) ?? []) as Note[];
 
-export default function ShopIndexPage() {
+  // Filtrado
+  const filtered = PRODUCTS.filter((p) =>
+    selected.length === 0
+      ? true
+      : (p.notes ?? []).length > 0 &&
+        selected.every((n) => (p.notes ?? []).includes(n)),
+  );
+
   return (
     <main>
-      {/* Breadcrumbs + tabs */}
-      <nav className="w-full px-5 md:px-8 xl:px-12 pt-6 text-white/80">
-        <ol className="flex items-center gap-2 text-sm">
-          <li><Link href="/" className="link-gold">Home</Link></li>
+      {/* Breadcrumb ARRIBA */}
+      <nav className="w-full px-5 pt-4 pb-2 text-xs tracking-[0.08em] text-white/60 md:px-8 xl:px-12">
+        <ol className="flex items-center gap-2">
+          <li>
+            <Link href="/" className="hover:text-white/80">
+              Home
+            </Link>
+          </li>
           <li>/</li>
           <li className="opacity-100">Shop</li>
         </ol>
-        {/* <div className="mt-3 flex gap-4 text-xs uppercase tracking-[0.18em]">
-          <Link href="/shop/women"  className="nav-link">Women</Link>
-          <Link href="/shop/men"    className="nav-link">Men</Link>
-          <Link href="/shop/unisex" className="nav-link">Unisex</Link>
-        </div> */}
       </nav>
 
-      {/* Intro compacto para Shop All */}
-      <ShopIntro />
+      {/* Intro editorial */}
+      <IntroCompact
+        title="ALL ARABIAN FRAGRANCE"
+        count={filtered.length}
+        subtitle={
+          <>
+            Hand-crafted compositions rooted in Arabian perfumery—resinous
+            depth, luminous florals and ambered warmth. Discover our full
+            selection of timeless signatures for every style.
+          </>
+        }
+      />
 
-      {/* Grid All */}
-      <section className="w-full px-5 md:px-8 xl:px-12 pb-12">
+      {/* Chips (separadas y con aire) */}
+      <section className="mt-6 w-full px-5 md:mt-8 md:px-8 xl:px-12">
+        <NoteFilterChips
+          allNotes={["Woody", "Floral", "Amber", "Spice", "Musk", "Citrus"]}
+        />
+        {/* divisor entre chips y productos */}
+        <div className="mt-6 h-px w-full bg-white/12 md:mt-8" />
+      </section>
+
+      {/* Grid */}
+      <section className="w-full px-5 pb-12 md:px-8 xl:px-12">
         <div className="grid grid-cols-2 gap-x-2.5 gap-y-16 md:gap-x-5 lg:grid-cols-4">
-          {PRODUCTS.map((p) => (
+          {filtered.map((p) => (
             <ProductCard key={p.id} p={p} />
           ))}
         </div>
@@ -40,5 +70,3 @@ export default function ShopIndexPage() {
     </main>
   );
 }
-
-
