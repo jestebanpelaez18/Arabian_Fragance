@@ -50,15 +50,15 @@ export default function Home() {
 
       <section className="relative min-h-full">
         <div className="grid grid-cols-1 gap-0 md:grid-cols-3">
-          {/* Desert Oud */}
+          {/* Women Perfumes */}
           <Link
-            href="/collections/desert-oud"
+            href="/shop/women"
             prefetch
             className="group card-luxe relative block aspect-[3/4]"
           >
             <Image
-              src="/collections/collection-desert-oud.jpg"
-              alt="Arabian Fragrance - Collection Desert Oud"
+              src="/shop/hero-women.jpg"
+              alt="Arabian Fragrance - Women perfumes"
               fill
               sizes="(min-width:768px) 33vw, 100vw"
               className="ease-luxe object-cover transition-transform duration-500 group-active:scale-[0.99]"
@@ -69,7 +69,7 @@ export default function Home() {
             <div className="absolute inset-0 z-10 flex items-end bg-black/30 md:bg-transparent">
               <div className="mx-auto w-full max-w-7xl px-6 pb-8 text-white md:px-12 xl:px-16">
                 <h2 className="font-playfair-display text-shadow-soft text-3xl leading-tight tracking-tight md:text-[32px] xl:text-[36px]">
-                  DESERT OUD
+                  SHOP FOR HER 
                 </h2>
                 <p className="font-garamond mt-1 max-w-md text-lg md:text-xl">
                   Deep smoky oud with warm amber notes
@@ -83,13 +83,13 @@ export default function Home() {
 
           {/* Golden Sands */}
           <Link
-            href="/collections/golden-sands"
+            href="/shop/men"
             prefetch
             className="group card-luxe relative block aspect-[3/4]"
           >
             <Image
-              src="/collections/collection-golden-sands.jpg"
-              alt="Arabian Fragrance - Collection Golden Sands"
+              src="/shop/hero-men.jpg"
+              alt="Arabian Fragrance - Shop men"
               fill
               sizes="(min-width:768px) 33vw, 100vw"
               className="ease-luxe object-cover transition-transform duration-500 group-active:scale-[0.99]"
@@ -100,7 +100,7 @@ export default function Home() {
             <div className="absolute inset-0 z-10 flex items-end bg-black/30 md:bg-transparent">
               <div className="mx-auto w-full max-w-7xl px-6 pb-8 text-white md:px-12 xl:px-16">
                 <h2 className="font-playfair-display text-shadow-soft text-3xl leading-tight tracking-tight md:text-[32px] xl:text-[36px]">
-                  GOLDEN SANDS
+                  SHOP FOR HIM
                 </h2>
                 <p className="font-garamond mt-1 max-w-md text-lg md:text-xl">
                   Sun-warmed amber with desert spice
@@ -114,13 +114,13 @@ export default function Home() {
 
           {/* Rose of Dubai */}
           <Link
-            href="/collections/rose-of-dubai"
+            href="/shop/unisex"
             prefetch
             className="group card-luxe relative block aspect-[3/4]"
           >
             <Image
-              src="/collections/collection-rose-dubai.jpg"
-              alt="Arabian Fragrance - Collection Rose of Dubai"
+              src="/shop/hero-unisex.jpg"
+              alt="Arabian Fragrance - Unisex perfumes"
               fill
               sizes="(min-width:768px) 33vw, 100vw"
               className="ease-luxe object-cover transition-transform duration-500 group-active:scale-[0.99]"
@@ -131,7 +131,7 @@ export default function Home() {
             <div className="absolute inset-0 z-10 flex items-end bg-black/30 md:bg-transparent">
               <div className="mx-auto w-full max-w-7xl px-6 pb-8 text-white md:px-12 xl:px-16">
                 <h2 className="font-playfair-display text-shadow-soft text-3xl leading-tight tracking-tight md:text-[32px] xl:text-[36px]">
-                  ROSE OF DUBAI
+                  UNISEX
                 </h2>
                 <p className="font-garamond mt-1 max-w-md text-lg md:text-xl">
                   Lush rose intertwined with saffron spice
