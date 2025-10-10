@@ -13,7 +13,6 @@
     "ci": "npm run lint && npm run format && npm run typecheck && npm run build"
   },
   "dependencies": {
-    "@next/font": "^14.2.15",
     "next": "15.5.0",
     "react": "19.1.0",
     "react-dom": "19.1.0"
