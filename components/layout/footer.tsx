@@ -66,16 +66,16 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-bordeaux border-t border-white/10 text-white">
+    <footer className="bg-background border-t border-white/10 text-foreground">
       <div className="mx-auto max-w-7xl px-6 py-14 md:px-12 xl:px-16">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
           <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:col-span-7">
             {COLUMNS.map((col) => (
               <section key={col.title}>
-                <h4 className="pb-3 text-sm tracking-widest text-white uppercase">
+                <h4 className="pb-3 text-sm tracking-widest text-foreground uppercase">
                   {col.title}
                 </h4>
-                <ul className="space-y-3 text-white">
+                <ul className="space-y-3 text-foreground">
                   {col.links.map((l) => (
                     <li key={l.label}>
                       <Link
@@ -92,10 +92,10 @@ export default function Footer() {
           </div>
 
           <aside className="lg:col-span-5">
-            <h3 className="text-lg tracking-wide text-white uppercase">
+            <h3 className="text-lg tracking-wide text-foreground uppercase">
               Join the list
             </h3>
-            <p className="mt-3 max-w-xl text-white">
+            <p className="mt-3 max-w-xl text-foreground">
               Receive updates on new arrivals, exclusive events, and private
               releases.
             </p>
@@ -114,7 +114,7 @@ export default function Footer() {
                 />
                 <button
                   type="submit"
-                  className="px-4 text-white hover:text-stone-900"
+                  className="px-4 text-foreground hover:text-stone-900"
                   aria-label="Subscribe"
                   title="Subscribe"
                 >
@@ -123,7 +123,7 @@ export default function Footer() {
               </div>
             </form>
 
-            <p className="mt-8 max-w-xl leading-relaxed text-white">
+            <p className="mt-8 max-w-xl leading-relaxed text-foreground">
               {BRAND_COPY}
             </p>
             <div className="mt-8">
@@ -147,10 +147,10 @@ export default function Footer() {
 
       <div className="border-t border-stone-200">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-6 md:flex-row md:items-center md:justify-between md:px-12 xl:px-16">
-          <p className="text-sm text-white">
+          <p className="text-sm text-foreground">
             © {year} Arabian Fragrance. All rights reserved.
           </p>
-          <nav aria-label="Footer Social" className="flex gap-5 text-white">
+          <nav aria-label="Footer Social" className="flex gap-5 text-foreground">
             <Link href="https://instagram.com" className="hover:text-stone-900">
               Instagram
             </Link>

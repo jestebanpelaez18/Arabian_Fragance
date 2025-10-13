@@ -3,25 +3,33 @@
 /* ====== DESIGN TOKENS ===== */
 :root {
   /* Base */
-  --bordeaux: #470d0d;
-  --ink: #111111;
-  --paper: #f7f4ef;
+  --paper: #FAF9F7;         /* Blanco cálido (fondo default) */
+  --ink: #1A1A1A;           /* Negro carbón (texto default) */
+  --bordeaux: #3C0D0D;      /* Burdeos profundo para titulares/acentos */
 
-  /* Text & accents */
-  --foreground: #ededed;
-  --gold: #c8a76b;
-  --gold-soft: #d7c19e;
-  --muted: rgba(255, 255, 255, 0.75);
+  /* Accents */
+  --gold: #C5A25E;          /* Dorado satinado */
+  --gold-soft: #E6C76A;     /* Dorado claro para hover */
+  --muted: rgba(26, 26, 26, 0.65); /* Texto secundario en tema claro */
 
   /* Effects */
-  --shadow-soft: 0 12px 40px rgba(0, 0, 0, 0.18);
-  --shadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --shadow-soft: 0 12px 40px rgba(0, 0, 0, 0.14);
+  --shadow-inner: inset 0 1px 0 rgba(0, 0, 0, 0.06);
   --bezier-luxe: cubic-bezier(0.19, 1, 0.22, 1);
 
-  /* Backgrounds */
-  --background: var(--bordeaux);
+  /* Backgrounds (default = LIGHT) */
+  --background: var(--paper);
+  --foreground: var(--ink);
 }
 
+/* ===== Optional DARK/Bordeaux theme (aplícalo con .theme-bordeaux en body o sección) */
+.theme-bordeaux {
+  --background: #470d0d;      /* tu burdeos original para fondos */
+  --foreground: #ededed;      /* texto a claro */
+  --muted: rgba(255, 255, 255, 0.75);
+}
+
+/* ===== Tailwind theme mapping ===== */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -32,7 +40,6 @@
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-
   --font-garamond: var(--font-cormorand-garamond);
   --font-playfair-display: var(--font-playfair-display);
   --font-roboto: var(--font-roboto);
@@ -41,12 +48,21 @@
   --font-bodoni: var(--font-bodoni);
 }
 
+/* (Opcional) respetar prefers-color-scheme si quieres,
+   pero como ahora eres “claro” por defecto, lo dejo neutro.
+   Si deseas forzar oscuro en sistemas dark, descomenta:
+
 @media (prefers-color-scheme: dark) {
+  :root { }
+}
+*/
+
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: var(--bordeaux);
     --foreground: #ededed;
   }
-}
+} */
 
 /* ====== BASE ====== */
 body {

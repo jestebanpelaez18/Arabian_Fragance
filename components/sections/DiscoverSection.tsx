@@ -36,7 +36,7 @@ export default function DiscoverSection() {
   }, [active]);
 
   return (
-    <section className="w-full bg-[var(--background)] text-white">
+    <section className="w-full bg-[var(--background)] text-foreground">
       <div className="w-full px-5 md:px-5 xl:px-6">
         <div className="flex items-end justify-between py-8 md:py-8">
           <div>

@@ -12,7 +12,7 @@ export default function aboutPage() {
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-transparent" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-white">
+        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-foreground">
           <p className="mb-4 text-sm tracking-[0.2em] uppercase opacity-70 md:text-base">
             Introducing
           </p>
@@ -71,7 +71,7 @@ export default function aboutPage() {
       </section>
       <section className="relative h-[200px] md:h-[220px]">
         <div className="absolute inset-0 z-10 flex items-center justify-center px-16 text-center">
-          <p className="font-garamond max-w-7xl text-2xl leading-relaxed text-white md:text-3xl">
+          <p className="font-garamond max-w-7xl text-2xl leading-relaxed text-foreground md:text-3xl">
             “Arabian Fragrance brings the soul of Dubai’s perfumery heritage to
             life, crafted with authenticity, depth, and modern elegance.”
           </p>
