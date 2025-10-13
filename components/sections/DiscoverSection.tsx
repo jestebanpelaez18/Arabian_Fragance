@@ -19,8 +19,6 @@ export default function DiscoverSection() {
     switch (active) {
       case "Best Sellers": {
         const pool = PRODUCTS.filter((p) => p.bestSeller);
-        // si usas HOMEPAGE.bestSellers, deja tu lógica actual aquí y
-        // finalmente asegura el límite a 4
         return pool.sort(byBestSeller).slice(0, 4);
       }
       case "Women":
@@ -40,7 +38,6 @@ export default function DiscoverSection() {
 
   return (
     <section className="w-full bg-[var(--background)] text-white">
-      {/* Encabezado */}
       <div className="w-full px-5 md:px-5 xl:px-6">
         <div className="flex items-end justify-between py-8 md:py-8">
           <div>
@@ -59,7 +56,7 @@ export default function DiscoverSection() {
           </Link>
         </div>
 
-        {/* Tabs “lujo/atrevidas” */}
+        {/* Tabs */}
         <nav className="mb-6 flex flex-wrap gap-6 text-[13px] md:text-sm">
           {TABS.map((t) => {
             const isActive = t === active;

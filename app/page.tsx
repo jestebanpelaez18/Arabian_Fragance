@@ -69,7 +69,7 @@ export default function Home() {
             <div className="absolute inset-0 z-10 flex items-end bg-black/30 md:bg-transparent">
               <div className="mx-auto w-full max-w-7xl px-6 pb-8 text-white md:px-12 xl:px-16">
                 <h2 className="font-playfair-display text-shadow-soft text-3xl leading-tight tracking-tight md:text-[32px] xl:text-[36px]">
-                  SHOP FOR HER 
+                  SHOP FOR HER
                 </h2>
                 <p className="font-garamond mt-1 max-w-md text-lg md:text-xl">
                   Deep smoky oud with warm amber notes
@@ -150,43 +150,48 @@ export default function Home() {
       <PhotoMosaicCarousel />
 
       {/* ===== Gift hero ===== */}
-      <section className="grain relative min-h-screen md:min-h-[90vh]">
+      <section className="relative h-[78vh] overflow-hidden md:h-[70vh]">
         <Image
           src="/hero/gift.jpg"
           alt="Gift the essence of luxury"
           fill
           sizes="100vw"
-          className="ease-luxe object-cover object-center"
-          loading="lazy"
+          className="scale-[1.06] object-cover object-center"
           priority={false}
-          decoding="async"
+          quality={90}
         />
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="safe-area absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center">
-          <span className="font-garamond mb-4 text-sm tracking-[0.25em] text-white/70 uppercase">
+        <div className="absolute inset-0 bg-black/40" />
+        {/* Degradado fuerte abajo para legibilidad */}
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/55 via-black/25 to-transparent" />
+
+        {/* Contenido en el tercio inferior */}
+        <div className="absolute inset-x-0 bottom-0 px-8 pb-14 text-center text-white md:px-16 md:pb-16 lg:px-32 xl:px-48">
+          <span className="font-garamond mb-3 block text-[11px] tracking-[0.34em] uppercase opacity-75">
             Exclusive Gift Collection
           </span>
-          <h2 className="font-playfair-display text-shadow-soft max-w-3xl text-4xl leading-snug tracking-[-0.01em] text-white md:text-5xl xl:text-6xl">
+
+          <h2 className="font-playfair-display mx-auto max-w-4xl text-4xl leading-[1.15] tracking-[-0.015em] md:text-[44px] lg:text-[50px]">
             GIFT THE ESSENCE OF LUXURY
           </h2>
-          <p className="font-garamond mt-4 max-w-xl text-base text-white/85 md:text-xl">
+
+          <p className="font-garamond mx-auto mt-3 max-w-2xl text-[15px] opacity-90 md:mt-4 md:text-lg">
             Transform any occasion into a memory with our exclusive fragrances.
           </p>
-        </div>
-        <div className="absolute bottom-12 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-4">
-          <div className="h-px w-16 bg-white/30" />
-          <Button
-            href="/shop"
-            variant="secondary"
-            className="btn-luxe min-h-11"
-          >
-            Shop Gifts
-          </Button>
+
+          <div className="mt-7">
+            <Button
+              href="/shop"
+              variant="secondary"
+              className="rounded-full border border-white/70 bg-white/10 px-8 py-3 text-[13px] tracking-[0.14em] backdrop-blur-sm transition hover:bg-white hover:text-[var(--background)]"
+            >
+              Shop Gifts
+            </Button>
+          </div>
         </div>
       </section>
 
       {/* ===== Showroom (texto izq en desktop, imagen der) ===== */}
-      <section className="grid min-h-[680px] grid-cols-1 px-5 py-2.5 md:grid-cols-2">
+      <section className="grid min-h-[680px] grid-cols-1 px-5 py-3 md:grid-cols-2">
         {/* Imagen arriba en mobile, derecha en desktop */}
         <div className="relative order-1 aspect-[4/3] md:order-2 md:aspect-auto md:min-h-[680px]">
           <Image
@@ -244,36 +249,46 @@ export default function Home() {
       </section>
 
       {/* ===== Party hero ===== */}
-      <section className="grain relative min-h-screen md:min-h-[90vh]">
+      <section className="relative h-[78vh] overflow-hidden md:h-[70vh]">
         <Image
           src="/hero/party.jpg"
           alt="A special invitation"
           fill
           sizes="100vw"
-          className="ease-luxe object-cover object-center"
-          loading="lazy"
+          className="scale-[1.06] object-cover object-center"
           priority={false}
-          decoding="async"
+          quality={90}
         />
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="safe-area absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center">
-          <span className="mb-4 text-sm tracking-[0.25em] text-white/70 uppercase">
+
+        {/* Overlay + degradado fuerte abajo para legibilidad */}
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/55 via-black/25 to-transparent" />
+
+        {/* Contenido en el tercio inferior */}
+        <div className="absolute inset-x-0 bottom-0 px-8 pb-14 text-center text-white md:px-16 md:pb-16 lg:px-32 xl:px-48">
+          <span className="mb-3 block text-[11px] tracking-[0.34em] uppercase opacity-75">
             Invitation
           </span>
-          <h2 className="font-playfair-display text-shadow-soft max-w-3xl text-4xl leading-snug tracking-[-0.01em] text-white md:text-5xl xl:text-6xl">
-            ARABIAN FRAGANCE PARTY AWAITS YOU
+
+          <h2 className="font-playfair-display mx-auto max-w-4xl text-4xl leading-[1.15] tracking-[-0.015em] md:text-[44px] lg:text-[50px]">
+            ARABIAN FRAGANCE LAUNCH PARTY
           </h2>
-          <p className="font-garamond mt-4 max-w-xl text-base text-white/85 md:text-xl">
+
+          <p className="font-garamond mx-auto mt-3 max-w-2xl text-[15px] opacity-90 md:mt-4 md:text-lg">
             Join us for an unforgettable evening filled with elegance and
             allure. Experience the essence of Arabian luxury as we unveil our
             exquisite fragrance collection.
           </p>
-        </div>
-        <div className="absolute bottom-12 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-4">
-          <div className="h-px w-16 bg-white/30" />
-          <Button href="/shop" className="btn-luxe min-h-11">
-            Explore Now
-          </Button>
+
+          <div className="mt-7">
+            <Button
+              href="/shop"
+              variant="secondary"
+              className="rounded-full border border-white/70 bg-white/10 px-8 py-3 text-[13px] tracking-[0.14em] backdrop-blur-sm transition hover:bg-white hover:text-[var(--background)]"
+            >
+              Explore Now
+            </Button>
+          </div>
         </div>
       </section>
 

@@ -28,7 +28,7 @@ const SLIDES: Slide[] = [
 
 export default function PhotoMosaicCarousel() {
   return (
-    <section className="bg-bordeaux relative right-1/2 left-1/2 -mx-[50vw] w-screen">
+    <section className="px-6 bg-bordeaux relative right-1/2 left-1/2 -mx-[50vw] w-screen">
       <div
         className="relative w-full snap-x snap-mandatory overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none]"
         style={{ WebkitOverflowScrolling: "touch" }}
