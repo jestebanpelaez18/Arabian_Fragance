@@ -4,7 +4,6 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import ProductCard from "@/components/shop/ProductCard";
 import { PRODUCTS, type Product } from "@/data/products";
-import { HOMEPAGE } from "@/data/home";
 
 const TABS = ["Best Sellers", "Women", "Men", "Unisex"] as const;
 type Tab = (typeof TABS)[number];

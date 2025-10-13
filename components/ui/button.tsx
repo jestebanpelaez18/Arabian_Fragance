@@ -87,11 +87,17 @@ export default function Button(props: ButtonProps | LinkProps) {
       VARIANTS[resolved],
       fullWidth && "w-full",
       loading && "cursor-wait opacity-60 pointer-events-none",
-      className
+      className,
     );
 
     return (
-      <Link href={href} className={classes} target={target} rel={rel} style={{ fontFamily: "var(--font-jakarta)" }}>
+      <Link
+        href={href}
+        className={classes}
+        target={target}
+        rel={rel}
+        style={{ fontFamily: "var(--font-jakarta)" }}
+      >
         {iconLeft && <span className="mr-2 inline-flex">{iconLeft}</span>}
         <span>{children}</span>
         {iconRight && <span className="ml-2 inline-flex">{iconRight}</span>}
@@ -109,6 +115,7 @@ export default function Button(props: ButtonProps | LinkProps) {
     loading,
     fullWidth,
     type = "button",
+    disabled,
     ...btnRest
   } = props as ButtonProps;
 
@@ -119,13 +126,13 @@ export default function Button(props: ButtonProps | LinkProps) {
     VARIANTS[resolved],
     fullWidth && "w-full",
     loading && "cursor-wait opacity-60 pointer-events-none",
-    className
+    className,
   );
 
   return (
     <button
       type={type}
-      disabled={loading || (btnRest as any).disabled}
+      disabled={loading || disabled}
       aria-busy={loading || undefined}
       className={classes}
       style={{ fontFamily: "var(--font-jakarta)" }}
@@ -137,5 +144,3 @@ export default function Button(props: ButtonProps | LinkProps) {
     </button>
   );
 }
-
-
