@@ -46,14 +46,28 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+// Entorno / URL del sitio
 const isProd = process.env.VERCEL_ENV === "production";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (isProd ? "https://arabian-fragance.vercel.app" : "http://localhost:3000");
 
 export const metadata: Metadata = {
-  title: "Arabian Fragrance",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Arabian Fragrance",
+    template: "%s | Arabian Fragrance",
+  },
   description: "Luxury fragrances",
-  robots: isProd
-    ? { index: true, follow: true }
-    : { index: false, follow: false },
+  robots: isProd ? { index: true, follow: true } : { index: false, follow: false },
+  openGraph: {
+    type: "website",
+    siteName: "Arabian Fragrance",
+    url: SITE_URL,
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
   icons: {
     icon: [{ url: "/favicon.ico" }],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
