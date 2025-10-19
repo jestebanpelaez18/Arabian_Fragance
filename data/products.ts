@@ -2,7 +2,7 @@ export type ProductStatus = "draft" | "active";
 
 export type Gender = "women" | "men" | "unisex";
 
-export type Note = "Woody" | "Floral" | "Amber" | "Spice" | "Musk" | "Citrus";
+export type Note = "Woody" | "Floral" | "Amber" | "Spice" | "Musk" | "Citrus" | "Sweet" | "Fresh" | "Fruity" | "Aquatic" | "Gourmand" | "Earthy" | "Herbal" | "Powdery" | "Leather" | "Tobacco" | "Vanilla" | "Oud";
 
 export type Product = {
   id: string;
@@ -13,6 +13,13 @@ export type Product = {
   images?: string[];
   gender: "women" | "men" | "unisex";
   notes?: Note[];
+  description?: string;
+  pyramid?: {                  
+    top?: string[];
+    heart?: string[];
+    base?: string[];
+  };
+  ingredients?: string;  
   bestSeller?: boolean;
   sku?: string;
   volumeMl?: number;
@@ -29,10 +36,18 @@ export const PRODUCTS: Product[] = [
     price: 65,
     image: "/catalog/Bottle_2.png",
     gender: "women",
-    notes: ["Amber", "Musk"],
+    notes: ["Amber", "Musk", "Sweet", "Vanilla", "Tobacco"],
+    description: "Honey Musk is a captivating blend of golden honey, sensual musk, and creamy vanilla wrapped in a warm amber glow. This luxurious fragrance opens with luminous bergamot and honey accords, revealing a heart of jasmine, tobacco, and subtle spices. As it settles, notes of oud and musk create a deep, lasting trail that exudes elegance and confidence. Perfect for those who desire a sweet yet sophisticated scent that lingers throughout the day.",
+    pyramid: {
+      top: ["Bergamot", "Honey Accord"],
+      heart: ["Jasmine", "Tobacco", "Warm Spices"],
+      base: ["Vanilla", "Musk", "Oud", "Amber"],
+    },
+    ingredients:
+      "Alcohol Denat., Parfum, Limonene, Linalool, Citral, Coumarin, Geraniol",
     bestSeller: true,
     sku: "AF-DR-50",
-    volumeMl: 50,
+    volumeMl: 100,
     stock: 40,
     status: "active",
   },
@@ -44,6 +59,14 @@ export const PRODUCTS: Product[] = [
     image: "/catalog/Bottle_3.png",
     gender: "women",
     notes: ["Woody", "Floral"],
+    description: "Experience the allure of Honey Musk, a captivating fragrance that blends the sweetness of honey with the sensuality of musk. This enchanting scent is perfect for those who seek a warm and inviting aroma that lingers throughout the day.",
+    pyramid: {
+      top: ["Bergamot", "Honey Accord"],
+      heart: ["Jasmine", "Tobacco", "Warm Spices"],
+      base: ["Vanilla", "Musk", "Oud", "Amber"],
+    },
+    ingredients:
+      "Alcohol Denat., Parfum, Limonene, Linalool, Citral, Coumarin, Geraniol",
     bestSeller: true,
     sku: "AF-DR-50",
     volumeMl: 50,
