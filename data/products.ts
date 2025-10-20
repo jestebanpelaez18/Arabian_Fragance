@@ -384,7 +384,7 @@ export const PRODUCTS: Product[] = [
     pyramid: {
       top: ["Citrus Zest", "Cinnamon", "Aromatic Spices"],
       heart: ["Vanilla", "White Florals", "Amber"],
-      base: ["Musk", "Powdery Notes", "Tonka Bean", "Warm Woods"]
+      base: ["Musk", "Powdery Notes", "Tonka Bean", "Warm Woods"],
     },
     ingredients:
       "Alcohol Denat., Parfum (Fragrance), Limonene, Linalool, Coumarin, Benzyl Benzoate, Cinnamal, Citral, Geraniol, Eugenol",
@@ -405,16 +405,16 @@ export const PRODUCTS: Product[] = [
 
     description:
       "Eterno is a timeless fragrance that embodies the essence of everlasting love — deep, warm, and infinite. It opens with smooth spices and creamy vanilla, unveiling a heart of amber and woods that radiates serenity and strength. The base of musk, tonka bean, and balsamic notes leaves a soft yet enduring trail, symbolizing a love that knows no end. Elegant, comforting, and eternal.",
-    
+
     pyramid: {
       top: ["Warm Spices", "Vanilla", "Nutty Accord"],
       heart: ["Amber", "Woody Notes", "Balsamic Resins"],
-      base: ["Musk", "Tonka Bean", "Powdery Notes", "Sweet Amber"]
+      base: ["Musk", "Tonka Bean", "Powdery Notes", "Sweet Amber"],
     },
-    
+
     ingredients:
       "Alcohol Denat., Parfum (Fragrance), Limonene, Linalool, Coumarin, Benzyl Benzoate, Cinnamal, Citral, Geraniol, Eugenol",
-    
+
     bestSeller: true,
     sku: "AF-DR-50",
     volumeMl: 50,

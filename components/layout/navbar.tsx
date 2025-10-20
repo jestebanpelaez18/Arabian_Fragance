@@ -95,27 +95,42 @@ export default function Navbar() {
                           </p>
                           <ul className="space-y-3 text-white/90">
                             <li>
-                              <Link href="/shop" className="nav-link inline-block">
+                              <Link
+                                href="/shop"
+                                className="nav-link inline-block"
+                              >
                                 Shop All
                               </Link>
                             </li>
                             <li>
-                              <Link href="/shop/women" className="nav-link inline-block">
+                              <Link
+                                href="/shop/women"
+                                className="nav-link inline-block"
+                              >
                                 Women
                               </Link>
                             </li>
                             <li>
-                              <Link href="/shop/men" className="nav-link inline-block">
+                              <Link
+                                href="/shop/men"
+                                className="nav-link inline-block"
+                              >
                                 Men
                               </Link>
                             </li>
                             <li>
-                              <Link href="/shop/unisex" className="nav-link inline-block">
+                              <Link
+                                href="/shop/unisex"
+                                className="nav-link inline-block"
+                              >
                                 Unisex
                               </Link>
                             </li>
                             <li>
-                              <Link href="/shop/gifts" className="nav-link inline-block">
+                              <Link
+                                href="/shop/gifts"
+                                className="nav-link inline-block"
+                              >
                                 Gifts
                               </Link>
                             </li>
@@ -128,12 +143,18 @@ export default function Navbar() {
                           </p>
                           <ul className="space-y-3 text-white/90">
                             <li>
-                              <Link href="/shop?tag=best" className="nav-link inline-block">
+                              <Link
+                                href="/shop?tag=best"
+                                className="nav-link inline-block"
+                              >
                                 Best Sellers
                               </Link>
                             </li>
                             <li>
-                              <Link href="/shop?note=Woody" className="nav-link inline-block">
+                              <Link
+                                href="/shop?note=Woody"
+                                className="nav-link inline-block"
+                              >
                                 Woody Notes
                               </Link>
                             </li>
@@ -182,7 +203,12 @@ export default function Navbar() {
                 className="p-2 text-white/90"
               >
                 {openMobile ? (
-                  <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
                     <path
                       d="M6 6l12 12M18 6L6 18"
                       stroke="currentColor"
@@ -191,7 +217,12 @@ export default function Navbar() {
                     />
                   </svg>
                 ) : (
-                  <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
                     <path
                       d="M4 6h16M4 12h16M4 18h16"
                       stroke="currentColor"
@@ -205,7 +236,10 @@ export default function Navbar() {
 
             {/* Brand (center) */}
             <div className="justify-self-center">
-              <Link href="/" className="brand text-[18px] text-white/95 md:text-[20px]">
+              <Link
+                href="/"
+                className="brand text-[18px] text-white/95 md:text-[20px]"
+              >
                 ARABIAN FRAGRANCE
               </Link>
             </div>
@@ -263,7 +297,12 @@ export default function Navbar() {
                 className="-m-2 p-2 text-white/85"
                 aria-label="Back"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
                   <path
                     d="M15 6l-6 6 6 6"
                     stroke="currentColor"
@@ -314,13 +353,25 @@ export default function Navbar() {
                 </Link>
 
                 <div className="mt-6 space-y-3 border-t border-white/10 pt-4 text-white/85">
-                  <Link href="/search" onClick={() => setOpenMobile(false)} className="block">
+                  <Link
+                    href="/search"
+                    onClick={() => setOpenMobile(false)}
+                    className="block"
+                  >
                     Search
                   </Link>
-                  <Link href="/account" onClick={() => setOpenMobile(false)} className="block">
+                  <Link
+                    href="/account"
+                    onClick={() => setOpenMobile(false)}
+                    className="block"
+                  >
                     Account
                   </Link>
-                  <Link href="/bag" onClick={() => setOpenMobile(false)} className="block">
+                  <Link
+                    href="/bag"
+                    onClick={() => setOpenMobile(false)}
+                    className="block"
+                  >
                     Bag
                   </Link>
                 </div>
@@ -386,4 +437,3 @@ export default function Navbar() {
     </>
   );
 }
-
