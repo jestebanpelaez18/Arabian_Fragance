@@ -83,8 +83,8 @@ export default async function ProductPage({
         </nav>
       </div>
 
-      {/* Layout tipo joyería: imagen 7/12, panel 5/12 */}
-      <section className="mx-auto w-full max-w-[1600px] px-3 md:px-6 lg:px-8">
+      {/* Layout: imagen 7/12, panel 5/12 */}
+      <section className="mx-auto w-full max-w-[1600px] pb-12 px-3 md:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-start gap-x-8 gap-y-10 md:grid-cols-12 lg:gap-x-12 xl:gap-x-16">
           {/* IZQUIERDA: imagen grande, sin marcos */}
           <div className="md:col-span-7">
@@ -109,8 +109,7 @@ export default async function ProductPage({
                   {p.name}
                 </h1>
                 <p className="mt-3 text-sm tracking-[0.18em] text-white/70 uppercase">
-                  {p.gender}
-                  {p.notes?.length ? " | " + p.notes.join(" | ") : ""}
+                  {p.notes?.length ? "  " + p.notes.join(" | ") : ""}
                 </p>
               </header>
 
@@ -130,7 +129,7 @@ export default async function ProductPage({
                     <dt className="tracking-[0.18em] whitespace-nowrap text-white/60 uppercase">
                       Concentration
                     </dt>
-                    <dd className="leading-7 text-white/90">Eau de Parfum</dd>
+                    <dd className="leading-7 text-white/90">Parfum</dd>
                   </div>
 
                   <div className="contents">
@@ -152,15 +151,6 @@ export default async function ProductPage({
                       Same-day dispatch
                     </dd>
                   </div>
-
-                  {p.sku && (
-                    <div className="contents">
-                      <dt className="tracking-[0.18em] whitespace-nowrap text-white/60 uppercase">
-                        SKU
-                      </dt>
-                      <dd className="leading-7 text-white/80">{p.sku}</dd>
-                    </div>
-                  )}
                 </dl>
 
                 {/* Tus botones (ProductActions) estilizados desde fuera */}
@@ -201,6 +191,8 @@ export default async function ProductPage({
                   "• Free shipping on EU orders over €80.",
                   "• 14-day returns.",
                 ]}
+                ingredients={p.ingredients ?? undefined}
+                pyramid={p.pyramid}
               />
             </div>
           </aside>

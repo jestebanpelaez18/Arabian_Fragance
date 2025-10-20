@@ -43,8 +43,7 @@ export const PRODUCTS: Product[] = [
       heart: ["Jasmine", "Tobacco", "Warm Spices"],
       base: ["Vanilla", "Musk", "Oud", "Amber"],
     },
-    ingredients:
-      "Alcohol Denat., Parfum, Limonene, Linalool, Citral, Coumarin, Geraniol",
+    ingredients: "Alcohol Denat, Parfum, Pogostemon Cablin Oil, Citrus Aurantium Bergamia Peel Oil, Citrus Limon Peel Oil, Benzyl Benzoate, Coumarin, Limonene, Vanillin, Linalyl Acetate, Linalool, Beta-Caryophyllene, Pinene, Pelargonium Graveolens Flower Oil, Citral, Citronellol, Terpineol, Rose Ketones, Eugenol",
     bestSeller: true,
     sku: "AF-DR-50",
     volumeMl: 100,
