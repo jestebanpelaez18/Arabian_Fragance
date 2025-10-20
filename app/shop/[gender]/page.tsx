@@ -60,18 +60,24 @@ export default async function ShopByGenderPage({
       <nav className="w-full px-5 pt-4 pb-2 text-xs tracking-[0.08em] text-white/60 md:px-5 xl:px-6">
         <ol className="flex items-center gap-2">
           <li>
-            <Link href="/" className="hover:text-white/80">
+            <Link
+              href="/"
+              className="text-foreground transition hover:text-[var(--gold)]"
+            >
               Home
             </Link>
           </li>
           <li>/</li>
           <li>
-            <Link href="/shop" className="hover:text-white/80">
+            <Link
+              href="/shop"
+              className="text-foreground transition hover:text-[var(--gold)]"
+            >
               Shop
             </Link>
           </li>
           <li>/</li>
-          <li className="capitalize opacity-100">{gender}</li>
+          <li className="text-foreground">{gender}</li>
         </ol>
       </nav>
 
