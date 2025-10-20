@@ -59,7 +59,9 @@ export const metadata: Metadata = {
     template: "%s | Arabian Fragrance",
   },
   description: "Luxury fragrances",
-  robots: isProd ? { index: true, follow: true } : { index: false, follow: false },
+  robots: isProd
+    ? { index: true, follow: true }
+    : { index: false, follow: false },
   openGraph: {
     type: "website",
     siteName: "Arabian Fragrance",

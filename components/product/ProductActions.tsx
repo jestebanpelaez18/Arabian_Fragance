@@ -19,11 +19,7 @@ export default function ProductActions({ product }: Props) {
       <Button
         onClick={handleAdd}
         variant="secondary"
-        className="
-          rounded-full px-8 py-3 tracking-[0.14em]
-          border-[var(--gold)] text-ink
-          hover:bg-[var(--gold-soft)] hover:text-ink
-        "
+        className="text-ink hover:text-ink rounded-full border-[var(--gold)] px-8 py-3 tracking-[0.14em] hover:bg-[var(--gold-soft)]"
       >
         Add to Bag
       </Button>
@@ -31,14 +27,10 @@ export default function ProductActions({ product }: Props) {
       <Button
         href="/bag"
         variant="secondary"
-        className="
-          rounded-full px-6 py-3
-          border-black/10 text-ink/80 hover:text-ink
-        "
+        className="text-ink/80 hover:text-ink rounded-full border-black/10 px-6 py-3"
       >
         View Bag
       </Button>
     </div>
   );
 }
-

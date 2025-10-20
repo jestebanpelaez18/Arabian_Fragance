@@ -84,7 +84,7 @@ export default async function ProductPage({
       </div>
 
       {/* Layout: imagen 7/12, panel 5/12 */}
-      <section className="mx-auto w-full max-w-[1600px] pb-12 px-3 md:px-6 lg:px-8">
+      <section className="mx-auto w-full max-w-[1600px] px-3 pb-12 md:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-start gap-x-8 gap-y-10 md:grid-cols-12 lg:gap-x-12 xl:gap-x-16">
           {/* IZQUIERDA: imagen grande, sin marcos */}
           <div className="md:col-span-7">
