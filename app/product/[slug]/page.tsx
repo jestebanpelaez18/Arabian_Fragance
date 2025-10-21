@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { PRODUCTS } from "@/data/products";
 import ProductActions from "@/components/product/ProductActions";
 import PdpTabs from "@/components/product/PdpTabs";
+import Script from "next/script";
 
 type Params = { slug: string };
 
@@ -56,10 +57,55 @@ export default async function ProductPage({
   if (!p) return notFound();
 
   const img = p.images?.[0] || p.image || "/placeholder.png";
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://arabian-fragance.vercel.app";
+  const productUrl = `${siteUrl}/product/${slug}`;
+
+  const images = (p.images?.length ? p.images : [p.image]).filter(
+    Boolean,
+  ) as string[];
+  const abs = (u?: string | null) => {
+    if (!u) return "";
+    try {
+      return new URL(u, siteUrl).toString();
+    } catch {
+      return u;
+    }
+  };
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "@id": `${productUrl}#product`,
+    name: p.name,
+    image: images.map(abs),
+    description:
+      p.description ??
+      `Discover ${p.name}, a ${p.gender} fragrance. Notes: ${(p.notes ?? []).join(" · ") || "—"}.`,
+    sku: p.sku ?? p.id,
+    brand: { "@type": "Brand", name: "Arabian Fragrance" },
+    category: p.gender,
+    offers: {
+      "@type": "Offer",
+      url: productUrl,
+      priceCurrency: "EUR",
+      price: String(p.price),
+      availability:
+        (p.stock ?? 0) > 0
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+      itemCondition: "https://schema.org/NewCondition",
+    },
+  };
 
   return (
     <main className="bg-background text-foreground">
-      {/* Breadcrumb con gutter mínimo */}
+      <Script
+        id="jsonld-product"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="mx-auto w-full max-w-[1600px] px-3 md:px-6 lg:px-8">
         <nav className="pt-6 pb-4 text-xs tracking-[0.08em] text-white/60">
           <ol className="flex items-center gap-2">
@@ -164,17 +210,6 @@ export default async function ProductPage({
                     }}
                   />
                 </div>
-
-                {/* utilitarios */}
-                {/* <div className="mt-5 flex items-center justify-between text-sm">
-                  <span className="text-white/90">Make it a gift</span>
-                  <Link
-                    href="#"
-                    className="underline decoration-white/30 underline-offset-4 hover:decoration-[var(--gold)]"
-                  >
-                    Size guide
-                  </Link>
-                </div> */}
               </section>
 
               {/* Tabs clicables (Client Component) */}
