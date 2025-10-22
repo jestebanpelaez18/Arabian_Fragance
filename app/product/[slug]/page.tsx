@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { PRODUCTS } from "@/data/products";
 import ProductActions from "@/components/product/ProductActions";
 import PdpTabs from "@/components/product/PdpTabs";
+import RecommendedProducts from "@/components/product/RecommendedProducts";
 import Script from "next/script";
 
 type Params = { slug: string };
@@ -233,6 +234,11 @@ export default async function ProductPage({
           </aside>
         </div>
       </section>
+      <RecommendedProducts
+        currentSlug={p.slug}
+        currentNotes={p.notes}
+        gender={p.gender}
+      />
     </main>
   );
 }

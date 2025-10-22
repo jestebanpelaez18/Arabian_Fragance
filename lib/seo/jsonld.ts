@@ -9,11 +9,13 @@ function absUrl(pathOrUrl: string, base: string) {
   }
 }
 
-export function productJsonLd(p: Product, {
-  siteUrl,
-  productUrl,
-}: { siteUrl: string; productUrl: string }) {
-  const images = (p.images?.length ? p.images : [p.image]).filter(Boolean) as string[];
+export function productJsonLd(
+  p: Product,
+  { siteUrl, productUrl }: { siteUrl: string; productUrl: string },
+) {
+  const images = (p.images?.length ? p.images : [p.image]).filter(
+    Boolean,
+  ) as string[];
   const absImages = images.map((i) => absUrl(i, siteUrl));
   const desc =
     p.description ??

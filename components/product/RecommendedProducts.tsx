@@ -1,0 +1,71 @@
+import Link from "next/link";
+import Image from "next/image";
+import { PRODUCTS, type Product } from "@/data/products";
+
+function ProductCard({ p }: { p: Product }) {
+  const href = `/product/${p.slug ?? p.id}`;
+
+  return (
+    <article className="group flex flex-col">
+      <Link
+        href={href}
+        className="relative block aspect-[3/4] overflow-hidden rounded-sm bg-white ring-1 ring-black/10"
+      >
+        <Image
+          src={p.image ?? p.images?.[0] ?? "/placeholder.png"}
+          alt={p.name}
+          fill
+          sizes="(min-width:1280px) 25vw, (min-width:768px) 33vw, 50vw"
+          className="object-contain p-8 transition-transform duration-300 group-hover:scale-[1.02] md:p-10 lg:p-12"
+          priority={false}
+        />
+      </Link>
+
+      <div className="mt-2.5 text-center">
+        <Link
+          href={href}
+          className="font-playfair-display mt-4 text-[15px] tracking-wide text-white/90 transition-colors group-hover:text-[var(--gold)]"
+        >
+          {p.name}
+        </Link>
+        <p className="mt-0.5 text-[13px] text-white/70">{p.price} EUR</p>
+      </div>
+    </article>
+  );
+}
+
+type Props = {
+  currentSlug: string;
+  currentNotes?: string[];
+  gender?: string;
+};
+
+export default function RecommendedProducts({
+  currentSlug,
+  currentNotes,
+  gender,
+}: Props) {
+  const recommended = PRODUCTS.filter(
+    (p) =>
+      p.slug !== currentSlug &&
+      p.status === "active" &&
+      ((gender && p.gender === gender) ||
+        (currentNotes && p.notes?.some((n) => currentNotes.includes(n)))),
+  ).slice(0, 4);
+
+  if (!recommended.length) return null;
+
+  return (
+    <section className="px-5 py-10">
+      <h2 className="mb-8 text-center text-[15px] tracking-[0.18em] text-white/80 uppercase">
+        Recommended for You
+      </h2>
+
+      <div className="grid grid-cols-2 gap-x-2.5 gap-y-6 md:grid-cols-4 md:gap-x-5">
+        {recommended.map((p) => (
+          <ProductCard key={p.id} p={p} />
+        ))}
+      </div>
+    </section>
+  );
+}
