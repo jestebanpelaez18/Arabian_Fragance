@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import CartCount from "@/components/cart/CartCount";
 
 type MobileView = "root" | "shop";
 
@@ -254,6 +255,7 @@ export default function Navbar() {
               </Link>
               <Link href="/bag" className="nav-link">
                 Bag
+                <CartCount />
               </Link>
             </div>
 

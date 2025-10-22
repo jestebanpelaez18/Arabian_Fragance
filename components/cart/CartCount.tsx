@@ -7,7 +7,12 @@ export default function CartCount() {
   return (
     <span
       aria-label={`Items in bag: ${count}`}
-      className="ml-1 inline-flex min-w-5 items-center justify-center rounded-full px-1.5 text-[10px] font-medium leading-5 ring-1 ring-black/10 bg-black text-white"
+      className="
+      inline-flex h-5 min-w-4 items-center justify-center rounded-full px-2
+      text-[10px] font-small tabular-nums text-white/90
+      border border-white/20 bg-white/5 backdrop-blur-[2px]
+      shadow-[inset_0_0_0_1px_rgba(255,255,255,.06)]
+    "
     >
       {count}
     </span>
