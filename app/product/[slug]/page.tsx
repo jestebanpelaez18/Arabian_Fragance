@@ -5,6 +5,9 @@ import { notFound } from "next/navigation";
 import { PRODUCTS } from "@/data/products";
 import ProductActions from "@/components/product/ProductActions";
 import PdpTabs from "@/components/product/PdpTabs";
+import RecommendedProducts from "@/components/product/RecommendedProducts";
+import Script from "next/script";
+import { productJsonLd } from "@/lib/seo/jsonld";
 
 type Params = { slug: string };
 
@@ -56,10 +59,19 @@ export default async function ProductPage({
   if (!p) return notFound();
 
   const img = p.images?.[0] || p.image || "/placeholder.png";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const productUrl = `${siteUrl}/product/${slug}`;
+
+  const jsonLd = productJsonLd(p, { siteUrl, productUrl });
 
   return (
     <main className="bg-background text-foreground">
-      {/* Breadcrumb con gutter mínimo */}
+      <Script
+        id="jsonld-product"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="mx-auto w-full max-w-[1600px] px-3 md:px-6 lg:px-8">
         <nav className="pt-6 pb-4 text-xs tracking-[0.08em] text-white/60">
           <ol className="flex items-center gap-2">
@@ -164,17 +176,6 @@ export default async function ProductPage({
                     }}
                   />
                 </div>
-
-                {/* utilitarios */}
-                {/* <div className="mt-5 flex items-center justify-between text-sm">
-                  <span className="text-white/90">Make it a gift</span>
-                  <Link
-                    href="#"
-                    className="underline decoration-white/30 underline-offset-4 hover:decoration-[var(--gold)]"
-                  >
-                    Size guide
-                  </Link>
-                </div> */}
               </section>
 
               {/* Tabs clicables (Client Component) */}
@@ -198,6 +199,11 @@ export default async function ProductPage({
           </aside>
         </div>
       </section>
+      <RecommendedProducts
+        currentSlug={p.slug}
+        currentNotes={p.notes}
+        gender={p.gender}
+      />
     </main>
   );
 }
