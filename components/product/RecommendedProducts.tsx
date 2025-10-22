@@ -45,12 +45,13 @@ export default function RecommendedProducts({
   currentNotes,
   gender,
 }: Props) {
+  const currentNotesSet = currentNotes ? new Set(currentNotes) : undefined;
   const recommended = PRODUCTS.filter(
     (p) =>
       p.slug !== currentSlug &&
       p.status === "active" &&
       ((gender && p.gender === gender) ||
-        (currentNotes && p.notes?.some((n) => currentNotes.includes(n)))),
+        (currentNotesSet && p.notes?.some((n) => currentNotesSet.has(n)))),
   ).slice(0, 4);
 
   if (!recommended.length) return null;

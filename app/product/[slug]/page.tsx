@@ -7,6 +7,7 @@ import ProductActions from "@/components/product/ProductActions";
 import PdpTabs from "@/components/product/PdpTabs";
 import RecommendedProducts from "@/components/product/RecommendedProducts";
 import Script from "next/script";
+import { productJsonLd } from "@/lib/seo/jsonld";
 
 type Params = { slug: string };
 
@@ -58,46 +59,10 @@ export default async function ProductPage({
   if (!p) return notFound();
 
   const img = p.images?.[0] || p.image || "/placeholder.png";
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://arabian-fragance.vercel.app";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   const productUrl = `${siteUrl}/product/${slug}`;
 
-  const images = (p.images?.length ? p.images : [p.image]).filter(
-    Boolean,
-  ) as string[];
-  const abs = (u?: string | null) => {
-    if (!u) return "";
-    try {
-      return new URL(u, siteUrl).toString();
-    } catch {
-      return u;
-    }
-  };
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "@id": `${productUrl}#product`,
-    name: p.name,
-    image: images.map(abs),
-    description:
-      p.description ??
-      `Discover ${p.name}, a ${p.gender} fragrance. Notes: ${(p.notes ?? []).join(" · ") || "—"}.`,
-    sku: p.sku ?? p.id,
-    brand: { "@type": "Brand", name: "Arabian Fragrance" },
-    category: p.gender,
-    offers: {
-      "@type": "Offer",
-      url: productUrl,
-      priceCurrency: "EUR",
-      price: String(p.price),
-      availability:
-        (p.stock ?? 0) > 0
-          ? "https://schema.org/InStock"
-          : "https://schema.org/OutOfStock",
-      itemCondition: "https://schema.org/NewCondition",
-    },
-  };
+  const jsonLd = productJsonLd(p, { siteUrl, productUrl });
 
   return (
     <main className="bg-background text-foreground">
