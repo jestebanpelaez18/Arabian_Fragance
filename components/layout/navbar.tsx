@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import CartCount from "@/components/cart/CartCount";
+import NavCartTrigger from "@/components/nav/NavCartTrigger";
+
 
 type MobileView = "root" | "shop";
 
@@ -253,10 +255,11 @@ export default function Navbar() {
               <Link href="/account" className="nav-link">
                 Account
               </Link>
-              <Link href="/bag" className="nav-link">
+              {/* <Link href="/bag" className="nav-link">
                 Bag
                 <CartCount />
-              </Link>
+              </Link> */}
+              <NavCartTrigger />
             </div>
 
             {/* Right spacer (mobile symmetry) */}
