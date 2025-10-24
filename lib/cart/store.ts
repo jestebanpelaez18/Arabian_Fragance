@@ -41,13 +41,17 @@ export const useCart = create<CartState>()(
       // Acciones
       add: (product, qty = 1) =>
         set((state) => {
-          const idx = state.items.findIndex((i) => i.id === product.id);
-          if (idx === -1) {
-            return { items: [...state.items, { ...product, qty }] };
+          const existingItem = state.items.find((i) => i.id === product.id);
+          if (existingItem) {
+            return {
+              items: state.items.map((item) =>
+                item.id === product.id
+                  ? { ...item, qty: item.qty + qty }
+                  : item,
+              ),
+            };
           }
-          const items = [...state.items];
-          items[idx] = { ...items[idx], qty: items[idx].qty + qty };
-          return { items };
+          return { items: [...state.items, { ...product, qty }] };
         }),
 
       remove: (id) =>

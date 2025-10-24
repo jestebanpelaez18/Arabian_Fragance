@@ -24,7 +24,7 @@ export default function ProductActions({ product, stock = 0 }: Props) {
   const available = Math.max(0, (stock ?? 0) - inBag);
   const disabled = available <= 0 || busy;
 
-  async function handleAdd() {
+  function handleAdd() {
     try {
       setBusy(true);
       add(
@@ -37,7 +37,7 @@ export default function ProductActions({ product, stock = 0 }: Props) {
         },
         1,
       );
-      // aquí podrías mostrar un toast
+      // TODO: show toast here if needed
     } finally {
       setBusy(false);
     }

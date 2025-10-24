@@ -211,3 +211,20 @@ body {
 .text-shadow-soft {
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.18);
 }
+
+/* ====== Z-INDEX UTILITIES (Tailwind v4) ====== */
+@utility z-header {
+  z-index: 1000;
+}
+@utility z-overlay {
+  z-index: 2000;
+} /* backdrop */
+@utility z-drawer {
+  z-index: 5000;
+} /* panel del cart */
+@utility z-modal {
+  z-index: 2200;
+}
+@utility z-toast {
+  z-index: 2300;
+}

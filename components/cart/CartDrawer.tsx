@@ -24,7 +24,7 @@ export default function CartDrawer({
   if (!open) return null;
 
   return (
-    <div className="pointer-events-auto fixed inset-0 z-[2147483647]">
+    <div className="z-drawer pointer-events-auto fixed inset-0">
       {/* Backdrop */}
       <div
         onClick={onClose}

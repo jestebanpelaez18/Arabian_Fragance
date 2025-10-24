@@ -5,8 +5,9 @@ import { useCart } from "@/lib/cart/store";
 import Image from "next/image";
 
 export default function CartView({ compact = false }: { compact?: boolean }) {
-  const { items, subtotal, updateQty, remove, clear } = useCart();
-  const total = subtotal();
+  const items = useCart((state) => state.items);
+  const total = useCart((state) => state.subtotal());
+  const { updateQty, remove, clear } = useCart.getState();
 
   if (items.length === 0) {
     return (
@@ -36,7 +37,9 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
           <li key={it.id} className="flex items-center gap-4 py-4">
             <Image
               src={it.image ?? "/placeholder.png"}
-              alt=""
+              alt={it.name}
+              width={80}
+              height={80}
               className="h-20 w-20 rounded-lg object-cover"
             />
             <div className="flex-1">
