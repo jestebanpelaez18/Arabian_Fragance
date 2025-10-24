@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import NavCartTrigger from "@/components/nav/NavCartTrigger";
 
 type MobileView = "root" | "shop";
 
@@ -55,7 +56,7 @@ export default function Navbar() {
   return (
     <>
       {/* ===== HEADER ===== */}
-      <header className="sticky top-0 z-[9999] border-b border-white/10 bg-[var(--background)] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur supports-[backdrop-filter]:bg-[var(--background)]">
+      <header className="z-header sticky top-0 border-b border-white/10 bg-[var(--background)] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur supports-[backdrop-filter]:bg-[var(--background)]">
         <nav className="w-full px-5 md:px-8 xl:px-12">
           <div className="grid h-14 grid-cols-[44px_1fr_44px] items-center lg:grid-cols-[auto_1fr_auto]">
             {/* Left (desktop) */}
@@ -252,9 +253,11 @@ export default function Navbar() {
               <Link href="/account" className="nav-link">
                 Account
               </Link>
-              <Link href="/bag" className="nav-link">
+              {/* <Link href="/bag" className="nav-link">
                 Bag
-              </Link>
+                <CartCount />
+              </Link> */}
+              <NavCartTrigger />
             </div>
 
             {/* Right spacer (mobile symmetry) */}

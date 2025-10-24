@@ -174,6 +174,7 @@ export default async function ProductPage({
                       price: p.price,
                       image: img,
                     }}
+                    stock={p.stock ?? 0}
                   />
                 </div>
               </section>
