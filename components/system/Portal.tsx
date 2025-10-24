@@ -15,6 +15,6 @@ export default function Portal({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  if (!el) return null;              
+  if (!el) return null;
   return createPortal(children, el);
 }

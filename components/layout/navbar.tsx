@@ -3,9 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import CartCount from "@/components/cart/CartCount";
 import NavCartTrigger from "@/components/nav/NavCartTrigger";
-
 
 type MobileView = "root" | "shop";
 

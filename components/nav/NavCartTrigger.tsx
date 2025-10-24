@@ -9,14 +9,19 @@ export default function NavCartTrigger() {
   const [open, setOpen] = useState(false);
 
   function onClick(e: React.MouseEvent<HTMLAnchorElement>) {
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1)
+      return;
     e.preventDefault();
     setOpen(true);
   }
 
   return (
     <>
-      <Link href="/bag" onClick={onClick} className="nav-link relative inline-flex items-center gap-1.5">
+      <Link
+        href="/bag"
+        onClick={onClick}
+        className="nav-link relative inline-flex items-center gap-1.5"
+      >
         Bag <CartCount />
       </Link>
 
@@ -26,4 +31,3 @@ export default function NavCartTrigger() {
     </>
   );
 }
-

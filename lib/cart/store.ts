@@ -12,11 +12,16 @@ export type CartItem = Pick<Product, "id" | "slug" | "name" | "price"> & {
 type CartState = {
   items: CartItem[];
 
-  count: () => number;      
-  subtotal: () => number;   
+  count: () => number;
+  subtotal: () => number;
   getQty: (id: string) => number;
 
-  add: (p: Pick<Product, "id" | "slug" | "name" | "price"> & { image?: string | null }, qty?: number) => void;
+  add: (
+    p: Pick<Product, "id" | "slug" | "name" | "price"> & {
+      image?: string | null;
+    },
+    qty?: number,
+  ) => void;
   remove: (id: string) => void;
   updateQty: (id: string, qty: number) => void;
   clear: () => void;
@@ -45,12 +50,16 @@ export const useCart = create<CartState>()(
           return { items };
         }),
 
-      remove: (id) => set((state) => ({ items: state.items.filter((i) => i.id !== id) })),
+      remove: (id) =>
+        set((state) => ({ items: state.items.filter((i) => i.id !== id) })),
 
       updateQty: (id, qty) =>
         set((state) => {
-          if (qty <= 0) return { items: state.items.filter((i) => i.id !== id) };
-          const items = state.items.map((i) => (i.id === id ? { ...i, qty } : i));
+          if (qty <= 0)
+            return { items: state.items.filter((i) => i.id !== id) };
+          const items = state.items.map((i) =>
+            i.id === id ? { ...i, qty } : i,
+          );
           return { items };
         }),
 
@@ -61,8 +70,8 @@ export const useCart = create<CartState>()(
       storage: createJSONStorage(() => localStorage), // persistencia en localStorage
       partialize: (state) => ({ items: state.items }),
       version: 1,
-    }
-  )
+    },
+  ),
 );
 
 // Evita hydration mismatch si lees derivadas en el primer render

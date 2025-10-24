@@ -5,7 +5,13 @@ import Button from "@/components/ui/button";
 import { useCart } from "@/lib/cart/store";
 
 type Props = {
-  product: { id: string; slug?: string; name: string; price: number; image?: string | null };
+  product: {
+    id: string;
+    slug?: string;
+    name: string;
+    price: number;
+    image?: string | null;
+  };
   stock?: number;
 };
 
@@ -26,10 +32,10 @@ export default function ProductActions({ product, stock = 0 }: Props) {
           id: product.id,
           slug: product.slug ?? product.id,
           name: product.name,
-          price: product.price,           // euros
+          price: product.price, // euros
           image: product.image ?? "/placeholder.png",
         },
-        1
+        1,
       );
       // aquí podrías mostrar un toast
     } finally {
@@ -59,4 +65,3 @@ export default function ProductActions({ product, stock = 0 }: Props) {
     </div>
   );
 }
-
