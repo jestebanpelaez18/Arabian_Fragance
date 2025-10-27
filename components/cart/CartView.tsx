@@ -2,9 +2,12 @@
 
 import Link from "next/link";
 import { useCart } from "@/lib/cart/store";
+import CheckoutButton from "@/components/checkout/CheckoutButton";
 
 const fmtEUR = (n: number) =>
-  new Intl.NumberFormat("en-IE", { style: "currency", currency: "EUR" }).format(n);
+  new Intl.NumberFormat("en-IE", { style: "currency", currency: "EUR" }).format(
+    n,
+  );
 
 export default function CartView({ compact = false }: { compact?: boolean }) {
   const { items, subtotal, updateQty, remove, clear } = useCart();
@@ -12,9 +15,17 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
 
   if (items.length === 0) {
     return (
-      <div className={compact ? "p-6 text-center" : "mx-auto max-w-4xl px-4 py-16 text-center"}>
+      <div
+        className={
+          compact
+            ? "p-6 text-center"
+            : "mx-auto max-w-4xl px-4 py-16 text-center"
+        }
+      >
         <h1 className="text-xl font-semibold">Your bag is empty</h1>
-        <p className="mt-2 text-sm text-white/70">Discover our fragrances and add your favorites.</p>
+        <p className="mt-2 text-sm text-white/70">
+          Discover our fragrances and add your favorites.
+        </p>
         <Link
           href="/shop"
           className="mt-6 inline-flex h-11 items-center rounded-full px-6 ring-1 ring-white/15 hover:bg-white/5"
@@ -27,7 +38,9 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
 
   return (
     <div className={compact ? "p-6" : "mx-auto max-w-5xl px-4 py-10"}>
-      {!compact && <h1 className="mb-6 font-playfair-display text-2xl">Your Bag</h1>}
+      {!compact && (
+        <h1 className="font-playfair-display mb-6 text-2xl">Your Bag</h1>
+      )}
 
       <ul className="divide-y divide-white/10">
         {items.map((it) => (
@@ -64,14 +77,18 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
                 </button>
               </div>
             </div>
-            <div className="font-medium tabular-nums">{fmtEUR(it.price * it.qty)}</div>
+            <div className="font-medium tabular-nums">
+              {fmtEUR(it.price * it.qty)}
+            </div>
           </li>
         ))}
       </ul>
 
       <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-6">
         <div className="text-sm text-white/70">Subtotal</div>
-        <div className="text-lg font-semibold tabular-nums">{fmtEUR(total)}</div>
+        <div className="text-lg font-semibold tabular-nums">
+          {fmtEUR(total)}
+        </div>
       </div>
 
       {/* Free shipping (e.g. > €80) */}
@@ -80,12 +97,9 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
       </p>
 
       <div className="mt-6 flex items-center gap-3">
-        <Link
-          href="/checkout"
-          className="inline-flex h-12 items-center rounded-full bg-white px-6 text-background hover:opacity-90"
-        >
+        <CheckoutButton className="inline-flex h-12 items-center rounded-full bg-white px-6 text-[var(--background)] hover:opacity-90">
           Checkout
-        </Link>
+        </CheckoutButton>
         <button
           onClick={() => clear()}
           className="h-12 rounded-full px-5 ring-1 ring-white/15 hover:bg-white/5"
