@@ -76,7 +76,6 @@ export async function POST(req: NextRequest) {
       success_url: `${SITE_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${SITE_URL}/checkout/cancel`,
 
-      // Opcional: metadata útil para webhooks
       metadata: {
         source: "arabian-fragrance",
       },
