@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });
 import Stripe from "stripe";
 import { writeFileSync } from "node:fs";
 import path from "node:path";
@@ -15,7 +17,6 @@ async function upsertProductAndPrice(p: any) {
     sp = await stripe.products.create({
       name: p.name,
       active: true,
-      images: p.images?.length ? p.images : p.image ? [p.image] : [],
       metadata: { app_id: p.id, slug: p.slug },
     });
     console.log(`Created product ${p.name} -> ${sp.id}`);
@@ -23,7 +24,6 @@ async function upsertProductAndPrice(p: any) {
     // Mantén Stripe sincronizado con tu contenido visible
     await stripe.products.update(sp.id, {
       name: p.name,
-      images: p.images?.length ? p.images : p.image ? [p.image] : [],
       metadata: { app_id: p.id, slug: p.slug },
     });
   }

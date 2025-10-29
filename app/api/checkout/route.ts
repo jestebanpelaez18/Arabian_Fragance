@@ -1,89 +1,90 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { PRODUCTS } from "@/data/products";
+import ids from "@/stripe.ids.json"; // creado por el seed
+import { get as getStock } from "@/lib/stock/devStore";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-09-30.clover",
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const eurToCents = (n: number) => Math.round(n * 100);
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-
-// Util: busca el producto del server por id (o slug si quieres)
 function findProduct(id: string) {
   return PRODUCTS.find((p) => p.id === id || p.slug === id);
 }
-
-// Convierte euros (number) → cents (integer)
-function eurToCents(n: number) {
-  return Math.round(n * 100);
-}
+const seededPriceFor = (appId: string) => (ids as any)?.[appId]?.stripe_price_id as string | undefined;
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json().catch(() => null);
-    const items: Array<{ id: string; qty: number }> = Array.isArray(body)
-      ? body
-      : [];
+    const items: Array<{ id: string; qty: number }> =
+      Array.isArray(body) ? body :
+      (Array.isArray(body?.items) ? body.items : []);
 
-    if (!items.length) {
-      return NextResponse.json({ error: "Empty cart" }, { status: 400 });
-    }
+    if (!items.length) return NextResponse.json({ error: "Empty cart" }, { status: 400 });
 
-    // Valida y construye line_items
-    const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
-
+    // Validación rápida (descargo real en webhook)
     for (const it of items) {
       const p = findProduct(it.id);
-      if (!p || !p.price || (p.status && p.status === "draft")) continue;
+      const requested = Math.max(1, Math.floor(it.qty || 1));
+      if (!p || p.status === "draft") {
+        return NextResponse.json({ error: `Product not available: ${it.id}` }, { status: 404 });
+      }
+      const available = await getStock(p.id);
+      if (requested > available) {
+        return NextResponse.json({ error: `Insufficient stock for ${p.name}`, available }, { status: 409 });
+      }
+    }
 
+    // Construcción segura de line_items (híbrido)
+    const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
+    for (const it of items) {
+      const p = findProduct(it.id)!;
       const qty = Math.max(1, Math.floor(it.qty || 1));
 
-      if (p.stripe_price_id) {
-        // Opción A: ya tienes un Price creado en Stripe
-        line_items.push({
-          price: p.stripe_price_id,
-          quantity: qty,
-        });
+      const seededPrice = seededPriceFor(p.id);
+      if (seededPrice) {
+        line_items.push({ price: seededPrice, quantity: qty });
+      } else if (p.stripe_price_id) {
+        line_items.push({ price: p.stripe_price_id, quantity: qty });
       } else {
-        // Opción B: precio dinámico desde tu catálogo (en euros → cents)
         line_items.push({
           quantity: qty,
           price_data: {
-            currency: "EUR",
+            currency: "eur",
             unit_amount: eurToCents(p.price),
             product_data: {
               name: p.name,
               images: p.images?.length ? p.images : p.image ? [p.image] : [],
-              metadata: {
-                id: p.id,
-                slug: p.slug,
-              },
+              metadata: { app_id: p.id, slug: p.slug },
             },
           },
         });
       }
     }
 
-    if (!line_items.length) {
-      return NextResponse.json({ error: "No valid items" }, { status: 400 });
-    }
+    // Idempotencia → evita sesiones duplicadas
+    const idempotencyKey = `chk_${crypto.randomUUID()}`;
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items,
-
-      success_url: `${SITE_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${SITE_URL}/checkout/cancel`,
-
+      success_url: `${BASE_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${BASE_URL}/checkout/cancel`,
+      billing_address_collection: "required",
+      allow_promotion_codes: true,
+      locale: "auto",
+      // automatic_tax: { enabled: true }, // actívalo cuando configures Stripe Tax
+      client_reference_id: crypto.randomUUID(),
       metadata: {
         source: "arabian-fragrance",
+        cart: JSON.stringify(items.map(i => ({ id: i.id, qty: Math.max(1, Math.floor(i.qty || 1)) }))),
       },
-    });
+    }, { idempotencyKey });
 
     return NextResponse.json({ url: session.url }, { status: 200 });
-  } catch (err: any) {
-    console.error("Stripe checkout error:", err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({ error: "Checkout error" }, { status: 500 });
   }
 }
+
