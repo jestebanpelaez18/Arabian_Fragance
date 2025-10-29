@@ -5,7 +5,6 @@ import ids from "@/stripe.ids.json"; // creado por el seed
 import { get as getStock } from "@/lib/stock/devStore";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 const eurToCents = (n: number) => Math.round(n * 100);
 
 function findProduct(id: string) {
@@ -13,8 +12,15 @@ function findProduct(id: string) {
 }
 const seededPriceFor = (appId: string) => (ids as any)?.[appId]?.stripe_price_id as string | undefined;
 
+function getBaseUrl(req: NextRequest) {
+  const proto = req.headers.get("x-forwarded-proto") ?? "http";
+  const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host") ?? "localhost:3000";
+  return `${proto}://${host}`;
+}
+
 export async function POST(req: NextRequest) {
   try {
+    const BASE_URL = getBaseUrl(req);
     const body = await req.json().catch(() => null);
     const items: Array<{ id: string; qty: number }> =
       Array.isArray(body) ? body :
@@ -79,7 +85,7 @@ export async function POST(req: NextRequest) {
         source: "arabian-fragrance",
         cart: JSON.stringify(items.map(i => ({ id: i.id, qty: Math.max(1, Math.floor(i.qty || 1)) }))),
       },
-    }, { idempotencyKey });
+    }, { idempotencyKey: `chk_${crypto.randomUUID()}`});
 
     return NextResponse.json({ url: session.url }, { status: 200 });
   } catch (e) {
