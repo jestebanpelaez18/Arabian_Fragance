@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCart } from "@/lib/cart/store";
 import CheckoutButton from "@/components/checkout/CheckoutButton";
+import Image from "next/image";
 
 const fmtEUR = (n: number) =>
   new Intl.NumberFormat("en-IE", { style: "currency", currency: "EUR" }).format(
@@ -45,7 +46,7 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
       <ul className="divide-y divide-white/10">
         {items.map((it) => (
           <li key={it.id} className="flex items-center gap-4 py-4">
-            <img
+            <Image
               src={it.image ?? "/placeholder.png"}
               alt=""
               className="h-20 w-20 rounded-md object-cover ring-1 ring-white/10"

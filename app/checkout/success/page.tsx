@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { ClearCartOnSuccess } from "@/components/cart/ClearCartOnSuccess";
+import Link from "next/link";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -17,7 +18,7 @@ export default async function SuccessPage({
       </main>
     );
   }
-  const session = await stripe.checkout.sessions.retrieve(id, {
+  await stripe.checkout.sessions.retrieve(id, {
     expand: ["line_items.data.price.product"],
   });
 
@@ -28,12 +29,12 @@ export default async function SuccessPage({
       <p className="mt-3 text-white/80">
         Your order was placed successfully. A confirmation email is on its way.
       </p>
-      <a
+      <Link
         href="/shop"
         className="mt-8 inline-block rounded-full px-6 py-3 ring-1 ring-white/15 hover:bg-white/5"
       >
         Continue shopping
-      </a>
+      </Link>
     </main>
   );
 }

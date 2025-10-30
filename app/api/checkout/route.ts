@@ -11,7 +11,8 @@ function findProduct(id: string) {
   return PRODUCTS.find((p) => p.id === id || p.slug === id);
 }
 const seededPriceFor = (appId: string) =>
-  (ids as any)?.[appId]?.stripe_price_id as string | undefined;
+  (ids as Record<string, { stripe_price_id: string }>)?.[appId]
+    ?.stripe_price_id as string | undefined;
 
 function getBaseUrl(req: NextRequest) {
   const proto = req.headers.get("x-forwarded-proto") ?? "http";
@@ -105,7 +106,7 @@ export async function POST(req: NextRequest) {
           ),
         },
       },
-      { idempotencyKey: `chk_${crypto.randomUUID()}` },
+      { idempotencyKey: idempotencyKey },
     );
 
     return NextResponse.json({ url: session.url }, { status: 200 });

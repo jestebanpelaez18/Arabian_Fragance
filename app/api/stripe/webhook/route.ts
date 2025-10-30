@@ -7,6 +7,17 @@ import { hasProcessed, markProcessed } from "@/lib/orders/idempotency";
 export const runtime = "nodejs";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
+function isProductObject(
+  product: string | Stripe.Product | Stripe.DeletedProduct | null | undefined,
+): product is Stripe.Product {
+  return (
+    typeof product === "object" &&
+    product !== null &&
+    "metadata" in product &&
+    !product.deleted
+  );
+}
+
 export async function POST(req: Request) {
   const sig = (await headers()).get("stripe-signature");
   if (!sig) return new NextResponse("Missing signature", { status: 400 });
@@ -19,8 +30,13 @@ export async function POST(req: Request) {
       sig,
       process.env.STRIPE_WEBHOOK_SECRET!,
     );
-  } catch (err: any) {
-    console.error("Signature error:", err.message);
+  } catch (err: unknown) {
+    // Solución al Error 1 (usando unknown)
+    let errorMessage = "Unknown signature error";
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
+    console.error("Signature error:", errorMessage);
     return new NextResponse("Bad signature", { status: 400 });
   }
 
@@ -37,9 +53,14 @@ export async function POST(req: Request) {
 
       for (const li of line.data) {
         const qty = li.quantity ?? 0;
-        const appId = (li.price?.product as any)?.metadata?.app_id as
-          | string
-          | undefined;
+
+        const product = li.price?.product;
+        let appId: string | undefined;
+
+        if (isProductObject(product)) {
+          appId = product.metadata.app_id;
+        }
+
         if (!appId || qty <= 0) continue;
         await decrementSafe(appId, qty);
       }
@@ -51,10 +72,18 @@ export async function POST(req: Request) {
         amount_total: session.amount_total,
         currency: session.currency,
         email: session.customer_details?.email,
-        items: line.data.map((li) => ({
-          qty: li.quantity,
-          app_id: (li.price?.product as any)?.metadata?.app_id,
-        })),
+        items: line.data.map((li) => {
+          const product = li.price?.product;
+          // Usa el Type Guard de nuevo (Solución al Error 3)
+          const appId = isProductObject(product)
+            ? product.metadata.app_id
+            : undefined;
+
+          return {
+            qty: li.quantity,
+            app_id: appId,
+          };
+        }),
       });
     }
 
