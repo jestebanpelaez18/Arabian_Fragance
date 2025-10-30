@@ -24,4 +24,3 @@ export async function markProcessed(sessionId: string) {
   set.add(sessionId);
   await fs.writeFile(FILE, JSON.stringify(Array.from(set), null, 2), "utf8");
 }
-

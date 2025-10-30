@@ -30,7 +30,12 @@ async function upsertProductAndPrice(p: any) {
 
   // 2) Price activo en EUR con ese importe actual (en céntimos)
   const targetAmount = eurToCents(p.price);
-  const prices = await stripe.prices.list({ product: sp.id, active: true, currency: "eur", limit: 100 });
+  const prices = await stripe.prices.list({
+    product: sp.id,
+    active: true,
+    currency: "eur",
+    limit: 100,
+  });
   let price = prices.data.find((x) => x.unit_amount === targetAmount);
 
   if (!price) {
@@ -51,7 +56,10 @@ async function upsertProductAndPrice(p: any) {
 }
 
 async function main() {
-  const map: Record<string, { stripe_product_id: string; stripe_price_id: string }> = {};
+  const map: Record<
+    string,
+    { stripe_product_id: string; stripe_price_id: string }
+  > = {};
 
   for (const p of PRODUCTS.filter((x) => x.status !== "draft")) {
     const ids = await upsertProductAndPrice(p);

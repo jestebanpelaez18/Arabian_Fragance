@@ -27,8 +27,11 @@ export async function ensureFile() {
     await fs.writeFile(FILE, JSON.stringify(snapshot, null, 2), "utf8");
   } else {
     // si no cambió nada pero el archivo no existe, escríbelo
-    try { await fs.access(FILE); } 
-    catch { await fs.writeFile(FILE, JSON.stringify(snapshot, null, 2), "utf8"); }
+    try {
+      await fs.access(FILE);
+    } catch {
+      await fs.writeFile(FILE, JSON.stringify(snapshot, null, 2), "utf8");
+    }
   }
 }
 
@@ -68,4 +71,3 @@ export async function decrementSafe(id: string, qty: number) {
   await setStockMap(map);
   return next;
 }
-

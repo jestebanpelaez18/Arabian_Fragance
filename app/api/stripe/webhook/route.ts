@@ -14,7 +14,11 @@ export async function POST(req: Request) {
   let event: Stripe.Event;
   try {
     const raw = await req.text();
-    event = stripe.webhooks.constructEvent(raw, sig, process.env.STRIPE_WEBHOOK_SECRET!);
+    event = stripe.webhooks.constructEvent(
+      raw,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET!,
+    );
   } catch (err: any) {
     console.error("Signature error:", err.message);
     return new NextResponse("Bad signature", { status: 400 });
@@ -27,11 +31,15 @@ export async function POST(req: Request) {
         return NextResponse.json({ received: true, duplicate: true });
       }
 
-      const line = await stripe.checkout.sessions.listLineItems(session.id, { expand: ["data.price.product"] });
+      const line = await stripe.checkout.sessions.listLineItems(session.id, {
+        expand: ["data.price.product"],
+      });
 
       for (const li of line.data) {
         const qty = li.quantity ?? 0;
-        const appId = (li.price?.product as any)?.metadata?.app_id as string | undefined;
+        const appId = (li.price?.product as any)?.metadata?.app_id as
+          | string
+          | undefined;
         if (!appId || qty <= 0) continue;
         await decrementSafe(appId, qty);
       }
@@ -43,7 +51,10 @@ export async function POST(req: Request) {
         amount_total: session.amount_total,
         currency: session.currency,
         email: session.customer_details?.email,
-        items: line.data.map(li => ({ qty: li.quantity, app_id: (li.price?.product as any)?.metadata?.app_id })),
+        items: line.data.map((li) => ({
+          qty: li.quantity,
+          app_id: (li.price?.product as any)?.metadata?.app_id,
+        })),
       });
     }
 
@@ -53,4 +64,3 @@ export async function POST(req: Request) {
     return new NextResponse("Handler error", { status: 500 });
   }
 }
-
