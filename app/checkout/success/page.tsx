@@ -1,15 +1,20 @@
 import Stripe from "stripe";
-import { ClearCartOnSuccess } from "@/components/cart/ClearCartOnSuccess";
 import Link from "next/link";
+import { ClearCartOnSuccess } from "@/components/cart/ClearCartOnSuccess";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+
+type SP = Promise<Record<string, string | string[] | undefined>>;
 
 export default async function SuccessPage({
   searchParams,
 }: {
-  searchParams: { session_id?: string };
+  searchParams: SP;
 }) {
-  const id = searchParams?.session_id;
+  const sp = await searchParams;
+  const raw = sp?.session_id;
+  const id = Array.isArray(raw) ? raw[0] : raw;
+
   if (!id) {
     return (
       <main className="mx-auto max-w-2xl p-8">
@@ -18,6 +23,7 @@ export default async function SuccessPage({
       </main>
     );
   }
+
   await stripe.checkout.sessions.retrieve(id, {
     expand: ["line_items.data.price.product"],
   });
