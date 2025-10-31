@@ -1,14 +1,26 @@
+// app/api/checkout/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { PRODUCTS } from "@/data/products";
-import { get as getStock } from "@/lib/stock/devStore";
-import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
+import { existsSync, readFileSync } from "node:fs";
 import crypto from "node:crypto";
 
-export const runtime = "nodejs"; // ⬅️ importante si usas fs/path
+import { PRODUCTS } from "@/data/products";
+import { get as getStock } from "@/lib/stock/devStore";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+let _stripe: Stripe | null = null;
+function getStripe() {
+  if (!_stripe) {
+    const key = process.env.STRIPE_SECRET_KEY;
+    if (!key) throw new Error("STRIPE_SECRET_KEY missing at runtime");
+    _stripe = new Stripe(key);
+  }
+  return _stripe;
+}
+
 const eurToCents = (n: number) => Math.round(n * 100);
 
 function findProduct(id: string) {
@@ -24,7 +36,7 @@ function getBaseUrl(req: NextRequest) {
   return `${proto}://${host}`;
 }
 
-// Cache en memoria para no leer disco cada vez
+// cache en memoria de ids.json si existe
 let IDS_CACHE: Record<string, { stripe_price_id: string }> | null = null;
 function seededPriceFor(appId: string): string | undefined {
   try {
@@ -40,6 +52,7 @@ function seededPriceFor(appId: string): string | undefined {
 
 export async function POST(req: NextRequest) {
   try {
+    const stripe = getStripe();
     const BASE_URL = getBaseUrl(req);
 
     const body = await req.json().catch(() => null);
@@ -48,11 +61,12 @@ export async function POST(req: NextRequest) {
       : Array.isArray(body?.items)
         ? body.items
         : [];
+
     if (!items.length) {
       return NextResponse.json({ error: "Empty cart" }, { status: 400 });
     }
 
-    // Validación rápida (usa stock real del file-store)
+    // Validación rápida (usando stock real del file-store)
     for (const it of items) {
       const p = findProduct(it.id);
       const requested = Math.max(1, Math.floor(it.qty || 1));
@@ -90,7 +104,7 @@ export async function POST(req: NextRequest) {
             unit_amount: eurToCents(p.price),
             product_data: {
               name: p.name,
-              // Si tus imágenes son relativas, mejor no enviarlas aquí o asegúrate que sean absolutas
+              // OJO: si son rutas relativas, Stripe puede ignorarlas. No pasa nada.
               images: p.images?.length ? p.images : p.image ? [p.image] : [],
               metadata: { app_id: p.id, slug: p.slug },
             },
