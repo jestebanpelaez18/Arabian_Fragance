@@ -31,12 +31,14 @@ export async function POST(req: Request) {
       process.env.STRIPE_WEBHOOK_SECRET!,
     );
   } catch (err: unknown) {
-    // Solución al Error 1 (usando unknown)
-    let errorMessage = "Unknown signature error";
-    if (err instanceof Error) {
-      errorMessage = err.message;
-    }
-    console.error("Signature error:", errorMessage);
+    const errorMessage =
+      err instanceof Error
+        ? err.message
+        : typeof err === "object" && err !== null && "message" in err && typeof (err as any).message === "string"
+        ? (err as any).message
+        : "Unknown signature error";
+
+    console.error("Signature error:", errorMessage, err);
     return new NextResponse("Bad signature", { status: 400 });
   }
 
