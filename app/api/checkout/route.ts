@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { PRODUCTS } from "@/data/products";
-import ids from "@/stripe.ids.json"; // creado por el seed
 import { get as getStock } from "@/lib/stock/devStore";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -10,9 +9,6 @@ const eurToCents = (n: number) => Math.round(n * 100);
 function findProduct(id: string) {
   return PRODUCTS.find((p) => p.id === id || p.slug === id);
 }
-const seededPriceFor = (appId: string) =>
-  (ids as Record<string, { stripe_price_id: string }>)?.[appId]
-    ?.stripe_price_id as string | undefined;
 
 function getBaseUrl(req: NextRequest) {
   const proto = req.headers.get("x-forwarded-proto") ?? "http";
@@ -26,6 +22,12 @@ function getBaseUrl(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const BASE_URL = getBaseUrl(req);
+    const idsModule = await import("@/stripe.ids.json");
+    const ids = idsModule.default as Record<string, { stripe_price_id: string }>;
+
+    const seededPriceFor = (appId: string) =>
+      ids?.[appId]?.stripe_price_id as string | undefined;
+
     const body = await req.json().catch(() => null);
     const items: Array<{ id: string; qty: number }> = Array.isArray(body)
       ? body
