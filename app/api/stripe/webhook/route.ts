@@ -18,6 +18,19 @@ function isProductObject(
   );
 }
 
+function getErrorMessage(err: unknown): string {
+  if (err instanceof Error) return err.message;
+  if (
+    typeof err === "object" &&
+    err !== null &&
+    "message" in err &&
+    typeof (err as { message?: unknown }).message === "string"
+  ) {
+    return (err as { message: string }).message;
+  }
+  return "Unknown signature error";
+}
+
 export async function POST(req: Request) {
   const sig = (await headers()).get("stripe-signature");
   if (!sig) return new NextResponse("Missing signature", { status: 400 });
@@ -31,12 +44,7 @@ export async function POST(req: Request) {
       process.env.STRIPE_WEBHOOK_SECRET!,
     );
   } catch (err: unknown) {
-    const errorMessage =
-      err instanceof Error
-        ? err.message
-        : typeof err === "object" && err !== null && "message" in err && typeof (err as any).message === "string"
-        ? (err as any).message
-        : "Unknown signature error";
+    const errorMessage = getErrorMessage(err);
 
     console.error("Signature error:", errorMessage, err);
     return new NextResponse("Bad signature", { status: 400 });

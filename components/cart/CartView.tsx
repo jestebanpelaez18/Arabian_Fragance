@@ -5,8 +5,10 @@ import { useCart } from "@/lib/cart/store";
 import CheckoutButton from "@/components/checkout/CheckoutButton";
 import Image from "next/image";
 
-
-const EUR_FORMATTER = new Intl.NumberFormat("en-IE", { style: "currency", currency: "EUR" });  
+const EUR_FORMATTER = new Intl.NumberFormat("en-IE", {
+  style: "currency",
+  currency: "EUR",
+});
 
 const fmtEUR = (n: number) => EUR_FORMATTER.format(n);
 

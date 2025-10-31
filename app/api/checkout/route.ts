@@ -17,7 +17,10 @@ function findProduct(id: string) {
 
 function getBaseUrl(req: NextRequest) {
   const proto = req.headers.get("x-forwarded-proto") ?? "http";
-  const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host") ?? "localhost:3000";
+  const host =
+    req.headers.get("x-forwarded-host") ??
+    req.headers.get("host") ??
+    "localhost:3000";
   return `${proto}://${host}`;
 }
 
@@ -40,9 +43,11 @@ export async function POST(req: NextRequest) {
     const BASE_URL = getBaseUrl(req);
 
     const body = await req.json().catch(() => null);
-    const items: Array<{ id: string; qty: number }> =
-      Array.isArray(body) ? body :
-      (Array.isArray(body?.items) ? body.items : []);
+    const items: Array<{ id: string; qty: number }> = Array.isArray(body)
+      ? body
+      : Array.isArray(body?.items)
+        ? body.items
+        : [];
     if (!items.length) {
       return NextResponse.json({ error: "Empty cart" }, { status: 400 });
     }
@@ -52,11 +57,17 @@ export async function POST(req: NextRequest) {
       const p = findProduct(it.id);
       const requested = Math.max(1, Math.floor(it.qty || 1));
       if (!p || p.status === "draft") {
-        return NextResponse.json({ error: `Product not available: ${it?.id ?? "unknown"}` }, { status: 404 });
+        return NextResponse.json(
+          { error: `Product not available: ${it?.id ?? "unknown"}` },
+          { status: 404 },
+        );
       }
       const available = await getStock(p.id);
       if (requested > available) {
-        return NextResponse.json({ error: `Insufficient stock for ${p.name}`, available }, { status: 409 });
+        return NextResponse.json(
+          { error: `Insufficient stock for ${p.name}`, available },
+          { status: 409 },
+        );
       }
     }
 
@@ -90,21 +101,29 @@ export async function POST(req: NextRequest) {
 
     const idempotencyKey = `chk_${crypto.randomUUID()}`;
 
-    const session = await stripe.checkout.sessions.create({
-      mode: "payment",
-      line_items,
-      success_url: `${BASE_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${BASE_URL}/checkout/cancel`,
-      billing_address_collection: "required",
-      allow_promotion_codes: true,
-      locale: "auto",
-      // automatic_tax: { enabled: true },
-      client_reference_id: crypto.randomUUID(),
-      metadata: {
-        source: "arabian-fragrance",
-        cart: JSON.stringify(items.map(i => ({ id: i.id, qty: Math.max(1, Math.floor(i.qty || 1)) }))),
+    const session = await stripe.checkout.sessions.create(
+      {
+        mode: "payment",
+        line_items,
+        success_url: `${BASE_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${BASE_URL}/checkout/cancel`,
+        billing_address_collection: "required",
+        allow_promotion_codes: true,
+        locale: "auto",
+        // automatic_tax: { enabled: true },
+        client_reference_id: crypto.randomUUID(),
+        metadata: {
+          source: "arabian-fragrance",
+          cart: JSON.stringify(
+            items.map((i) => ({
+              id: i.id,
+              qty: Math.max(1, Math.floor(i.qty || 1)),
+            })),
+          ),
+        },
       },
-    }, { idempotencyKey });
+      { idempotencyKey },
+    );
 
     return NextResponse.json({ url: session.url }, { status: 200 });
   } catch (e) {
