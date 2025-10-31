@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Estado local de desarrollo / test
+orders.processed.json
+stock.dev.json
+
+# Mapas de Stripe (no subas los de test)
+stripe.ids.json
