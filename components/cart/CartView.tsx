@@ -5,10 +5,10 @@ import { useCart } from "@/lib/cart/store";
 import CheckoutButton from "@/components/checkout/CheckoutButton";
 import Image from "next/image";
 
-const fmtEUR = (n: number) =>
-  new Intl.NumberFormat("en-IE", { style: "currency", currency: "EUR" }).format(
-    n,
-  );
+
+const EUR_FORMATTER = new Intl.NumberFormat("en-IE", { style: "currency", currency: "EUR" });  
+
+const fmtEUR = (n: number) => EUR_FORMATTER.format(n);
 
 export default function CartView({ compact = false }: { compact?: boolean }) {
   const { items, subtotal, updateQty, remove, clear } = useCart();
