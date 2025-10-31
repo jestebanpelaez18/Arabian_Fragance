@@ -28,7 +28,9 @@ export default function CheckoutButton({
 
       const data = await res.json();
       if (!res.ok || !data?.url) {
-        throw new Error(data?.error || "Checkout error");
+        throw new Error(
+          data?.error || `Checkout failed with status ${res.status}: Please try again or contact support`
+        );
       }
 
       window.location.href = data.url;
