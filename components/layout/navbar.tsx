@@ -26,7 +26,6 @@ export default function Navbar() {
     return () => document.removeEventListener("keydown", onKey);
   }, [openMobile, openShop]);
 
-  // Lock scroll cuando drawer abierto
   useEffect(() => {
     if (!openMobile) return;
     const prev = document.body.style.overflow;
@@ -58,7 +57,7 @@ export default function Navbar() {
       {/* ===== HEADER ===== */}
       <header className="z-header sticky top-0 border-b border-white/10 bg-[var(--background)] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur supports-[backdrop-filter]:bg-[var(--background)]">
         <nav className="w-full px-5 md:px-8 xl:px-12">
-          <div className="grid h-14 grid-cols-[44px_1fr_44px] items-center lg:grid-cols-[auto_1fr_auto]">
+          <div className="grid h-16 grid-cols-[44px_1fr_44px] items-center lg:grid-cols-[1fr_auto_1fr]">
             {/* Left (desktop) */}
             <div className="hidden items-center gap-8 justify-self-start lg:flex">
               {/* Shop (mega-menu) */}
@@ -239,9 +238,32 @@ export default function Navbar() {
             <div className="justify-self-center">
               <Link
                 href="/"
-                className="brand text-[18px] text-white/95 md:text-[20px]"
+                aria-label="Arabian Fragrance — Inicio"
+                className="inline-flex items-center"
               >
-                ARABIAN FRAGRANCE
+                {/* Desktop: wordmark horizontal (una sola línea) */}
+                <span className="hidden md:inline-flex">
+                  <Image
+                    src="/logo/AFC-logo-wordmark-light.svg" 
+                    alt="Arabian Fragrance"
+                    width={140} 
+                    height={30}
+                    priority
+                    className="h-5 w-74 select-none" 
+                  />
+                </span>
+
+                {/* Mobile: isotipo (estrella/AFC) */}
+                <span className="inline-flex md:hidden">
+                  <Image
+                    src="/logo/AFC-logo-mark-light.svg" 
+                    alt="Arabian Fragrance"
+                    width={28}
+                    height={28}
+                    priority
+                    className="!h-11 w-auto select-none" 
+                  />
+                </span>
               </Link>
             </div>
 
@@ -253,10 +275,6 @@ export default function Navbar() {
               <Link href="/account" className="nav-link">
                 Account
               </Link>
-              {/* <Link href="/bag" className="nav-link">
-                Bag
-                <CartCount />
-              </Link> */}
               <NavCartTrigger />
             </div>
 
