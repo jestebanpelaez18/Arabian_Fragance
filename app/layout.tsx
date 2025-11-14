@@ -6,7 +6,6 @@ import {
   Carlito,
   Bodoni_Moda,
   Plus_Jakarta_Sans,
-  Manrope,
 } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/navbar";
@@ -47,11 +46,6 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-const geistManrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
-});
-
 // Entorno / URL del sitio
 const isProd = process.env.VERCEL_ENV === "production";
 const SITE_URL =
@@ -90,7 +84,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistGaramond.variable} ${geistPlayfairDisplay.variable} ${geistRoboto.variable} ${geistCarlito.variable} ${jakarta.variable} ${bodoni.variable} ${geistManrope.variable} antialiased`}
+        className={`${geistGaramond.variable} ${geistPlayfairDisplay.variable} ${geistRoboto.variable} ${geistCarlito.variable} ${jakarta.variable} ${bodoni.variable} antialiased`}
       >
         <Navbar />
         <main>{children}</main>
