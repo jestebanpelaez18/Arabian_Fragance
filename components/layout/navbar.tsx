@@ -249,7 +249,7 @@ export default function Navbar() {
                     width={140}
                     height={30}
                     priority
-                    className="h-5 w-74 select-none"
+                    className="h-5 w-auto select-none"
                   />
                 </span>
 
