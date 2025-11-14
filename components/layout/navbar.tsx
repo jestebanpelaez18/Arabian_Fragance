@@ -185,7 +185,7 @@ export default function Navbar() {
               <Link href="/about" className="nav-link text-white">
                 About
               </Link>
-              <Link href="/showroom" className="nav-link">
+              <Link href="/showroom" className="nav-link text-white">
                 Showroom
               </Link>
             </div>
