@@ -26,7 +26,6 @@ export default function Navbar() {
     return () => document.removeEventListener("keydown", onKey);
   }, [openMobile, openShop]);
 
-  // Lock scroll cuando drawer abierto
   useEffect(() => {
     if (!openMobile) return;
     const prev = document.body.style.overflow;
@@ -58,9 +57,9 @@ export default function Navbar() {
       {/* ===== HEADER ===== */}
       <header className="z-header sticky top-0 border-b border-white/10 bg-[var(--background)] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur supports-[backdrop-filter]:bg-[var(--background)]">
         <nav className="w-full px-5 md:px-8 xl:px-12">
-          <div className="grid h-14 grid-cols-[44px_1fr_44px] items-center lg:grid-cols-[auto_1fr_auto]">
+          <div className="grid h-16 grid-cols-[44px_1fr_44px] items-center lg:grid-cols-[1fr_auto_1fr]">
             {/* Left (desktop) */}
-            <div className="hidden items-center gap-8 justify-self-start lg:flex">
+            <div className="hidden items-center gap-8 justify-self-start text-sm lg:flex">
               {/* Shop (mega-menu) */}
               <div
                 className="relative"
@@ -80,7 +79,7 @@ export default function Navbar() {
                 {/* Mega-menu (desktop) */}
                 <div
                   id="shop-panel"
-                  className={`fixed top-14 right-0 left-0 z-[9990] transition-[opacity,visibility] duration-150 ${
+                  className={`fixed top-16 right-0 left-0 z-[9990] transition-[opacity,visibility] duration-150 ${
                     openShop ? "visible opacity-100" : "invisible opacity-0"
                   }`}
                   role="dialog"
@@ -239,24 +238,43 @@ export default function Navbar() {
             <div className="justify-self-center">
               <Link
                 href="/"
-                className="brand text-[18px] text-white/95 md:text-[20px]"
+                aria-label="Arabian Fragrance — Inicio"
+                className="inline-flex items-center"
               >
-                ARABIAN FRAGRANCE
+                {/* Desktop: wordmark horizontal (una sola línea) */}
+                <span className="hidden md:inline-flex">
+                  <Image
+                    src="/logo/AFC-logo-wordmark-light.svg"
+                    alt="Arabian Fragrance"
+                    width={140}
+                    height={30}
+                    priority
+                    className="h-5 w-auto select-none"
+                  />
+                </span>
+
+                {/* Mobile: isotipo (estrella/AFC) */}
+                <span className="inline-flex md:hidden">
+                  <Image
+                    src="/logo/AFC-logo-mark-light.svg"
+                    alt="Arabian Fragrance"
+                    width={28}
+                    height={28}
+                    priority
+                    className="!h-11 w-auto select-none"
+                  />
+                </span>
               </Link>
             </div>
 
             {/* Right (desktop) */}
-            <div className="hidden items-center justify-end gap-6 text-white lg:flex">
+            <div className="hidden items-center justify-end gap-6 text-sm text-white lg:flex">
               <Link href="/search" className="nav-link">
                 Search
               </Link>
               <Link href="/account" className="nav-link">
                 Account
               </Link>
-              {/* <Link href="/bag" className="nav-link">
-                Bag
-                <CartCount />
-              </Link> */}
               <NavCartTrigger />
             </div>
 

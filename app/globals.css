@@ -33,7 +33,7 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --font-garamond: var(--font-cormorand-garamond);
+  --font-garamond: var(--font-cormorant-garamond);
   --font-playfair-display: var(--font-playfair-display);
   --font-roboto: var(--font-roboto);
   --font-carlito: var(--font-carlito);
@@ -59,22 +59,18 @@ body {
   font-feature-settings: "kern", "liga", "clig", "calt";
 }
 
-.brand {
-  font-family: var(--font-bodoni), ui-serif, serif;
-  letter-spacing: 0.06em;
-  font-weight: 500;
-}
-
 /* ====== NAV LINKS ====== */
 .nav-link {
   position: relative;
+  font-family: var(--font-bodoni), ui-serif, serif;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  opacity: 0.75;
+  letter-spacing: 0.18em;
+  opacity: 0.8;
   transition:
     color 0.2s ease,
     opacity 0.2s ease;
 }
+
 .nav-link:hover {
   opacity: 1;
   color: var(--gold);
