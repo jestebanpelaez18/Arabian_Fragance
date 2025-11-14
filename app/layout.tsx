@@ -6,13 +6,14 @@ import {
   Carlito,
   Bodoni_Moda,
   Plus_Jakarta_Sans,
+  Manrope
 } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 
 const geistGaramond = Cormorant_Garamond({
-  variable: "--font-cormorand-garamond",
+  variable: "--font-cormorant-garamond",
   subsets: ["latin"],
 });
 
@@ -44,6 +45,11 @@ const jakarta = Plus_Jakarta_Sans({
   weight: ["400", "500"],
   variable: "--font-jakarta",
   display: "swap",
+});
+
+const geistManrope = Manrope({
+  variable: "--font-manrope",
+  subsets: ["latin"],
 });
 
 // Entorno / URL del sitio
@@ -84,7 +90,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistGaramond.variable} ${geistPlayfairDisplay.variable} ${geistRoboto.variable} ${geistCarlito.variable} ${jakarta.variable} ${bodoni.variable} antialiased`}
+        className={`${geistGaramond.variable} ${geistPlayfairDisplay.variable} ${geistRoboto.variable} ${geistCarlito.variable} ${jakarta.variable} ${bodoni.variable} ${geistManrope.variable} antialiased`}
       >
         <Navbar />
         <main>{children}</main>

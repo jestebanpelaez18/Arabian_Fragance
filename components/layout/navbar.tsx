@@ -59,7 +59,7 @@ export default function Navbar() {
         <nav className="w-full px-5 md:px-8 xl:px-12">
           <div className="grid h-16 grid-cols-[44px_1fr_44px] items-center lg:grid-cols-[1fr_auto_1fr]">
             {/* Left (desktop) */}
-            <div className="hidden items-center gap-8 justify-self-start lg:flex">
+            <div className="hidden items-center gap-8 justify-self-start lg:flex text-sm">
               {/* Shop (mega-menu) */}
               <div
                 className="relative"
@@ -79,7 +79,7 @@ export default function Navbar() {
                 {/* Mega-menu (desktop) */}
                 <div
                   id="shop-panel"
-                  className={`fixed top-14 right-0 left-0 z-[9990] transition-[opacity,visibility] duration-150 ${
+                  className={`fixed top-16 right-0 left-0 z-[9990] transition-[opacity,visibility] duration-150 ${
                     openShop ? "visible opacity-100" : "invisible opacity-0"
                   }`}
                   role="dialog"
@@ -185,7 +185,7 @@ export default function Navbar() {
               <Link href="/about" className="nav-link text-white">
                 About
               </Link>
-              <Link href="/showroom" className="nav-link text-white">
+              <Link href="/showroom" className="nav-link">
                 Showroom
               </Link>
             </div>
@@ -257,7 +257,7 @@ export default function Navbar() {
                 <span className="inline-flex md:hidden">
                   <Image
                     src="/logo/AFC-logo-mark-light.svg" 
-                    alt="Arabian Fragrance"
+                    alt="Arabian Fragrance" 
                     width={28}
                     height={28}
                     priority
@@ -268,7 +268,7 @@ export default function Navbar() {
             </div>
 
             {/* Right (desktop) */}
-            <div className="hidden items-center justify-end gap-6 text-white lg:flex">
+            <div className="hidden items-center justify-end gap-6 text-white text-sm lg:flex">
               <Link href="/search" className="nav-link">
                 Search
               </Link>
