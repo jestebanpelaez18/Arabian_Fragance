@@ -59,7 +59,6 @@ body {
   font-feature-settings: "kern", "liga", "clig", "calt";
 }
 
-
 /* ====== NAV LINKS ====== */
 .nav-link {
   position: relative;
@@ -67,9 +66,10 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.18em;
   opacity: 0.8;
-  transition: color 0.2s ease, opacity 0.2s ease;
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
 }
-
 
 .nav-link:hover {
   opacity: 1;

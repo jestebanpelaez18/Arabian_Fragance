@@ -59,7 +59,7 @@ export default function Navbar() {
         <nav className="w-full px-5 md:px-8 xl:px-12">
           <div className="grid h-16 grid-cols-[44px_1fr_44px] items-center lg:grid-cols-[1fr_auto_1fr]">
             {/* Left (desktop) */}
-            <div className="hidden items-center gap-8 justify-self-start lg:flex text-sm">
+            <div className="hidden items-center gap-8 justify-self-start text-sm lg:flex">
               {/* Shop (mega-menu) */}
               <div
                 className="relative"
@@ -244,31 +244,31 @@ export default function Navbar() {
                 {/* Desktop: wordmark horizontal (una sola línea) */}
                 <span className="hidden md:inline-flex">
                   <Image
-                    src="/logo/AFC-logo-wordmark-light.svg" 
+                    src="/logo/AFC-logo-wordmark-light.svg"
                     alt="Arabian Fragrance"
-                    width={140} 
+                    width={140}
                     height={30}
                     priority
-                    className="h-5 w-74 select-none" 
+                    className="h-5 w-74 select-none"
                   />
                 </span>
 
                 {/* Mobile: isotipo (estrella/AFC) */}
                 <span className="inline-flex md:hidden">
                   <Image
-                    src="/logo/AFC-logo-mark-light.svg" 
-                    alt="Arabian Fragrance" 
+                    src="/logo/AFC-logo-mark-light.svg"
+                    alt="Arabian Fragrance"
                     width={28}
                     height={28}
                     priority
-                    className="!h-11 w-auto select-none" 
+                    className="!h-11 w-auto select-none"
                   />
                 </span>
               </Link>
             </div>
 
             {/* Right (desktop) */}
-            <div className="hidden items-center justify-end gap-6 text-white text-sm lg:flex">
+            <div className="hidden items-center justify-end gap-6 text-sm text-white lg:flex">
               <Link href="/search" className="nav-link">
                 Search
               </Link>

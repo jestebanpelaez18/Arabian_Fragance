@@ -6,7 +6,7 @@ import {
   Carlito,
   Bodoni_Moda,
   Plus_Jakarta_Sans,
-  Manrope
+  Manrope,
 } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/navbar";
