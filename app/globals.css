@@ -65,7 +65,7 @@ body {
   font-family: var(--font-bodoni), ui-serif, serif;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  opacity: 0.8;
+  opacity: 0.85;
   transition:
     color 0.2s ease,
     opacity 0.2s ease;
