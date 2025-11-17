@@ -8,8 +8,8 @@ import {
   Plus_Jakarta_Sans,
 } from "next/font/google";
 import "./globals.css";
+import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/navbar";
-import Footer from "@/components/layout/footer";
 
 const geistGaramond = Cormorant_Garamond({
   variable: "--font-cormorant-garamond",
