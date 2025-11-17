@@ -9,7 +9,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/navbar";
-import Footer from "@/components/layout/footer";
+import Footer from "@/components/layout/Footer";
 
 const geistGaramond = Cormorant_Garamond({
   variable: "--font-cormorant-garamond",

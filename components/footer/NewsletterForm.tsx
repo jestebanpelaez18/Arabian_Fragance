@@ -15,7 +15,11 @@ function ArrowRightIcon({ className = "" }: { className?: string }) {
   );
 }
 
-export default function NewsletterForm({ onSubscribe }: { onSubscribe: (e: React.FormEvent<HTMLFormElement>) => void }) {
+export default function NewsletterForm({
+  onSubscribe,
+}: {
+  onSubscribe: (e: React.FormEvent<HTMLFormElement>) => void;
+}) {
   return (
     <form onSubmit={onSubscribe} className="mb-4 md:mb-8">
       <h3 className="font-bodoni mb-2 text-base tracking-wide uppercase">
