@@ -56,8 +56,8 @@ export default function Navbar() {
     <>
       {/* ===== HEADER ===== */}
       <header className="z-header sticky top-0 border-b border-white/10 bg-[var(--background)] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur supports-[backdrop-filter]:bg-[var(--background)]">
-        <nav className="w-full px-5 md:px-8 xl:px-12">
-          <div className="grid h-16 grid-cols-[44px_1fr_44px] items-center lg:grid-cols-[1fr_auto_1fr]">
+        <nav className="w-full px-5 pb-3 py-3 md:px-5">
+          <div className="grid h-9 md:h-8 grid-cols-[44px_1fr_44px] items-center ">
             {/* Left (desktop) */}
             <div className="hidden items-center gap-8 justify-self-start text-sm lg:flex">
               {/* Shop (mega-menu) */}
@@ -258,10 +258,10 @@ export default function Navbar() {
                   <Image
                     src="/logo/AFC-logo-mark-light.svg"
                     alt="Arabian Fragrance"
-                    width={28}
-                    height={28}
+                    width={36}
+                    height={36}
                     priority
-                    className="!h-11 w-auto select-none"
+                    className="h-9 w-9 select-none"
                   />
                 </span>
               </Link>
@@ -275,6 +275,11 @@ export default function Navbar() {
               <Link href="/account" className="nav-link">
                 Account
               </Link>
+              <NavCartTrigger />
+            </div>
+
+            {/* Cart (mobile) */}
+            <div className="flex items-center justify-self-end md:hidden">
               <NavCartTrigger />
             </div>
 
@@ -372,30 +377,6 @@ export default function Navbar() {
                 >
                   Showroom
                 </Link>
-
-                <div className="mt-6 space-y-3 border-t border-white/10 pt-4 text-white/85">
-                  <Link
-                    href="/search"
-                    onClick={() => setOpenMobile(false)}
-                    className="block"
-                  >
-                    Search
-                  </Link>
-                  <Link
-                    href="/account"
-                    onClick={() => setOpenMobile(false)}
-                    className="block"
-                  >
-                    Account
-                  </Link>
-                  <Link
-                    href="/bag"
-                    onClick={() => setOpenMobile(false)}
-                    className="block"
-                  >
-                    Bag
-                  </Link>
-                </div>
               </section>
 
               {/* Shop (sub-vista) */}

@@ -49,6 +49,8 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
         {items.map((it) => (
           <li key={it.id} className="flex items-center gap-4 py-4">
             <Image
+              width={80}
+              height={80}
               src={it.image ?? "/placeholder.png"}
               alt=""
               className="h-20 w-20 rounded-md object-cover ring-1 ring-white/10"

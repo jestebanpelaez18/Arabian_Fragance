@@ -21,8 +21,30 @@ export default function NavCartTrigger() {
         href="/bag"
         onClick={onClick}
         className="nav-link relative inline-flex items-center gap-1.5"
+        aria-label="Open cart"
       >
-        Bag <CartCount />
+        {/* Icon for mobile */}
+        <span className="md:hidden flex items-center h-7">
+          <svg
+            width="24"
+            height="26"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+            className="block"
+          >
+            <path
+              d="M6 7V6a6 6 0 1 1 12 0v1M3 7h18l-1.5 14.5a2 2 0 0 1-2 1.5H6.5a2 2 0 0 1-2-1.5L3 7z"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
+        {/* Text for desktop */}
+        <span className="hidden md:inline">Bag</span>
+        <CartCount />
       </Link>
 
       <Portal>
