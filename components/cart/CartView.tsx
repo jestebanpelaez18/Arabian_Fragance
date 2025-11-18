@@ -52,7 +52,7 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
               width={80}
               height={80}
               src={it.image ?? "/placeholder.png"}
-              alt=""
+              alt={it.name}
               className="h-20 w-20 rounded-md object-cover ring-1 ring-white/10"
             />
             <div className="flex-1">

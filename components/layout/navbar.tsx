@@ -54,8 +54,8 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="z-header sticky top-0 border-b border-white/10 bg-[var(--background)] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur supports-[backdrop-filter]:bg-[var(--background)]">
-        <nav className="w-full px-5 py-3 pb-3 md:px-5">
+      <header className="z-header bg-background sticky top-0 border-b border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur supports-[backdrop-filter]:bg-[var(--background)]">
+        <nav className="w-full px-5 py-3 md:px-5">
           <div className="grid h-9 grid-cols-[44px_1fr_44px] items-center md:h-8">
             <NavLeft
               openMobile={openMobile}

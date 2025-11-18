@@ -19,7 +19,10 @@ export default function NavRight() {
         <NavCartTrigger />
       </div>
       {/* Right spacer (mobile symmetry) */}
-      <div className="justify-self-end lg:hidden" aria-hidden="true">
+      <div
+        className="hidden justify-self-end md:block lg:hidden"
+        aria-hidden="true"
+      >
         <span className="block h-6 w-6" />
       </div>
     </>
