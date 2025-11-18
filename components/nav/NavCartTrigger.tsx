@@ -24,7 +24,7 @@ export default function NavCartTrigger() {
         aria-label="Open cart"
       >
         {/* Icon for mobile */}
-        <span className="md:hidden flex items-center h-7">
+        <span className="flex h-7 items-center md:hidden">
           <svg
             width="24"
             height="26"

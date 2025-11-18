@@ -1,5 +1,17 @@
 import Link from "next/link";
 import MegaMenu from "./MegaMenu";
+import type { Dispatch, SetStateAction } from "react";
+
+type MobileView = "root" | "shop";
+
+interface Props {
+  openMobile: boolean;
+  setOpenMobile: Dispatch<SetStateAction<boolean>>;
+  setMobileView: Dispatch<SetStateAction<MobileView>>;
+  openShopNow: () => void;
+  closeShopSoon: () => void;
+  openShop: boolean;
+}
 
 export default function NavLeft({
   openMobile,
@@ -8,7 +20,7 @@ export default function NavLeft({
   openShopNow,
   closeShopSoon,
   openShop,
-}: any) {
+}: Props) {
   return (
     <>
       {/* Desktop links */}
@@ -50,11 +62,21 @@ export default function NavLeft({
         >
           {openMobile ? (
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              <path
+                d="M6 6l12 12M18 6L6 18"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
             </svg>
           ) : (
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              <path
+                d="M4 6h16M4 12h16M4 18h16"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
             </svg>
           )}
         </button>

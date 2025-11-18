@@ -4,7 +4,11 @@ import Image from "next/image";
 export default function NavCenter() {
   return (
     <div className="justify-self-center">
-      <Link href="/" aria-label="Arabian Fragrance — Inicio" className="inline-flex items-center">
+      <Link
+        href="/"
+        aria-label="Arabian Fragrance — Inicio"
+        className="inline-flex items-center"
+      >
         <span className="hidden md:inline-flex">
           <Image
             src="/logo/AFC-logo-wordmark-light.svg"

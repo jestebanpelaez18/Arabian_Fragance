@@ -1,7 +1,7 @@
 import Link from "next/link";
 import NavCartTrigger from "@/components/nav/NavCartTrigger";
 
-export default function NavRight({ openShop }: any) {
+export default function NavRight() {
   return (
     <>
       {/* Right (desktop) */}
