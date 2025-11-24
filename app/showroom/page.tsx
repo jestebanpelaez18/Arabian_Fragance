@@ -1,135 +1,189 @@
+// app/showroom/page.tsx
 import Image from "next/image";
+import Link from "next/link";
 
-export default function aboutPage() {
+export default function ShowroomPage() {
   return (
-    <div>
-      <section className="relative min-h-[90vh] md:min-h-screen">
+    <div className="bg-background text-foreground">
+      {/* HERO */}
+      <section className="relative min-h-[80vh] w-full overflow-hidden">
         <Image
-          src="/about/aboutusPicture.jpg"
-          alt="Discover Arabian Luxury"
+          src="/showroom/example_shop.avif"
+          alt="Arabian Fragrance Showroom interior"
           fill
+          priority
+          quality={100}
           className="object-cover"
-          priority
+          sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-transparent" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-white">
-          <p className="mb-4 text-sm tracking-[0.2em] uppercase opacity-70 md:text-base">
-            Introducing
-          </p>
-          <h1 className="font-playfair-display text-4xl leading-tight tracking-wide text-shadow-lg/30 md:text-6xl lg:text-7xl">
-            WHERE ARABIAN HERITAGE
-            <br />
-            MEETS NORDIC ELEGANCE
-          </h1>
-          <p className="font-garamond mt-6 max-w-2xl text-lg opacity-90 text-shadow-lg/30 md:text-xl">
-            At Arabian Fragrance, we celebrate the enchanting fusion of rich
-            Arabian heritage and the refined beauty of Nordic elegance. Our
-            mission is to craft luxurious scents that evoke emotion and tell a
-            story, inviting you to experience the art of fragrance.
-          </p>
+
+        {/* Overlay burdeos suave */}
+        <div className="bg-gold/15 absolute inset-0" />
+
+        {/* Contenido */}
+        <div className="relative z-10 mx-auto flex min-h-[80vh] max-w-5xl flex-col items-center px-6 text-center">
+          <div className="flex flex-1 items-center justify-center">
+            <h1 className="font-garamond text-3xl leading-tight md:text-5xl lg:text-6xl">
+              SHOWROOM
+            </h1>
+          </div>
+          <div className="pb-12">
+            <Link
+              href="/contact"
+              className="btn-luxe text-xs tracking-[0.18em] uppercase"
+            >
+              Book a visit
+            </Link>
+          </div>
         </div>
       </section>
-      <section className="grid min-h-[680px] grid-cols-1 px-5 py-2.5 md:grid-cols-2">
-        <div className="bg-bordeaux flex flex-col justify-center border-r border-white/20 px-16 py-20 text-white lg:px-20">
-          <span className="mb-6 font-serif text-xs/relaxed tracking-[0.2em] uppercase opacity-70">
-            Discover
-          </span>
-          <h2 className="font-playfair-display text-4xl leading-tight tracking-[-0.01em] md:text-5xl">
-            OUR STORY
+
+    {/* INTRO SECTION - VICTORIA */}
+    <section className="py-12 px-5 md:py-15 border-t border-white/10">
+      <div className="text-center flex items-center justify-center gap-6">
+        <div className="h-px flex-1 bg-white/20"></div>
+        <p className="font-garamond text-[14px] tracking-[0.22em] uppercase text-white/90">
+          FINLAND
+        </p>
+        <div className="h-px flex-1 bg-white/20"></div>
+      </div>
+    </section>
+
+      {/* SECTION 2 – STORY / CONCEPT */}
+      <section>
+        <div className="grid gap-16 px-5 lg:grid-cols-[1fr_1.2fr] lg:gap-0">
+          {/* Left column - Text content */}
+          <div className="flex flex-col justify-start space-y-8 lg:pr-16">
+            <div>
+              <h2 className="font-garamond mb-12 text-5xl leading-[0.95] tracking-tight md:text-6xl lg:text-7xl">
+                HELSINKI
+              </h2>
+
+              <p className="font-playfair-display mb-6 text-[15px] leading-relaxed text-white/80">
+                Arabian Fragrance's flagship showroom in Helsinki emerges in the
+                heart of the city, embodying a luxurious sensibility where
+                Nordic minimalism meets Arabian opulence.
+              </p>
+
+              <p className="font-playfair-display mb-6 text-[15px] leading-relaxed text-white/80">
+                Discover our curated collections and indulge in our full suite
+                of luxury experiences including private consultations, bespoke
+                gifting services, and personalized scent journeys designed to
+                capture your unique story.
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              <h3 className="font-garamond text-[11px] font-medium tracking-[0.2em] uppercase">
+                Hours & Contact
+              </h3>
+              <div className="font-playfair-display space-y-1 text-[15px] leading-relaxed text-white/80">
+                <p>Monday to Saturday 10:00am – 6:00pm</p>
+                <p>Sunday 12:00pm – 5:00pm</p>
+              </div>
+              <div className="font-playfair-display space-y-1 text-[15px]">
+                <p className="text-white/80">+358 9 1234 5678</p>
+                <a
+                  href="mailto:helsinki@arabianfragrance.com"
+                  className="text-white/80 underline transition-colors hover:text-white"
+                >
+                  helsinki@arabianfragrance.com
+                </a>
+              </div>
+            </div>
+
+            <div className="font-playfair-display space-y-6 pt-8">
+              <h3 className="font-garamond text-[11px] font-medium tracking-[0.2em] uppercase">
+                Address
+              </h3>
+              <p className="text-[15px] leading-relaxed text-white/80">
+                Pohjoisesplanadi 25
+                <br />
+                00100 Helsinki, Finland
+              </p>
+            </div>
+          </div>
+
+          {/* Right column - Image (más grande y sin border radius) */}
+          <div className="relative aspect-[4/5] w-full overflow-hidden lg:aspect-auto lg:min-h-[700px]">
+            <Image
+              src="/showroom/example_shop.avif"
+              alt="Arabian Fragrance Helsinki showroom interior"
+              fill
+              className="object-cover"
+              sizes="(min-width: 1024px) 55vw, 100vw"
+              quality={100}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3 – EXPERIENCE HIGHLIGHTS */}
+      <section className="section-py border-t border-white/10">
+        <div className="mx-auto max-w-6xl px-6">
+          <p className="mb-3 text-[11px] tracking-[0.22em] text-[var(--muted)] uppercase">
+            Experience
+          </p>
+          <h2 className="mb-10 text-2xl md:text-3xl">
+            More than a boutique – a scented ritual
           </h2>
-          <p className="font-garamond mt-6 max-w-lg text-lg/relaxed opacity-85">
-            Arabian Fragrance was founded by Juha Toivanen, a well-known Finnish
-            chef with a long career creating some of Finland’s most recognized
-            restaurants. After years dedicated to taste, atmosphere, and the art
-            of hospitality, Juha wanted to explore a new way of creating
-            experiences, through scent.
-          </p>
-          <p className="font-garamond mt-6 max-w-lg text-lg/relaxed opacity-85">
-            That journey led him to Dubai and the Emirates, where perfumery is
-            part of everyday culture. Inspired by the richness of Arabic
-            traditions and rare natural ingredients, he began working with local
-            expertise to shape a collection of perfumes that bring together
-            depth, authenticity, and modern elegance.
-          </p>
-          <p className="font-garamond mt-6 max-w-lg text-lg/relaxed opacity-85">
-            Arabian Fragrance is built on contrasts.the boldness of oud with the
-            delicacy of rose, the heritage of the Middle East with the clarity
-            of Nordic design. Every fragrance carries a story, meant to be worn
-            not just as a scent, but as an expression of identity.
-          </p>
-        </div>
-        <div className="relative">
-          <div className="absolute inset-0 bg-black/0 lg:bg-black/0" />
-          <Image
-            src="/hero/gift.jpg"
-            alt="Arabian Frangance Story"
-            fill
-            className="object-cover object-[50%_35%]"
-            priority
-          />
-        </div>
-      </section>
-      <section className="relative h-[200px] md:h-[220px]">
-        <div className="absolute inset-0 z-10 flex items-center justify-center px-16 text-center">
-          <p className="font-garamond max-w-7xl text-2xl leading-relaxed text-white md:text-3xl">
-            “Arabian Fragrance brings the soul of Dubai’s perfumery heritage to
-            life, crafted with authenticity, depth, and modern elegance.”
-          </p>
+
+          <div className="grid gap-8 md:grid-cols-3">
+            <div className="card-luxe rounded-lg border border-white/10 bg-white/3 p-6">
+              <h3 className="mb-3 text-xs tracking-[0.18em] uppercase">
+                Private consultations
+              </h3>
+              <p className="text-sm text-[var(--muted)]">
+                One-on-one time with our fragrance specialists to understand
+                your preferences, lifestyle and stories – and translate them
+                into a curated selection.
+              </p>
+            </div>
+
+            <div className="card-luxe rounded-lg border border-white/10 bg-white/3 p-6">
+              <h3 className="mb-3 text-xs tracking-[0.18em] uppercase">
+                Scent journeys
+              </h3>
+              <p className="text-sm text-[var(--muted)]">
+                Explore oud, amber, florals and woods through raw materials and
+                layered compositions designed to be felt slowly, note by note.
+              </p>
+            </div>
+
+            <div className="card-luxe rounded-lg border border-white/10 bg-white/3 p-6">
+              <h3 className="mb-3 text-xs tracking-[0.18em] uppercase">
+                Gifting & occasions
+              </h3>
+              <p className="text-sm text-[var(--muted)]">
+                From weddings to private events, we design personalized gifting
+                experiences with engraving, bespoke sets and signature
+                packaging.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
-      <section className="grid min-h-[680px] grid-cols-1 px-5 py-2.5 md:grid-cols-2">
-        <div className="relative">
-          <div className="absolute inset-0 bg-black/0 lg:bg-black/0" />
-          <Image
-            src="/collections/collection-desert-oud.jpg"
-            alt="Arabian Frangance Story"
-            fill
-            className="object-cover object-[50%_35%]"
-            priority
-          />
-        </div>
-        <div className="bg-bordeaux flex flex-col justify-center border-r border-white/20 px-16 py-20 text-white lg:px-20">
-          <span className="mb-6 font-serif text-xs/relaxed tracking-[0.2em] uppercase opacity-70">
-            Discover
-          </span>
-          <h2 className="font-playfair-display text-4xl leading-tight tracking-[-0.01em] md:text-5xl">
-            OUR PERFUMES
+
+      {/* CTA FINAL */}
+      <section className="section-py border-t border-white/10">
+        <div className="mx-auto max-w-3xl px-6 text-center">
+          <p className="mb-3 text-[11px] tracking-[0.22em] text-[var(--muted)] uppercase">
+            Visit
+          </p>
+          <h2 className="mb-4 text-2xl md:text-3xl">
+            Book your private showroom experience
           </h2>
-          <p className="font-garamond mt-6 max-w-lg text-lg/relaxed opacity-85">
-            At Arabian Fragrance, each perfume is more than a scent, it is an
-            experience. Rooted in the rich traditions of Arabic perfumery and
-            crafted in Dubai, our creations combine rare natural ingredients
-            with a modern touch of elegance.
+          <p className="mb-8 text-sm text-[var(--muted)] md:text-base">
+            Our showroom is open by appointment only to keep the atmosphere calm
+            and personal. Share a few details and our team will contact you to
+            plan your visit.
           </p>
-          <p className="font-garamond mt-6 max-w-lg text-lg/relaxed opacity-85">
-            Every fragrance carries its own story: the warmth of oud, the
-            delicacy of rose, the freshness of citrus. Together, they form a
-            collection that is sophisticated, authentic, and impossible to
-            forget.
-          </p>
-          <p className="font-garamond mt-6 max-w-lg text-lg/relaxed opacity-85">
-            We invite you to discover perfumes that don’t just complement your
-            presence, they define it.
-          </p>
-        </div>
-      </section>
-      <section className="relative min-h-screen md:min-h-[90vh]">
-        <Image
-          src="/about/aboutusPicture2.jpg"
-          alt="Our Perfumes"
-          fill
-          className="object-cover object-center"
-          priority
-        />
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center">
-          <p className="font-garamond mt-4 max-w-3xl text-2xl text-white/70 md:text-3xl">
-            At the heart of Arabian Fragrance lies a meeting of heritage and
-            modernity, the timeless art of Arabic perfumery reimagined through a
-            contemporary lens. Each creation is a dialogue between tradition and
-            innovation, carrying the richness of oud, amber, and rose into a new
-            era of elegance.
-          </p>
+          <Link
+            href="/contact"
+            className="btn-luxe text-xs tracking-[0.18em] uppercase"
+          >
+            Request an appointment
+          </Link>
         </div>
       </section>
     </div>
