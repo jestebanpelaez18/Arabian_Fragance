@@ -1,4 +1,3 @@
-// app/showroom/page.tsx
 import Image from "next/image";
 import Link from "next/link";
 import SectionDivider from "@/components/showroom/SectionDivider";
@@ -113,13 +112,10 @@ export default function ShowroomPage() {
     <SectionDivider text="EXPERIENCE" />
 
     {/* SECTION 3 – EXPERIENCE HIGHLIGHTS */}
-    <section className="section-py ">
+    <section>
       <div className="grid gap-16 px-6 lg:grid-cols-[1fr_1.2fr] lg:gap-0">
         {/* Left column - Header */}
         <div className="flex flex-col justify-start lg:pr-16">
-          {/* <p className="font-garamond mb-3 text-[11px] font-medium tracking-[0.2em] uppercase text-white/60">
-            Experience
-          </p> */}
           <h2 className="font-garamond text-3xl md:text-4xl lg:text-5xl leading-tight tracking-tight">
             More than a boutique, a scented ritual
           </h2>
@@ -139,20 +135,20 @@ export default function ShowroomPage() {
           </div>
     
           <div className="border-b border-white/10 pb-8">
-            <h3 className="mb-3 text-[11px] font-medium tracking-[0.2em] uppercase">
+            <h3 className="mb-3 text-[11px] font-garamond tracking-[0.2em] uppercase">
               Scent journeys
             </h3>
-            <p className="text-[15px] leading-relaxed text-white/80">
+            <p className="text-[15px] leading-relaxed font-playfair-display text-white/80">
               Explore oud, amber, florals and woods through raw materials and
               layered compositions designed to be felt slowly, note by note.
             </p>
           </div>
     
           <div className="pb-8">
-            <h3 className="mb-3 text-[11px] font-medium tracking-[0.2em] uppercase">
+            <h3 className="mb-3 text-[11px] font-garamond tracking-[0.2em] uppercase">
               Gifting & occasions
             </h3>
-            <p className="text-[15px] leading-relaxed text-white/80">
+            <p className="text-[15px] leading-relaxed font-playfair-display text-white/80">
               From weddings to private events, we design personalized gifting
               experiences with engraving, bespoke sets and signature
               packaging.
@@ -162,16 +158,16 @@ export default function ShowroomPage() {
       </div>
     </section>
 
+    {/* PHOTO CARROUSEL IN THE FUTURE */}
+
+    <SectionDivider text="BOOK YOUR PRIVATE SHOWROOM EXPERIENCE" />
       {/* CTA FINAL */}
-      <section className="section-py border-t border-white/10">
+      <section className="pb-12 md:pb-15">
         <div className="mx-auto max-w-3xl px-6 text-center">
-          <p className="mb-3 text-[11px] tracking-[0.22em] text-[var(--muted)] uppercase">
-            Visit
-          </p>
-          <h2 className="mb-4 text-2xl md:text-3xl">
+          <h2 className="font-garamond mb-6 text-3xl md:text-4xl lg:text-5xl leading-tight">
             Book your private showroom experience
           </h2>
-          <p className="mb-8 text-sm text-[var(--muted)] md:text-base">
+          <p className="font-playfair-display mb-8 text-[15px] leading-relaxed text-white/80 md:text-base">
             Our showroom is open by appointment only to keep the atmosphere calm
             and personal. Share a few details and our team will contact you to
             plan your visit.
