@@ -69,7 +69,7 @@ export default function LocationSection({ location }: LocationSectionProps) {
           </div>
         </div>
 
-        <div className="relative aspect-[4/5] w-full overflow-hidden lg:aspect-auto lg:min-h-[700px]">
+        <div className="relative aspect-4/5 w-full overflow-hidden lg:aspect-auto lg:min-h-[700px]">
           <Image
             src={location.imageSrc}
             alt={location.imageAlt}

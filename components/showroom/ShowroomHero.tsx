@@ -9,7 +9,7 @@ export default function ShowroomHero() {
         alt="Arabian Fragrance Showroom interior"
         fill
         priority
-        quality={100}
+        quality={90}
         className="object-cover"
         sizes="100vw"
       />
