@@ -1,6 +1,7 @@
 // app/showroom/page.tsx
 import Image from "next/image";
 import Link from "next/link";
+import SectionDivider from "@/components/showroom/SectionDivider";
 
 export default function ShowroomPage() {
   return (
@@ -38,16 +39,8 @@ export default function ShowroomPage() {
         </div>
       </section>
 
-    {/* INTRO SECTION - VICTORIA */}
-    <section className="py-12 px-5 md:py-15 border-t border-white/10">
-      <div className="text-center flex items-center justify-center gap-6">
-        <div className="h-px flex-1 bg-white/20"></div>
-        <p className="font-garamond text-[14px] tracking-[0.22em] uppercase text-white/90">
-          FINLAND
-        </p>
-        <div className="h-px flex-1 bg-white/20"></div>
-      </div>
-    </section>
+    {/* INTRO SECTION */}
+      <SectionDivider text="FINLAND" />
 
       {/* SECTION 2 – STORY / CONCEPT */}
       <section>
@@ -97,14 +90,13 @@ export default function ShowroomPage() {
                 Address
               </h3>
               <p className="text-[15px] leading-relaxed text-white/80">
-                Pohjoisesplanadi 25
+                Mikonkatu 4
                 <br />
                 00100 Helsinki, Finland
               </p>
             </div>
           </div>
-
-          {/* Right column - Image (más grande y sin border radius) */}
+            {/* Right column - Image */}
           <div className="relative aspect-[4/5] w-full overflow-hidden lg:aspect-auto lg:min-h-[700px]">
             <Image
               src="/showroom/example_shop.avif"
@@ -118,51 +110,57 @@ export default function ShowroomPage() {
         </div>
       </section>
 
-      {/* SECTION 3 – EXPERIENCE HIGHLIGHTS */}
-      <section className="section-py border-t border-white/10">
-        <div className="mx-auto max-w-6xl px-6">
-          <p className="mb-3 text-[11px] tracking-[0.22em] text-[var(--muted)] uppercase">
+    <SectionDivider text="EXPERIENCE" />
+
+    {/* SECTION 3 – EXPERIENCE HIGHLIGHTS */}
+    <section className="section-py ">
+      <div className="grid gap-16 px-6 lg:grid-cols-[1fr_1.2fr] lg:gap-0">
+        {/* Left column - Header */}
+        <div className="flex flex-col justify-start lg:pr-16">
+          {/* <p className="font-garamond mb-3 text-[11px] font-medium tracking-[0.2em] uppercase text-white/60">
             Experience
-          </p>
-          <h2 className="mb-10 text-2xl md:text-3xl">
-            More than a boutique – a scented ritual
+          </p> */}
+          <h2 className="font-garamond text-3xl md:text-4xl lg:text-5xl leading-tight tracking-tight">
+            More than a boutique, a scented ritual
           </h2>
-
-          <div className="grid gap-8 md:grid-cols-3">
-            <div className="card-luxe rounded-lg border border-white/10 bg-white/3 p-6">
-              <h3 className="mb-3 text-xs tracking-[0.18em] uppercase">
-                Private consultations
-              </h3>
-              <p className="text-sm text-[var(--muted)]">
-                One-on-one time with our fragrance specialists to understand
-                your preferences, lifestyle and stories – and translate them
-                into a curated selection.
-              </p>
-            </div>
-
-            <div className="card-luxe rounded-lg border border-white/10 bg-white/3 p-6">
-              <h3 className="mb-3 text-xs tracking-[0.18em] uppercase">
-                Scent journeys
-              </h3>
-              <p className="text-sm text-[var(--muted)]">
-                Explore oud, amber, florals and woods through raw materials and
-                layered compositions designed to be felt slowly, note by note.
-              </p>
-            </div>
-
-            <div className="card-luxe rounded-lg border border-white/10 bg-white/3 p-6">
-              <h3 className="mb-3 text-xs tracking-[0.18em] uppercase">
-                Gifting & occasions
-              </h3>
-              <p className="text-sm text-[var(--muted)]">
-                From weddings to private events, we design personalized gifting
-                experiences with engraving, bespoke sets and signature
-                packaging.
-              </p>
-            </div>
+        </div>
+    
+        {/* Right column - Services */}
+        <div className="space-y-12">
+          <div className="border-b border-white/10 pb-8">
+            <h3 className="mb-3 text-[11px] font-garamond tracking-[0.2em] uppercase">
+              Private consultations
+            </h3>
+            <p className="font-playfair-display text-[15px] leading-relaxed text-white/80">
+              One-on-one time with our fragrance specialists to understand
+              your preferences, lifestyle and stories, and translate them
+              into a curated selection.
+            </p>
+          </div>
+    
+          <div className="border-b border-white/10 pb-8">
+            <h3 className="mb-3 text-[11px] font-medium tracking-[0.2em] uppercase">
+              Scent journeys
+            </h3>
+            <p className="text-[15px] leading-relaxed text-white/80">
+              Explore oud, amber, florals and woods through raw materials and
+              layered compositions designed to be felt slowly, note by note.
+            </p>
+          </div>
+    
+          <div className="pb-8">
+            <h3 className="mb-3 text-[11px] font-medium tracking-[0.2em] uppercase">
+              Gifting & occasions
+            </h3>
+            <p className="text-[15px] leading-relaxed text-white/80">
+              From weddings to private events, we design personalized gifting
+              experiences with engraving, bespoke sets and signature
+              packaging.
+            </p>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* CTA FINAL */}
       <section className="section-py border-t border-white/10">

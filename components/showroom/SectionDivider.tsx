@@ -1,0 +1,18 @@
+interface SectionDividerProps {
+  text: string;
+  className?: string;
+}
+
+export default function SectionDivider({ text, className = "" }: SectionDividerProps) {
+  return (
+    <section className={`px-5 py-12 md:py-15 ${className}`}>
+      <div className="flex items-center justify-center gap-6 text-center">
+        <div className="h-px flex-1 bg-white/20"></div>
+        <p className="font-garamond text-[14px] uppercase tracking-[0.22em] text-white/90">
+          {text}
+        </p>
+        <div className="h-px flex-1 bg-white/20"></div>
+      </div>
+    </section>
+  );
+}
