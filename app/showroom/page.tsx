@@ -1,5 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
 import SectionDivider from "@/components/showroom/SectionDivider";
 import ShowroomHero from "@/components/showroom/ShowroomHero";
 import LocationSection from "@/components/showroom/LocationSection";
@@ -38,8 +36,6 @@ const experienceServices = [
   },
 ];
 
-
-
 export default function ShowroomPage() {
   return (
     <div className="bg-background text-foreground">
@@ -65,7 +61,7 @@ export default function ShowroomPage() {
       <SectionDivider text="BOOK YOUR PRIVATE SHOWROOM EXPERIENCE" />
       {/* CTA FINAL */}
 
-        <CTASection
+      <CTASection
         title="Book your private showroom experience"
         description="Our showroom is open by appointment only to keep the atmosphere calm and personal. Share a few details and our team will contact you to plan your visit."
         buttonText="Request an appointment"
