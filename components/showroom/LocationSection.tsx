@@ -26,7 +26,7 @@ export default function LocationSection({ location }: LocationSectionProps) {
             </h2>
             {location.description.map((paragraph, index) => (
               <p
-                key={`paragraph-${index}`} 
+                key={`paragraph-${index}`}
                 className="font-playfair-display mb-6 text-[15px] leading-relaxed text-white/80"
               >
                 {paragraph}
