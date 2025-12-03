@@ -24,7 +24,7 @@ export default function ExperienceSection({
         <div className="space-y-12">
           {services.map((service, index) => (
             <div
-              key={index}
+              key={service.title}
               className={`pb-8 ${index < services.length - 1 ? "border-b border-white/10" : ""}`}
             >
               <h3 className="font-garamond mb-3 text-[11px] tracking-[0.2em] uppercase">

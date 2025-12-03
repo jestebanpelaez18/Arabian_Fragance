@@ -26,7 +26,7 @@ export default function LocationSection({ location }: LocationSectionProps) {
             </h2>
             {location.description.map((paragraph, index) => (
               <p
-                key={index}
+                key={`paragraph-${index}`} 
                 className="font-playfair-display mb-6 text-[15px] leading-relaxed text-white/80"
               >
                 {paragraph}
@@ -76,7 +76,7 @@ export default function LocationSection({ location }: LocationSectionProps) {
             fill
             className="object-cover"
             sizes="(min-width: 1024px) 55vw, 100vw"
-            quality={100}
+            quality={90}
           />
         </div>
       </div>
