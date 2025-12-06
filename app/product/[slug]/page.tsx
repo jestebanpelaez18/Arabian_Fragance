@@ -107,7 +107,7 @@ export default async function ProductPage({
                 fill
                 className="object-contain object-left"
                 sizes="(min-width:1536px) 900px, (min-width:1024px) 58vw, 100vw"
-                quality={96}
+                quality={90}
                 priority
               />
             </div>
@@ -117,7 +117,7 @@ export default async function ProductPage({
           <aside className="md:col-span-5">
             <div className="md:sticky md:top-24">
               <header className="border-b border-white/10 pb-8">
-                <h1 className="font-playfair-display text-[42px] leading-[1.08] md:text-[56px]">
+                <h1 className="font-garamond text-[42px] leading-[1.08] md:text-[56px]">
                   {p.name}
                 </h1>
                 <p className="mt-3 text-sm tracking-[0.18em] text-white/70 uppercase">
