@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PRODUCTS } from "@/data/products";
 import ProductActions from "@/components/product/ProductActions";
 import PdpTabs from "@/components/product/PdpTabs";
 import RecommendedProducts from "@/components/product/RecommendedProducts";
-import Script from "next/script";
+import ProductJsonLd from "@/components/product/ProductJsonLd";
+import ProductBreadcrumbs from "@/components/product/ProductBreadcrumbs";
+import ProductImage from "@/components/product/ProductImage";
 import { productJsonLd } from "@/lib/seo/jsonld";
 
 type Params = { slug: string };
@@ -66,51 +66,15 @@ export default async function ProductPage({
 
   return (
     <main className="bg-background text-foreground">
-      <Script
-        id="jsonld-product"
-        type="application/ld+json"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <div className="mx-auto w-full max-w-[1600px] px-3 md:px-6 lg:px-8">
-        <nav className="pt-6 pb-4 text-xs tracking-[0.08em] text-white/60">
-          <ol className="flex items-center gap-2">
-            <li>
-              <Link href="/" className="transition hover:text-[var(--gold)]">
-                Home
-              </Link>
-            </li>
-            <li>/</li>
-            <li>
-              <Link
-                href="/shop"
-                className="transition hover:text-[var(--gold)]"
-              >
-                Shop
-              </Link>
-            </li>
-            <li>/</li>
-            <li className="text-foreground">{p.name}</li>
-          </ol>
-        </nav>
-      </div>
+      <ProductJsonLd json={jsonLd} />
+      <ProductBreadcrumbs current={p.name} />
 
       {/* Layout: imagen 7/12, panel 5/12 */}
       <section className="mx-auto w-full max-w-[1600px] px-3 pb-12 md:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-start gap-x-8 gap-y-10 md:grid-cols-12 lg:gap-x-12 xl:gap-x-16">
           {/* IZQUIERDA: imagen grande, sin marcos */}
           <div className="md:col-span-7">
-            <div className="relative h-[min(88vh,980px)] w-full">
-              <Image
-                src={img}
-                alt={p.name}
-                fill
-                className="object-contain object-left"
-                sizes="(min-width:1536px) 900px, (min-width:1024px) 58vw, 100vw"
-                quality={90}
-                priority
-              />
-            </div>
+            <ProductImage src={img} alt={p.name} />
           </div>
 
           {/* DERECHA: panel de compra */}
@@ -120,14 +84,14 @@ export default async function ProductPage({
                 <h1 className="font-garamond text-[42px] leading-[1.08] md:text-[56px]">
                   {p.name}
                 </h1>
-                <p className="mt-3 text-sm tracking-[0.18em] text-white/70 uppercase">
+                <p className="mt-3 font-playfair-display text-sm tracking-[0.18em] text-white/70 uppercase">
                   {p.notes?.length ? "  " + p.notes.join(" | ") : ""}
                 </p>
               </header>
 
               {/* Precio + ficha alineada */}
-              <section className="pt-10">
-                <div className="text-[34px] font-light tracking-tight md:text-[38px]">
+              <section className=" font-playfair-display pt-10">
+                <div className="text-[34px] tracking-tight md:text-[38px]">
                   {p.price} EUR
                 </div>
                 {p.volumeMl && (
@@ -159,7 +123,7 @@ export default async function ProductPage({
                     <dt className="tracking-[0.18em] whitespace-nowrap text-white/60 uppercase">
                       Dispatch
                     </dt>
-                    <dd className="leading-7 text-[var(--gold)]/90">
+                    <dd className="leading-7 text-gold/90">
                       Same-day dispatch
                     </dd>
                   </div>

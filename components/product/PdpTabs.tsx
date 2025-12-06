@@ -89,7 +89,7 @@ export default function PdpTabs({
       {/* Header tabs (subrayado animado) */}
       <div
         ref={listRef}
-        className="relative flex gap-8 text-[15px] text-white/70"
+        className="font-garamond relative flex gap-8 text-[15px] text-white/70"
         role="tablist"
         aria-label="Product information"
         onKeyDown={onKey}
@@ -127,7 +127,7 @@ export default function PdpTabs({
       </div>
 
       {/* Content */}
-      <div className="mt-8 leading-relaxed text-white/90">
+      <div className="font-garamond mt-8 leading-relaxed text-white/90">
         {/* Description */}
         {active === "Description" && (
           <div
