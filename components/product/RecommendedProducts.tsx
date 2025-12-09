@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { PRODUCTS, type Product } from "@/data/products";
+import SectionDivider from "../ui/SectionDivider";
 
 function ProductCard({ p }: { p: Product }) {
   const href = `/product/${p.slug ?? p.id}`;
@@ -57,12 +58,10 @@ export default function RecommendedProducts({
   if (!recommended.length) return null;
 
   return (
-    <section className="px-5 py-10">
-      <h2 className="mb-8 text-center text-[15px] tracking-[0.18em] text-white/80 uppercase">
-        Recommended for You
-      </h2>
+    <section className="pb-12 md:pb-15">
+      <SectionDivider text="You may also like" />
 
-      <div className="grid grid-cols-2 gap-x-2.5 gap-y-6 md:grid-cols-4 md:gap-x-5">
+      <div className="grid grid-cols-2 gap-x-2.5 gap-y-6 px-5 md:grid-cols-4 md:gap-x-5">
         {recommended.map((p) => (
           <ProductCard key={p.id} p={p} />
         ))}

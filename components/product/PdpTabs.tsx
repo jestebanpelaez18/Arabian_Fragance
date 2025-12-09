@@ -1,35 +1,32 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect, KeyboardEvent } from "react";
+import { useState, useCallback, KeyboardEvent } from "react";
 
 type Details = {
   concentration?: string;
   sizeLabel?: string;
   sku?: string | null;
 };
-
 type Pyramid = { top?: string[]; heart?: string[]; base?: string[] };
 
 type Props = {
   description?: string | null;
-  details?: Details; // opcional (no lo muestro aquí, ya lo tienes en el panel superior)
-  notes?: string[]; // para copy “Notes: …”
-  policies?: string[]; // lista de políticas
-  ingredients?: string | null; // string largo (INCI)
-  pyramid?: Pyramid; // {top, heart, base}
+  details?: Details;
+  notes?: string[];
+  policies?: string[];
+  ingredients?: string | null;
+  pyramid?: Pyramid;
 };
 
-/* ---------- Tabs model ---------- */
 const TABS = [
-  { key: "Description", label: "Description" },
-  { key: "Notes", label: "Notes" },
-  { key: "Ingredients", label: "Ingredients" },
-  { key: "Packaging", label: "Packaging & Care" },
-  { key: "Policies", label: "Policies" },
+  { key: "Description", label: "DESCRIPTION" },
+  { key: "Notes", label: "NOTES" },
+  { key: "Ingredients", label: "INGREDIENTS" },
+  { key: "Packaging", label: "PACKAGING & CARE" },
+  { key: "Policies", label: "POLICIES" },
 ] as const;
 type TabKey = (typeof TABS)[number]["key"];
 
-/* ---------- Component ---------- */
 export default function PdpTabs({
   description,
   notes,
@@ -39,96 +36,77 @@ export default function PdpTabs({
 }: Props) {
   const [active, setActive] = useState<TabKey>("Description");
 
-  /* underline indicator */
-  const listRef = useRef<HTMLDivElement | null>(null);
-  const btnRefs = useRef<Record<TabKey, HTMLButtonElement | null>>({
-    Description: null,
-    Notes: null,
-    Ingredients: null,
-    Packaging: null,
-    Policies: null,
-  });
-  const [indicator, setIndicator] = useState<{ left: number; width: number }>({
-    left: 0,
-    width: 0,
-  });
-
-  const recalc = useCallback(() => {
-    const el = btnRefs.current[active];
-    const parent = listRef.current;
-    if (!el || !parent) return;
-    const parentRect = parent.getBoundingClientRect();
-    const rect = el.getBoundingClientRect();
-    setIndicator({ left: rect.left - parentRect.left, width: rect.width });
-  }, [active]);
-
-  useEffect(() => {
-    recalc();
-    const onResize = () => recalc();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, [recalc]);
-
   const onKey = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
-      const idx = TABS.findIndex((t) => t.key === active);
-      if (e.key === "ArrowRight") setActive(TABS[(idx + 1) % TABS.length].key);
+      const i = TABS.findIndex((t) => t.key === active);
+      if (e.key === "ArrowRight") setActive(TABS[(i + 1) % TABS.length].key);
       if (e.key === "ArrowLeft")
-        setActive(TABS[(idx - 1 + TABS.length) % TABS.length].key);
+        setActive(TABS[(i - 1 + TABS.length) % TABS.length].key);
     },
     [active],
   );
 
-  /* ingredientes plegables */
   const [openInci, setOpenInci] = useState(false);
   const inciPreview = (ingredients ?? "").slice(0, 220);
   const showToggle = (ingredients ?? "").length > inciPreview.length;
 
   return (
-    <section className="mt-14">
-      {/* Header tabs (subrayado animado) */}
+    <section className="mt-12">
+      {/* Tabs header */}
       <div
-        ref={listRef}
-        className="relative flex gap-8 text-[15px] text-white/70"
         role="tablist"
         aria-label="Product information"
         onKeyDown={onKey}
+        className="font-garamond relative flex flex-nowrap items-end gap-x-6 text-[12px] tracking-[0.08em] md:gap-x-8"
       >
-        {/* indicator */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute -bottom-[2px] h-[2px] bg-white/80 transition-[left,width] duration-300 ease-out"
-          style={{ left: indicator.left, width: indicator.width }}
-        />
         {TABS.map(({ key, label }) => {
           const isActive = active === key;
           return (
             <button
               key={key}
-              ref={(el) => {
-                btnRefs.current[key] = el;
-              }}
               role="tab"
               aria-selected={isActive}
               aria-controls={`panel-${key}`}
               id={`tab-${key}`}
               onClick={() => setActive(key)}
               className={[
-                "relative pb-2 transition-colors focus:outline-none",
-                isActive ? "text-white" : "hover:text-white/90",
+                "relative shrink-0 pb-1.5 whitespace-nowrap uppercase transition-colors duration-200 ease-out focus:outline-none",
+                isActive ? "text-white" : "text-white/70 hover:text-white/85",
               ].join(" ")}
             >
               {label}
-              {/* bottom border (base) */}
-              <span className="pointer-events-none absolute right-0 -bottom-[2px] left-0 h-px bg-white/10" />
+              {/* Subrayado animado: crece desde 0 hasta el ancho total del texto */}
+              <span
+                aria-hidden
+                className={[
+                  "absolute -bottom-[2px] left-0 h-[2px] bg-white",
+                  "transition-all duration-300 ease-out",
+                  isActive ? "w-full" : "w-0",
+                ].join(" ")}
+              />
             </button>
           );
         })}
       </div>
 
-      {/* Content */}
-      <div className="mt-8 leading-relaxed text-white/90">
-        {/* Description */}
+      {/* Content (fade/slide suave) */}
+      <div
+        key={active} // fuerza la animación al cambiar
+        className="font-garamond mt-8 animate-[fadeSlide_220ms_ease-out] leading-relaxed text-white/90"
+      >
+        <style jsx>{`
+          @keyframes fadeSlide {
+            from {
+              opacity: 0;
+              transform: translateY(6px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        `}</style>
+
         {active === "Description" && (
           <div
             role="tabpanel"
@@ -136,21 +114,24 @@ export default function PdpTabs({
             aria-labelledby="tab-Description"
           >
             {description ? (
-              <p className="whitespace-pre-line">{description}</p>
+              <p className="text-[15px] whitespace-pre-line md:text-[16px]">
+                {description}
+              </p>
             ) : (
-              <p>A timeless composition crafted with refined notes.</p>
+              <p className="text-[15px] md:text-[16px]">
+                A timeless composition crafted with refined notes.
+              </p>
             )}
           </div>
         )}
 
-        {/* Notes (pyramid top / heart / base) */}
         {active === "Notes" && (
           <div role="tabpanel" id="panel-Notes" aria-labelledby="tab-Notes">
             {pyramid &&
             (pyramid.top?.length ||
               pyramid.heart?.length ||
               pyramid.base?.length) ? (
-              <dl className="grid grid-cols-[140px_1fr] gap-y-4 text-[15px]">
+              <dl className="grid grid-cols-[140px_1fr] gap-y-4 text-[15px] md:text-[16px]">
                 {pyramid.top?.length ? (
                   <>
                     <dt className="tracking-[0.18em] text-white/60 uppercase">
@@ -181,12 +162,13 @@ export default function PdpTabs({
                 ) : null}
               </dl>
             ) : (
-              <p>Notes: {notes?.length ? notes.join(" · ") : "—"}.</p>
+              <p className="text-[15px] md:text-[16px]">
+                Notes: {notes?.length ? notes.join(" · ") : "—"}.
+              </p>
             )}
           </div>
         )}
 
-        {/* Ingredients (collapsible) */}
         {active === "Ingredients" && (
           <div
             role="tabpanel"
@@ -196,7 +178,7 @@ export default function PdpTabs({
             {ingredients ? (
               <div>
                 <h3 className="sr-only">Ingredients</h3>
-                <p className="text-white/80">
+                <p className="text-[15px] text-white/80 md:text-[16px]">
                   {openInci
                     ? ingredients
                     : inciPreview + (showToggle ? "…" : "")}
@@ -211,29 +193,29 @@ export default function PdpTabs({
                 )}
               </div>
             ) : (
-              <p>Ingredients information is not available for this product.</p>
+              <p className="text-[15px] md:text-[16px]">
+                Ingredients information is not available for this product.
+              </p>
             )}
           </div>
         )}
 
-        {/* Packaging & Care */}
         {active === "Packaging" && (
           <div
             role="tabpanel"
             id="panel-Packaging"
             aria-labelledby="tab-Packaging"
           >
-            <ul className="space-y-2 text-white/80">
+            <ul className="space-y-2 text-[15px] text-white/80 md:text-[16px]">
               <li>
                 All items are packaged in our signature Arabian Fragrance box,
                 with complimentary gift wrap for a refined presentation.
               </li>
-              <li> Store in a cool, dry place. Avoid direct sunlight.</li>
+              <li>Store in a cool, dry place. Avoid direct sunlight.</li>
             </ul>
           </div>
         )}
 
-        {/* Policies */}
         {active === "Policies" && (
           <div
             role="tabpanel"
@@ -241,13 +223,15 @@ export default function PdpTabs({
             aria-labelledby="tab-Policies"
           >
             {!!policies?.length ? (
-              <ul className="space-y-2 text-white/80">
+              <ul className="space-y-2 text-[15px] text-white/80 md:text-[16px]">
                 {policies.map((line, i) => (
                   <li key={i}>{line}</li>
                 ))}
               </ul>
             ) : (
-              <p>No additional policies.</p>
+              <p className="text-[15px] md:text-[16px]">
+                No additional policies.
+              </p>
             )}
           </div>
         )}
