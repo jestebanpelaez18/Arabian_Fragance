@@ -1,4 +1,4 @@
-import SectionDivider from "@/components/showroom/SectionDivider";
+import SectionDivider from "@/components/ui/SectionDivider";
 import ShowroomHero from "@/components/showroom/ShowroomHero";
 import LocationSection from "@/components/showroom/LocationSection";
 import ExperienceSection from "@/components/showroom/ExperienceSection";
