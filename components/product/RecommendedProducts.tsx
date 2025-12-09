@@ -61,7 +61,7 @@ export default function RecommendedProducts({
     <section className="pb-12 md:pb-15">
       <SectionDivider text="You may also like" />
 
-      <div className="grid grid-cols-2 px-5 gap-x-2.5 gap-y-6 md:grid-cols-4 md:gap-x-5">
+      <div className="grid grid-cols-2 gap-x-2.5 gap-y-6 px-5 md:grid-cols-4 md:gap-x-5">
         {recommended.map((p) => (
           <ProductCard key={p.id} p={p} />
         ))}

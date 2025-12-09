@@ -12,14 +12,14 @@ export default function DetailsGrid({
   return (
     <dl className="mt-10 grid grid-cols-[180px_minmax(0,1fr)] gap-x-10 gap-y-6 text-[15px]">
       <div className="contents">
-        <dt className="whitespace-nowrap text-white/60 tracking-[0.18em] uppercase">
+        <dt className="tracking-[0.18em] whitespace-nowrap text-white/60 uppercase">
           Concentration
         </dt>
         <dd className="leading-7 text-white/90">{concentration}</dd>
       </div>
 
       <div className="contents">
-        <dt className="whitespace-nowrap text-white/60 tracking-[0.18em] uppercase">
+        <dt className="tracking-[0.18em] whitespace-nowrap text-white/60 uppercase">
           Size
         </dt>
         <dd className="leading-7 text-white/90">
@@ -30,10 +30,10 @@ export default function DetailsGrid({
       </div>
 
       <div className="contents">
-        <dt className="whitespace-nowrap text-white/60 tracking-[0.18em] uppercase">
+        <dt className="tracking-[0.18em] whitespace-nowrap text-white/60 uppercase">
           Dispatch
         </dt>
-        <dd className="leading-7 text-gold/90">{dispatchLabel}</dd>
+        <dd className="text-gold/90 leading-7">{dispatchLabel}</dd>
       </div>
     </dl>
   );

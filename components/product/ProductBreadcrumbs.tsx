@@ -25,7 +25,7 @@ export default function ProductBreadcrumbs({
           {path.map((item, i) => (
             <li key={i} className="flex items-center gap-2">
               {item.href ? (
-                <Link href={item.href} className="transition hover:text-gold">
+                <Link href={item.href} className="hover:text-gold transition">
                   {item.label}
                 </Link>
               ) : (
