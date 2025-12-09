@@ -14,7 +14,6 @@ export default function ProductImage({ src, alt }: ProductImageProps) {
         fill
         className="object-contain object-left"
         sizes="(min-width:1536px) 900px, (min-width:1024px) 58vw, 100vw"
-        // Usa el default (75) para evitar el warning de Next 16
         quality={90}
         priority
       />
