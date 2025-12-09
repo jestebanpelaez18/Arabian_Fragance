@@ -4,28 +4,30 @@
 :root {
   /* Base */
   --bordeaux: #470d0d;
-  --ink: #111111;
-  --paper: #f7f4ef;
+  --ink: #000000;         /* negro puro */
+  --paper: #EBEBEB;       /* blanco puro */
 
   /* Text & accents */
-  --foreground: #ededed;
+  --foreground: var(--ink);
   --gold: #c8a76b;
   --gold-soft: #d7c19e;
-  --muted: rgba(255, 255, 255, 0.75);
+  --muted: rgba(0, 0, 0, 0.6); /* si usas muted sobre fondo blanco */
 
   /* Effects */
   --shadow-soft: 0 12px 40px rgba(0, 0, 0, 0.18);
-  --shadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --shadow-inner: inset 0 1px 0 rgba(0, 0, 0, 0.06);
   --bezier-luxe: cubic-bezier(0.19, 1, 0.22, 1);
 
   /* Backgrounds */
-  --background: var(--bordeaux);
+  --background: var(--paper);
 }
+
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-bordeaux: var(--bordeaux);
+  --color-header: var(--header-bg);
+  --color-navbar: var(--navbar-bg);
   --color-ink: var(--ink);
   --color-paper: var(--paper);
   --color-gold: var(--gold);
@@ -43,8 +45,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: var(--bordeaux);
-    --foreground: #ededed;
+    --background: var(--paper);
+    --foreground: var(--ink);
   }
 }
 
@@ -57,6 +59,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   font-feature-settings: "kern", "liga", "clig", "calt";
+}
+
+.site-header {
+  background: var(--header-bg);
+  color: var(--header-fg);
+}
+.navbar {
+  background: var(--navbar-bg);
+  color: var(--navbar-fg);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
 }
 
 /* ====== NAV LINKS ====== */

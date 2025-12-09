@@ -11,14 +11,14 @@ export default function MegaMenu({ open }: { open: boolean }) {
       role="dialog"
       aria-hidden={!open}
     >
-      <div className="w-[min(92vw,980px)] rounded-lg border border-white/10 bg-[var(--background)] shadow-2xl">
+      <div className="w-[min(92vw,980px)] rounded-lg border border-black/10 bg-[var(--background)] shadow-2xl">
         <div className="grid grid-cols-12 gap-8 p-8">
           <div className="col-span-8 grid grid-cols-2 gap-8">
             <div>
-              <p className="mb-4 text-[11px] tracking-[0.18em] text-white/60 uppercase">
+              <p className="mb-4 text-[11px] tracking-[0.18em] text-black/60 uppercase">
                 Shop
               </p>
-              <ul className="space-y-3 text-white/90">
+              <ul className="space-y-3 text-black/90">
                 <li>
                   <Link href="/shop" className="nav-link inline-block">
                     Shop All
@@ -47,10 +47,10 @@ export default function MegaMenu({ open }: { open: boolean }) {
               </ul>
             </div>
             <div>
-              <p className="mb-4 text-[11px] tracking-[0.18em] text-white/60 uppercase">
+              <p className="mb-4 text-[11px] tracking-[0.18em] text-black/60 uppercase">
                 Highlights
               </p>
-              <ul className="space-y-3 text-white/90">
+              <ul className="space-y-3 text-black/90">
                 <li>
                   <Link href="/shop?tag=best" className="nav-link inline-block">
                     Best Sellers
@@ -68,7 +68,7 @@ export default function MegaMenu({ open }: { open: boolean }) {
             </div>
           </div>
           <div className="col-span-4">
-            <div className="relative aspect-[3/4] w-full overflow-hidden rounded-md border border-white/10">
+            <div className="relative aspect-[3/4] w-full overflow-hidden rounded-md border border-black/10">
               <Image
                 src="/shop/hero-unisex.jpg"
                 alt="Arabian Fragrance – Shop"
