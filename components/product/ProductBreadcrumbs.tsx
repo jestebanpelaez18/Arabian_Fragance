@@ -15,7 +15,7 @@ export default function ProductBreadcrumbs({
     { label: "Home", href: "/" },
     { label: "Shop", href: "/shop" },
   ],
-  containerClassName = "mx-auto w-full max-w-[1600px] px-3 md:px-6 lg:px-8",
+  containerClassName = "mx-auto w-full max-w-[1600px] px-5",
   navClassName = "font-playfair-display pt-6 pb-4 text-xs tracking-[0.08em] text-white/60",
 }: ProductBreadcrumbsProps) {
   return (
