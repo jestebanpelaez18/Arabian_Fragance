@@ -33,17 +33,17 @@ export default function MobileDrawer({
         }`}
       />
       <aside
-        className={`absolute top-0 left-0 z-20 flex h-[100dvh] w-[88vw] max-w-[380px] flex-col overscroll-contain border-r border-white/10 bg-[var(--background)] text-white shadow-2xl duration-300 ease-out will-change-transform motion-safe:transition-transform ${
+        className={`absolute top-0 left-0 z-20 flex h-[100dvh] w-[88vw] max-w-[380px] flex-col overscroll-contain border-r border-white/10 bg-[var(--background)] shadow-2xl duration-300 ease-out will-change-transform motion-safe:transition-transform ${
           openMobile ? "translate-x-0" : "-translate-x-full"
         } `}
         role="dialog"
         aria-modal="true"
       >
-        <div className="flex h-14 items-center justify-between border-b border-white/10 px-4">
+        <div className="flex h-14 items-center justify-between border-b border-black/10 px-4">
           {mobileView !== "root" ? (
             <button
               onClick={() => setMobileView("root")}
-              className="-m-2 p-2 text-white/85"
+              className="-m-2 p-2 text-black/85"
               aria-label="Back"
             >
               <svg
@@ -64,7 +64,7 @@ export default function MobileDrawer({
           ) : (
             <span className="h-8 w-8" />
           )}
-          <span className="text-xs tracking-[0.18em] text-white/60 uppercase">
+          <span className="text-xs tracking-[0.18em] text-black/60 uppercase">
             {title}
           </span>
           <span className="h-8 w-8" />
@@ -76,7 +76,7 @@ export default function MobileDrawer({
           >
             <section className="h-full min-w-full space-y-5 overflow-y-auto px-4 py-5">
               <button
-                className="nav-link block text-left text-white"
+                className="nav-link block text-left"
                 onClick={() => setMobileView("shop")}
               >
                 Shop
@@ -84,14 +84,14 @@ export default function MobileDrawer({
               <Link
                 href="/about"
                 onClick={() => setOpenMobile(false)}
-                className="nav-link block text-white"
+                className="nav-link block"
               >
                 About
               </Link>
               <Link
                 href="/showroom"
                 onClick={() => setOpenMobile(false)}
-                className="nav-link block text-white"
+                className="nav-link block"
               >
                 Showroom
               </Link>

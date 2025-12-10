@@ -25,11 +25,11 @@ function ProductCard({ p }: { p: Product }) {
       <div className="mt-2.5 text-center">
         <Link
           href={href}
-          className="font-playfair-display mt-4 text-[15px] tracking-wide text-white/90 transition-colors group-hover:text-[var(--gold)]"
+          className="font-playfair-display mt-4 text-[15px] tracking-wide text-black/90 transition-colors group-hover:text-[var(--gold)]"
         >
           {p.name}
         </Link>
-        <p className="mt-0.5 text-[13px] text-white/70">{p.price} EUR</p>
+        <p className="mt-0.5 text-[13px] text-black/70">{p.price} EUR</p>
       </div>
     </article>
   );

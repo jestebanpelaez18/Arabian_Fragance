@@ -21,7 +21,7 @@ export default async function ShopIndexPage({
 
   return (
     <main>
-      <nav className="w-full px-5 pt-4 pb-2 text-xs tracking-[0.08em] text-white/60 md:px-5 xl:px-7">
+      <nav className="w-full px-5 pt-4 pb-2 text-xs tracking-[0.08em] text-black/60 md:px-5 xl:px-7">
         <ol className="flex items-center gap-2">
           <li>
             <Link

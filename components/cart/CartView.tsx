@@ -26,7 +26,7 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
         }
       >
         <h1 className="text-xl font-semibold">Your bag is empty</h1>
-        <p className="mt-2 text-sm text-white/70">
+        <p className="mt-2  text-black/70">
           Discover our fragrances and add your favorites.
         </p>
         <Link
@@ -74,7 +74,7 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
                   +
                 </button>
                 <button
-                  className="ml-4 text-xs text-white/60 underline underline-offset-4 hover:text-white/80"
+                  className="ml-4 text-xs text-black/60 underline underline-offset-4 hover:text-white/80"
                   onClick={() => remove(it.id)}
                   aria-label={`Remove ${it.name}`}
                 >

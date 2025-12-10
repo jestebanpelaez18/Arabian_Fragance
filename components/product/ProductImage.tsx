@@ -7,7 +7,7 @@ type ProductImageProps = {
 
 export default function ProductImage({ src, alt }: ProductImageProps) {
   return (
-    <div className="relative aspect-5/6 w-full overflow-hidden rounded-sm ring-1 ring-black/10">
+    <div className="relative aspect-5/6 w-full overflow-hidden rounded-sm ring-1 ring-black/10 bg-white">
       <Image
         src={src}
         alt={alt}

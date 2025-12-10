@@ -52,7 +52,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="min-h-[430px] text-white">
+    <footer className="min-h-[430px]">
       <div className="px-4 pt-8 pb-7 md:px-5">
         {/* MOBILE */}
         <div className="block md:hidden">
@@ -69,7 +69,7 @@ export default function Footer() {
                     <li key={l.label}>
                       <Link
                         href={l.href}
-                        className="font-bodoni text-xs text-white"
+                        className="font-bodoni text-xs"
                       >
                         {l.label}
                       </Link>
@@ -90,12 +90,12 @@ export default function Footer() {
         <div className="hidden grid-cols-4 gap-5 md:grid">
           {COLUMNS.map((col) => (
             <section key={col.title}>
-              <ul className="footer space-y-3 text-sm text-white">
+              <ul className="footer space-y-3 text-sm">
                 {col.links.map((l) => (
                   <li key={l.label}>
                     <Link
                       href={l.href}
-                      className="nav-link inline-flex items-center gap-2 transition hover:text-white"
+                      className="nav-link inline-flex items-center gap-2 transition hover:text-gold"
                     >
                       {l.label}
                     </Link>

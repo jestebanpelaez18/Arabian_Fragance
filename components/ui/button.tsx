@@ -13,9 +13,9 @@ const VARIANTS = {
   solid:
     "bg-white text-[var(--background)] hover:bg-white/95 hover:shadow-[0_8px_30px_rgba(255,255,255,0.18)] active:scale-[0.98]",
   outline:
-    "border border-white/80 text-white hover:bg-white hover:text-[var(--background)] hover:shadow-[0_8px_30px_rgba(255,255,255,0.18)] active:scale-[0.98]",
+    "border border-white/80 hover:bg-white hover:text-[var(--background)] hover:shadow-[0_8px_30px_rgba(255,255,255,0.18)] active:scale-[0.98]",
   ghost:
-    "text-white/85 hover:text-white underline underline-offset-4 decoration-white/40 hover:decoration-white",
+    "text-black/85 hover:text-white underline underline-offset-4 decoration-white/40 hover:decoration-white",
 } as const;
 type BaseVariant = keyof typeof VARIANTS;
 

@@ -48,7 +48,7 @@ export default function ProductActions({ product, stock = 0 }: Props) {
       <Button
         onClick={handleAdd}
         variant="secondary"
-        className="text-ink hover:text-ink rounded-full border-[var(--gold)] px-8 py-3 tracking-[0.14em] hover:bg-[var(--gold-soft)]"
+        className="text-black hover:text-gold rounded-full border-[var(--gold)] px-8 py-3 tracking-[0.14em] hover:bg-[var(--gold-soft)]"
         disabled={disabled}
         aria-live="polite"
       >

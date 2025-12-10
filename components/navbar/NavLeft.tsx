@@ -58,7 +58,7 @@ export default function NavLeft({
             setOpenMobile(toOpen);
             if (toOpen) setMobileView("root");
           }}
-          className="p-2 text-white/90"
+          className="p-2 text-black/90"
         >
           {openMobile ? (
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">

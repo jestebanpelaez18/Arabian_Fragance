@@ -46,8 +46,8 @@ export default function NoteFilterChips({ allNotes, className }: Props) {
                 "rounded-full px-4 py-2 text-sm transition",
                 "border",
                 active
-                  ? "border-white/80 bg-white/10 text-white"
-                  : "border-white/25 text-white/85 hover:border-white/40 hover:bg-white/5",
+                  ? "border-black/80 bg-white/10 text-black"
+                  : "border-black/25 text-black/85 hover:border-black/40 hover:bg-white/5",
               ].join(" ")}
               aria-pressed={active}
             >

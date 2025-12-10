@@ -71,7 +71,7 @@ export default function PdpTabs({
               onClick={() => setActive(key)}
               className={[
                 "relative shrink-0 pb-1.5 whitespace-nowrap uppercase transition-colors duration-200 ease-out focus:outline-none",
-                isActive ? "text-white" : "text-white/70 hover:text-white/85",
+                isActive ? "text-black" : "text-black/70 hover:text-black/85",
               ].join(" ")}
             >
               {label}
@@ -79,7 +79,7 @@ export default function PdpTabs({
               <span
                 aria-hidden
                 className={[
-                  "absolute -bottom-[2px] left-0 h-[2px] bg-white",
+                  "absolute -bottom-[2px] left-0 h-[1px] bg-black",
                   "transition-all duration-300 ease-out",
                   isActive ? "w-full" : "w-0",
                 ].join(" ")}
@@ -92,7 +92,7 @@ export default function PdpTabs({
       {/* Content (fade/slide suave) */}
       <div
         key={active} // fuerza la animación al cambiar
-        className="font-garamond mt-8 animate-[fadeSlide_220ms_ease-out] leading-relaxed text-white/90"
+        className="font-garamond mt-8 animate-[fadeSlide_220ms_ease-out] leading-relaxed text-black/90"
       >
         <style jsx>{`
           @keyframes fadeSlide {
@@ -134,28 +134,28 @@ export default function PdpTabs({
               <dl className="grid grid-cols-[140px_1fr] gap-y-4 text-[15px] md:text-[16px]">
                 {pyramid.top?.length ? (
                   <>
-                    <dt className="tracking-[0.18em] text-white/60 uppercase">
+                    <dt className="tracking-[0.18em] text-black/60 uppercase">
                       Top
                     </dt>
-                    <dd className="text-white/90">{pyramid.top.join(" · ")}</dd>
+                    <dd className="text-black/90">{pyramid.top.join(" · ")}</dd>
                   </>
                 ) : null}
                 {pyramid.heart?.length ? (
                   <>
-                    <dt className="tracking-[0.18em] text-white/60 uppercase">
+                    <dt className="tracking-[0.18em] text-black/60 uppercase">
                       Heart
                     </dt>
-                    <dd className="text-white/90">
+                    <dd className="text-black/90">
                       {pyramid.heart.join(" · ")}
                     </dd>
                   </>
                 ) : null}
                 {pyramid.base?.length ? (
                   <>
-                    <dt className="tracking-[0.18em] text-white/60 uppercase">
+                    <dt className="tracking-[0.18em] text-black/60 uppercase">
                       Base
                     </dt>
-                    <dd className="text-white/90">
+                    <dd className="text-black/90">
                       {pyramid.base.join(" · ")}
                     </dd>
                   </>
@@ -178,7 +178,7 @@ export default function PdpTabs({
             {ingredients ? (
               <div>
                 <h3 className="sr-only">Ingredients</h3>
-                <p className="text-[15px] text-white/80 md:text-[16px]">
+                <p className="text-[15px] text-black/80 md:text-[16px]">
                   {openInci
                     ? ingredients
                     : inciPreview + (showToggle ? "…" : "")}
@@ -206,7 +206,7 @@ export default function PdpTabs({
             id="panel-Packaging"
             aria-labelledby="tab-Packaging"
           >
-            <ul className="space-y-2 text-[15px] text-white/80 md:text-[16px]">
+            <ul className="space-y-2 text-[15px] text-black/80 md:text-[16px]">
               <li>
                 All items are packaged in our signature Arabian Fragrance box,
                 with complimentary gift wrap for a refined presentation.
@@ -223,7 +223,7 @@ export default function PdpTabs({
             aria-labelledby="tab-Policies"
           >
             {!!policies?.length ? (
-              <ul className="space-y-2 text-[15px] text-white/80 md:text-[16px]">
+              <ul className="space-y-2 text-[15px] text-black/80 md:text-[16px]">
                 {policies.map((line, i) => (
                   <li key={i}>{line}</li>
                 ))}
