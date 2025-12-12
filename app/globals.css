@@ -1,37 +1,68 @@
 @import "tailwindcss";
 
+@import "tailwindcss";
+
 /* ====== DESIGN TOKENS ===== */
 :root {
   /* Base */
-  --bordeaux: #470d0d;
-  --ink: #000000;         /* negro puro */
-  --paper: #EBEBEB;       /* blanco puro */
+  --ink: #111111;               /* negro premium */
+  --paper: #FFFFFF;             /* blanco puro (background principal) */
+  --paper-alt: #F7F3EA;         /* ivory sand (background secundario árabe) */
 
-  /* Text & accents */
+  /* Dubai Gold Palette */
+  --gold: #C9A46A;              /* gold sand (principal) */
+  --gold-soft: #D8C7A0;         /* desert gold (suave) */
+  --gold-strong: #B89355;       /* royal gold (para CTAs) */
+
+  /* Text */
   --foreground: var(--ink);
-  --gold: #c8a76b;
-  --gold-soft: #d7c19e;
-  --muted: rgba(0, 0, 0, 0.6); /* si usas muted sobre fondo blanco */
+  --muted: #6B6B6B;             /* gris premium suave */
+
+  /* Backgrounds globales */
+  --background: var(--paper-alt);   /* fondo principal en toda la web */
+  --background-alt: var(--paper); /* secciones especiales */
+
+  /* Navbar */
+  --navbar-bg: #F7F3EA;                       /* navbar blanco */
+  --navbar-text: #111111;                     /* texto negro */
+  --navbar-hover: var(--gold);                /* hover dorado */
+  --navbar-border: rgba(201, 164, 106, 0.35); /* borde dorado arena suave */
+
+  /* Footer */
+  --footer-bg: #0A0A0A;      /* negro premium */
+  --footer-text: #FFFFFF;    /* blanco */
+  --footer-accent: var(--gold);
 
   /* Effects */
   --shadow-soft: 0 12px 40px rgba(0, 0, 0, 0.18);
   --shadow-inner: inset 0 1px 0 rgba(0, 0, 0, 0.06);
   --bezier-luxe: cubic-bezier(0.19, 1, 0.22, 1);
-
-  /* Backgrounds */
-  --background: var(--paper);
 }
-
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-alt: var(--background-alt);
   --color-foreground: var(--foreground);
-  --color-header: var(--header-bg);
+
+  /* Navbar */
   --color-navbar: var(--navbar-bg);
+  --color-navbar-text: var(--navbar-text);
+  --color-navbar-hover: var(--navbar-hover);
+  --color-navbar-border: var(--navbar-border);
+
+  /* Footer */
+  --color-footer: var(--footer-bg);
+  --color-footer-text: var(--footer-text);
+  --color-footer-accent: var(--footer-accent);
+
+  /* Core Colors */
   --color-ink: var(--ink);
   --color-paper: var(--paper);
   --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-gold-strong: var(--gold-strong);
 
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
@@ -45,7 +76,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: var(--paper);
+    --background: var(--paper-alt);
     --foreground: var(--ink);
   }
 }
@@ -60,6 +91,7 @@ body {
   text-rendering: optimizeLegibility;
   font-feature-settings: "kern", "liga", "clig", "calt";
 }
+
 
 .site-header {
   background: var(--header-bg);

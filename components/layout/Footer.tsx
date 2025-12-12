@@ -52,7 +52,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-ink min-h-[430px]">
+    <footer className="bg-footer min-h-[430px]">
       <div className="px-4 pt-8 pb-7 md:px-5">
         {/* MOBILE */}
         <div className="block md:hidden">
@@ -61,7 +61,7 @@ export default function Footer() {
           <section className="mb-8">
             {COLUMNS.map((col) => (
               <details key={col.title} className="mb-2">
-                <summary className="font-bodoni text-white/90 cursor-pointer py-2 text-xs tracking-wide uppercase">
+                <summary className="font-bodoni bg-footer-text cursor-pointer py-2 text-xs tracking-wide uppercase">
                   {col.title}
                 </summary>
                 <ul className="space-y-2 pl-2">
@@ -95,7 +95,7 @@ export default function Footer() {
                   <li key={l.label}>
                     <Link
                       href={l.href}
-                      className="nav-link inline-flex text-white/90 items-center gap-2 transition hover:text-gold"
+                      className="nav-link inline-flex text-footer-text items-center gap-2 transition hover:text-footer-accent"
                     >
                       {l.label}
                     </Link>
