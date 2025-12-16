@@ -97,10 +97,10 @@ export default function MobileDrawer({
               </Link>
             </section>
             <section className="h-full min-w-full overflow-y-auto px-4 py-5">
-              <p className="mb-4 text-[11px] tracking-[0.18em] text-white/60 uppercase">
+              <p className="mb-4 text-[11px] tracking-[0.18em] text-black/60 uppercase">
                 Shop
               </p>
-              <ul className="space-y-3 text-white/90">
+              <ul className="space-y-3 text-black/90">
                 <li>
                   <Link
                     href="/shop"

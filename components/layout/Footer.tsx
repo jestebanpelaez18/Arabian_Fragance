@@ -61,7 +61,7 @@ export default function Footer() {
           <section className="mb-8">
             {COLUMNS.map((col) => (
               <details key={col.title} className="mb-2">
-                <summary className="font-bodoni bg-footer-text cursor-pointer py-2 text-xs tracking-wide uppercase">
+                <summary className="font-bodoni text-footer-text cursor-pointer py-2 text-xs tracking-wide uppercase">
                   {col.title}
                 </summary>
                 <ul className="space-y-2 pl-2">
@@ -69,7 +69,7 @@ export default function Footer() {
                     <li key={l.label}>
                       <Link
                         href={l.href}
-                        className="font-bodoni text-xs"
+                        className="font-bodoni text-footer-text inline-flex text-sm items-center gap-2 transition hover:text-footer-accent"
                       >
                         {l.label}
                       </Link>
