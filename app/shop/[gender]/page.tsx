@@ -57,7 +57,7 @@ export default async function ShopByGenderPage({
   return (
     <main>
       {/* Breadcrumb */}
-      <nav className="w-full px-5 pt-4 pb-2 text-xs tracking-[0.08em] text-white/60 md:px-5 xl:px-6">
+      <nav className="w-full px-5 pt-4 pb-2 text-xs tracking-[0.08em] text-black/60 md:px-5 xl:px-6">
         <ol className="flex items-center gap-2">
           <li>
             <Link

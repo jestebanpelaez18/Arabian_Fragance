@@ -52,7 +52,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="min-h-[430px] text-white">
+    <footer className="bg-footer min-h-[430px]">
       <div className="px-4 pt-8 pb-7 md:px-5">
         {/* MOBILE */}
         <div className="block md:hidden">
@@ -61,7 +61,7 @@ export default function Footer() {
           <section className="mb-8">
             {COLUMNS.map((col) => (
               <details key={col.title} className="mb-2">
-                <summary className="font-bodoni cursor-pointer py-2 text-xs tracking-wide uppercase">
+                <summary className="font-bodoni text-footer-text cursor-pointer py-2 text-xs tracking-wide uppercase">
                   {col.title}
                 </summary>
                 <ul className="space-y-2 pl-2">
@@ -69,7 +69,7 @@ export default function Footer() {
                     <li key={l.label}>
                       <Link
                         href={l.href}
-                        className="font-bodoni text-xs text-white"
+                        className="font-bodoni text-footer-text hover:text-footer-accent inline-flex items-center gap-2 text-sm transition"
                       >
                         {l.label}
                       </Link>
@@ -90,12 +90,12 @@ export default function Footer() {
         <div className="hidden grid-cols-4 gap-5 md:grid">
           {COLUMNS.map((col) => (
             <section key={col.title}>
-              <ul className="footer space-y-3 text-sm text-white">
+              <ul className="footer space-y-3 text-sm">
                 {col.links.map((l) => (
                   <li key={l.label}>
                     <Link
                       href={l.href}
-                      className="nav-link inline-flex items-center gap-2 transition hover:text-white"
+                      className="nav-link text-footer-text hover:text-footer-accent inline-flex items-center gap-2 transition"
                     >
                       {l.label}
                     </Link>

@@ -27,7 +27,7 @@ export default function LocationSection({ location }: LocationSectionProps) {
             {location.description.map((paragraph, index) => (
               <p
                 key={`paragraph-${index}`}
-                className="font-playfair-display mb-6 text-[15px] leading-relaxed text-white/80"
+                className="font-playfair-display mb-6 text-[15px] leading-relaxed text-black/80"
               >
                 {paragraph}
               </p>
@@ -38,16 +38,16 @@ export default function LocationSection({ location }: LocationSectionProps) {
             <h3 className="font-garamond text-[11px] font-medium tracking-[0.2em] uppercase">
               Hours & Contact
             </h3>
-            <div className="font-playfair-display space-y-1 text-[15px] leading-relaxed text-white/80">
+            <div className="font-playfair-display space-y-1 text-[15px] leading-relaxed text-black/80">
               {location.hours.map((hour, index) => (
                 <p key={index}>{hour}</p>
               ))}
             </div>
             <div className="font-playfair-display space-y-1 text-[15px]">
-              <p className="text-white/80">{location.phone}</p>
+              <p className="text-black/80">{location.phone}</p>
               <a
                 href={`mailto:${location.email}`}
-                className="text-white/80 underline transition-colors hover:text-white"
+                className="hover:text-gold text-black/80 underline transition-colors"
               >
                 {location.email}
               </a>
@@ -58,7 +58,7 @@ export default function LocationSection({ location }: LocationSectionProps) {
             <h3 className="font-garamond text-[11px] font-medium tracking-[0.2em] uppercase">
               Address
             </h3>
-            <p className="text-[15px] leading-relaxed text-white/80">
+            <p className="text-[15px] leading-relaxed">
               {location.address.map((line, index) => (
                 <span key={index}>
                   {line}

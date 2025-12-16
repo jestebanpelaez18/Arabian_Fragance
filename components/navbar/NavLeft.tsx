@@ -32,7 +32,7 @@ export default function NavLeft({
         >
           <span className="pointer-events-none absolute top-full right-0 left-0 h-2" />
           <button
-            className="nav-link relative text-white before:absolute before:top-full before:right-0 before:left-0 before:h-2 before:content-['']"
+            className="nav-link relative before:absolute before:top-full before:right-0 before:left-0 before:h-2 before:content-['']"
             aria-haspopup="true"
             aria-expanded={openShop}
             aria-controls="shop-panel"
@@ -41,10 +41,10 @@ export default function NavLeft({
           </button>
           <MegaMenu open={openShop} />
         </div>
-        <Link href="/about" className="nav-link text-white">
+        <Link href="/about" className="nav-link">
           About
         </Link>
-        <Link href="/showroom" className="nav-link text-white">
+        <Link href="/showroom" className="nav-link">
           Showroom
         </Link>
       </div>
@@ -58,7 +58,7 @@ export default function NavLeft({
             setOpenMobile(toOpen);
             if (toOpen) setMobileView("root");
           }}
-          className="p-2 text-white/90"
+          className="p-2 text-black/90"
         >
           {openMobile ? (
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">

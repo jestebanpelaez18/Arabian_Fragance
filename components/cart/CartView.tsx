@@ -26,7 +26,7 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
         }
       >
         <h1 className="text-xl font-semibold">Your bag is empty</h1>
-        <p className="mt-2 text-sm text-white/70">
+        <p className="mt-2 text-black/70">
           Discover our fragrances and add your favorites.
         </p>
         <Link
@@ -74,7 +74,7 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
                   +
                 </button>
                 <button
-                  className="ml-4 text-xs text-white/60 underline underline-offset-4 hover:text-white/80"
+                  className="ml-4 text-xs text-black/60 underline underline-offset-4 hover:text-white/80"
                   onClick={() => remove(it.id)}
                   aria-label={`Remove ${it.name}`}
                 >
@@ -89,25 +89,25 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
         ))}
       </ul>
 
-      <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-6">
-        <div className="text-sm text-white/70">Subtotal</div>
+      <div className="mt-8 flex items-center justify-between border-t border-black/10 pt-6">
+        <div className="text-sm text-black/70">Subtotal</div>
         <div className="text-lg font-semibold tabular-nums">
           {fmtEUR(total)}
         </div>
       </div>
 
       {/* Free shipping (e.g. > €80) */}
-      <p className="mt-2 text-xs text-white/60">
+      <p className="mt-2 text-xs text-black/60">
         VAT included. Free EU shipping on orders over €80.
       </p>
 
       <div className="mt-6 flex items-center gap-3">
-        <CheckoutButton className="inline-flex h-12 items-center rounded-full bg-white px-6 text-[var(--background)] hover:opacity-90">
+        <CheckoutButton className="hover:bg-gold/50 inline-flex h-12 items-center rounded-full px-6 text-black ring-1 ring-black/15 hover:text-black">
           Checkout
         </CheckoutButton>
         <button
           onClick={() => clear()}
-          className="h-12 rounded-full px-5 ring-1 ring-white/15 hover:bg-white/5"
+          className="h-12 rounded-full px-5 ring-1 ring-black/15 hover:bg-black/5"
         >
           Clear
         </button>

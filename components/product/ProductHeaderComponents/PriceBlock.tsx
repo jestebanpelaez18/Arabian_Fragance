@@ -10,7 +10,7 @@ export default function PriceBlock({ price, volumeMl }: PriceBlockProps) {
         {price} EUR
       </div>
       {volumeMl && (
-        <div className="mt-1.5 text-sm text-white/70">/ {volumeMl} ml</div>
+        <div className="mt-1.5 text-sm text-black/70">/ {volumeMl} ml</div>
       )}
     </section>
   );

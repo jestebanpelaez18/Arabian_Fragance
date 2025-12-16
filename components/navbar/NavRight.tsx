@@ -5,7 +5,7 @@ export default function NavRight() {
   return (
     <>
       {/* Right (desktop) */}
-      <div className="hidden items-center justify-end gap-6 text-sm text-white lg:flex">
+      <div className="hidden items-center justify-end gap-6 text-sm lg:flex">
         <Link href="/search" className="nav-link">
           Search
         </Link>

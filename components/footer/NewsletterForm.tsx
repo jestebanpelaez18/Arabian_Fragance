@@ -21,7 +21,7 @@ export default function NewsletterForm({
   onSubscribe: (e: React.FormEvent<HTMLFormElement>) => void;
 }) {
   return (
-    <form onSubmit={onSubscribe} className="mb-4 md:mb-8">
+    <form onSubmit={onSubscribe} className="mb-4 text-white/90 md:mb-8">
       <h3 className="font-bodoni mb-2 text-base tracking-wide uppercase">
         Join the list
       </h3>

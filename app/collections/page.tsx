@@ -31,7 +31,7 @@ export default function collectionPage() {
           </p>
         </div>
       </section>
-      <section className="bg-bordeaux w-full text-white">
+      <section className="w-full text-white">
         <div className="w-full px-4 md:px-6 xl:px-10">
           <div className="flex items-center justify-between py-4">
             <h2 className="font-playfair-display text-2xl tracking-wide md:text-3xl">

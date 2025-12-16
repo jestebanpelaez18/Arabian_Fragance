@@ -30,7 +30,7 @@ export default function ExperienceSection({
               <h3 className="font-garamond mb-3 text-[11px] tracking-[0.2em] uppercase">
                 {service.title}
               </h3>
-              <p className="font-playfair-display text-[15px] leading-relaxed text-white/80">
+              <p className="font-playfair-display text-[15px] leading-relaxed">
                 {service.description}
               </p>
             </div>

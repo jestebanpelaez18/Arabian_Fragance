@@ -36,7 +36,7 @@ export default function DiscoverSection() {
   }, [active]);
 
   return (
-    <section className="w-full bg-[var(--background)] text-white">
+    <section className="w-full bg-[var(--background)]">
       <div className="w-full px-5 md:px-5 xl:px-6">
         <div className="flex items-end justify-between py-8 md:py-8">
           <div>
@@ -49,7 +49,7 @@ export default function DiscoverSection() {
           </div>
           <Link
             href="/shop"
-            className="hidden text-sm underline decoration-2 underline-offset-4 hover:opacity-85 md:block"
+            className="hidden underline decoration-2 underline-offset-4 hover:opacity-85 md:block"
           >
             Shop All
           </Link>
@@ -67,8 +67,8 @@ export default function DiscoverSection() {
                 className={[
                   "relative pb-2 tracking-[0.18em] uppercase transition-colors",
                   isActive
-                    ? "text-white after:absolute after:right-0 after:-bottom-[2px] after:left-0 after:h-[2px] after:bg-white"
-                    : "text-white/70 hover:text-white",
+                    ? "after:absolute after:right-0 after:-bottom-[2px] after:left-0 after:h-[1px] after:bg-black"
+                    : "hover:text-gold text-black/70",
                 ].join(" ")}
               >
                 {t}

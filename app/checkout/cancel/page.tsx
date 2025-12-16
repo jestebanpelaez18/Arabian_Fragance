@@ -2,7 +2,7 @@ export default function CancelPage() {
   return (
     <main className="mx-auto max-w-xl px-4 py-16 text-center">
       <h1 className="font-playfair-display text-3xl">Checkout canceled</h1>
-      <p className="mt-3 text-white/80">
+      <p className="mt-3 text-black/80">
         No worries — your items are still in the bag.
       </p>
       <a

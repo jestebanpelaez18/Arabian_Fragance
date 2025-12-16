@@ -19,7 +19,7 @@ export default function CTASection({
         <h2 className="font-garamond mb-6 text-3xl leading-tight md:text-4xl lg:text-5xl">
           {title}
         </h2>
-        <p className="font-playfair-display mb-8 text-[15px] leading-relaxed text-white/80 md:text-base">
+        <p className="font-playfair-display mb-8 text-[15px] leading-relaxed md:text-base">
           {description}
         </p>
         <Link

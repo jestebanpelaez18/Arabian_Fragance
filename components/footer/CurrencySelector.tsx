@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function CurrencySelector() {
   return (
-    <div className="mb-4 flex items-center justify-end gap-4 md:mt-6 md:mb-0">
+    <div className="mb-4 flex items-center justify-end gap-4 text-white/90 md:mt-6 md:mb-0">
       <select
         className="font-bodoni border-none bg-transparent text-xs md:text-sm"
         defaultValue="EUR"

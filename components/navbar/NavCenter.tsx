@@ -11,7 +11,7 @@ export default function NavCenter() {
       >
         <span className="hidden md:inline-flex">
           <Image
-            src="/logo/AFC-logo-wordmark-light.svg"
+            src="/logo/AFC-logo-wordmark-black.svg"
             alt="Arabian Fragrance"
             width={140}
             height={30}
@@ -21,7 +21,7 @@ export default function NavCenter() {
         </span>
         <span className="inline-flex md:hidden">
           <Image
-            src="/logo/AFC-logo-mark-light.svg"
+            src="/logo/AFC-logo-mark-black.svg"
             alt="Arabian Fragrance"
             width={36}
             height={36}
