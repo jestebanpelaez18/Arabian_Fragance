@@ -112,7 +112,7 @@ export default function CollectionClient({
             onClick={() => setOpen(false)}
             className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
           />
-          <aside className="bg-bordeaux absolute top-0 right-0 flex h-full w-full flex-col border-l border-white/10 text-white shadow-xl sm:w-[420px] md:w-[480px]">
+          <aside className="absolute top-0 right-0 flex h-full w-full flex-col border-l border-white/10 text-white shadow-xl sm:w-[420px] md:w-[480px]">
             <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
               <h2 className="text-lg font-medium">Filters &amp; Sort</h2>
               <div className="flex items-center gap-4">

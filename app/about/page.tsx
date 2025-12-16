@@ -30,7 +30,7 @@ export default function aboutPage() {
         </div>
       </section>
       <section className="grid min-h-[680px] grid-cols-1 px-5 py-2.5 md:grid-cols-2">
-        <div className="bg-bordeaux flex flex-col justify-center border-r border-black/20 px-16 py-20 lg:px-20">
+        <div className="flex flex-col justify-center border-r border-black/20 px-16 py-20 lg:px-20">
           <span className="mb-6 font-serif text-xs/relaxed tracking-[0.2em] uppercase opacity-70">
             Discover
           </span>
@@ -88,7 +88,7 @@ export default function aboutPage() {
             priority
           />
         </div>
-        <div className="bg-bordeaux flex flex-col justify-center border-r border-white/20 px-16 py-20 lg:px-20">
+        <div className="flex flex-col justify-center border-r border-white/20 px-16 py-20 lg:px-20">
           <span className="mb-6 font-serif text-xs/relaxed tracking-[0.2em] uppercase opacity-70">
             Discover
           </span>

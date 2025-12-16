@@ -49,7 +49,7 @@ export default function DiscoverSection() {
           </div>
           <Link
             href="/shop"
-            className="hiddenunderline decoration-2 underline-offset-4 hover:opacity-85 md:block"
+            className="hidden underline decoration-2 underline-offset-4 hover:opacity-85 md:block"
           >
             Shop All
           </Link>

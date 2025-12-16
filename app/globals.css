@@ -1,7 +1,4 @@
 @import "tailwindcss";
-
-@import "tailwindcss";
-
 /* ====== DESIGN TOKENS ===== */
 :root {
   /* Base */
@@ -91,14 +88,10 @@ body {
   text-rendering: optimizeLegibility;
   font-feature-settings: "kern", "liga", "clig", "calt";
 }
-
-.site-header {
-  background: var(--header-bg);
-  color: var(--header-fg);
-}
+/* ====== NAVBAR ====== */
 .navbar {
   background: var(--navbar-bg);
-  color: var(--navbar-fg);
+  color: var(--navbar-text);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 

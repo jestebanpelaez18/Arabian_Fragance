@@ -207,7 +207,7 @@ export default function Home() {
         </div>
 
         {/* Texto */}
-        <div className="bg-bordeaux order-2 flex flex-col justify-center border-b border-black/20 px-16 py-20 md:order-1 md:border-r md:border-b-0 lg:px-20">
+        <div className="order-2 flex flex-col justify-center border-b border-black/20 px-16 py-20 md:order-1 md:border-r md:border-b-0 lg:px-20">
           <span className="mb-6 font-serif text-xs tracking-[0.2em] uppercase opacity-70">
             Experience
           </span>
@@ -306,7 +306,7 @@ export default function Home() {
           />
         </div>
 
-        <div className="bg-bordeaux order-2 flex flex-col justify-center px-16 py-20 md:order-2 md:border-l md:border-white/20 lg:px-20">
+        <div className="order-2 flex flex-col justify-center px-16 py-20 md:order-2 md:border-l md:border-white/20 lg:px-20">
           <span className="font-garamond mb-6 text-xs/relaxed tracking-[0.2em] uppercase opacity-70">
             About Arabian Fragance
           </span>
