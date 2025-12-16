@@ -26,7 +26,7 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
         }
       >
         <h1 className="text-xl font-semibold">Your bag is empty</h1>
-        <p className="mt-2  text-black/70">
+        <p className="mt-2 text-black/70">
           Discover our fragrances and add your favorites.
         </p>
         <Link
@@ -102,7 +102,7 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
       </p>
 
       <div className="mt-6 flex items-center gap-3">
-        <CheckoutButton className="inline-flex h-12 items-center rounded-full ring-1 ring-black/15 px-6 text-black hover:bg-gold/50 hover:text-black">
+        <CheckoutButton className="hover:bg-gold/50 inline-flex h-12 items-center rounded-full px-6 text-black ring-1 ring-black/15 hover:text-black">
           Checkout
         </CheckoutButton>
         <button

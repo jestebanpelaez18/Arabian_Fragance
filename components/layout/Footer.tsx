@@ -69,7 +69,7 @@ export default function Footer() {
                     <li key={l.label}>
                       <Link
                         href={l.href}
-                        className="font-bodoni text-footer-text inline-flex text-sm items-center gap-2 transition hover:text-footer-accent"
+                        className="font-bodoni text-footer-text hover:text-footer-accent inline-flex items-center gap-2 text-sm transition"
                       >
                         {l.label}
                       </Link>
@@ -95,7 +95,7 @@ export default function Footer() {
                   <li key={l.label}>
                     <Link
                       href={l.href}
-                      className="nav-link inline-flex text-footer-text items-center gap-2 transition hover:text-footer-accent"
+                      className="nav-link text-footer-text hover:text-footer-accent inline-flex items-center gap-2 transition"
                     >
                       {l.label}
                     </Link>

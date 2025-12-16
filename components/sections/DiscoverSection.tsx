@@ -68,7 +68,7 @@ export default function DiscoverSection() {
                   "relative pb-2 tracking-[0.18em] uppercase transition-colors",
                   isActive
                     ? "after:absolute after:right-0 after:-bottom-[2px] after:left-0 after:h-[1px] after:bg-black"
-                    : "text-black/70 hover:text-gold",
+                    : "hover:text-gold text-black/70",
                 ].join(" ")}
               >
                 {t}

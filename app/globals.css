@@ -5,32 +5,32 @@
 /* ====== DESIGN TOKENS ===== */
 :root {
   /* Base */
-  --ink: #111111;               /* negro premium */
-  --paper: #FFFFFF;             /* blanco puro (background principal) */
-  --paper-alt: #F7F3EA;         /* ivory sand (background secundario árabe) */
+  --ink: #111111; /* negro premium */
+  --paper: #ffffff; /* blanco puro (background principal) */
+  --paper-alt: #f7f3ea; /* ivory sand (background secundario árabe) */
 
   /* Dubai Gold Palette */
-  --gold: #C9A46A;              /* gold sand (principal) */
-  --gold-soft: #D8C7A0;         /* desert gold (suave) */
-  --gold-strong: #B89355;       /* royal gold (para CTAs) */
+  --gold: #c9a46a; /* gold sand (principal) */
+  --gold-soft: #d8c7a0; /* desert gold (suave) */
+  --gold-strong: #b89355; /* royal gold (para CTAs) */
 
   /* Text */
   --foreground: var(--ink);
-  --muted: #6B6B6B;             /* gris premium suave */
+  --muted: #6b6b6b; /* gris premium suave */
 
   /* Backgrounds globales */
-  --background: var(--paper-alt);   /* fondo principal en toda la web */
+  --background: var(--paper-alt); /* fondo principal en toda la web */
   --background-alt: var(--paper); /* secciones especiales */
 
   /* Navbar */
-  --navbar-bg: #F7F3EA;                       /* navbar blanco */
-  --navbar-text: #111111;                     /* texto negro */
-  --navbar-hover: var(--gold);                /* hover dorado */
+  --navbar-bg: #f7f3ea; /* navbar blanco */
+  --navbar-text: #111111; /* texto negro */
+  --navbar-hover: var(--gold); /* hover dorado */
   --navbar-border: rgba(201, 164, 106, 0.35); /* borde dorado arena suave */
 
   /* Footer */
-  --footer-bg: #0A0A0A;      /* negro premium */
-  --footer-text: #FFFFFF;    /* blanco */
+  --footer-bg: #0a0a0a; /* negro premium */
+  --footer-text: #ffffff; /* blanco */
   --footer-accent: var(--gold);
 
   /* Effects */
@@ -92,7 +92,6 @@ body {
   font-feature-settings: "kern", "liga", "clig", "calt";
 }
 
-
 .site-header {
   background: var(--header-bg);
   color: var(--header-fg);
@@ -100,7 +99,7 @@ body {
 .navbar {
   background: var(--navbar-bg);
   color: var(--navbar-fg);
-  border-bottom: 1px solid rgba(0,0,0,0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 /* ====== NAV LINKS ====== */

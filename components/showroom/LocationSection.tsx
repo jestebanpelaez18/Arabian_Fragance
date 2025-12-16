@@ -47,7 +47,7 @@ export default function LocationSection({ location }: LocationSectionProps) {
               <p className="text-black/80">{location.phone}</p>
               <a
                 href={`mailto:${location.email}`}
-                className="text-black/80 underline transition-colors hover:text-gold"
+                className="hover:text-gold text-black/80 underline transition-colors"
               >
                 {location.email}
               </a>
@@ -58,7 +58,7 @@ export default function LocationSection({ location }: LocationSectionProps) {
             <h3 className="font-garamond text-[11px] font-medium tracking-[0.2em] uppercase">
               Address
             </h3>
-            <p className="text-[15px] leading-relaxed ">
+            <p className="text-[15px] leading-relaxed">
               {location.address.map((line, index) => (
                 <span key={index}>
                   {line}
