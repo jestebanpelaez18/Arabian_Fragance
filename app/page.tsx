@@ -9,6 +9,7 @@ import LuxeHero from "@/components/ui/LuxeHero";
 import SectionDivider from "@/components/ui/SectionDivider";
 import LinkSectionDivider from "@/components/ui/LinkSectionDivider";
 import CategoryShowcase from "@/components/sections/CategoryShowcase";
+import GiftHero from "@/components/sections/GiftHero";
 
 export default function Home() {
   return (
@@ -24,59 +25,23 @@ export default function Home() {
         objectClassName="object-[50%_35%]"
         minH="min-h-[90svh] md:min-h-screen"
       />
-
       <LinkSectionDivider
         text="Shop the Collection"
         href="/shop"
         ariaLabel="Shop the Collection"
       />
-
       <CategoryShowcase />
-
-      {/* ===== Secciones personalizadas ===== */}
       <DiscoverSection />
-      <PhotoMosaicCarousel />
-
-      {/* ===== Gift hero ===== */}
-      <section className="relative h-[78vh] overflow-hidden md:h-[70vh]">
-        <Image
-          src="/hero/gift.jpg"
-          alt="Gift the essence of luxury"
-          fill
-          sizes="100vw"
-          className="scale-[1.06] object-cover object-center"
-          priority={false}
-          quality={90}
-        />
-        <div className="absolute inset-0 bg-black/40" />
-        {/* Degradado fuerte abajo para legibilidad */}
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/55 via-black/25 to-transparent" />
-
-        {/* Contenido en el tercio inferior */}
-        <div className="absolute inset-x-0 bottom-0 px-8 pb-14 text-center text-white md:px-16 md:pb-16 lg:px-32 xl:px-48">
-          <span className="font-garamond mb-3 block text-[11px] tracking-[0.34em] uppercase opacity-75">
-            Exclusive Gift Collection
-          </span>
-
-          <h2 className="font-playfair-display mx-auto max-w-4xl text-4xl leading-[1.15] tracking-[-0.015em] md:text-[44px] lg:text-[50px]">
-            GIFT THE ESSENCE OF LUXURY
-          </h2>
-
-          <p className="font-garamond mx-auto mt-3 max-w-2xl text-[15px] opacity-90 md:mt-4 md:text-lg">
-            Transform any occasion into a memory with our exclusive fragrances.
-          </p>
-
-          <div className="mt-7">
-            <Button
-              href="/shop"
-              variant="secondary"
-              className="rounded-full border border-white/70 bg-white/10 px-8 py-3 text-[13px] tracking-[0.14em] backdrop-blur-sm transition hover:bg-white hover:text-background"
-            >
-              Shop Gifts
-            </Button>
-          </div>
-        </div>
-      </section>
+      <GiftHero
+        imageSrc="/hero/gift.jpg"
+        label="Exclusive Gift Collection"
+          title="Iconic Gifts"
+          description="Transform any occasion into a memory with our exclusive fragrances."
+          ctaLabel="Shop Now"
+        ctaHref="/shop"
+        heightClassName="h-[78vh] md:h-[70vh]"
+          contentAlign="center"
+      />
 
       {/* ===== Showroom (texto izq en desktop, imagen der) ===== */}
       <section className="grid min-h-[680px] grid-cols-1 px-5 py-3 md:grid-cols-2">
