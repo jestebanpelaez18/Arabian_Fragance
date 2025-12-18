@@ -5,48 +5,22 @@ import Link from "next/link";
 import Button from "@/components/ui/button";
 import DiscoverSection from "@/components/sections/DiscoverSection";
 import PhotoMosaicCarousel from "@/components/sections/PhotoMosaicCarousel";
+import LuxeHero from "@/components/ui/LuxeHero";
 
 export default function Home() {
   return (
     <div>
       {/* ===== HERO principal ===== */}
-      <section className="grain relative min-h-[90svh] md:min-h-screen">
-        <Image
-          src="/hero/heroPicture.jpg"
-          alt="Discover Arabian Luxury"
-          fill
-          sizes="100vw"
-          className="ease-luxe object-cover object-[50%_22%] md:object-[50%_35%]"
-          priority
-          fetchPriority="high"
-          decoding="async"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/25 to-transparent" />
-        <div className="overlay-amber absolute inset-0" />
-
-        <div className="safe-area absolute inset-0 flex flex-col items-center justify-center px-6 pt-14 text-center text-white md:pt-0">
-          <p className="mb-4 text-sm tracking-[0.2em] uppercase opacity-70 md:text-base">
-            Introducing
-          </p>
-          <h1 className="font-playfair-display text-shadow-soft text-4xl leading-tight tracking-[0.08em] md:text-6xl lg:text-7xl">
-            DISCOVER THE ESSENCE
-            <br />
-            OF ARABIAN LUXURY
-          </h1>
-          <p className="font-garamond mt-6 max-w-2xl text-lg opacity-90 md:text-xl">
-            Experience fragrances from Dubai: bold, sensual and unforgettable.
-          </p>
-          <div className="mt-10">
-            <Button
-              href="/shop"
-              variant="secondary"
-              className="btn-luxe min-h-11"
-            >
-              Discover Now
-            </Button>
-          </div>
-        </div>
-      </section>
+      <LuxeHero
+        title="ARABIAN FRAGRANCE"
+        subtitle="Rare oils. Timeless elegance."
+        ctaLabel="Shop Collection"
+        ctaHref="/shop"
+        imageSrc="/hero/AFC-hero-main.avif"
+        fit="cover"
+        objectClassName="object-[50%_35%]"
+        minH="min-h-[90svh] md:min-h-screen"
+      />
 
       <section className="relative min-h-full">
         <div className="grid grid-cols-1 gap-0 md:grid-cols-3">
