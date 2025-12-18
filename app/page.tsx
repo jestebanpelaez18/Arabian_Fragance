@@ -6,20 +6,28 @@ import Button from "@/components/ui/button";
 import DiscoverSection from "@/components/sections/DiscoverSection";
 import PhotoMosaicCarousel from "@/components/sections/PhotoMosaicCarousel";
 import LuxeHero from "@/components/ui/LuxeHero";
+import SectionDivider from "@/components/ui/SectionDivider";
+import LinkSectionDivider from "@/components/ui/LinkSectionDivider";
 
 export default function Home() {
   return (
     <div>
       {/* ===== HERO principal ===== */}
       <LuxeHero
-        title="ARABIAN FRAGRANCE"
-        subtitle="Rare oils. Timeless elegance."
-        ctaLabel="Shop Collection"
+        title="THE ART OF ARABIAN PERFUMERY"
+        subtitle="Luxury fragrances inspired by Dubai’s elegance."
+        ctaLabel="Shop the collection"
         ctaHref="/shop"
         imageSrc="/hero/AFC-hero-main.avif"
         fit="cover"
         objectClassName="object-[50%_35%]"
         minH="min-h-[90svh] md:min-h-screen"
+      />
+
+      <LinkSectionDivider
+        text="Shop the Collection"
+        href="/shop"
+        ariaLabel="Shop the Collection"
       />
 
       <section className="relative min-h-full">
