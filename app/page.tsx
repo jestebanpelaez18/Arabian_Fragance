@@ -34,7 +34,6 @@ export default function Home() {
       <CategoryShowcase />
 
       {/* ===== Secciones personalizadas ===== */}
-      <SectionDivider text="Our Creations" />
       <DiscoverSection />
       <PhotoMosaicCarousel />
 
