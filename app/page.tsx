@@ -128,6 +128,7 @@ export default function Home() {
       </section>
 
       {/* ===== Secciones personalizadas ===== */}
+      <SectionDivider text="Our Creations" />
       <DiscoverSection />
       <PhotoMosaicCarousel />
 

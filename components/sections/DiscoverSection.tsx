@@ -40,9 +40,6 @@ export default function DiscoverSection() {
       <div className="w-full px-5 md:px-5 xl:px-6">
         <div className="flex items-end justify-between py-8 md:py-8">
           <div>
-            <span className="font-garamond mb-6 block text-xs tracking-[0.22em] uppercase opacity-70">
-              Our Creations
-            </span>
             <h2 className="font-playfair-display text-3xl leading-[1.1] tracking-[-0.01em] md:text-4xl">
               DISCOVER AF
             </h2>
