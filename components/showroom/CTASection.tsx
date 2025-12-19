@@ -24,7 +24,7 @@ export default function CTASection({
         </p>
         <Link
           href={buttonHref}
-          className="btn-luxe-contrast font-garamond text-xs tracking-[0.18em] uppercase"
+          className="btn-luxe-contrast text-xs tracking-[0.18em] uppercase"
         >
           {buttonText}
         </Link>

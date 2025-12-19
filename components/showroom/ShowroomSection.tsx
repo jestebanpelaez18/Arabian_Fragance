@@ -65,7 +65,7 @@ export default function ShowroomSection({
         </div>
 
         <div className="mt-2 flex items-center">
-          <Button href={ctaHref} className="btn-luxe-contrast font-garamond min-h-11">
+          <Button href={ctaHref} className="btn-luxe-contrast min-h-11">
             {ctaLabel}
           </Button>
         </div>

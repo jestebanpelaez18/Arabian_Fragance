@@ -75,7 +75,7 @@ export default function AboutSection({
         <div className="mt-10 h-px w-full bg-black/15" />
 
         <div className="mt-10 flex items-center gap-6">
-          <Button href={ctaHref} className="btn-luxe-contrast font-garamond min-h-11">
+          <Button href={ctaHref} className="btn-luxe-contrast min-h-11">
             {ctaLabel}
           </Button>
         </div>
