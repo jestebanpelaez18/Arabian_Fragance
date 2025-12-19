@@ -12,6 +12,7 @@ import CategoryShowcase from "@/components/sections/CategoryShowcase";
 import GiftHero from "@/components/sections/GiftHero";
 import ShowroomSection from "@/components/showroom/ShowroomSection";
 import InvitationHero from "@/components/sections/InvitationHero";
+import AboutSection from "@/components/sections/AboutSection";
 
 export default function Home() {
   return (
@@ -55,46 +56,18 @@ export default function Home() {
         ctaLabel="Explore Now"
         heightClassName="h-[78vh] md:h-[70vh]"
       />
-
-      <section className="grid min-h-[680px] grid-cols-1 px-2.5 py-2.5 md:grid-cols-2 md:px-5">
-        <div className="relative order-1 aspect-4/3 md:order-1 md:aspect-auto md:min-h-[680px]">
-          <Image
-            src="/hero/story.jpg"
-            alt="Our Story"
-            fill
-            sizes="(min-width:1024px) 50vw, 100vw"
-            className="object-cover object-[50%_35%]"
-            loading="lazy"
-            priority={false}
-            decoding="async"
-          />
-        </div>
-
-        <div className="order-2 flex flex-col justify-center px-16 py-20 md:order-2 md:border-l md:border-white/20 lg:px-20">
-          <span className="font-garamond mb-6 text-xs/relaxed tracking-[0.2em] uppercase opacity-70">
-            About Arabian Fragance
-          </span>
-          <h2 className="font-playfair-display text-4xl leading-tight tracking-[-0.01em] md:text-5xl">
-            OUR STORY OF LUXURIOUS ARABIAN FRAGRANCES
-          </h2>
-          <p className="font-garamond mt-6 max-w-lg text-lg/relaxed opacity-85">
-            Born in Dubai, the heart of Arabian perfumery, our brand blends
-            tradition and luxury to create unique fragrances that embody
-            elegance and sophistication. Each scent is carefully crafted with
-            exquisite ingredients, capturing the essence of Arabian perfume
-            artistry and delivering an exclusive olfactory experience that lasts
-            over time.
-          </p>
-
-          <div className="mt-10 h-px w-full bg-black/15" />
-
-          <div className="mt-10 flex items-center gap-6">
-            <Button href="/about" className="btn-luxe min-h-11">
-              Read More
-            </Button>
-          </div>
-        </div>
-      </section>
+      <SectionDivider text="Our Story" />
+      <AboutSection
+        title="OUR STORY"
+        descriptions={[
+          "Born from the heart of Arabian perfumery, our fragrances blend tradition, rare ingredients and timeless elegance.",
+          "Each scent is crafted to leave a lasting impression.",
+        ]}
+        reverse
+        showDivider={false}
+        ctaHref="/about"
+        ctaLabel="Discover Our Story"
+      />
     </div>
   );
 }

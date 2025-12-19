@@ -62,7 +62,7 @@ export default function LuxeHero({
       ) : null}
 
       {/* Overlays para look “luxe” */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/20 to-black/45" />
+      <div className="absolute inset-0 bg-linear-to-b from-black/45 via-black/20 to-black/45" />
       <div className="absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_30%,rgba(255,255,255,0.08),transparent_60%)] mix-blend-soft-light" />
 
       {/* Content */}

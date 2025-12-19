@@ -24,8 +24,8 @@ export default function LinkSectionDivider({
           <p className="font-garamond text-[14px] tracking-[0.22em] text-black/90 uppercase transition-colors duration-200 group-hover:text-gold">
             {text}
           </p>
-          <span className="mt-2 h-[1px] w-55 bg-black/20 transition-colors duration-200 group-hover:bg-gold" />
-        </div>
+          <span className="mt-2 h-px w-55 bg-black/20 transition-colors duration-200 group-hover:bg-gold" />
+        </div>  
       </div>
     </Link>
   );
