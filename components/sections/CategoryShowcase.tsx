@@ -46,7 +46,13 @@ type CategoryCardProps = {
   ariaLabel?: string;
 };
 
-function CategoryCard({ href, imageSrc, title, subtitle, ariaLabel }: CategoryCardProps) {
+function CategoryCard({
+  href,
+  imageSrc,
+  title,
+  subtitle,
+  ariaLabel,
+}: CategoryCardProps) {
   return (
     <Link
       href={href}
@@ -72,7 +78,7 @@ function CategoryCard({ href, imageSrc, title, subtitle, ariaLabel }: CategoryCa
       <div className="grain pointer-events-none absolute inset-0" />
 
       {/* Soft gold border highlight on hover */}
-      <div className="pointer-events-none absolute inset-0 ring-1 ring-navbar-border transition duration-500 group-hover:ring-gold/50" />
+      <div className="ring-navbar-border group-hover:ring-gold/50 pointer-events-none absolute inset-0 ring-1 transition duration-500" />
 
       {/* Content */}
       <div className="absolute inset-0 z-10 flex items-end">
@@ -83,7 +89,7 @@ function CategoryCard({ href, imageSrc, title, subtitle, ariaLabel }: CategoryCa
           <h2 className="font-playfair-display text-shadow-soft text-3xl leading-tight tracking-tight md:text-[32px] xl:text-[36px]">
             {title}
           </h2>
-          <p className="font-garamond mt-1 max-w-md text-lg md:text-xl opacity-95">
+          <p className="font-garamond mt-1 max-w-md text-lg opacity-95 md:text-xl">
             {subtitle}
           </p>
           <span className="font-roboto link-gold mt-2 inline-block text-sm font-medium">

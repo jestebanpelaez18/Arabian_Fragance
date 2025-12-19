@@ -41,7 +41,7 @@ export default function ShowroomSection({
       </div>
 
       {/* Right column: title + portrait image + CTA */}
-      <div className="order-2 flex flex-col justify-center border-b border-black/15 px-12 py-12 md:order-2 md:border-l md:border-b-0 lg:px-16">
+      <div className="order-2 flex flex-col justify-center border-b border-black/15 px-12 py-12 md:order-2 md:border-b-0 md:border-l lg:px-16">
         <div className="mb-8">
           <span className="font-garamond block text-xs tracking-[0.24em] uppercase opacity-70">
             {label}

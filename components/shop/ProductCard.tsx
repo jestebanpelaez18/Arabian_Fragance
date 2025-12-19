@@ -10,14 +10,14 @@ export default function ProductCard({ p }: { p: Product }) {
       <Link
         href={href}
         aria-label={p.name}
-        className="card-luxe relative block aspect-3/4 overflow-hidden rounded-sm bg-white ring-1 ring-navbar-border transition-colors ease-luxe group-hover:ring-gold/50"
+        className="card-luxe ring-navbar-border ease-luxe group-hover:ring-gold/50 relative block aspect-3/4 overflow-hidden rounded-sm bg-white ring-1 transition-colors"
       >
         <Image
           src={p.image ?? "/placeholder.png"}
           alt={p.name}
           fill
           sizes="(min-width:1280px) 25vw, (min-width:768px) 33vw, 50vw"
-          className="object-contain p-8 transition-transform duration-700 ease-luxe group-hover:scale-[1.03] md:p-10 lg:p-12"
+          className="ease-luxe object-contain p-8 transition-transform duration-700 group-hover:scale-[1.03] md:p-10 lg:p-12"
         />
       </Link>
 

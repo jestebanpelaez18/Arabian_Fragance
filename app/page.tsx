@@ -1,10 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import Button from "@/components/ui/button";
 import DiscoverSection from "@/components/sections/DiscoverSection";
-import PhotoMosaicCarousel from "@/components/sections/PhotoMosaicCarousel";
 import LuxeHero from "@/components/ui/LuxeHero";
 import SectionDivider from "@/components/ui/SectionDivider";
 import LinkSectionDivider from "@/components/ui/LinkSectionDivider";
@@ -38,12 +34,12 @@ export default function Home() {
       <GiftHero
         imageSrc="/hero/gift.jpg"
         label="Exclusive Gift Collection"
-          title="Iconic Gifts"
-          description="Transform any occasion into a memory with our exclusive fragrances."
-          ctaLabel="Shop Now"
+        title="Iconic Gifts"
+        description="Transform any occasion into a memory with our exclusive fragrances."
+        ctaLabel="Shop Now"
         ctaHref="/shop"
         heightClassName="h-[78vh] md:h-[70vh]"
-          contentAlign="center"
+        contentAlign="center"
       />
       <SectionDivider text="Experience" />
       <ShowroomSection />

@@ -36,7 +36,7 @@ export default function DiscoverSection() {
 
   return (
     <section className="w-full">
-      <div className="w-full px-5 md:px-5 xl:px-6 py-12 md:py-14 flex flex-col items-center justify-center text-center">
+      <div className="flex w-full flex-col items-center justify-center px-5 py-12 text-center md:px-5 md:py-14 xl:px-6">
         {/* Tabs */}
         <nav className="my-8 flex flex-wrap justify-center gap-8 text-[12px] md:text-sm">
           {TABS.map(({ label, key }) => {
@@ -47,10 +47,10 @@ export default function DiscoverSection() {
                 onClick={() => setActive(key)}
                 aria-current={isActive ? "page" : undefined}
                 className={[
-                  "relative font-garamond pb-3 tracking-[0.24em] uppercase transition-colors ease-luxe",
+                  "font-garamond ease-luxe relative pb-3 tracking-[0.24em] uppercase transition-colors",
                   isActive
-                    ? "text-ink after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-px after:bg-gold"
-                    : "text-black/60 hover:text-gold",
+                    ? "text-ink after:bg-gold after:absolute after:right-0 after:-bottom-0.5 after:left-0 after:h-px"
+                    : "hover:text-gold text-black/60",
                 ].join(" ")}
               >
                 {label}
@@ -68,10 +68,10 @@ export default function DiscoverSection() {
           ))}
         </div>
       </div>
-      <div className="w-full px-5 pb-12 md:pb-16 text-center md:px-8 xl:px-12">
+      <div className="w-full px-5 pb-12 text-center md:px-8 md:pb-16 xl:px-12">
         <Link
           href={`/shop/${active}`}
-          className="font-garamond link-gold inline-block text-[12px] md:text-[13px] tracking-[0.18em] uppercase opacity-80 ease-luxe"
+          className="font-garamond link-gold ease-luxe inline-block text-[12px] tracking-[0.18em] uppercase opacity-80 md:text-[13px]"
         >
           View all {active}
         </Link>

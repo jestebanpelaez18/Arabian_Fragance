@@ -30,8 +30,12 @@ export default function LuxeHero({
   centerContent = true,
 }: Props) {
   const mediaFitClass = fit === "cover" ? "object-cover" : "object-contain";
-  const containerAlign = centerContent ? "items-center text-center" : "items-start text-left";
-  const innerAlign = centerContent ? "items-center justify-center" : "items-start justify-center";
+  const containerAlign = centerContent
+    ? "items-center text-center"
+    : "items-start text-left";
+  const innerAlign = centerContent
+    ? "items-center justify-center"
+    : "items-start justify-center";
 
   return (
     <section
@@ -66,13 +70,17 @@ export default function LuxeHero({
       <div className="absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_30%,rgba(255,255,255,0.08),transparent_60%)] mix-blend-soft-light" />
 
       {/* Content */}
-      <div className={`relative z-10 mx-auto flex min-h-[80vh] max-w-5xl flex-col px-6 text-white ${containerAlign}`}>
+      <div
+        className={`relative z-10 mx-auto flex min-h-[80vh] max-w-5xl flex-col px-6 text-white ${containerAlign}`}
+      >
         <div className={`flex flex-1 flex-col gap-4 ${innerAlign}`}>
           <h1 className="font-garamond text-shadow-soft text-3xl leading-tight tracking-[0.04em] md:text-5xl lg:text-6xl">
             {title}
           </h1>
           {subtitle ? (
-            <p className={`font-garamond max-w-2xl text-base text-white/85 md:text-lg ${centerContent ? "mx-auto" : ""}`}>
+            <p
+              className={`font-garamond max-w-2xl text-base text-white/85 md:text-lg ${centerContent ? "mx-auto" : ""}`}
+            >
               {subtitle}
             </p>
           ) : null}

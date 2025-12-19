@@ -56,7 +56,7 @@ export default function GiftHero({
 
           {/* Centered title and CTA */}
           <div className="absolute inset-0 flex flex-col items-center justify-center px-8 text-center text-white md:px-16 lg:px-32 xl:px-48">
-            <h2 className="font-garamond mx-auto max-w-4xl text-4xl leading-[1.15] tracking-[-0.015em] text-shadow-soft md:text-[48px] lg:text-[56px]">
+            <h2 className="font-garamond text-shadow-soft mx-auto max-w-4xl text-4xl leading-[1.15] tracking-[-0.015em] md:text-[48px] lg:text-[56px]">
               {title}
             </h2>
             <div className="mt-7">
@@ -78,7 +78,7 @@ export default function GiftHero({
             </span>
           ) : null}
 
-          <h2 className="font-garamond mx-auto max-w-4xl text-4xl leading-[1.15] tracking-[-0.015em] text-shadow-soft md:text-[44px] lg:text-[50px]">
+          <h2 className="font-garamond text-shadow-soft mx-auto max-w-4xl text-4xl leading-[1.15] tracking-[-0.015em] md:text-[44px] lg:text-[50px]">
             {title}
           </h2>
 
@@ -90,7 +90,7 @@ export default function GiftHero({
             <Button
               href={ctaHref}
               variant="secondary"
-              className="rounded-full border border-white/70 bg-white/10 px-8 py-3 text-[13px] tracking-[0.14em] backdrop-blur-sm transition hover:bg-white hover:text-background"
+              className="hover:text-background rounded-full border border-white/70 bg-white/10 px-8 py-3 text-[13px] tracking-[0.14em] backdrop-blur-sm transition hover:bg-white"
             >
               {ctaLabel}
             </Button>

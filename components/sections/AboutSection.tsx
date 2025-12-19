@@ -22,8 +22,7 @@ export default function AboutSection({
   imageAlt = "Our Story",
   objectClassName = "object-cover object-[50%_35%]",
   title = "OUR STORY OF LUXURIOUS ARABIAN FRAGRANCES",
-  description =
-    "Born in Dubai, the heart of Arabian perfumery, our brand blends tradition and luxury to create unique fragrances that embody elegance and sophistication. Each scent is carefully crafted with exquisite ingredients, capturing the essence of Arabian perfume artistry and delivering an exclusive olfactory experience that lasts over time.",
+  description = "Born in Dubai, the heart of Arabian perfumery, our brand blends tradition and luxury to create unique fragrances that embody elegance and sophistication. Each scent is carefully crafted with exquisite ingredients, capturing the essence of Arabian perfume artistry and delivering an exclusive olfactory experience that lasts over time.",
   ctaHref = "/about",
   ctaLabel = "Read More",
   descriptions,
@@ -40,7 +39,9 @@ export default function AboutSection({
   return (
     <section className="grid min-h-[680px] grid-cols-1 px-2.5 pb-15 md:grid-cols-2 md:px-5">
       {/* Image left on desktop */}
-      <div className={`relative order-1 aspect-4/3 ${imageOrderDesktop} md:aspect-auto md:min-h-[680px]`}>
+      <div
+        className={`relative order-1 aspect-4/3 ${imageOrderDesktop} md:aspect-auto md:min-h-[680px]`}
+      >
         <Image
           src={imageSrc}
           alt={imageAlt}
@@ -54,7 +55,9 @@ export default function AboutSection({
       </div>
 
       {/* Text right */}
-      <div className={`order-2 flex flex-col justify-center px-16 py-20 ${textOrderDesktop} ${dividerClass} lg:px-20`}>
+      <div
+        className={`order-2 flex flex-col justify-center px-16 py-20 ${textOrderDesktop} ${dividerClass} lg:px-20`}
+      >
         <h2 className="font-garamond text-4xl leading-tight tracking-[-0.01em] md:text-5xl">
           {title}
         </h2>

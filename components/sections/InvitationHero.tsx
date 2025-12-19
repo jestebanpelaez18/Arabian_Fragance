@@ -56,7 +56,7 @@ export default function InvitationHero({
             <Button
               href={ctaHref}
               variant="secondary"
-              className="rounded-full border border-white/30 bg-black/40 px-8 py-3 text-[13px] tracking-[0.14em] backdrop-blur-sm transition hover:bg-white hover:text-background"
+              className="hover:text-background rounded-full border border-white/30 bg-black/40 px-8 py-3 text-[13px] tracking-[0.14em] backdrop-blur-sm transition hover:bg-white"
             >
               {ctaLabel}
             </Button>
