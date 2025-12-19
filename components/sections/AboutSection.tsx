@@ -21,7 +21,6 @@ export default function AboutSection({
   imageSrc = "/hero/story.jpg",
   imageAlt = "Our Story",
   objectClassName = "object-cover object-[50%_35%]",
-  label = "About Arabian Fragance",
   title = "OUR STORY OF LUXURIOUS ARABIAN FRAGRANCES",
   description =
     "Born in Dubai, the heart of Arabian perfumery, our brand blends tradition and luxury to create unique fragrances that embody elegance and sophistication. Each scent is carefully crafted with exquisite ingredients, capturing the essence of Arabian perfume artistry and delivering an exclusive olfactory experience that lasts over time.",
@@ -76,7 +75,7 @@ export default function AboutSection({
         <div className="mt-10 h-px w-full bg-black/15" />
 
         <div className="mt-10 flex items-center gap-6">
-          <Button href={ctaHref} className="btn-luxe min-h-11">
+          <Button href={ctaHref} className="btn-luxe-contrast font-garamond min-h-11">
             {ctaLabel}
           </Button>
         </div>

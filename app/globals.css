@@ -153,6 +153,29 @@ body {
   box-shadow: var(--shadow-soft);
 }
 
+/* Luxe button variant for light backgrounds */
+.btn-luxe-contrast {
+  color: var(--ink);
+  border: 0.5px solid rgba(17, 17, 17, 0.55);
+  background: transparent;
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  transition:
+    background 0.5s var(--bezier-luxe),
+    color 0.5s var(--bezier-luxe),
+    transform 0.5s var(--bezier-luxe),
+    box-shadow 0.5s var(--bezier-luxe),
+    border-color 0.5s var(--bezier-luxe);
+}
+.btn-luxe-contrast:hover,
+.btn-luxe-contrast:focus-visible {
+  color: #fff;
+  background: var(--gold-soft);
+  border-color: var(--gold-soft);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-soft);
+}
+
 /* Text shadows */
 .text-shadow-soft {
   text-shadow: 0 1px 18px rgba(0, 0, 0, 0.35);

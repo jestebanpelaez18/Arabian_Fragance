@@ -81,6 +81,7 @@ export default function Button(props: ButtonProps | LinkProps) {
     } = props as LinkProps;
 
     const resolved = mapVariant(variant);
+    const hasFontClass = !!className && className.includes("font-");
     const classes = cx(
       "inline-flex items-center justify-center rounded-full select-none uppercase tracking-[0.16em] font-normal transition-[background-color,color,box-shadow,transform] duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70",
       SIZES[size],
@@ -96,7 +97,7 @@ export default function Button(props: ButtonProps | LinkProps) {
         className={classes}
         target={target}
         rel={rel}
-        style={{ fontFamily: "var(--font-jakarta)" }}
+        style={hasFontClass ? undefined : { fontFamily: "var(--font-jakarta)" }}
       >
         {iconLeft && <span className="mr-2 inline-flex">{iconLeft}</span>}
         <span>{children}</span>
@@ -120,6 +121,7 @@ export default function Button(props: ButtonProps | LinkProps) {
   } = props as ButtonProps;
 
   const resolved = mapVariant(variant);
+  const hasFontClass = !!className && className.includes("font-");
   const classes = cx(
     "inline-flex items-center justify-center rounded-full select-none uppercase tracking-[0.16em] font-normal transition-[background-color,color,box-shadow,transform] duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70",
     SIZES[size],
@@ -135,7 +137,7 @@ export default function Button(props: ButtonProps | LinkProps) {
       disabled={loading || disabled}
       aria-busy={loading || undefined}
       className={classes}
-      style={{ fontFamily: "var(--font-jakarta)" }}
+      style={hasFontClass ? undefined : { fontFamily: "var(--font-jakarta)" }}
       {...btnRest}
     >
       {iconLeft && <span className="mr-2 inline-flex">{iconLeft}</span>}
