@@ -7,7 +7,6 @@ interface AboutSectionProps {
   imageSrc?: string;
   imageAlt?: string;
   objectClassName?: string;
-  label?: string;
   title?: string;
   description?: string;
   descriptions?: string[]; // optional multi-paragraph
@@ -37,7 +36,7 @@ export default function AboutSection({
       : "md:border-l md:border-black/15"
     : "";
   return (
-    <section className="grid min-h-[680px] grid-cols-1 px-2.5 pb-15 md:grid-cols-2 md:px-5">
+    <section className="grid min-h-[680px] grid-cols-1 px-2.5 pb-16 md:grid-cols-2 md:px-5">
       {/* Image left on desktop */}
       <div
         className={`relative order-1 aspect-4/3 ${imageOrderDesktop} md:aspect-auto md:min-h-[680px]`}

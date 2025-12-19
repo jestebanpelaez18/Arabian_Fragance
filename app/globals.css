@@ -156,7 +156,7 @@ body {
 /* Luxe button variant for light backgrounds */
 .btn-luxe-contrast {
   color: var(--ink);
-  border: 0.5px solid rgba(17, 17, 17, 0.55);
+  border: 1px solid rgba(17, 17, 17, 0.55);
   background: transparent;
   border-radius: 9999px;
   padding: 0.75rem 1.5rem;
@@ -169,7 +169,7 @@ body {
 }
 .btn-luxe-contrast:hover,
 .btn-luxe-contrast:focus-visible {
-  color: #fff;
+  color: var(--paper);
   background: var(--gold-soft);
   border-color: var(--gold-soft);
   transform: translateY(-1px);
