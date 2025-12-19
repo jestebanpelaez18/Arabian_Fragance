@@ -10,6 +10,8 @@ import SectionDivider from "@/components/ui/SectionDivider";
 import LinkSectionDivider from "@/components/ui/LinkSectionDivider";
 import CategoryShowcase from "@/components/sections/CategoryShowcase";
 import GiftHero from "@/components/sections/GiftHero";
+import ShowroomSection from "@/components/showroom/ShowroomSection";
+import InvitationHero from "@/components/sections/InvitationHero";
 
 export default function Home() {
   return (
@@ -42,108 +44,17 @@ export default function Home() {
         heightClassName="h-[78vh] md:h-[70vh]"
           contentAlign="center"
       />
-
-      {/* ===== Showroom (texto izq en desktop, imagen der) ===== */}
-      <section className="grid min-h-[680px] grid-cols-1 px-5 py-3 md:grid-cols-2">
-        {/* Imagen arriba en mobile, derecha en desktop */}
-        <div className="relative order-1 aspect-4/3 md:order-2 md:aspect-auto md:min-h-[680px]">
-          <Image
-            src="/hero/shop.jpg"
-            alt="Helsinki showroom"
-            fill
-            sizes="(min-width:1024px) 50vw, 100vw"
-            className="object-cover object-[50%_35%]"
-            loading="lazy"
-            priority={false}
-            decoding="async"
-          />
-        </div>
-
-        {/* Texto */}
-        <div className="order-2 flex flex-col justify-center border-b border-black/20 px-16 py-20 md:order-1 md:border-r md:border-b-0 lg:px-20">
-          <span className="mb-6 font-serif text-xs tracking-[0.2em] uppercase opacity-70">
-            Experience
-          </span>
-          <h2 className="font-playfair-display text-4xl leading-tight tracking-[-0.01em] md:text-5xl">
-            DISCOVER OUR LUXURIOUS HELSINKI SHOWROOM
-          </h2>
-          <p className="font-garamond mt-6 max-w-lg text-lg/relaxed opacity-85">
-            Step into a world of elegance and sophistication at our Helsinki
-            showroom. Immerse yourself in the captivating scents of Arabian
-            Fragrance and find your perfect signature scent.
-          </p>
-
-          <div className="mt-10 h-px w-full bg-white/15" />
-
-          <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2">
-            <div>
-              <h3 className="font-playfair-display text-[15px] tracking-[0.08em] uppercase">
-                Helsinki Showroom
-              </h3>
-              <p className="font-garamond mt-2 text-base/relaxed opacity-80">
-                Visit us to explore our exquisite fragrance collection in a
-                luxurious setting.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-playfair-display text-[15px] tracking-[0.08em] uppercase">
-                Book Your Visit
-              </h3>
-              <p className="font-garamond mt-2 text-base/relaxed opacity-80">
-                Join us at our address: Helsinki city center
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-10 flex items-center gap-6">
-            <Button className="btn-luxe min-h-11">Book your visit</Button>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== Party hero ===== */}
-      <section className="relative h-[78vh] overflow-hidden md:h-[70vh]">
-        <Image
-          src="/hero/party.jpg"
-          alt="A special invitation"
-          fill
-          sizes="100vw"
-          className="scale-[1.06] object-cover object-center"
-          priority={false}
-          quality={90}
-        />
-
-        {/* Overlay + degradado fuerte abajo para legibilidad */}
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/55 via-black/25 to-transparent" />
-
-        {/* Contenido en el tercio inferior */}
-        <div className="absolute inset-x-0 bottom-0 px-8 pb-14 text-center text-white md:px-16 md:pb-16 lg:px-32 xl:px-48">
-          <span className="mb-3 block text-[11px] tracking-[0.34em] uppercase opacity-75">
-            Invitation
-          </span>
-
-          <h2 className="font-playfair-display mx-auto max-w-4xl text-4xl leading-[1.15] tracking-[-0.015em] md:text-[44px] lg:text-[50px]">
-            ARABIAN FRAGANCE LAUNCH PARTY
-          </h2>
-
-          <p className="font-garamond mx-auto mt-3 max-w-2xl text-[15px] opacity-90 md:mt-4 md:text-lg">
-            Join us for an unforgettable evening filled with elegance and
-            allure. Experience the essence of Arabian luxury as we unveil our
-            exquisite fragrance collection.
-          </p>
-
-          <div className="mt-7">
-            <Button
-              href="/shop"
-              variant="secondary"
-              className="rounded-full border border-white/70 bg-white/10 px-8 py-3 text-[13px] tracking-[0.14em] backdrop-blur-sm transition hover:bg-white hover:text-background"
-            >
-              Explore Now
-            </Button>
-          </div>
-        </div>
-      </section>
+      <SectionDivider text="Experience" />
+      <ShowroomSection />
+      <SectionDivider text="Invitation" />
+      <InvitationHero
+        imageSrc="/hero/party.jpg"
+        title="ARABIAN FRAGRANCE LAUNCH"
+        description="An exclusive evening celebrating the art of Arabian perfumery."
+        ctaHref="/shop"
+        ctaLabel="Explore Now"
+        heightClassName="h-[78vh] md:h-[70vh]"
+      />
 
       <section className="grid min-h-[680px] grid-cols-1 px-2.5 py-2.5 md:grid-cols-2 md:px-5">
         <div className="relative order-1 aspect-4/3 md:order-1 md:aspect-auto md:min-h-[680px]">
