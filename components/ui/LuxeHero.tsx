@@ -1,6 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 type Props = {
   title: ReactNode;
@@ -14,6 +16,19 @@ type Props = {
   minH?: string; // ej: "min-h-[90svh] md:min-h-screen"
   fit?: "contain" | "cover"; // control del ajuste de media
   centerContent?: boolean; // centrar contenido exactamente
+  imageAlt?: string;
+  // Optimización imagen
+  priority?: boolean; // controla si es crítica (por defecto true)
+  sizes?: string; // tamaños responsivos para fill
+  placeholder?: "blur" | "empty";
+  blurDataURL?: string;
+  // Overlays
+  overlaysEnabled?: boolean;
+  softLightBlend?: boolean;
+  // Optimización video
+  autoPlayVideo?: boolean; // respeta prefers-reduced-motion
+  pauseVideoOffscreen?: boolean; // pausa si no está visible
+  videoPreload?: "auto" | "metadata" | "none";
 };
 
 export default function LuxeHero({
@@ -28,6 +43,16 @@ export default function LuxeHero({
   minH = "min-h-[80vh]",
   fit = "cover", // default como en ShowroomHero (llena el área)
   centerContent = true,
+  imageAlt = "",
+  priority = true,
+  sizes = "(max-width: 768px) 100vw, 100vw",
+  placeholder = "empty",
+  blurDataURL,
+  overlaysEnabled = true,
+  softLightBlend = true,
+  autoPlayVideo = true,
+  pauseVideoOffscreen = true,
+  videoPreload = "metadata",
 }: Props) {
   const mediaFitClass = fit === "cover" ? "object-cover" : "object-contain";
   const containerAlign = centerContent
@@ -37,37 +62,81 @@ export default function LuxeHero({
     ? "items-center justify-center"
     : "items-start justify-center";
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [allowMotion, setAllowMotion] = useState(true);
+  const [inView, setInView] = useState(true);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setAllowMotion(!mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (!pauseVideoOffscreen) return;
+    const el = sectionRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.4 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [pauseVideoOffscreen]);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const shouldPlay = autoPlayVideo && allowMotion && inView;
+    if (shouldPlay) v.play().catch(() => {});
+    else v.pause();
+  }, [autoPlayVideo, allowMotion, inView]);
+
   return (
     <section
+      ref={sectionRef}
       className={`relative w-full overflow-hidden ${minH} ${centerContent ? "grid place-items-center" : ""}`}
     >
       {/* Background media */}
       {videoSrc ? (
         <video
+          ref={videoRef}
           className={`absolute inset-0 h-full w-full ${objectClassName} ${mediaFitClass}`}
-          autoPlay
           muted
           loop
           playsInline
-          preload="auto"
+          preload={videoPreload}
           poster={poster}
+          aria-hidden={true}
+          tabIndex={-1}
         >
           <source src={videoSrc} />
         </video>
       ) : imageSrc ? (
         <Image
           src={imageSrc}
-          alt=""
+          alt={imageAlt}
           fill
-          priority
-          sizes="100vw"
+          priority={priority}
+          sizes={sizes}
+          placeholder={placeholder}
+          blurDataURL={placeholder === "blur" ? blurDataURL : undefined}
           className={`${mediaFitClass} ${objectClassName}`}
         />
       ) : null}
 
       {/* Overlays para look “luxe” */}
-      <div className="absolute inset-0 bg-linear-to-b from-black/45 via-black/20 to-black/45" />
-      <div className="absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_30%,rgba(255,255,255,0.08),transparent_60%)] mix-blend-soft-light" />
+      {overlaysEnabled && (
+        <>
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/45 via-black/20 to-black/45" />
+          {softLightBlend && (
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_30%,rgba(255,255,255,0.08),transparent_60%)] mix-blend-soft-light" />
+          )}
+        </>
+      )}
 
       {/* Content */}
       <div
@@ -88,7 +157,7 @@ export default function LuxeHero({
             <div className={`${centerContent ? "mx-auto" : ""} mt-8`}>
               <Link
                 href={ctaHref}
-                className="ease-luxe inline-flex h-11 items-center rounded-full border border-white/55 bg-white/10 px-6 text-sm tracking-[0.18em] text-white/95 uppercase backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:shadow-[0_10px_30px_rgba(0,0,0,.25)]"
+                className="ease-luxe inline-flex h-11 items-center rounded-full border border-white/55 bg-white/10 px-6 text-sm tracking-[0.18em] text-white/95 uppercase backdrop-blur-sm motion-safe:transition-all motion-safe:duration-300 hover:bg-white/20 hover:shadow-[0_10px_30px_rgba(0,0,0,.25)]"
               >
                 {ctaLabel}
               </Link>
