@@ -7,7 +7,6 @@ export interface SimpleTextImageSectionProps {
   imageSrc: string;
   imageAlt: string;
   objectClassName?: string; // ej: "object-cover object-[50%_35%]"
-  borderClassName?: string; // ej: "border-black/20"
   reverse?: boolean; // texto derecha, imagen izquierda en desktop
   titleClassName?: string; // override de tipografía del título
 }
@@ -56,7 +55,7 @@ export default function SimpleTextImageSection({
       </div>
 
       <div
-        className={`relative order-1 ${reverse ? "md:order-2" : "md:order-1"} aspect-4/3 md:aspect-auto md:min-h-[560px]`}
+        className={`relative order-2 ${reverse ? "md:order-1" : "md:order-2"} aspect-4/3 md:aspect-auto md:min-h-[560px]`}
       >
         <Image
           src={imageSrc}

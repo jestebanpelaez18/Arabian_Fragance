@@ -29,7 +29,7 @@ export default function FullImageTextSection({
         src={imageSrc}
         alt={imageAlt}
         fill
-        priority
+        priority={false}
         className={objectClassName}
       />
       <div className={`absolute ${overlayInset} ${overlayClassName}`} />

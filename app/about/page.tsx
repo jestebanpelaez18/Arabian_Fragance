@@ -33,7 +33,7 @@ const FullImageTextSection = NextDynamic(
   },
 );
 
-export default function aboutPage() {
+export default function AboutPage() {
   return (
     <div>
       <LuxeHero
@@ -45,12 +45,11 @@ export default function aboutPage() {
         minH="min-h-[90svh] md:min-h-screen"
       />
       <SectionDivider text="Discover" />
-      {/* Render SSR arriba del fold para mejor TTFB/SEO */}
       <SimpleTextImageSection
         title="OUR STORY"
         descriptions={STORY_DESCRIPTIONS}
         imageSrc="/hero/gift.jpg"
-        imageAlt="Arabian Frangance Story"
+        imageAlt="Arabian Fragrance Story"
       />
       <section className="relative h-[200px] py-16 md:h-[220px]">
         <div className="absolute inset-0 z-10 flex items-center justify-center px-6 text-center md:px-16">
@@ -68,7 +67,6 @@ export default function aboutPage() {
         imageSrc="/collections/collection-desert-oud.jpg"
         imageAlt="Arabian Frangance Story"
         objectClassName="object-cover object-[50%_35%]"
-        borderClassName="border-white/20"
         reverse={true}
         titleClassName="font-playfair-display text-4xl leading-tight tracking-[-0.01em] md:text-5xl"
       />
@@ -76,7 +74,7 @@ export default function aboutPage() {
         imageSrc="/about/aboutusPicture2.jpg"
         imageAlt="Our Perfumes"
         minH="min-h-screen md:min-h-[90vh]"
-        objectClassName="p-5 object-cover object-center"
+        objectClassName="object-cover object-center"
         overlayClassName="bg-black/50"
         overlayInset="top-5 right-5 bottom-5 left-5"
         paragraph="At the heart of Arabian Fragrance lies a dialogue between heritage and modernity. Rooted in the traditions of Arabic perfumery, each creation reinterprets oud, amber and rose through a refined, contemporary lens."
