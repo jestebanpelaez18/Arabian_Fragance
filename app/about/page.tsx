@@ -24,13 +24,13 @@ const SimpleTextImageSection = NextDynamic(
   () => import("@/components/sections/SimpleTextImageSection"),
   {
     loading: () => <section className="min-h-[520px] md:min-h-[560px]" />,
-  }
+  },
 );
 const FullImageTextSection = NextDynamic(
   () => import("@/components/sections/FullImageTextSection"),
   {
     loading: () => <section className="min-h-[70vh]" />,
-  }
+  },
 );
 
 export default function aboutPage() {

@@ -1,7 +1,7 @@
 .PHONY: format lint typecheck dev build start
 
 format:
-	npm run format
+	npm run format -- --write
 
 lint:
 	npm run eslint

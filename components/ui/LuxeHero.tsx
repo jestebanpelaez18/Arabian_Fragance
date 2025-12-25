@@ -81,7 +81,7 @@ export default function LuxeHero({
     if (!el) return;
     const obs = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
-      { threshold: 0.4 }
+      { threshold: 0.4 },
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -157,7 +157,7 @@ export default function LuxeHero({
             <div className={`${centerContent ? "mx-auto" : ""} mt-8`}>
               <Link
                 href={ctaHref}
-                className="ease-luxe inline-flex h-11 items-center rounded-full border border-white/55 bg-white/10 px-6 text-sm tracking-[0.18em] text-white/95 uppercase backdrop-blur-sm motion-safe:transition-all motion-safe:duration-300 hover:bg-white/20 hover:shadow-[0_10px_30px_rgba(0,0,0,.25)]"
+                className="ease-luxe inline-flex h-11 items-center rounded-full border border-white/55 bg-white/10 px-6 text-sm tracking-[0.18em] text-white/95 uppercase backdrop-blur-sm hover:bg-white/20 hover:shadow-[0_10px_30px_rgba(0,0,0,.25)] motion-safe:transition-all motion-safe:duration-300"
               >
                 {ctaLabel}
               </Link>

@@ -25,7 +25,13 @@ export default function FullImageTextSection({
 }: Props) {
   return (
     <section className={`relative ${minH}`}>
-      <Image src={imageSrc} alt={imageAlt} fill priority className={objectClassName} />
+      <Image
+        src={imageSrc}
+        alt={imageAlt}
+        fill
+        priority
+        className={objectClassName}
+      />
       <div className={`absolute ${overlayInset} ${overlayClassName}`} />
       <div
         className={`absolute inset-0 z-10 flex flex-col px-6 text-center ${centerContent ? "items-center justify-center" : "items-start justify-center"}`}
