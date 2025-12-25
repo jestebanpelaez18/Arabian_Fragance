@@ -4,16 +4,14 @@ format:
 	npm run format -- --write
 
 lint:
-	npm run eslint
+	npm run lint
 
 typecheck:
-	npm run type-check
+	npm run typecheck
 
 dev:
 	npm run dev
 
 build:
-	npm run build
+	npm run build && npm run start
 
-start:
-	npm run start
