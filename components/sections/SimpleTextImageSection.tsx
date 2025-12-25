@@ -23,7 +23,6 @@ export default function SimpleTextImageSection({
   titleClassName,
 }: SimpleTextImageSectionProps) {
   const textOrderDesktop = reverse ? "md:order-2" : "md:order-1";
-  const imageOrderDesktop = reverse ? "md:order-1" : "md:order-2";
 
   return (
     <section className="grid min-h-[680px] grid-cols-1 px-5 py-2.5 md:grid-cols-2">
@@ -56,7 +55,9 @@ export default function SimpleTextImageSection({
         )}
       </div>
 
-      <div className={`relative order-1 ${reverse ? "md:order-2" : "md:order-1"} aspect-4/3 md:aspect-auto md:min-h-[560px]`}>
+      <div
+        className={`relative order-1 ${reverse ? "md:order-2" : "md:order-1"} aspect-4/3 md:aspect-auto md:min-h-[560px]`}
+      >
         <Image
           src={imageSrc}
           alt={imageAlt}

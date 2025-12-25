@@ -52,8 +52,8 @@ export default function aboutPage() {
         imageSrc="/hero/gift.jpg"
         imageAlt="Arabian Frangance Story"
       />
-      <section className="relative h-[200px] md:h-[220px] py-16">
-        <div className="absolute inset-0 z-10 flex items-center justify-center px-6 md:px-16 text-center">
+      <section className="relative h-[200px] py-16 md:h-[220px]">
+        <div className="absolute inset-0 z-10 flex items-center justify-center px-6 text-center md:px-16">
           <p className="font-garamond max-w-7xl text-2xl leading-relaxed text-black md:text-3xl">
             “Arabian Fragrance brings the soul of Dubai’s perfumery heritage to
             life, crafted with authenticity, depth, and modern elegance.”
