@@ -46,3 +46,8 @@ stock.dev.json
 
 # Mapas de Stripe (no subas los de test)
 stripe.ids.json
+
+# Playwright
+playwright-report/
+test-results/
+blob-report/
