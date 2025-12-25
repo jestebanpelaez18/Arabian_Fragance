@@ -17,9 +17,8 @@ export default function SimpleTextImageSection({
   paragraph,
   descriptions,
   imageSrc,
-  imageAlt,
-  objectClassName = "object-cover object-[50%_35%]",
-  borderClassName = "border-black/20",
+  imageAlt = "Section image",
+  objectClassName = "object-contain md:object-cover object-center md:object-[50%_35%]",
   reverse = false,
   titleClassName,
 }: SimpleTextImageSectionProps) {
@@ -29,7 +28,7 @@ export default function SimpleTextImageSection({
   return (
     <section className="grid min-h-[680px] grid-cols-1 px-5 py-2.5 md:grid-cols-2">
       <div
-        className={`order-1 flex flex-col justify-center border-r ${borderClassName} px-16 py-20 ${textOrderDesktop} lg:px-20`}
+        className={`order-1 flex flex-col justify-center px-16 py-20 ${textOrderDesktop} lg:px-20`}
       >
         <h2
           className={
@@ -57,15 +56,16 @@ export default function SimpleTextImageSection({
         )}
       </div>
 
-      <div className={`relative order-2 ${imageOrderDesktop}`}>
-        <div className="absolute inset-0 bg-black/0 lg:bg-black/0" />
+      <div className={`relative order-1 ${reverse ? "md:order-2" : "md:order-1"} aspect-4/3 md:aspect-auto md:min-h-[560px]`}>
         <Image
           src={imageSrc}
           alt={imageAlt}
           fill
-          priority
           sizes="(min-width:1024px) 50vw, 100vw"
           className={objectClassName}
+          loading="lazy"
+          priority={false}
+          decoding="async"
         />
       </div>
     </section>
