@@ -1,6 +1,8 @@
+// app/product/[slug]/page.tsx
+
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { shopifyFetch } from "@/lib/shopify/shopify";
+import { shopifyFetch } from "@/lib/shopify/shopify"; // Check if path is correct for your project
 import RecommendedProducts from "@/components/product/RecommendedProducts";
 import ProductJsonLd from "@/components/product/ProductJsonLd";
 import ProductBreadcrumbs from "@/components/product/ProductBreadcrumbs";
@@ -40,12 +42,12 @@ const singleProductQuery = `
         }
       }
       # --- METAFIELDS ---
-      # Fetching using the keys visible in your screenshot
       
       ingredients: metafield(namespace: "custom", key: "ingredients") {
         value
       }
-      # Assuming a generic 'notes' field exists, otherwise this returns null
+      
+      # MAPPING: "notes" variable here is actually fetching "main_accord" (Subtitle)
       notes: metafield(namespace: "custom", key: "main_accord") {
         value
       }
@@ -141,43 +143,49 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   const priceAmount = parseFloat(p.priceRange.minVariantPrice.amount);
   const sku = p.variants?.edges?.[0]?.node?.sku || "N/A";
   
-  // --- PARSERS ---
-  const parseNotes = (value: string | undefined) => {
+  // --- ROBUST PARSER FUNCTION (THE FIX) ---
+  // This function cleans up brackets [], quotes "", and splits by multiple separators
+  const cleanList = (value: string | undefined) => {
     if (!value) return [];
     
-    // 1. Check for the "•" bullet point used in your Shopify data
-    if (value.includes('•')) {
-      return value.split('•').map(s => s.trim());
+    // 1. Remove brackets [ ] and quotes " from the string
+    // Converts '["ROSE" | "VANILLA"]' -> 'ROSE | VANILLA'
+    // Converts '["Vanilla" · "Cedar"]' -> 'Vanilla · Cedar'
+    let cleaned = value.replace(/[\[\]"]/g, '');
+
+    // 2. Identify separator and split
+    if (cleaned.includes('|')) {
+      return cleaned.split('|').map(s => s.trim());
+    }
+    if (cleaned.includes('•')) {
+      return cleaned.split('•').map(s => s.trim());
+    }
+    if (cleaned.includes('·')) { // Middle dot (seen in your screenshot)
+      return cleaned.split('·').map(s => s.trim());
+    }
+    if (cleaned.includes(',')) {
+      return cleaned.split(',').map(s => s.trim());
     }
 
-    // 2. Fallback for commas
-    if (value.includes(',')) {
-      return value.split(',').map(s => s.trim());
-    }
-
-    // 3. Try JSON or return as single item
-    try {
-      return JSON.parse(value);
-    } catch (e) {
-      return [value];
-    }
+    // 3. Fallback: return as single item
+    return [cleaned];
   };
 
   const ingredients = p.ingredients?.value || "Ingredients not available yet.";
   const gender = p.gender?.value || "Unisex";
   const storage_instructions = p.storage_instructions?.value || "Store in a cool, dry place. Avoid direct sunlight.";
   
-  // If you have a main 'notes' field, use it.
-  let notes = parseNotes(p.notes?.value);
+  // 'notes' variable here comes from 'main_accord' in the query
+  // Using cleanList to fix the ["ROSE" | "VANILLA"] issue
+  let notes = cleanList(p.notes?.value);
   
   const pyramid = {
-    top: parseNotes(p.topNotes?.value),
-    heart: parseNotes(p.heartNotes?.value),
-    base: parseNotes(p.baseNotes?.value),
+    top: cleanList(p.topNotes?.value),
+    heart: cleanList(p.heartNotes?.value),
+    base: cleanList(p.baseNotes?.value),
   };
 
-
-  // Fallback: If 'notes' is empty, construct it from the pyramid
+  // Fallback: If 'main_accord' is empty, construct it from the pyramid
   if (notes.length === 0) {
     notes = [...pyramid.top, ...pyramid.heart, ...pyramid.base];
   }
@@ -197,7 +205,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
     available: p.availableForSale
   };
 
-  // @ts-ignore - Ignoring strict type check for now
+  // @ts-ignore 
   const jsonLd = productJsonLd(productForJson, { siteUrl, productUrl });
 
   return (
@@ -213,7 +221,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           
           <ProductHeaderPanel
             name={p.title}
-            notes={notes}
+            notes={notes} // This is the Subtitle (Main Accord)
             price={priceAmount}
             volumeMl={100} 
             sku={sku}
@@ -221,7 +229,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             image={img}
             description={p.description}
             ingredients={ingredients}
-            pyramid={pyramid}
+            pyramid={pyramid} // This populates the Tabs (Top/Heart/Base)
             storage_instructions={storage_instructions}
           />
         </div>
