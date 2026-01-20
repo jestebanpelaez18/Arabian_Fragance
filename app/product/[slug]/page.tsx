@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PRODUCTS } from "@/data/products";
+import { shopifyFetch } from "@/lib/shopify/shopify";
 import RecommendedProducts from "@/components/product/RecommendedProducts";
 import ProductJsonLd from "@/components/product/ProductJsonLd";
 import ProductBreadcrumbs from "@/components/product/ProductBreadcrumbs";
@@ -10,9 +10,87 @@ import ProductHeaderPanel from "@/components/product/ProductHeaderPanel";
 
 type Params = { slug: string };
 
-export function generateStaticParams() {
-  return PRODUCTS.filter((p) => p.status !== "draft").map((p) => ({
-    slug: p.slug,
+const singleProductQuery = `
+  query SingleProduct($handle: String!) {
+    product(handle: $handle) {
+      id
+      title
+      description
+      handle
+      availableForSale
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      images(first: 1) {
+        edges {
+          node {
+            url
+            altText
+          }
+        }
+      }
+      variants(first: 1) {
+        edges {
+          node {
+            sku
+          }
+        }
+      }
+      # --- METAFIELDS ---
+      # Fetching using the keys visible in your screenshot
+      
+      ingredients: metafield(namespace: "custom", key: "ingredients") {
+        value
+      }
+      # Assuming a generic 'notes' field exists, otherwise this returns null
+      notes: metafield(namespace: "custom", key: "main_accord") {
+        value
+      }
+      
+      topNotes: metafield(namespace: "custom", key: "top_notes") {
+        value
+      }
+      
+      heartNotes: metafield(namespace: "custom", key: "hearth_notes") {
+        value
+      }
+      
+      baseNotes: metafield(namespace: "custom", key: "base_notes") {
+        value
+      }
+      
+      gender: metafield(namespace: "custom", key: "gender") {
+        value
+      }
+      
+      storage_instructions: metafield(namespace: "custom", key: "storage_instructions") {
+        value
+      }
+    }
+  }
+`;
+
+const getAllSlugsQuery = `
+  query AllProducts {
+    products(first: 100) {
+      edges {
+        node {
+          handle
+        }
+      }
+    }
+  }
+`;
+
+export async function generateStaticParams() {
+  const response = await shopifyFetch({ query: getAllSlugsQuery });
+  const products = response.body?.data?.products?.edges || [];
+
+  return products.map(({ node }: any) => ({
+    slug: node.handle,
   }));
 }
 
@@ -22,13 +100,19 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const p = PRODUCTS.find((x) => x.slug === slug);
+  
+  const response = await shopifyFetch({ 
+    query: singleProductQuery, 
+    variables: { handle: slug } 
+  });
+  
+  const p = response.body?.data?.product;
   if (!p) return {};
-  const title = `${p.name} | Arabian Fragrance`;
-  const desc =
-    p.description ??
-    `Discover ${p.name}, a ${p.gender} fragrance. Notes: ${(p.notes ?? []).join(" · ") || "—"}.`;
-  const img = p.image || p.images?.[0] || "/placeholder.png";
+
+  const title = `${p.title} | Arabian Fragrance`;
+  const desc = p.description ? p.description.substring(0, 160) : `Discover ${p.title}`;
+  const img = p.images?.edges?.[0]?.node?.url || "/placeholder.png";
+
   return {
     title,
     description: desc,
@@ -39,61 +123,114 @@ export async function generateMetadata({
       images: [img],
       siteName: "Arabian Fragrance",
     },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description: desc,
-      images: [img],
-    },
   };
 }
 
-export default async function ProductPage({
-  params,
-}: {
-  params: Promise<Params>;
-}) {
+export default async function ProductPage({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
-  const p = PRODUCTS.find((x) => x.slug === slug);
+
+  const response = await shopifyFetch({ 
+    query: singleProductQuery, 
+    variables: { handle: slug } 
+  });
+
+  const p = response.body?.data?.product;
   if (!p) return notFound();
 
-  const img = p.images?.[0] || p.image || "/placeholder.png";
+  const img = p.images?.edges?.[0]?.node?.url || "/catalog/Bottle_3.png";
+  const priceAmount = parseFloat(p.priceRange.minVariantPrice.amount);
+  const sku = p.variants?.edges?.[0]?.node?.sku || "N/A";
+  
+  // --- PARSERS ---
+  const parseNotes = (value: string | undefined) => {
+    if (!value) return [];
+    
+    // 1. Check for the "•" bullet point used in your Shopify data
+    if (value.includes('•')) {
+      return value.split('•').map(s => s.trim());
+    }
+
+    // 2. Fallback for commas
+    if (value.includes(',')) {
+      return value.split(',').map(s => s.trim());
+    }
+
+    // 3. Try JSON or return as single item
+    try {
+      return JSON.parse(value);
+    } catch (e) {
+      return [value];
+    }
+  };
+
+  const ingredients = p.ingredients?.value || "Ingredients not available yet.";
+  const gender = p.gender?.value || "Unisex";
+  const storage_instructions = p.storage_instructions?.value || "Store in a cool, dry place. Avoid direct sunlight.";
+  
+  // If you have a main 'notes' field, use it.
+  let notes = parseNotes(p.notes?.value);
+  
+  const pyramid = {
+    top: parseNotes(p.topNotes?.value),
+    heart: parseNotes(p.heartNotes?.value),
+    base: parseNotes(p.baseNotes?.value),
+  };
+
+
+  // Fallback: If 'notes' is empty, construct it from the pyramid
+  if (notes.length === 0) {
+    notes = [...pyramid.top, ...pyramid.heart, ...pyramid.base];
+  }
+
+  // URLs
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   const productUrl = `${siteUrl}/product/${slug}`;
 
-  const jsonLd = productJsonLd(p, { siteUrl, productUrl });
+  // JSON-LD Preparation
+  const productForJson = {
+    name: p.title,
+    description: p.description,
+    images: [img],
+    sku: sku,
+    price: priceAmount,
+    slug: p.handle,
+    available: p.availableForSale
+  };
+
+  // @ts-ignore - Ignoring strict type check for now
+  const jsonLd = productJsonLd(productForJson, { siteUrl, productUrl });
 
   return (
     <main className="bg-background text-foreground">
       <ProductJsonLd json={jsonLd} />
-      <ProductBreadcrumbs current={p.name} />
+      <ProductBreadcrumbs current={p.title} />
 
-      {/* Layout: imagen 7/12, panel 5/12 */}
       <section className="mx-auto w-full max-w-[1600px] px-5 py-10">
         <div className="grid grid-cols-1 items-start gap-x-8 gap-y-10 md:grid-cols-12 lg:gap-x-12 xl:gap-x-16">
-          {/* LEFT: large image, no frames */}
           <div className="md:col-span-7">
-            <ProductImage src={img} alt={p.name} />
+            <ProductImage src={img} alt={p.title} />
           </div>
-          {/* Right: purchase panel */}
+          
           <ProductHeaderPanel
-            name={p.name}
-            notes={p.notes}
-            price={p.price}
-            volumeMl={p.volumeMl}
-            sku={p.sku}
-            stock={p.stock ?? 0}
+            name={p.title}
+            notes={notes}
+            price={priceAmount}
+            volumeMl={100} 
+            sku={sku}
+            stock={p.availableForSale ? 10 : 0}
             image={img}
             description={p.description}
-            ingredients={p.ingredients}
-            pyramid={p.pyramid}
+            ingredients={ingredients}
+            pyramid={pyramid}
+            storage_instructions={storage_instructions}
           />
         </div>
       </section>
+
       <RecommendedProducts
-        currentSlug={p.slug}
-        currentNotes={p.notes}
-        gender={p.gender}
+        currentSlug={p.handle}
+        currentNotes={notes}
+        gender={gender}
       />
     </main>
   );

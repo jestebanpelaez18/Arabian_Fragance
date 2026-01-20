@@ -15,6 +15,7 @@ type ProductHeaderPanelProps = {
   description?: string | null;
   ingredients?: string | null;
   pyramid?: Product["pyramid"];
+  storage_instructions?: string | null;
 };
 
 export default function ProductHeaderPanel({
@@ -28,6 +29,7 @@ export default function ProductHeaderPanel({
   description,
   ingredients,
   pyramid,
+  storage_instructions,
 }: ProductHeaderPanelProps) {
   return (
     <aside className="md:col-span-5">
@@ -69,6 +71,7 @@ export default function ProductHeaderPanel({
           ]}
           ingredients={ingredients ?? undefined}
           pyramid={pyramid}
+          storage_instructions={storage_instructions}
         />
       </div>
     </aside>
