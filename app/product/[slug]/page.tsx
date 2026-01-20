@@ -37,7 +37,9 @@ const singleProductQuery = `
       variants(first: 1) {
         edges {
           node {
+            id
             sku
+            price {amount currencyCode}
           }
         }
       }
@@ -142,15 +144,14 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   const img = p.images?.edges?.[0]?.node?.url || "/catalog/Bottle_3.png";
   const priceAmount = parseFloat(p.priceRange.minVariantPrice.amount);
   const sku = p.variants?.edges?.[0]?.node?.sku || "N/A";
+  const variantId = p.variants?.edges?.[0]?.node?.id;
   
   // --- ROBUST PARSER FUNCTION (THE FIX) ---
   // This function cleans up brackets [], quotes "", and splits by multiple separators
   const cleanList = (value: string | undefined) => {
     if (!value) return [];
-    
-    // 1. Remove brackets [ ] and quotes " from the string
-    // Converts '["ROSE" | "VANILLA"]' -> 'ROSE | VANILLA'
-    // Converts '["Vanilla" · "Cedar"]' -> 'Vanilla · Cedar'
+  
+
     let cleaned = value.replace(/[\[\]"]/g, '');
 
     // 2. Identify separator and split
@@ -231,6 +232,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             ingredients={ingredients}
             pyramid={pyramid} // This populates the Tabs (Top/Heart/Base)
             storage_instructions={storage_instructions}
+            variantId={variantId}
           />
         </div>
       </section>
