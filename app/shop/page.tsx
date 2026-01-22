@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PRODUCTS, type Note } from "@/data/products";
+import { getShopifyProducts } from "@/lib/shopify/get-products";
 import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
 import NoteFilterChips from "@/components/shop/NoteFilterChips";
@@ -9,14 +9,16 @@ export default async function ShopIndexPage({
 }: {
   searchParams: Promise<{ notes?: string }>;
 }) {
-  const sp = await searchParams;
-  const selected = (sp.notes?.split(",").filter(Boolean) ?? []) as Note[];
+  const PRODUCTS = await getShopifyProducts();
 
-  const filtered = PRODUCTS.filter((p) =>
+  const sp = await searchParams;
+  const selected = sp.notes?.split(",").filter(Boolean) ?? [];
+
+  const filtered = PRODUCTS.filter((p: any) =>
     selected.length === 0
       ? true
       : (p.notes ?? []).length > 0 &&
-        selected.every((n) => (p.notes ?? []).includes(n)),
+        selected.every((n: string) => (p.notes ?? []).includes(n)),
   );
 
   return (
@@ -61,7 +63,7 @@ export default async function ShopIndexPage({
       {/* Grid */}
       <section className="w-full px-5 pb-12 md:px-5 xl:px-6">
         <div className="grid grid-cols-2 gap-x-2.5 gap-y-16 md:gap-x-5 lg:grid-cols-4">
-          {filtered.map((p) => (
+          {filtered.map((p: any) => (
             <ProductCard key={p.id} p={p} />
           ))}
         </div>

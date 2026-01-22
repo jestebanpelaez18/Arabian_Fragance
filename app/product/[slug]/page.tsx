@@ -1,5 +1,3 @@
-// app/product/[slug]/page.tsx
-
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { shopifyFetch } from "@/lib/shopify/shopify"; // Check if path is correct for your project
@@ -115,7 +113,7 @@ export async function generateMetadata({
 
   const title = `${p.title} | Arabian Fragrance`;
   const desc = p.description ? p.description.substring(0, 160) : `Discover ${p.title}`;
-  const img = p.images?.edges?.[0]?.node?.url || "/placeholder.png";
+  const img = p.images?.edges?.[0]?.node?.url || "/catalog/Bottle_3.png";
 
   return {
     title,
@@ -137,7 +135,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
     query: singleProductQuery, 
     variables: { handle: slug } 
   });
-
+  
   const p = response.body?.data?.product;
   if (!p) return notFound();
 

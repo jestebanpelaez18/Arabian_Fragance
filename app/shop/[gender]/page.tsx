@@ -1,10 +1,13 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PRODUCTS, type Gender, type Note } from "@/data/products";
+import { getShopifyProducts } from "@/lib/shopify/get-products"; 
 import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
 import NoteFilterChips from "@/components/shop/NoteFilterChips";
+
+type Gender = "women" | "men" | "unisex";
+type Note = string;
 
 const GENDERS: Gender[] = ["women", "men", "unisex"];
 const COPY: Record<Gender, string> = {
@@ -25,7 +28,8 @@ export async function generateMetadata({
   params: Promise<{ gender: Gender }>;
 }): Promise<Metadata> {
   const { gender } = await params;
-  if (!GENDERS.includes(gender)) return {};
+  if (!GENDERS.includes(gender as Gender)) return {};
+  
   const name = gender[0].toUpperCase() + gender.slice(1);
   return {
     title: `${name} Fragrances | Shop`,
@@ -43,15 +47,18 @@ export default async function ShopByGenderPage({
   const { gender } = await params;
   if (!GENDERS.includes(gender)) return notFound();
 
+  const PRODUCTS = await getShopifyProducts();
+
   const sp = await searchParams;
   const selected = (sp.notes?.split(",").filter(Boolean) ?? []) as Note[];
 
-  const base = PRODUCTS.filter((p) => p.gender === gender);
-  const filtered = base.filter((p) =>
+  const base = PRODUCTS.filter((p: any) => p.gender === gender);
+  
+  const filtered = base.filter((p: any) =>
     selected.length === 0
       ? true
       : (p.notes ?? []).length > 0 &&
-        selected.every((n) => (p.notes ?? []).includes(n)),
+        selected.every((n: string) => (p.notes ?? []).includes(n)),
   );
 
   return (
@@ -98,7 +105,8 @@ export default async function ShopByGenderPage({
       {/* Grid */}
       <section className="w-full px-5 pb-12 md:px-5 xl:px-6">
         <div className="grid grid-cols-2 gap-x-2.5 gap-y-16 md:gap-x-5 lg:grid-cols-4">
-          {filtered.map((p) => (
+          {/* Añadimos el tipo 'any' o 'Product' a 'p' para evitar quejas de TS si no tienes la interfaz global */}
+          {filtered.map((p: any) => (
             <ProductCard key={p.id} p={p} />
           ))}
         </div>

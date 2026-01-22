@@ -13,7 +13,7 @@ function ProductCard({ p }: { p: Product }) {
         className="relative block aspect-[3/4] overflow-hidden rounded-sm bg-white ring-1 ring-black/10"
       >
         <Image
-          src={p.image ?? p.images?.[0] ?? "/placeholder.png"}
+          src={p.image ?? p.images?.[0] ?? "/catalog/Bottle_3.png"}
           alt={p.name}
           fill
           sizes="(min-width:1280px) 25vw, (min-width:768px) 33vw, 50vw"

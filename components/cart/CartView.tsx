@@ -64,7 +64,7 @@ function CartItemRow({
         <Image
           fill
           sizes="80px"
-          src={it.image ?? "/placeholder.png"}
+          src={it.image ?? "/catalog/Bottle_3.png"}
           alt={it.name || "Product image"}
           className="object-cover"
         />
