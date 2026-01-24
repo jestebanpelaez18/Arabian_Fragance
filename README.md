@@ -40,7 +40,7 @@ The shop page features a filtering engine that reads Product Metafields (e.g., O
 
 ### 3. Cart & Checkout Synchronization
 A persistent Cart Provider manages the basket state locally and synchronizes with Shopify to validate stock levels before redirecting the user to the native Shopify Checkout for payment.
-* **Location:** `components/cart/cart-context.tsx`
+* **Location:** `components/cart/CartView.tsx`
 
 ## 📸 Interface Previews
 
