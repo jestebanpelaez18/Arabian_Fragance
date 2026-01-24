@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Arabian Fragrance - Headless E-commerce (Production Code)
 
-## Getting Started
+> ** NOTICE:**
+> This repository contains the source code for a live production application ([wantafc.com](https://wantafc.com)).
+> It allows you to review my coding style, project structure, and architectural decisions (Next.js 14 + Shopify Headless).
+>
+> **Access Level:** Public (Portfolio Mode).
+> **Permissions:** Shared with explicit written authorization from the client.
+> **Restrictions:** Cloning, modifying, or using this code for commercial purposes is strictly prohibited.
 
-First, run the development server:
+![Project Preview](https://wantafc.com/opengraph-image.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🛠 Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* **Framework:** Next.js 14 (App Router, Server Components).
+* **Language:** TypeScript.
+* **Backend:** Shopify Plus (via Storefront API).
+* **Styling:** Tailwind CSS.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📂 Architecture Highlights
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+If you are reviewing this code for a role, I recommend focusing on:
 
-## Learn More
+1.  **`lib/shopify/`**: Custom GraphQL fetcher implementation (lightweight, typed).
+2.  **`app/shop/page.tsx`**: Dynamic filtering logic based on URL search params.
+3.  **`components/cart/`**: Persistent cart state management.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+**© 2026 Arabian Fragrance / Juanes.** All rights reserved.
