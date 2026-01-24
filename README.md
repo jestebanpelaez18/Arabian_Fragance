@@ -1,6 +1,6 @@
 # Arabian Fragrance - Headless E-commerce Architecture
 
-> **⚠️ RECRUITER NOTICE:**
+> **NOTICE:**
 > This repository contains the source code for a live production application ([wantafc.com](https://wantafc.com)).
 > It allows you to review the coding style, project structure, and architectural decisions.
 >
@@ -9,7 +9,6 @@
 > **Restrictions:** Cloning, modifying, or using this code for commercial purposes is strictly prohibited.
 
 ![Project Preview](public/home-preview.png)
-*(Note: Replace 'public/home-preview.png' with your screenshot path)*
 
 ## 🚀 Project Overview
 
