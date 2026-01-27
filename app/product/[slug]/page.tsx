@@ -220,7 +220,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           
           <ProductHeaderPanel
             name={p.title}
-            notes={notes} // This is the Subtitle (Main Accord)
+            notes={notes}
             price={priceAmount}
             volumeMl={100} 
             sku={sku}
@@ -228,7 +228,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             image={img}
             description={p.description}
             ingredients={ingredients}
-            pyramid={pyramid} // This populates the Tabs (Top/Heart/Base)
+            pyramid={pyramid}
             storage_instructions={storage_instructions}
             variantId={variantId}
           />
