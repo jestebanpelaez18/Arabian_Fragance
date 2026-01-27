@@ -4,7 +4,7 @@ import { type Product } from "@/data/products";
 
 export default function ProductCard({ p }: { p: Product }) {
   const href = `/product/${p.slug ?? p.id}`;
-  
+
   return (
     <article className="group flex flex-col">
       <Link

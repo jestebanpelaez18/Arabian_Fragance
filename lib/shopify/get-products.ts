@@ -1,5 +1,5 @@
-// lib/shopify/get-products.ts
 import { shopifyFetch } from "@/lib/shopify/shopify";
+import { normalizeProduct, type ShopifyRawProduct } from "@/lib/shopify/mapper";
 
 const allProductsQuery = `
   query AllProducts {
@@ -39,32 +39,24 @@ const allProductsQuery = `
   }
 `;
 
-const cleanList = (value: string | undefined) => {
-  if (!value) return [];
-  let cleaned = value.replace(/[\[\]"]/g, '');
-  if (cleaned.includes('|')) return cleaned.split('|').map(s => s.trim());
-  if (cleaned.includes(',')) return cleaned.split(',').map(s => s.trim());
-  return [cleaned];
+type ProductEdge = {
+  node: ShopifyRawProduct;
+};
+
+type ShopifyProductsOperation = {
+  data: {
+    products: {
+      edges: ProductEdge[];
+    };
+  };
 };
 
 export async function getShopifyProducts() {
-  const { body } = await shopifyFetch({ query: allProductsQuery });
+  const { body } = await shopifyFetch<ShopifyProductsOperation>({
+    query: allProductsQuery,
+  });
+
   const edges = body?.data?.products?.edges || [];
 
-  return edges.map(({ node }: any) => {
-    return {
-      // 1. Aquí mapeamos los datos para que tu ProductCard sea feliz
-      id: node.variants?.edges?.[0]?.node?.id || node.id, 
-      
-      slug: node.handle, // Asignamos el handle al slug
-      
-      handle: node.handle,
-      name: node.title,
-      price: parseFloat(node.priceRange.minVariantPrice.amount),
-      image: node.images?.edges?.[0]?.node?.url || "/catalog/Bottle_3.png",
-      gender: node.gender?.value?.toLowerCase() || "unisex", 
-      notes: cleanList(node.notes?.value),
-      available: node.availableForSale
-    };
-  });
+  return edges.map(({ node }) => normalizeProduct(node));
 }
