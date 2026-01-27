@@ -1,10 +1,17 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PRODUCTS, type Gender, type Note } from "@/data/products";
+import { getShopifyProducts } from "@/lib/shopify/get-products";
 import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
 import NoteFilterChips from "@/components/shop/NoteFilterChips";
+import { type Product } from "@/data/products";
+
+// Import the new Mapper
+import { normalizeProduct, type ShopifyRawProduct } from "@/lib/shopify/mapper";
+
+type Note = NonNullable<Product["notes"]>[number];
+type Gender = NonNullable<Product["gender"]>;
 
 const GENDERS: Gender[] = ["women", "men", "unisex"];
 const COPY: Record<Gender, string> = {
@@ -22,10 +29,11 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ gender: Gender }>;
+  params: Promise<{ gender: string }>;
 }): Promise<Metadata> {
   const { gender } = await params;
-  if (!GENDERS.includes(gender)) return {};
+  if (!GENDERS.includes(gender as Gender)) return {};
+
   const name = gender[0].toUpperCase() + gender.slice(1);
   return {
     title: `${name} Fragrances | Shop`,
@@ -37,16 +45,28 @@ export default async function ShopByGenderPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ gender: Gender }>;
+  params: Promise<{ gender: string }>;
   searchParams: Promise<{ notes?: string }>;
 }) {
   const { gender } = await params;
-  if (!GENDERS.includes(gender)) return notFound();
 
+  // Validate Gender Param
+  if (!GENDERS.includes(gender as Gender)) return notFound();
+  const validGender = gender as Gender;
+
+  // 1. FETCH DATA (Cast to unknown then to our flexible Raw Interface)
+  const rawData =
+    (await getShopifyProducts()) as unknown as ShopifyRawProduct[];
+
+  // 2. NORMALIZE DATA (The clean separation)
+  const PRODUCTS: Product[] = rawData.map(normalizeProduct);
+
+  // 3. FILTER LOGIC
   const sp = await searchParams;
   const selected = (sp.notes?.split(",").filter(Boolean) ?? []) as Note[];
 
-  const base = PRODUCTS.filter((p) => p.gender === gender);
+  const base = PRODUCTS.filter((p) => p.gender === validGender);
+
   const filtered = base.filter((p) =>
     selected.length === 0
       ? true
@@ -77,17 +97,18 @@ export default async function ShopByGenderPage({
             </Link>
           </li>
           <li>/</li>
-          <li className="text-foreground">{gender}</li>
+          <li className="text-foreground">{validGender}</li>
         </ol>
       </nav>
 
       {/* Intro */}
       <IntroCompact
-        title={`${gender.toUpperCase()} FRAGRANCES`}
+        title={`${validGender.toUpperCase()} FRAGRANCES`}
         count={filtered.length}
-        subtitle={<>{COPY[gender]}</>}
+        subtitle={<>{COPY[validGender]}</>}
       />
 
+      {/* Filters */}
       <section className="mt-6 w-full px-5 md:mt-8 md:px-5 xl:px-6">
         <NoteFilterChips
           allNotes={["Woody", "Floral", "Amber", "Spice", "Musk", "Citrus"]}

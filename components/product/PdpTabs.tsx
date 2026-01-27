@@ -16,6 +16,7 @@ type Props = {
   policies?: string[];
   ingredients?: string | null;
   pyramid?: Pyramid;
+  storage_instructions?: string | null;
 };
 
 const TABS = [
@@ -33,6 +34,7 @@ export default function PdpTabs({
   policies,
   ingredients,
   pyramid,
+  storage_instructions,
 }: Props) {
   const [active, setActive] = useState<TabKey>("Description");
 
@@ -211,7 +213,7 @@ export default function PdpTabs({
                 All items are packaged in our signature Arabian Fragrance box,
                 with complimentary gift wrap for a refined presentation.
               </li>
-              <li>Store in a cool, dry place. Avoid direct sunlight.</li>
+              <li>{storage_instructions}</li>
             </ul>
           </div>
         )}

@@ -15,6 +15,8 @@ type ProductHeaderPanelProps = {
   description?: string | null;
   ingredients?: string | null;
   pyramid?: Product["pyramid"];
+  storage_instructions?: string | null;
+  variantId?: string | null;
 };
 
 export default function ProductHeaderPanel({
@@ -28,6 +30,8 @@ export default function ProductHeaderPanel({
   description,
   ingredients,
   pyramid,
+  storage_instructions,
+  variantId,
 }: ProductHeaderPanelProps) {
   return (
     <aside className="md:col-span-5">
@@ -50,7 +54,7 @@ export default function ProductHeaderPanel({
         />
 
         <ActionsWrapper
-          product={{ id: sku ?? name, name, price, image }}
+          product={{ id: variantId ?? sku ?? name, name, price, image }}
           stock={stock}
         />
 
@@ -69,6 +73,7 @@ export default function ProductHeaderPanel({
           ]}
           ingredients={ingredients ?? undefined}
           pyramid={pyramid}
+          storage_instructions={storage_instructions}
         />
       </div>
     </aside>
