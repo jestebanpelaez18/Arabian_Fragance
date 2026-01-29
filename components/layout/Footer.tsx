@@ -10,11 +10,9 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
   {
     title: "Customer Care",
     links: [
-      { label: "Contact Us", href: "/contact" },
       { label: "Shipping", href: "/policies/shipping-policy" },
-      { label: "Returns & Repairs", href: "/policies/refund-policy" },
+      { label: "Returns & Refunds", href: "/policies/refund-policy" },
       { label: "FAQs", href: "/faq" },
-      { label: "Warranty Policy", href: "/warranty" },
       { label: "Terms & Conditions", href: "/policies/terms-conditions" },
       { label: "Privacy Policy", href: "/policies/privacy-policy" },
       { label: "Cookies Policy", href: "/cookies" },
@@ -23,11 +21,9 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
   {
     title: "About",
     links: [
+      { label: "Contact Us", href: "/contact" },
       { label: "Brand Profile", href: "/about" },
       { label: "Store", href: "/showroom" },
-      { label: "Philanthropy", href: "/philanthropy" },
-      { label: "Recycling", href: "/recycling" },
-      { label: "Care Guide", href: "/care" },
     ],
   },
   {
