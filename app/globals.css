@@ -267,7 +267,6 @@ body {
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.18);
 }
 
-/* ====== Z-INDEX UTILITIES (Tailwind v4) ====== */
 @utility z-header {
   z-index: 1000;
 }
@@ -282,4 +281,68 @@ body {
 }
 @utility z-toast {
   z-index: 2300;
+}
+
+
+.policy-content {
+  max-width: 65ch; /* Ancho de lectura ideal */
+  margin: 0 auto;
+}
+
+/* Títulos H2 (Los que vienen de Shopify) */
+.policy-content h2 {
+  font-family: var(--font-playfair-display), serif;
+  font-size: 1.5rem; /* ~24px */
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 400;
+  color: var(--ink);
+  margin-top: 4rem; /* Mucho aire arriba */
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid transparent; /* Opcional */
+}
+
+/* Párrafos */
+.policy-content p {
+  font-family: var(--font-garamond), serif;
+  font-size: 1.125rem; /* 18px */
+  line-height: 2; /* Leading loose (muy espaciado) */
+  color: rgba(17, 17, 17, 0.85); /* Ink al 85% */
+  margin-bottom: 2rem; /* Separación clara entre párrafos */
+  text-align: left; /* Alineado a la izquierda, no justificado */
+}
+
+/* Listas */
+.policy-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.policy-content li {
+  font-family: var(--font-garamond), serif;
+  font-size: 1.125rem;
+  line-height: 2;
+  color: rgba(17, 17, 17, 0.85);
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+/* Negritas */
+.policy-content strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Enlaces */
+.policy-content a {
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(201, 164, 106, 0.3);
+  transition: all 0.2s ease;
+}
+
+.policy-content a:hover {
+  color: var(--gold-strong);
+  border-bottom-color: var(--gold-strong);
 }
