@@ -1,18 +1,16 @@
-// 1. Tipamos las variables de entrada como 'unknown' (seguro) en lugar de 'any'
 interface ShopifyFetchParams {
   query: string;
   variables?: Record<string, unknown>;
+  cache?: RequestCache;
+  tags?: string[];
 }
 
-// 2. Usamos un Genérico <T> para el resultado.
-// Por defecto es 'unknown', obligando a quien lo use a definir el tipo o hacer un cast.
 interface ShopifyFetchResult<T = unknown> {
   status: number;
   body: T;
   error?: string;
 }
 
-// 3. La función acepta un tipo <T> opcional
 export async function shopifyFetch<T = unknown>({
   query,
   variables,

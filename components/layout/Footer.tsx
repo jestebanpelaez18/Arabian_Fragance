@@ -5,29 +5,26 @@ import { FormEvent } from "react";
 import NewsletterForm from "@/components/footer/NewsletterForm";
 import BrandCopy from "@/components/footer/BrandCopy";
 import CurrencySelector from "@/components/footer/CurrencySelector";
+import PaymentIcons from "../footer/PaymentsIcons";
 
 const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
   {
     title: "Customer Care",
     links: [
-      { label: "Contact Us", href: "/contact" },
-      { label: "Shipping", href: "/shipping" },
-      { label: "Returns & Repairs", href: "/returns" },
+      { label: "Shipping", href: "/policies/shipping-policy" },
+      { label: "Returns & Refunds", href: "/policies/refund-policy" },
       { label: "FAQs", href: "/faq" },
-      { label: "Warranty Policy", href: "/warranty" },
-      { label: "Terms & Conditions", href: "/terms" },
-      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Terms & Conditions", href: "/policies/terms-conditions" },
+      { label: "Privacy Policy", href: "/policies/privacy-policy" },
       { label: "Cookies Policy", href: "/cookies" },
     ],
   },
   {
     title: "About",
     links: [
+      { label: "Contact Us", href: "/contact" },
       { label: "Brand Profile", href: "/about" },
       { label: "Store", href: "/showroom" },
-      { label: "Philanthropy", href: "/philanthropy" },
-      { label: "Recycling", href: "/recycling" },
-      { label: "Care Guide", href: "/care" },
     ],
   },
   {
@@ -81,6 +78,7 @@ export default function Footer() {
           </section>
           <BrandCopy text={BRAND_COPY} />
           <CurrencySelector />
+          <PaymentIcons />
           <div className="mt-2 text-center text-xs text-stone-400">
             © {year} Arabian Fragrance. All rights reserved.
           </div>
@@ -108,6 +106,7 @@ export default function Footer() {
             <NewsletterForm onSubscribe={onSubscribe} />
             <BrandCopy text={BRAND_COPY} />
             <CurrencySelector />
+            <PaymentIcons />
           </aside>
         </div>
       </div>
