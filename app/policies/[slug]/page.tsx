@@ -94,7 +94,7 @@ export default async function PolicyPage({
           <div className="mx-auto mt-8 h-px w-16 bg-gold/50" />
         </header>
         <div
-          className="policy-content" 
+          className="font-garamond policy-content" 
           dangerouslySetInnerHTML={{ __html: policy.body }}
         />
 
