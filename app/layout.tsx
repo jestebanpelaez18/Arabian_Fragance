@@ -90,7 +90,7 @@ export default function RootLayout({
         <Navbar />
         <main>{children}</main>
         <Footer />
-        <CookieBanner />  
+        <CookieBanner />
       </body>
     </html>
   );

@@ -11,7 +11,6 @@ interface ShopifyFetchResult<T = unknown> {
   error?: string;
 }
 
-
 export async function shopifyFetch<T = unknown>({
   query,
   variables,

@@ -83,21 +83,19 @@ export default async function PolicyPage({
   if (!policy) return notFound();
 
   return (
-    <main className="min-h-screen w-full bg-background text-foreground">
+    <main className="bg-background text-foreground min-h-screen w-full">
       <article className="mx-auto px-6 py-24 md:py-32">
-        
         {/* HEADER */}
         <header className="mb-20 text-center">
-          <h1 className="font-playfair-display text-3xl uppercase tracking-[0.2em] text-ink md:text-5xl">
+          <h1 className="font-playfair-display text-ink text-3xl tracking-[0.2em] uppercase md:text-5xl">
             {policy.title}
           </h1>
-          <div className="mx-auto mt-8 h-px w-16 bg-gold/50" />
+          <div className="bg-gold/50 mx-auto mt-8 h-px w-16" />
         </header>
         <div
-          className="font-garamond policy-content" 
+          className="font-garamond policy-content"
           dangerouslySetInnerHTML={{ __html: policy.body }}
         />
-
       </article>
     </main>
   );
