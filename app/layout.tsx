@@ -10,6 +10,7 @@ import {
 import "./globals.css";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/navbar";
+import CookieBanner from "@/components/ui/CookieBanner";
 
 const geistGaramond = Cormorant_Garamond({
   variable: "--font-cormorant-garamond",
@@ -89,6 +90,7 @@ export default function RootLayout({
         <Navbar />
         <main>{children}</main>
         <Footer />
+        <CookieBanner />  
       </body>
     </html>
   );
