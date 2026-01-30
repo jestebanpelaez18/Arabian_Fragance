@@ -5,6 +5,7 @@ import { FormEvent } from "react";
 import NewsletterForm from "@/components/footer/NewsletterForm";
 import BrandCopy from "@/components/footer/BrandCopy";
 import CurrencySelector from "@/components/footer/CurrencySelector";
+import PaymentIcons from "../footer/PaymentsIcons";
 
 const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
   {
@@ -77,6 +78,7 @@ export default function Footer() {
           </section>
           <BrandCopy text={BRAND_COPY} />
           <CurrencySelector />
+          <PaymentIcons />
           <div className="mt-2 text-center text-xs text-stone-400">
             © {year} Arabian Fragrance. All rights reserved.
           </div>
@@ -104,6 +106,7 @@ export default function Footer() {
             <NewsletterForm onSubscribe={onSubscribe} />
             <BrandCopy text={BRAND_COPY} />
             <CurrencySelector />
+            <PaymentIcons />
           </aside>
         </div>
       </div>
