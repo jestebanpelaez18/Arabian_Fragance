@@ -37,7 +37,7 @@ export default function ContactPage() {
               For assistance with online orders and general inquiries.
             </p>
             <a
-              href="mailto:juanes.pelaez18@gmail.com"
+              href="mailto:helsinki@arabianfragrance.com"
               className="font-garamond text-gold hover:text-gold-strong border-gold/30 hover:border-gold mt-4 border-b text-xl transition-colors"
             >
               helsinki@arabianfragrance.com

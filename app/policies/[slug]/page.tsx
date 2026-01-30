@@ -7,7 +7,6 @@ interface Policy {
   id: string;
   title: string;
   body: string;
-  handle: string;
 }
 
 interface ShopPoliciesData {
