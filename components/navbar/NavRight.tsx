@@ -6,13 +6,17 @@ import { useState } from "react";
 export default function NavRight() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
+  const toggleSearch = () => {
+    setIsSearchOpen((prev) => !prev);
+  };
+
   return (
     <>
       {/* Right (desktop) */}
       <div className="hidden items-center justify-end gap-6 text-sm lg:flex">
         <button
-          onClick={() => setIsSearchOpen(true)} // <--- Abre el overlay
-          className="nav-link"
+          onClick={toggleSearch} 
+          className={`nav-link transition-colors ${isSearchOpen ? "text-[var(--gold)]" : ""}`}
         >
           Search
         </button>
@@ -32,7 +36,12 @@ export default function NavRight() {
       >
         <span className="block h-6 w-6" />
       </div>
-      {isSearchOpen && <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />}
+      {isSearchOpen && (
+        <SearchOverlay
+          isOpen={isSearchOpen}
+          onClose={() => setIsSearchOpen(false)}
+        />
+      )}
     </>
   );
 }
