@@ -1,14 +1,21 @@
 import Link from "next/link";
 import NavCartTrigger from "@/components/nav/NavCartTrigger";
+import SearchOverlay from "../layout/SearchOverlay";
+import { useState } from "react";
 
 export default function NavRight() {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
   return (
     <>
       {/* Right (desktop) */}
       <div className="hidden items-center justify-end gap-6 text-sm lg:flex">
-        <Link href="/search" className="nav-link">
+        <button
+          onClick={() => setIsSearchOpen(true)} // <--- Abre el overlay
+          className="nav-link"
+        >
           Search
-        </Link>
+        </button>
         <Link href="/account" className="nav-link">
           Account
         </Link>
@@ -25,6 +32,7 @@ export default function NavRight() {
       >
         <span className="block h-6 w-6" />
       </div>
+      {isSearchOpen && <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />}
     </>
   );
 }
