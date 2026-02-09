@@ -15,7 +15,7 @@ export default function NavRight() {
       {/* Right (desktop) */}
       <div className="hidden items-center justify-end gap-6 text-sm lg:flex">
         <button
-          onClick={toggleSearch} 
+          onClick={toggleSearch}
           className={`nav-link transition-colors ${isSearchOpen ? "text-[var(--gold)]" : ""}`}
         >
           Search

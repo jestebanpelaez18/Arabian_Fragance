@@ -1,7 +1,6 @@
-'use server';
+"use server";
 
-import { shopifyFetch } from '@/lib/shopify/shopify';
-
+import { shopifyFetch } from "@/lib/shopify/shopify";
 
 const trendingProductsQuery = `
   query trendingProducts{
@@ -52,22 +51,24 @@ const searchProductsQuery = `
   }
 `;
 
-export async function getTrendingProducts(){
-    try {
-        const res = await shopifyFetch<any>({
-            query: trendingProductsQuery,
-            cache: 'no-store',
-        });
-        
-        const products = res.body?.data?.products?.nodes || [];
-        
-        const formattedProducts = products.sort(() => 0.5 - Math.random()).slice(0, 3);
+export async function getTrendingProducts() {
+  try {
+    const res = await shopifyFetch<any>({
+      query: trendingProductsQuery,
+      cache: "no-store",
+    });
 
-        return formattedProducts;
-    } catch (error) {
-        console.error("Error fetching trending products:", error);
-        return [];
-    }
+    const products = res.body?.data?.products?.nodes || [];
+
+    const formattedProducts = products
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 7);
+
+    return formattedProducts;
+  } catch (error) {
+    console.error("Error fetching trending products:", error);
+    return [];
+  }
 }
 
 export async function searchProductsAction(term: string) {
@@ -79,7 +80,7 @@ export async function searchProductsAction(term: string) {
       query: term,
       first: 6,
     },
-    cache: 'no-store',
+    cache: "no-store",
   });
 
   if (res.error) {

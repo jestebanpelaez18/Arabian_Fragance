@@ -3,7 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { searchProductsAction, getTrendingProducts } from "@/lib/shopify/actions";
+import {
+  searchProductsAction,
+  getTrendingProducts,
+} from "@/lib/shopify/actions";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -30,8 +33,8 @@ export default function SearchOverlay({
   // Load top products in the initial menu (trending products)
   useEffect(() => {
     async function loadTrending() {
-        const trendingProducts = await getTrendingProducts();
-        setTrending(trendingProducts);
+      const trendingProducts = await getTrendingProducts();
+      setTrending(trendingProducts);
     }
     loadTrending();
   }, []);
@@ -175,7 +178,9 @@ export default function SearchOverlay({
                           {product.title}
                         </h3>
                         <p className="font-garamond mt-1 text-center text-sm text-gray-500">
-                          {parseFloat(product.priceRange?.minVariantPrice?.amount)}{" "}
+                          {parseFloat(
+                            product.priceRange?.minVariantPrice?.amount,
+                          )}{" "}
                           {product.priceRange?.minVariantPrice?.currencyCode}
                         </p>
                       </Link>
@@ -196,25 +201,33 @@ export default function SearchOverlay({
                 {/* COLUMNA IZQUIERDA: Trending */}
                 <div className="hidden h-full border-r border-[#1a1a1a]/10 pr-8 md:block">
                   <h4 className="font-bodoni mb-6 text-xs font-bold tracking-widest text-[#1a1a1a] uppercase">
-                    Trending
+                    Trending Now
                   </h4>
-                  <ul className="space-y-4">
-                    {[
-                      "Oud Collection",
-                      "Summer Scents",
-                      "Gift Sets",
-                      "New Arrivals",
-                    ].map((item) => (
-                      <li key={item}>
-                        <button
-                          onClick={() => setTerm(item)}
-                          className="font-garamond text-left text-lg text-[#1a1a1a]/80 transition-colors hover:text-[#C9A46A]"
-                        >
-                          {item}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
+
+                  {trending.length > 0 ? (
+                    <ul className="space-y-4">
+                      {/* Mostramos los primeros 5 nombres */}
+                      {trending.slice(3, 7).map((product) => (
+                        <li key={product.id}>
+                          <Link
+                            href={`/product/${product.handle}`}
+                            key={product.id}
+                            onClick={onClose}
+                            className="font-garamond block w-full truncate text-left text-lg text-[#1a1a1a]/80 transition-colors hover:text-[#C9A46A]"
+                          >
+                            {product.title}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    /* Skeleton de texto */
+                    <div className="space-y-4 opacity-30">
+                      <div className="h-4 w-3/4 rounded bg-gray-300"></div>
+                      <div className="h-4 w-1/2 rounded bg-gray-300"></div>
+                      <div className="h-4 w-2/3 rounded bg-gray-300"></div>
+                    </div>
+                  )}
                 </div>
 
                 {/* COLUMNA DERECHA: Top Products */}
@@ -225,41 +238,53 @@ export default function SearchOverlay({
 
                   {trending.length > 0 ? (
                     <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
-                      {trending.map((product) => (
+                      {trending.slice(0, 3).map((product) => (
                         <Link
                           href={`/product/${product.handle}`}
                           key={product.id}
                           onClick={onClose}
                           className="group cursor-pointer"
                         >
-                            <div className="relative mb-3 aspect-square w-full overflow-hidden bg-[#EAE8E4]">
-                              <Image
-                                src={product.featuredImage?.url || "/catalog/Bottle_3.png"}
-                                alt={product.title}
-                                fill
-                                className="object-cover transition-opacity duration-500 group-hover:opacity-90"
-                              />
-                           </div>
-                           <div className="text-center">
-                             <p className="font-bodoni text-xs font-bold uppercase tracking-widest text-[#1a1a1a] truncate">
-                               {product.title}
-                             </p>
-                             <p className="font-garamond text-xs text-gray-500 mt-1">
-                               {parseFloat(product.priceRange?.minVariantPrice?.amount)} {product.priceRange?.minVariantPrice?.currencyCode}
-                             </p>
-                           </div>
+                          <div className="relative mb-3 aspect-square w-full overflow-hidden bg-[#EAE8E4]">
+                            <Image
+                              src={
+                                product.featuredImage?.url ||
+                                "/catalog/Bottle_3.png"
+                              }
+                              alt={product.title}
+                              fill
+                              className="object-cover transition-opacity duration-500 group-hover:opacity-90"
+                            />
+                          </div>
+                          <div className="text-center">
+                            <p className="font-bodoni truncate text-xs font-bold tracking-widest text-[#1a1a1a] uppercase">
+                              {product.title}
+                            </p>
+                            <p className="font-garamond mt-1 text-xs text-gray-500">
+                              {parseFloat(
+                                product.priceRange?.minVariantPrice?.amount,
+                              )}{" "}
+                              {
+                                product.priceRange?.minVariantPrice
+                                  ?.currencyCode
+                              }
+                            </p>
+                          </div>
                         </Link>
                       ))}
                     </div>
                   ) : (
                     <div className="grid grid-cols-3 gap-4 opacity-50">
-                        {[1,2,3].map(i => (
-                          <div key={i} className="aspect-square bg-gray-200 animate-pulse"></div>
-                        ))}
-                     </div>
+                      {[1, 2, 3].map((i) => (
+                        <div
+                          key={i}
+                          className="aspect-square animate-pulse bg-gray-200"
+                        ></div>
+                      ))}
+                    </div>
                   )}
-                  </div>
                 </div>
+              </div>
             )}
           </div>
         </div>
