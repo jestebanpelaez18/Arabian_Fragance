@@ -2,6 +2,29 @@
 
 import { shopifyFetch } from '@/lib/shopify/shopify';
 
+
+const trendingProductsQuery = `
+  query trendingProducts{
+    products(first: 10, sortKey: CREATED_AT, reverse: true) {
+        nodes {
+        id
+        title
+        handle
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        featuredImage {
+          url
+          altText
+        }
+    }
+  }
+}
+`;
+
 const searchProductsQuery = `
   query searchProducts($query: String!, $first: Int) {
     search(query: $query, first: $first, types: PRODUCT) {
@@ -29,6 +52,24 @@ const searchProductsQuery = `
   }
 `;
 
+export async function getTrendingProducts(){
+    try {
+        const res = await shopifyFetch<any>({
+            query: trendingProductsQuery,
+            cache: 'no-store',
+        });
+        
+        const products = res.body?.data?.products?.nodes || [];
+        
+        const formattedProducts = products.sort(() => 0.5 - Math.random()).slice(0, 3);
+
+        return formattedProducts;
+    } catch (error) {
+        console.error("Error fetching trending products:", error);
+        return [];
+    }
+}
+
 export async function searchProductsAction(term: string) {
   if (!term) return [];
 
@@ -46,6 +87,5 @@ export async function searchProductsAction(term: string) {
     return [];
   }
 
-  console.log(`✅ Búsqueda para "${term}": ${res.body?.data?.search?.nodes.length} resultados.`);
   return res.body?.data?.search?.nodes || [];
 }

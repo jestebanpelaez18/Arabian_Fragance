@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { searchProductsAction } from "@/lib/shopify/actions";
+import { searchProductsAction, getTrendingProducts } from "@/lib/shopify/actions";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -24,7 +24,17 @@ export default function SearchOverlay({
   const [term, setTerm] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [trending, setTrending] = useState<any[]>([]); // State for trending products
   const debouncedTerm = useDebounce(term, 500);
+
+  // Load top products in the initial menu (trending products)
+  useEffect(() => {
+    async function loadTrending() {
+        const trendingProducts = await getTrendingProducts();
+        setTrending(trendingProducts);
+    }
+    loadTrending();
+  }, []);
 
   useEffect(() => {
     async function fetchResults() {
@@ -213,62 +223,43 @@ export default function SearchOverlay({
                     Top Products
                   </h4>
 
-                  {/* Grid de 3 productos, más juntos (gap-4) y grandes */}
-                  <div className="grid grid-cols-3 gap-4">
-                    {/* Placeholder 1 - Estilo Amouage (Caja con fondo suave) */}
-                    <div className="group cursor-pointer">
-                      <div className="relative mb-3 aspect-square w-full overflow-hidden bg-[#EAE8E4]">
-                        {/* Aquí iría la imagen real destacada */}
-                        <div className="absolute inset-0 flex items-center justify-center text-gray-400 opacity-50">
-                          Image
-                        </div>
-                      </div>
-                      <div className="text-center">
-                        <p className="font-bodoni text-xs font-bold tracking-widest text-[#1a1a1a] uppercase">
-                          Guidance
-                        </p>
-                        <p className="font-garamond mt-1 text-xs text-gray-500">
-                          100ml
-                        </p>
-                      </div>
+                  {trending.length > 0 ? (
+                    <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
+                      {trending.map((product) => (
+                        <Link
+                          href={`/product/${product.handle}`}
+                          key={product.id}
+                          onClick={onClose}
+                          className="group cursor-pointer"
+                        >
+                            <div className="relative mb-3 aspect-square w-full overflow-hidden bg-[#EAE8E4]">
+                              <Image
+                                src={product.featuredImage?.url || "/catalog/Bottle_3.png"}
+                                alt={product.title}
+                                fill
+                                className="object-cover transition-opacity duration-500 group-hover:opacity-90"
+                              />
+                           </div>
+                           <div className="text-center">
+                             <p className="font-bodoni text-xs font-bold uppercase tracking-widest text-[#1a1a1a] truncate">
+                               {product.title}
+                             </p>
+                             <p className="font-garamond text-xs text-gray-500 mt-1">
+                               {parseFloat(product.priceRange?.minVariantPrice?.amount)} {product.priceRange?.minVariantPrice?.currencyCode}
+                             </p>
+                           </div>
+                        </Link>
+                      ))}
                     </div>
-
-                    {/* Placeholder 2 */}
-                    <div className="group cursor-pointer">
-                      <div className="relative mb-3 aspect-square w-full overflow-hidden bg-[#EAE8E4]">
-                        <div className="absolute inset-0 flex items-center justify-center text-gray-400 opacity-50">
-                          Image
-                        </div>
-                      </div>
-                      <div className="text-center">
-                        <p className="font-bodoni text-xs font-bold tracking-widest text-[#1a1a1a] uppercase">
-                          Outlands
-                        </p>
-                        <p className="font-garamond mt-1 text-xs text-gray-500">
-                          100ml
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Placeholder 3 */}
-                    <div className="group cursor-pointer">
-                      <div className="relative mb-3 aspect-square w-full overflow-hidden bg-[#EAE8E4]">
-                        <div className="absolute inset-0 flex items-center justify-center text-gray-400 opacity-50">
-                          Image
-                        </div>
-                      </div>
-                      <div className="text-center">
-                        <p className="font-bodoni text-xs font-bold tracking-widest text-[#1a1a1a] uppercase">
-                          Reflection
-                        </p>
-                        <p className="font-garamond mt-1 text-xs text-gray-500">
-                          Body Lotion
-                        </p>
-                      </div>
-                    </div>
+                  ) : (
+                    <div className="grid grid-cols-3 gap-4 opacity-50">
+                        {[1,2,3].map(i => (
+                          <div key={i} className="aspect-square bg-gray-200 animate-pulse"></div>
+                        ))}
+                     </div>
+                  )}
                   </div>
                 </div>
-              </div>
             )}
           </div>
         </div>
