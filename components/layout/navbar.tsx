@@ -5,6 +5,8 @@ import NavLeft from "@/components/navbar/NavLeft";
 import NavCenter from "@/components/navbar/NavCenter";
 import NavRight from "@/components/navbar/NavRight";
 import MobileDrawer from "@/components/navbar/MobileDrawer";
+import { usePathname } from "next/navigation";
+import SearchOverlay from "./SearchOverlay";
 
 type MobileView = "root" | "shop";
 
@@ -12,6 +14,14 @@ export default function Navbar() {
   const [openMobile, setOpenMobile] = useState(false);
   const [mobileView, setMobileView] = useState<MobileView>("root");
   const [openShop, setOpenShop] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
+  const pathname = usePathname();
+
+  // Close menu on channge of route
+  useEffect(() => {
+    setOpenMobile(false);
+    setOpenSearch(false);
+  }, [pathname]);
 
   // ESC key closes mobile drawer and mega-menu
   useEffect(() => {
@@ -19,12 +29,14 @@ export default function Navbar() {
       if (e.key === "Escape") {
         setOpenMobile(false);
         setOpenShop(false);
+        setOpenSearch(false);
         setMobileView("root");
       }
     };
-    if (openMobile || openShop) document.addEventListener("keydown", onKey);
+    if (openMobile || openShop || openSearch)
+      document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [openMobile, openShop]);
+  }, [openMobile, openShop, openSearch]);
 
   useEffect(() => {
     if (!openMobile) return;
@@ -66,7 +78,7 @@ export default function Navbar() {
               closeShopSoon={closeShopSoon}
             />
             <NavCenter />
-            <NavRight />
+            <NavRight onOpenSearch={() => setOpenSearch(true)} />
           </div>
         </nav>
       </header>
@@ -78,6 +90,7 @@ export default function Navbar() {
         viewIndex={viewIndex}
         title={title}
       />
+      <SearchOverlay isOpen={openSearch} onClose={() => setOpenSearch(false)} />
     </>
   );
 }
