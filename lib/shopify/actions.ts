@@ -3,7 +3,7 @@
 import { shopifyFetch } from "@/lib/shopify/shopify";
 
 // --- TYPES ---
-type Product = {
+export type Product = {
   id: string;
   title: string;
   handle: string;

@@ -7,6 +7,7 @@ import {
   searchProductsAction,
   getTrendingProducts,
 } from "@/lib/shopify/actions";
+import type { Product } from "@/lib/shopify/actions";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -25,9 +26,9 @@ export default function SearchOverlay({
   onClose: () => void;
 }) {
   const [term, setTerm] = useState("");
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
-  const [trending, setTrending] = useState<any[]>([]); // State for trending products
+  const [trending, setTrending] = useState<Product[]>([]); // State for trending products
   const debouncedTerm = useDebounce(term, 500);
 
   // Load top products in the initial menu (trending products)
@@ -189,7 +190,7 @@ export default function SearchOverlay({
                 ) : (
                   <div className="py-12 text-center">
                     <p className="font-garamond text-xl text-gray-400">
-                      No results for "{term}"
+                      No results for &quot;{term}&quot;
                     </p>
                   </div>
                 )}
