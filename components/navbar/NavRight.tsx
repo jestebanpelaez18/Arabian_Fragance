@@ -18,9 +18,9 @@ export default function NavRight({ onOpenSearch }: NavRightProps) {
         >
           Search
         </button>
-        <Link href="/account" className="nav-link">
+        {/* <Link href="/account" className="nav-link">
           Account
-        </Link>
+        </Link> */}
         <NavCartTrigger />
       </div>
 

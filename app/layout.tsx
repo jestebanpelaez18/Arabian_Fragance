@@ -89,7 +89,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Navbar />
-        <main>{children}</main>
+        <main className="flex-grow pt-16 lg:pt-[110px]">{children}</main>
         <Footer />
         <CookieBanner />
       </body>
