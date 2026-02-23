@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SmoothImage from "./SmoothImage";
 import Link from "next/link";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
@@ -118,7 +118,7 @@ export default function LuxeHero({
         </video>
       ) : imageSrc ? (
         <div className="absolute inset-0 bg-[#F2F0EB]">
-          <Image
+          <SmoothImage
             src={imageSrc}
             alt={imageAlt}
             fill

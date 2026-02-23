@@ -17,7 +17,6 @@ export default function Navbar() {
   const [openSearch, setOpenSearch] = useState(false);
   const pathname = usePathname();
 
-
   // Close menu on channge of route
   useEffect(() => {
     setOpenMobile(false);

@@ -86,7 +86,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistGaramond.variable} ${geistPlayfairDisplay.variable} ${geistRoboto.variable} ${geistCarlito.variable} ${jakarta.variable} ${bodoni.variable} antialiased`}
-      suppressHydrationWarning
+        suppressHydrationWarning
       >
         <Navbar />
         <main>{children}</main>

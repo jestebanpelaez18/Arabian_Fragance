@@ -1,6 +1,5 @@
 import Link from "next/link";
 import SmoothImage from "../ui/SmoothImage";
-import Image from "next/image";
 import { type Product } from "@/data/products";
 
 export default function ProductCard({ p }: { p: Product }) {
