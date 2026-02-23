@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import SmoothImage from "../ui/SmoothImage";
 import {
   searchProductsAction,
   getTrendingProducts,
@@ -163,7 +163,7 @@ export default function SearchOverlay({
                         className="group block"
                       >
                         <div className="relative mb-4 aspect-[4/5] w-full overflow-hidden bg-white shadow-sm transition-shadow duration-300 group-hover:shadow-md">
-                          <Image
+                          <SmoothImage
                             src={
                               product.featuredImage?.url ||
                               "/catalog/Bottle_3.png"
@@ -247,7 +247,7 @@ export default function SearchOverlay({
                           className="group cursor-pointer"
                         >
                           <div className="relative mb-3 aspect-square w-full overflow-hidden bg-[#EAE8E4]">
-                            <Image
+                            <SmoothImage
                               src={
                                 product.featuredImage?.url ||
                                 "/catalog/Bottle_3.png"
