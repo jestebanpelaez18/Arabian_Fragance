@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Button from "@/components/ui/button";
+import SmoothImage from "../ui/SmoothImage";
 
 type GiftHeroProps = {
   imageSrc: string;
@@ -26,7 +26,7 @@ export default function GiftHero({
 }: GiftHeroProps) {
   return (
     <section className={`relative overflow-hidden ${heightClassName}`}>
-      <Image
+      <SmoothImage
         src={imageSrc}
         alt={title}
         fill

@@ -83,9 +83,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistGaramond.variable} ${geistPlayfairDisplay.variable} ${geistRoboto.variable} ${geistCarlito.variable} ${jakarta.variable} ${bodoni.variable} antialiased`}
+      suppressHydrationWarning
       >
         <Navbar />
         <main>{children}</main>

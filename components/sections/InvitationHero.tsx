@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SmoothImage from "../ui/SmoothImage";
 import Button from "@/components/ui/button";
 
 interface InvitationHeroProps {
@@ -25,7 +25,7 @@ export default function InvitationHero({
 }: InvitationHeroProps) {
   return (
     <section className={`relative overflow-hidden ${heightClassName}`}>
-      <Image
+      <SmoothImage
         src={imageSrc}
         alt={title}
         fill

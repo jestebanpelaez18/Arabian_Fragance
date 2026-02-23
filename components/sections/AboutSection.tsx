@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SmoothImage from "../ui/SmoothImage";
 import Button from "@/components/ui/button";
 
 interface AboutSectionProps {
@@ -41,7 +41,7 @@ export default function AboutSection({
       <div
         className={`relative order-1 aspect-4/3 ${imageOrderDesktop} md:aspect-auto md:min-h-[680px]`}
       >
-        <Image
+        <SmoothImage
           src={imageSrc}
           alt={imageAlt}
           fill

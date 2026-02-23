@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import SmoothImage from "../ui/SmoothImage";
 
 export default function CategoryShowcase() {
   return (
@@ -61,7 +61,7 @@ function CategoryCard({
       className="group card-luxe relative block aspect-3/4 overflow-hidden"
     >
       {/* Background image */}
-      <Image
+      <SmoothImage
         src={imageSrc}
         alt={ariaLabel ?? title}
         fill
