@@ -17,8 +17,8 @@ export default function SmoothImage({
       src={src}
       className={`duration-700 ease-in-out ${
         isLoading
-          ? "scale-105 bg-black/5 blur-lg grayscale" // Mientras carga: zoom sutil, borroso y un gris muuuuy clarito
-          : "blur-0 scale-100 bg-transparent grayscale-0" // Cargado: nítido y transparente
+          ? "scale-105 bg-black/5 blur-lg grayscale"
+          : "blur-0 scale-100 bg-transparent grayscale-0"
       } ${className || ""}`}
       onLoad={() => setLoading(false)}
       {...props}

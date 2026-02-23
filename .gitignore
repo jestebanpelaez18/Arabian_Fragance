@@ -65,6 +65,3 @@ yarn-debug.log*
 pnpm-debug.log*
 .DS_Store
 Thumbs.db
-.prettierrc
-.eslintrc.json
-eslint.config.mjs
