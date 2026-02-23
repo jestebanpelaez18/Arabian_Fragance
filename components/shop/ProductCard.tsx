@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import SmoothImage from "../ui/SmoothImage";
 import { type Product } from "@/data/products";
 
 export default function ProductCard({ p }: { p: Product }) {
@@ -12,7 +12,7 @@ export default function ProductCard({ p }: { p: Product }) {
         aria-label={p.name}
         className="card-luxe ring-navbar-border ease-luxe group-hover:ring-gold/50 relative block aspect-3/4 overflow-hidden rounded-sm bg-white ring-1 transition-colors"
       >
-        <Image
+        <SmoothImage
           src={p.image || "/catalog/Bottle_3.png"}
           alt={p.name}
           fill

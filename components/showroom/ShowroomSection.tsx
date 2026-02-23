@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SmoothImage from "../ui/SmoothImage";
 import Button from "@/components/ui/button";
 
 type ShowroomSectionProps = {
@@ -28,7 +28,7 @@ export default function ShowroomSection({
     <section className="grid grid-cols-1 items-stretch gap-x-0 px-5 py-3 md:grid-cols-2">
       {/* Large image on the left */}
       <div className="relative order-1 aspect-4/3 md:order-1 md:aspect-auto md:min-h-[680px]">
-        <Image
+        <SmoothImage
           src={leftImageSrc}
           alt={leftImageAlt}
           fill
@@ -52,7 +52,7 @@ export default function ShowroomSection({
         </div>
 
         <div className="relative mb-10 h-[420px] w-full md:h-[520px]">
-          <Image
+          <SmoothImage
             src={rightImageSrc}
             alt={rightImageAlt}
             fill

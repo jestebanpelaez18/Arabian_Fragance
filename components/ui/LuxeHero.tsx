@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SmoothImage from "./SmoothImage";
 import Link from "next/link";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
@@ -39,7 +39,8 @@ export default function LuxeHero({
   imageSrc,
   videoSrc,
   poster,
-  objectClassName = "object-center",
+  // CRITICAL FIX: Changed default from "object-center" to shift focus down
+  objectClassName = "object-[center_15%]",
   minH = "min-h-[80vh]",
   fit = "cover", // default como en ShowroomHero (llena el área)
   centerContent = true,
@@ -116,16 +117,18 @@ export default function LuxeHero({
           <source src={videoSrc} />
         </video>
       ) : imageSrc ? (
-        <Image
-          src={imageSrc}
-          alt={imageAlt}
-          fill
-          priority={priority}
-          sizes={sizes}
-          placeholder={placeholder}
-          blurDataURL={placeholder === "blur" ? blurDataURL : undefined}
-          className={`${mediaFitClass} ${objectClassName}`}
-        />
+        <div className="absolute inset-0 bg-[#F2F0EB]">
+          <SmoothImage
+            src={imageSrc}
+            alt={imageAlt}
+            fill
+            priority={priority}
+            sizes={sizes}
+            placeholder={placeholder}
+            blurDataURL={placeholder === "blur" ? blurDataURL : undefined}
+            className={`${mediaFitClass} ${objectClassName}`}
+          />
+        </div>
       ) : null}
 
       {/* Overlays para look “luxe” */}
