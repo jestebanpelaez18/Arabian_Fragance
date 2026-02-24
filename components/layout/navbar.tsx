@@ -60,7 +60,7 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 z-[9900] w-full border-b border-black/5 bg-[#F2F0EB] text-[#1a1a1a] transition-transform duration-700 ease-in-out ${
+        className={`fixed top-0 z-[9900] w-full border-b border-black/5 bg-[var(--background)] text-[#1a1a1a] transition-transform duration-700 ease-in-out ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
