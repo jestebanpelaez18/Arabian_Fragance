@@ -16,6 +16,27 @@ export default function Navbar() {
   const [openMobile, setOpenMobile] = useState(false);
   const [mobileView, setMobileView] = useState<MobileView>("root");
   const [openSearch, setOpenSearch] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  // Hide on scroll down, reveal on scroll up
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // If we scroll down past 130px, hide the navbar. If we scroll up, show it.
+      if (currentScrollY > lastScrollY && currentScrollY > 130) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   // AUTO-CLOSE ON NAVIGATION
   useEffect(() => {
@@ -38,14 +59,16 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 z-[9900] w-full border-b border-black/5 bg-[var(--background)] text-[var(--foreground)]">
+      <header
+        className={`fixed top-0 z-[9900] w-full border-b border-black/5 bg-[#F2F0EB] text-[#1a1a1a] transition-transform duration-700 ease-in-out ${
+          isVisible ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
         {/* --- ROW 1: UTILS, LOGO & ICONS --- */}
         <div className="grid h-16 grid-cols-3 items-center px-5 md:px-8">
-          {/* Left: Mobile Hamburger OR Desktop Utils */}
           <div className="flex items-center justify-start">
-            {/* Mobile Menu Button (Visible only on small screens) */}
             <button
-              className="p-2 lg:hidden"
+              className="p-2 transition-opacity hover:opacity-70 lg:hidden"
               onClick={handleMobileToggle}
               aria-label="Open Menu"
             >
@@ -64,12 +87,11 @@ export default function Navbar() {
               </svg>
             </button>
 
-            {/* Desktop Utils (Visible only on large screens) */}
-            <div className="font-garamond hidden items-center gap-4 text-xs tracking-widest uppercase lg:flex">
+            <div className="font-garamond hidden items-center gap-4 text-xs tracking-widest text-[#1a1a1a] uppercase lg:flex">
               <button className="transition-colors hover:text-[#C9A46A]">
                 EUR €
               </button>
-              <span className="opacity-30">|</span>
+              <span className="font-light opacity-30">|</span>
               <button className="transition-colors hover:text-[#C9A46A]">
                 EN
               </button>
