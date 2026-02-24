@@ -6,7 +6,8 @@ import Link from "next/link";
 import NavRight from "@/components/navbar/NavRight";
 import NavCenter from "../navbar/NavCenter";
 import MobileDrawer from "@/components/navbar/MobileDrawer";
-import SearchOverlay from "@/components/layout/SearchOverlay";
+import SearchOverlay from "@/components/navbar/SearchOverlay";
+import SmoothImage from "@/components/ui/SmoothImage";
 
 type MobileView = "root" | "shop";
 
@@ -37,29 +38,41 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 z-[9900] w-full bg-[#F2F0EB] text-[#1a1a1a] shadow-[0_1px_0_rgba(0,0,0,0.05)]">
-        
+      <header className="fixed top-0 z-[9900] w-full border-b border-black/5 bg-[var(--background)] text-[var(--foreground)]">
         {/* --- ROW 1: UTILS, LOGO & ICONS --- */}
         <div className="grid h-16 grid-cols-3 items-center px-5 md:px-8">
-          
           {/* Left: Mobile Hamburger OR Desktop Utils */}
           <div className="flex items-center justify-start">
             {/* Mobile Menu Button (Visible only on small screens) */}
-            <button 
-              className="p-2 lg:hidden" 
+            <button
+              className="p-2 lg:hidden"
               onClick={handleMobileToggle}
               aria-label="Open Menu"
             >
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
             </button>
 
             {/* Desktop Utils (Visible only on large screens) */}
-            <div className="hidden lg:flex items-center gap-4 text-xs font-garamond tracking-widest uppercase">
-              <button className="hover:text-[#C9A46A] transition-colors">EUR €</button>
+            <div className="font-garamond hidden items-center gap-4 text-xs tracking-widest uppercase lg:flex">
+              <button className="transition-colors hover:text-[#C9A46A]">
+                EUR €
+              </button>
               <span className="opacity-30">|</span>
-              <button className="hover:text-[#C9A46A] transition-colors">EN</button>
+              <button className="transition-colors hover:text-[#C9A46A]">
+                EN
+              </button>
             </div>
           </div>
 
@@ -72,18 +85,125 @@ export default function Navbar() {
         </div>
 
         {/* --- ROW 2: DESKTOP NAVIGATION CATEGORIES --- */}
-        {/* Hidden on mobile (they go in MobileDrawer), visible on Desktop */}
-        <nav className="hidden lg:flex items-center justify-center gap-10 py-3 border-t border-black/5">
-          <Link href="/shop" className="font-bodoni text-xs tracking-[0.2em] uppercase hover:text-[#C9A46A] transition-colors">
-            Perfumes
+        <nav className="relative hidden items-center justify-center gap-10 border-t border-black/5 py-3 lg:flex">
+          {/* 1. PERFUMES ITEM WITH DROPDOWN */}
+          {/* The 'group' class allows the child dropdown to appear on hover */}
+          <div className="group h-full">
+            <button className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]">
+              Perfumes
+            </button>
+
+            {/* THE DROPDOWN PANEL (Amouage Style) */}
+            {/* Absolute positioning, hides by default, shows on group hover */}
+            <div className="invisible absolute top-full left-0 z-[9999] w-full border-t border-black/5 bg-[var(--background)] opacity-0 shadow-md transition-all duration-300 group-hover:visible group-hover:opacity-100">
+              {/* Container to align content with the rest of the navbar */}
+              <div className="mx-auto flex max-w-7xl justify-center gap-24 px-12 py-10">
+                {/* Column 1: By Gender */}
+                <div className="flex flex-col gap-4">
+                  <h3 className="font-bodoni mb-2 text-xs font-bold tracking-[0.15em] text-black/50 uppercase">
+                    By Category
+                  </h3>
+                  <Link
+                    href="/shop?gender=women"
+                    className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
+                  >
+                    Women's Perfumes
+                  </Link>
+                  <Link
+                    href="/shop?gender=men"
+                    className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
+                  >
+                    Men's Perfumes
+                  </Link>
+                  <Link
+                    href="/shop?gender=unisex"
+                    className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
+                  >
+                    Universal Perfumes
+                  </Link>
+                  <Link
+                    href="/shop"
+                    className="font-garamond mt-2 text-sm font-semibold text-black transition-colors hover:text-[#C9A46A]"
+                  >
+                    Shop All
+                  </Link>
+                </div>
+
+                {/* Column 2: By Collection */}
+                <div className="flex flex-col gap-4">
+                  <h3 className="font-bodoni mb-2 text-xs font-bold tracking-[0.15em] text-black/50 uppercase">
+                    By Collection
+                  </h3>
+                  <Link
+                    href="/collections/luxury"
+                    className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
+                  >
+                    The Luxury Collection
+                  </Link>
+                  <Link
+                    href="/collections/premium"
+                    className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
+                  >
+                    The Premium Collection
+                  </Link>
+                  <Link
+                    href="/collections/signature"
+                    className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
+                  >
+                    The Signature Collection
+                  </Link>
+                </div>
+
+                {/* Column 3: Featured Image (Optional, very Amouage/Dior) */}
+                <div className="relative hidden h-48 w-64 bg-black/5 xl:block">
+                  <SmoothImage
+                    src="/catalog/Bottle_3.png"
+                    alt="Featured Perfume"
+                    fill
+                    className="object-cover transition duration-700 ease-out group-hover:scale-105"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 2. OILS & ATTARS */}
+          <Link
+            href="/oils"
+            className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
+          >
+            Oils & Attars
           </Link>
-          <Link href="/collections" className="font-bodoni text-xs tracking-[0.2em] uppercase hover:text-[#C9A46A] transition-colors">
-            Collections
+
+          {/* 3. BATH & BODY (You can add a similar group-hover dropdown here) */}
+          <Link
+            href="/body"
+            className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
+          >
+            Bath & Body
           </Link>
-          <Link href="/body" className="font-bodoni text-xs tracking-[0.2em] uppercase hover:text-[#C9A46A] transition-colors">
-            Body
+
+          {/* 4. HOME */}
+          <Link
+            href="/home-fragrance"
+            className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
+          >
+            Home
           </Link>
-          <Link href="/house" className="font-bodoni text-xs tracking-[0.2em] uppercase hover:text-[#C9A46A] transition-colors">
+
+          {/* 5. DISCOVERY */}
+          <Link
+            href="/product/discovery-set"
+            className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
+          >
+            Discovery
+          </Link>
+
+          {/* 6. HOUSE OF ARABIAN */}
+          <Link
+            href="/about"
+            className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
+          >
             House of Arabian
           </Link>
         </nav>
@@ -99,10 +219,7 @@ export default function Navbar() {
         title={mobileView === "shop" ? "Shop" : ""}
       />
 
-      <SearchOverlay 
-        isOpen={openSearch} 
-        onClose={() => setOpenSearch(false)} 
-      />
+      <SearchOverlay isOpen={openSearch} onClose={() => setOpenSearch(false)} />
     </>
   );
 }

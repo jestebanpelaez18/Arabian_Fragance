@@ -9,7 +9,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/layout/Footer";
-import Navbar from "@/components/layout/navbar";
+import Navbar from "@/components/layout/Navbar";
 import CookieBanner from "@/components/ui/CookieBanner";
 
 const geistGaramond = Cormorant_Garamond({
@@ -89,7 +89,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Navbar />
-        <main className="flex-grow pt-16 lg:pt-[110px]">{children}</main>
+        <main className="flex-grow pt-16 lg:pt-[116px]">{children}</main>
         <Footer />
         <CookieBanner />
       </body>

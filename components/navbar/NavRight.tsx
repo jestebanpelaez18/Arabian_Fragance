@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import NavCartTrigger from "@/components/nav/NavCartTrigger";
+import NavCartTrigger from "@/components/navbar/NavCartTrigger";
 
 interface NavRightProps {
   onOpenSearch: () => void;
