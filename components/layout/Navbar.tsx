@@ -44,6 +44,19 @@ export default function Navbar() {
     setOpenMobile(false);
   }, [pathname]);
 
+  // CLOSE OVERLAYS ON ESCAPE KEY (Accessibility & UX fix)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpenSearch(false);
+        setOpenMobile(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   // CONTROL FUNCTIONS (Mutual Exclusion)
   const handleOpenSearch = () => {
     setOpenSearch(true);

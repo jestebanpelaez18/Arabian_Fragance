@@ -79,16 +79,12 @@ export default function SearchOverlay({
     <>
       {/* BACKDROP OSCURO (Cierra al hacer click fuera) */}
       <div
-        className="fixed inset-0 z-[9990] bg-black/40 transition-opacity duration-300"
+        className="fixed inset-0 top-16 z-[9990] bg-black/40 transition-opacity duration-300 lg:top-[64px]"
         onClick={onClose}
-        style={{ top: "60px" }} // Ajusta a la altura de tu navbar
       />
 
       {/* PANEL PRINCIPAL */}
-      <div
-        className="animate-in slide-in-from-top-2 fixed right-0 left-0 z-[9999] flex flex-col overflow-hidden bg-[var(--background)] text-[var(--foreground)] shadow-2xl duration-300"
-        style={{ top: "57px" }}
-      >
+      <div className="animate-in slide-in-from-top-2 fixed top-16 right-0 left-0 z-[9999] flex flex-col overflow-hidden bg-[var(--background)] text-[var(--foreground)] shadow-2xl duration-300 lg:top-[64px]">
         {/* --- 1. SEARCH BAR (Input limpia) --- */}
         <div className="w-full px-6 pt-10 pb-6 md:px-12">
           <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between border-b border-[#1a1a1a]/20 pb-4">
