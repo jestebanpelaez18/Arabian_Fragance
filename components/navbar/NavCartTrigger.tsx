@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { useState } from "react";
 import CartDrawer from "@/components/cart/CartDrawer";
@@ -20,30 +21,24 @@ export default function NavCartTrigger() {
       <Link
         href="/bag"
         onClick={onClick}
-        className="nav-link relative inline-flex items-center gap-1.5"
-        aria-label="Open cart"
+        className="relative flex items-center opacity-75 transition-all hover:text-[#C9A46A] hover:opacity-100"
+        aria-label="Open bag"
       >
-        {/* Icon for mobile */}
-        <span className="flex h-7 items-center md:hidden">
-          <svg
-            width="24"
-            height="26"
-            viewBox="0 0 24 24"
-            fill="none"
-            aria-hidden="true"
-            className="block"
-          >
-            <path
-              d="M6 7V6a6 6 0 1 1 12 0v1M3 7h18l-1.5 14.5a2 2 0 0 1-2 1.5H6.5a2 2 0 0 1-2-1.5L3 7z"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </span>
-        {/* Text for desktop */}
-        <span className="hidden md:inline">Bag</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.2}
+          stroke="currentColor"
+          className="h-[18px] w-[18px]"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+          />
+        </svg>
+
         <CartCount />
       </Link>
 
