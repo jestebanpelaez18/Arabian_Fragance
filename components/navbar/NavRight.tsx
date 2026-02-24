@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import NavCartTrigger from "@/components/nav/NavCartTrigger";
+import NavCartTrigger from "@/components/navbar/NavCartTrigger";
 
 interface NavRightProps {
   onOpenSearch: () => void;
@@ -9,44 +8,31 @@ interface NavRightProps {
 
 export default function NavRight({ onOpenSearch }: NavRightProps) {
   return (
-    <>
-      {/* --- DESKTOP VIEW (Texto "Search") --- */}
-      <div className="hidden items-center justify-end gap-6 text-sm lg:flex">
-        <button
-          onClick={onOpenSearch}
-          className="nav-link transition-colors hover:text-[var(--gold)]"
+    <div className="flex items-center justify-end gap-5 text-[#1a1a1a] lg:gap-6">
+      {/* SEARCH BUTTON: Icon ONLY for all screens */}
+      <button
+        onClick={onOpenSearch}
+        className="opacity-75 transition-all hover:text-[#C9A46A] hover:opacity-100"
+        aria-label="Search"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.2} // Clean, thin stroke
+          stroke="currentColor"
+          className="h-[18px] w-[18px]"
         >
-          Search
-        </button>
-        <Link href="/account" className="nav-link">
-          Account
-        </Link>
-        <NavCartTrigger />
-      </div>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+          />
+        </svg>
+      </button>
 
-      {/* --- MOBILE VIEW (Icono Lupa + Carrito) --- */}
-      {/* Cambiamos 'md:hidden' por 'lg:hidden' para que salga en tablets y móviles */}
-      <div className="flex items-center gap-4 justify-self-end lg:hidden">
-        {/* Botón Lupa solo para móvil */}
-        <button onClick={onOpenSearch} className="p-1">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="h-6 w-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-            />
-          </svg>
-        </button>
-
-        <NavCartTrigger />
-      </div>
-    </>
+      {/* CART TRIGGER */}
+      <NavCartTrigger />
+    </div>
   );
 }

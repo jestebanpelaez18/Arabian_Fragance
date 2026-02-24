@@ -274,7 +274,7 @@ body {
   z-index: 2000;
 } /* backdrop */
 @utility z-drawer {
-  z-index: 5000;
+  z-index: 99999;
 } /* panel del cart */
 @utility z-modal {
   z-index: 2200;
