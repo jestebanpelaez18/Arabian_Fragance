@@ -107,13 +107,13 @@ export default function Navbar() {
                     href="/shop?gender=women"
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
-                    Women's Perfumes
+                    Women&apos;s Perfumes
                   </Link>
                   <Link
                     href="/shop?gender=men"
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
-                    Men's Perfumes
+                    Men&apos;s Perfumes
                   </Link>
                   <Link
                     href="/shop?gender=unisex"

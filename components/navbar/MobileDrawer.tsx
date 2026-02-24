@@ -24,7 +24,7 @@ export default function MobileDrawer({
     <div
       aria-hidden={!openMobile}
       // CRITICAL FIX: Changed top-14 to top-16 (64px) so it sits exactly below your new Navbar
-      className={`fixed inset-x-0 bottom-0 top-16 z-[10000] lg:hidden ${
+      className={`fixed inset-x-0 top-16 bottom-0 z-[10000] lg:hidden ${
         openMobile ? "pointer-events-auto" : "pointer-events-none"
       }`}
     >
@@ -39,7 +39,7 @@ export default function MobileDrawer({
 
       {/* --- DRAWER PANEL --- */}
       <aside
-        className={`absolute left-0 top-0 z-20 flex h-[100dvh] w-[88vw] max-w-[380px] flex-col overscroll-contain border-r border-black/5 bg-[var(--background)] shadow-2xl duration-300 ease-out will-change-transform motion-safe:transition-transform ${
+        className={`absolute top-0 left-0 z-20 flex h-[100dvh] w-[88vw] max-w-[380px] flex-col overscroll-contain border-r border-black/5 bg-[var(--background)] shadow-2xl duration-300 ease-out will-change-transform motion-safe:transition-transform ${
           openMobile ? "translate-x-0" : "-translate-x-full"
         } `}
         role="dialog"
@@ -53,7 +53,12 @@ export default function MobileDrawer({
               className="-m-2 p-2 text-[#1a1a1a]/85 transition-opacity hover:opacity-70"
               aria-label="Back"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
                 <path
                   d="M15 6l-6 6 6 6"
                   stroke="currentColor"
@@ -66,7 +71,7 @@ export default function MobileDrawer({
           ) : (
             <span className="h-8 w-8" />
           )}
-          
+
           <span className="font-bodoni text-xs tracking-[0.2em] text-[#1a1a1a] uppercase">
             {title || "Menu"}
           </span>
@@ -79,36 +84,66 @@ export default function MobileDrawer({
             className="flex h-full w-[200%] duration-300 ease-out motion-safe:transition-transform"
             style={{ transform: `translateX(-${viewIndex * 100}%)` }}
           >
-            
             {/* =========================================
                 PANEL 1: ROOT CATEGORIES
             ========================================= */}
             <section className="h-full min-w-full space-y-7 overflow-y-auto px-6 py-8">
-              
               {/* Perfumes triggers the second panel */}
               <button
                 className="font-bodoni group flex w-full items-center justify-between text-left text-lg tracking-[0.1em] text-[#1a1a1a] uppercase"
                 onClick={() => setMobileView("shop")}
               >
                 <span>Perfumes</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" className="opacity-50 transition-opacity group-hover:opacity-100">
-                  <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  className="opacity-50 transition-opacity group-hover:opacity-100"
+                >
+                  <path
+                    d="M9 6l6 6-6 6"
+                    stroke="currentColor"
+                    strokeWidth="1.2"
+                    strokeLinecap="round"
+                    fill="none"
+                  />
                 </svg>
               </button>
 
-              <Link href="/oils" onClick={() => setOpenMobile(false)} className="font-bodoni block text-lg tracking-[0.1em] text-[#1a1a1a] uppercase">
+              <Link
+                href="/oils"
+                onClick={() => setOpenMobile(false)}
+                className="font-bodoni block text-lg tracking-[0.1em] text-[#1a1a1a] uppercase"
+              >
                 Oils & Attars
               </Link>
-              <Link href="/body" onClick={() => setOpenMobile(false)} className="font-bodoni block text-lg tracking-[0.1em] text-[#1a1a1a] uppercase">
+              <Link
+                href="/body"
+                onClick={() => setOpenMobile(false)}
+                className="font-bodoni block text-lg tracking-[0.1em] text-[#1a1a1a] uppercase"
+              >
                 Bath & Body
               </Link>
-              <Link href="/home-fragrance" onClick={() => setOpenMobile(false)} className="font-bodoni block text-lg tracking-[0.1em] text-[#1a1a1a] uppercase">
+              <Link
+                href="/home-fragrance"
+                onClick={() => setOpenMobile(false)}
+                className="font-bodoni block text-lg tracking-[0.1em] text-[#1a1a1a] uppercase"
+              >
                 Home
               </Link>
-              <Link href="/product/discovery-set" onClick={() => setOpenMobile(false)} className="font-bodoni block text-lg tracking-[0.1em] text-[#1a1a1a] uppercase">
+              <Link
+                href="/product/discovery-set"
+                onClick={() => setOpenMobile(false)}
+                className="font-bodoni block text-lg tracking-[0.1em] text-[#1a1a1a] uppercase"
+              >
                 Discovery
               </Link>
-              <Link href="/about" onClick={() => setOpenMobile(false)} className="font-bodoni block text-lg tracking-[0.1em] text-[#1a1a1a] uppercase">
+              <Link
+                href="/about"
+                onClick={() => setOpenMobile(false)}
+                className="font-bodoni block text-lg tracking-[0.1em] text-[#1a1a1a] uppercase"
+              >
                 House of Arabian
               </Link>
             </section>
@@ -117,7 +152,6 @@ export default function MobileDrawer({
                 PANEL 2: PERFUMES SUBMENU ("shop" view)
             ========================================= */}
             <section className="h-full min-w-full overflow-y-auto px-6 py-8">
-              
               {/* BY CATEGORY */}
               <div className="mb-10">
                 <p className="font-bodoni mb-5 text-[10px] font-bold tracking-[0.2em] text-[#1a1a1a]/50 uppercase">
@@ -125,22 +159,38 @@ export default function MobileDrawer({
                 </p>
                 <ul className="space-y-4">
                   <li>
-                    <Link href="/shop?gender=women" onClick={() => setOpenMobile(false)} className="font-garamond block text-lg text-[#1a1a1a]">
-                      Women's Perfumes
+                    <Link
+                      href="/shop?gender=women"
+                      onClick={() => setOpenMobile(false)}
+                      className="font-garamond block text-lg text-[#1a1a1a]"
+                    >
+                      Women&apos;s Perfumes
                     </Link>
                   </li>
                   <li>
-                    <Link href="/shop?gender=men" onClick={() => setOpenMobile(false)} className="font-garamond block text-lg text-[#1a1a1a]">
-                      Men's Perfumes
+                    <Link
+                      href="/shop?gender=men"
+                      onClick={() => setOpenMobile(false)}
+                      className="font-garamond block text-lg text-[#1a1a1a]"
+                    >
+                      Men&apos;s Perfumes
                     </Link>
                   </li>
                   <li>
-                    <Link href="/shop?gender=unisex" onClick={() => setOpenMobile(false)} className="font-garamond block text-lg text-[#1a1a1a]">
+                    <Link
+                      href="/shop?gender=unisex"
+                      onClick={() => setOpenMobile(false)}
+                      className="font-garamond block text-lg text-[#1a1a1a]"
+                    >
                       Universal Perfumes
                     </Link>
                   </li>
                   <li className="pt-2">
-                    <Link href="/shop" onClick={() => setOpenMobile(false)} className="font-garamond block text-lg font-semibold text-[#1a1a1a] underline underline-offset-4 decoration-black/20">
+                    <Link
+                      href="/shop"
+                      onClick={() => setOpenMobile(false)}
+                      className="font-garamond block text-lg font-semibold text-[#1a1a1a] underline decoration-black/20 underline-offset-4"
+                    >
                       Shop All
                     </Link>
                   </li>
@@ -154,23 +204,34 @@ export default function MobileDrawer({
                 </p>
                 <ul className="space-y-4">
                   <li>
-                    <Link href="/collections/luxury" onClick={() => setOpenMobile(false)} className="font-garamond block text-lg text-[#1a1a1a]">
+                    <Link
+                      href="/collections/luxury"
+                      onClick={() => setOpenMobile(false)}
+                      className="font-garamond block text-lg text-[#1a1a1a]"
+                    >
                       The Luxury Collection
                     </Link>
                   </li>
                   <li>
-                    <Link href="/collections/premium" onClick={() => setOpenMobile(false)} className="font-garamond block text-lg text-[#1a1a1a]">
+                    <Link
+                      href="/collections/premium"
+                      onClick={() => setOpenMobile(false)}
+                      className="font-garamond block text-lg text-[#1a1a1a]"
+                    >
                       The Premium Collection
                     </Link>
                   </li>
                   <li>
-                    <Link href="/collections/signature" onClick={() => setOpenMobile(false)} className="font-garamond block text-lg text-[#1a1a1a]">
+                    <Link
+                      href="/collections/signature"
+                      onClick={() => setOpenMobile(false)}
+                      className="font-garamond block text-lg text-[#1a1a1a]"
+                    >
                       The Signature Collection
                     </Link>
                   </li>
                 </ul>
               </div>
-
             </section>
           </div>
         </div>
