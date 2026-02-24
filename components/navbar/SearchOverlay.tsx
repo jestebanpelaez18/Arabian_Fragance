@@ -86,7 +86,7 @@ export default function SearchOverlay({
 
       {/* PANEL PRINCIPAL */}
       <div
-        className="animate-in slide-in-from-top-2 fixed right-0 left-0 z-[9999] flex flex-col overflow-hidden bg-[#F2F0EB] text-[#1a1a1a] shadow-2xl duration-300"
+        className="animate-in slide-in-from-top-2 fixed right-0 left-0 z-[9999] flex flex-col overflow-hidden bg-[var(--background)] text-[var(--foreground)] shadow-2xl duration-300"
         style={{ top: "57px" }}
       >
         {/* --- 1. SEARCH BAR (Input limpia) --- */}

@@ -155,12 +155,12 @@ export default function Navbar() {
                 </div>
 
                 {/* Column 3: Featured Image (Optional, very Amouage/Dior) */}
-                <div className="relative hidden h-48 w-64 bg-black/5 xl:block">
+                <div className="relative hidden h-64 w-48 overflow-hidden rounded-sm bg-white ring-1 ring-black/5 xl:block">
                   <SmoothImage
                     src="/catalog/Bottle_3.png"
                     alt="Featured Perfume"
                     fill
-                    className="object-cover transition duration-700 ease-out group-hover:scale-105"
+                    className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                 </div>
               </div>
