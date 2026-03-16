@@ -8,8 +8,9 @@ import NavCenter from "../navbar/NavCenter";
 import MobileDrawer from "@/components/navbar/MobileDrawer";
 import SearchOverlay from "@/components/navbar/SearchOverlay";
 import SmoothImage from "@/components/ui/SmoothImage";
+import LocalizationMenu from "@/components/navbar/LocalizationMenu";
 
-type MobileView = "root" | "shop";
+type MobileView = "root" | "shop" | "currency" | "language";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -19,8 +20,26 @@ export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  // Hide on scroll down, reveal on scroll up
+// 1. BODY SCROLL LOCK CONTROLLER
   useEffect(() => {
+    if (openMobile || openSearch) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [openMobile, openSearch]);
+
+  // 2. NAVBAR HIDE/SHOW ON SCROLL
+  useEffect(() => {
+    if (openMobile || openSearch) {
+      setIsVisible(true);
+      return;
+    }
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
@@ -36,7 +55,7 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, [lastScrollY, openMobile, openSearch]);
 
   // AUTO-CLOSE ON NAVIGATION
   useEffect(() => {
@@ -100,15 +119,8 @@ export default function Navbar() {
               </svg>
             </button>
 
-            <div className="font-garamond hidden items-center gap-4 text-xs tracking-widest text-[#1a1a1a] uppercase lg:flex">
-              <button className="transition-colors hover:text-[#C9A46A]">
-                EUR €
-              </button>
-              <span className="font-light opacity-30">|</span>
-              <button className="transition-colors hover:text-[#C9A46A]">
-                EN
-              </button>
-            </div>
+            {/* Localization Menu */}
+            <LocalizationMenu />
           </div>
 
           {/* Center: Logo */}
@@ -251,7 +263,15 @@ export default function Navbar() {
         mobileView={mobileView}
         setMobileView={setMobileView}
         viewIndex={mobileView === "root" ? 0 : 1}
-        title={mobileView === "shop" ? "Shop" : ""}
+        title={
+          mobileView === "shop"
+            ? "Shop"
+            : mobileView === "currency"
+              ? "Currency"
+              : mobileView === "language"
+                ? "Language"
+                : ""
+        }
       />
 
       <SearchOverlay isOpen={openSearch} onClose={() => setOpenSearch(false)} />
