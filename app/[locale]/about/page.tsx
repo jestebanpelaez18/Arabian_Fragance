@@ -1,24 +1,15 @@
 import LuxeHero from "@/components/ui/LuxeHero";
 import SectionDivider from "@/components/ui/SectionDivider";
 import NextDynamic from "next/dynamic";
+import { getDictionary } from "@/dictionaries/getDictionary";
+import type { Locale } from "@/i18n-config";
 
 // Fuerza prerender estático y cacheado
 export const dynamic = "force-static";
 
-// Evita recrear arrays en cada render
-const STORY_DESCRIPTIONS = [
-  "Arabian Fragrance was founded by Juha Toivanen, a Finnish chef known for creating some of Finland’s most recognized dining experiences.",
-  "After years dedicated to taste, atmosphere, and the art of hospitality, Juha began exploring a new way to create emotion, through scent.",
-  "His journey led him to Dubai and the Emirates, where perfumery is woven into everyday life. Inspired by the richness of Arabian traditions and rare natural ingredients, he began collaborating with local experts to craft fragrances that embody depth, authenticity, and modern refinement.",
-  "Arabian Fragrance is built on contrasts: the boldness of oud balanced with the delicacy of rose, the heritage of the Middle East refined through the clarity of Nordic design.",
-  "Each fragrance tells a story - not merely to be worn, but to become part of one’s identity.",
-];
-
-const PERFUMES_DESCRIPTIONS = [
-  "At Arabian Fragrance, each perfume is more than a scent, it is an experience. Rooted in the rich traditions of Arabic perfumery and crafted in Dubai, our creations combine rare natural ingredients with a modern touch of elegance.",
-  "Every fragrance carries its own story: the warmth of oud, the delicacy of rose, the freshness of citrus. Together, they form a collection that is sophisticated, authentic, and impossible to forget.",
-  "We invite you to discover perfumes that don’t just complement your presence, they define it.",
-];
+interface PageProps {
+  params: Promise<{ locale: Locale }>;
+}
 
 const SimpleTextImageSection = NextDynamic(
   () => import("@/components/sections/SimpleTextImageSection"),
@@ -33,37 +24,39 @@ const FullImageTextSection = NextDynamic(
   },
 );
 
-export default function AboutPage() {
+export default async function AboutPage({ params }: PageProps) {
+  const { locale } = await params;
+  const dict = await getDictionary(locale);
+
   return (
     <div>
       <LuxeHero
-        title="THE ART OF ARABIAN PERFUMERY"
-        subtitle="A refined fusion of rich Arabian perfumery and modern Nordic sophistication."
+        title={dict.aboutPage.heroTitle}
+        subtitle={dict.aboutPage.heroSubtitle}
         imageSrc="/about/aboutusPicture.jpg"
         fit="cover"
         objectClassName="object-[50%_35%]"
         minH="min-h-[90svh] md:min-h-screen"
       />
-      <SectionDivider text="Discover" />
+      <SectionDivider text={dict.aboutPage.discoverDivider} />
       <SimpleTextImageSection
-        title="OUR STORY"
-        descriptions={STORY_DESCRIPTIONS}
+        title={dict.aboutPage.storyTitle}
+        descriptions={dict.aboutPage.storyDescriptions}
         imageSrc="/hero/gift.jpg"
         imageAlt="Arabian Fragrance Story"
       />
       <section className="relative h-[200px] py-16 md:h-[220px]">
         <div className="absolute inset-0 z-10 flex items-center justify-center px-6 text-center md:px-16">
           <p className="font-garamond max-w-7xl text-2xl leading-relaxed text-black md:text-3xl">
-            “Arabian Fragrance brings the soul of Dubai’s perfumery heritage to
-            life, crafted with authenticity, depth, and modern elegance.”
+            {dict.aboutPage.quote}
           </p>
         </div>
       </section>
-      <SectionDivider text="Experience" />
+      <SectionDivider text={dict.aboutPage.experienceDivider} />
       {/* Lazy-load debajo del fold */}
       <SimpleTextImageSection
-        title="OUR PERFUMES"
-        descriptions={PERFUMES_DESCRIPTIONS}
+        title={dict.aboutPage.perfumesTitle}
+        descriptions={dict.aboutPage.perfumesDescriptions}
         imageSrc="/collections/collection-desert-oud.jpg"
         imageAlt="Arabian Frangance Story"
         objectClassName="object-cover object-[50%_35%]"
@@ -77,7 +70,7 @@ export default function AboutPage() {
         objectClassName="object-cover object-center"
         overlayClassName="bg-black/50"
         overlayInset="top-5 right-5 bottom-5 left-5"
-        paragraph="At the heart of Arabian Fragrance lies a dialogue between heritage and modernity. Rooted in the traditions of Arabic perfumery, each creation reinterprets oud, amber and rose through a refined, contemporary lens."
+        paragraph={dict.aboutPage.fullImageParagraph}
         paragraphClassName="font-garamond mt-4 max-w-3xl text-2xl text-white/70 md:text-3xl"
       />
     </div>

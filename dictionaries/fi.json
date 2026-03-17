@@ -1,38 +1,134 @@
 {
   "hero": {
-    "title": "[FI_HERO_TITLE]",
-    "subtitle": "[FI_HERO_SUBTITLE]",
-    "ctaLabel": "[FI_HERO_CTA_LABEL]"
+    "title": "ARABIALAISEN HAJUVESITAITEEN YDIN",
+    "subtitle": "Ylellisiä tuoksuja Dubain eleganssin inspiroimana.",
+    "ctaLabel": "Tutustu kokoelmaan"
   },
   "dividers": {
-    "shop": "[FI_DIVIDER_SHOP]",
-    "experience": "[FI_DIVIDER_EXPERIENCE]",
-    "invitation": "[FI_DIVIDER_INVITATION]",
-    "ourStory": "[FI_DIVIDER_OUR_STORY]"
+    "shop": "Tutustu kokoelmaan",
+    "experience": "Elämys",
+    "invitation": "Kutsu",
+    "ourStory": "Tarinamme"
   },
   "gift": {
-    "label": "[FI_GIFT_LABEL]",
-    "title": "[FI_GIFT_TITLE]",
-    "description": "[FI_GIFT_DESCRIPTION]",
-    "ctaLabel": "[FI_GIFT_CTA_LABEL]"
+    "label": "Eksklusiivinen lahjakokoelma",
+    "title": "Ikoniset lahjat",
+    "description": "Tee jokaisesta hetkestä muisto eksklusiivisten tuoksujemme avulla.",
+    "ctaLabel": "Osta nyt"
   },
   "invitation": {
-    "title": "[FI_INVITATION_TITLE]",
-    "description": "[FI_INVITATION_DESCRIPTION]",
-    "ctaLabel": "[FI_INVITATION_CTA_LABEL]"
+    "title": "ARABIAN FRAGRANCE -LANSEERAUS",
+    "description": "Eksklusiivinen ilta, joka juhlistaa arabialaista hajuvesitaidetta.",
+    "ctaLabel": "Tutustu nyt"
   },
   "about": {
-    "title": "[FI_ABOUT_TITLE]",
-    "description1": "[FI_ABOUT_DESCRIPTION_1]",
-    "description2": "[FI_ABOUT_DESCRIPTION_2]",
-    "ctaLabel": "[FI_ABOUT_CTA_LABEL]"
+    "title": "TARINAMME",
+    "description1": "Arabialaisen hajuvesiperinteen sydämestä syntyneet tuoksumme yhdistävät perinteen, harvinaiset ainesosat ja ajattoman eleganssin.",
+    "description2": "Jokainen tuoksu on luotu jättämään pysyvän vaikutelman.",
+    "ctaLabel": "Lue tarinamme"
   },
   "store": {
-    "welcome": "[FI_WELCOME_ARABIAN_FRAGANCE]",
-    "shop_now": "[FI_SHOP_NOW]"
+    "welcome": "Tervetuloa Arabian Fragranceen",
+    "shop_now": "Osta nyt"
   },
   "product": {
-    "add_to_cart": "[FI_ADD_TO_CART]",
-    "sold_out": "[FI_SOLD_OUT]"
+    "add_to_cart": "Lisää ostoskoriin",
+    "sold_out": "Loppuunmyyty"
+  },
+  "aboutPage": {
+    "heroTitle": "ARABIALAISEN HAJUVESITAITEEN YDIN",
+    "heroSubtitle": "Hienostunut yhdistelmä rikasta arabialaista hajuvesiperinnettä ja modernia pohjoismaista eleganssia.",
+    "discoverDivider": "Löydä",
+    "storyTitle": "TARINAMME",
+    "storyDescriptions": [
+      "Arabian Fragrancen perusti Juha Toivanen, suomalainen keittiömestari, joka tunnetaan monista Suomen arvostetuimmista ravintolakokemuksista.",
+      "Vuosien ajan makujen, tunnelman ja vieraanvaraisuuden parissa työskenneltyään Juha alkoi etsiä uutta tapaa herättää tunteita - tuoksun kautta.",
+      "Matka vei hänet Dubaihin ja emiraatteihin, joissa tuoksut ovat osa arkea. Arabialaisten perinteiden rikkaus ja harvinaiset luonnolliset raaka-aineet innoittivat yhteistyöhön paikallisten asiantuntijoiden kanssa.",
+      "Arabian Fragrance rakentuu kontrasteille: oudin voima kohtaa ruusun herkkyyden, ja Lähi-idän perintö jalostuu pohjoismaisen selkeyden kautta.",
+      "Jokainen tuoksu kertoo tarinan - ei vain käytettäväksi, vaan osaksi identiteettiä."
+    ],
+    "quote": "Arabian Fragrance tuo Dubain hajuvesiperinnön sielun eloon - aidosti, syvästi ja modernin elegantisti.",
+    "experienceDivider": "Elämys",
+    "perfumesTitle": "TUOKSUMME",
+    "perfumesDescriptions": [
+      "Arabian Fragrancella jokainen hajuvesi on enemmän kuin tuoksu - se on elämys. Dubaissa luodut tuoksumme yhdistävät arabialaisen hajuvesiperinteen ja modernin eleganssin.",
+      "Jokaisella tuoksulla on oma tarinansa: oudin lämpö, ruusun hienostuneisuus ja sitruksen raikkaus. Yhdessä ne muodostavat kokoelman, joka on sofistikoitunut, aito ja unohtumaton.",
+      "Kutsumme sinut löytämään tuoksuja, jotka eivät vain täydentä läsnäoloasi - vaan määrittävät sen."
+    ],
+    "fullImageParagraph": "Arabian Fragrancen ytimessä on perinteen ja modernin välinen vuoropuhelu. Arabialaisesta hajuvesiperinteestä ammentaen jokainen luomus tulkitsee oudin, ambraan ja ruusun uudelleen hienostuneella, nykyaikaisella tavalla."
+  },
+  "shopPage": {
+    "breadcrumbHome": "Etusivu",
+    "breadcrumbShop": "Kauppa",
+    "title": "KOKO ARABIAN FRAGRANCE",
+    "subtitle": "Käsintehtyjä koostumuksia arabialaisen hajuvesiperinteen pohjalta - pihkaista syvyyttä, hehkuvia kukkaistuoksuja ja lämpimän meripihkaisia sävyjä. Löydä ajattomat suosikit jokaiseen tyyliin."
+  },
+  "showroomPage": {
+    "dividerFinland": "SUOMI",
+    "dividerExperience": "ELÄMYS",
+    "dividerBookExperience": "VARAA YKSITYINEN SHOWROOM-ELÄMYKSESI",
+    "location": {
+      "city": "HELSINKI",
+      "description": [
+        "Arabian Fragrancen lippulaivashowroom sijaitsee Helsingin sydämessä ja yhdistää pohjoismaisen minimalismin arabialaiseen ylellisyyteen.",
+        "Tutustu kuratoituihin kokoelmiimme ja nauti luksuspalveluista, kuten yksityiskonsultaatioista, räätälöidyistä lahjaratkaisuista ja henkilökohtaisista tuoksumatkoista."
+      ],
+      "hours": [
+        "Maanantaista lauantaihin 10.00-18.00",
+        "Sunnuntai 12.00-17.00"
+      ],
+      "address": [
+        "Mikonkatu 4",
+        "00100 Helsinki, Suomi"
+      ],
+      "imageAlt": "Arabian Fragrancen showroom Helsingissä"
+    },
+    "experienceTitle": "Enemmän kuin boutique - tuoksurituaali",
+    "services": [
+      {
+        "title": "Yksityiskonsultaatiot",
+        "description": "Henkilökohtaista aikaa tuoksuasiantuntijoidemme kanssa, jotta voimme ymmärtää mieltymyksesi ja koota sinulle sopivan valikoiman."
+      },
+      {
+        "title": "Tuoksumatkat",
+        "description": "Tutki oudia, ambraa, kukkia ja puunuotteja raaka-aineiden sekä kerroksellisten koostumusten kautta - nuotti nuotilta."
+      },
+      {
+        "title": "Lahjat ja tilaisuudet",
+        "description": "Häistä yksityistilaisuuksiin suunnittelemme personoituja lahjakokonaisuuksia kaiverruksilla, räätälöidyillä seteillä ja tunnistettavalla pakkausilmeellä."
+      }
+    ],
+    "ctaTitle": "Varaa yksityinen showroom-elämyksesi",
+    "ctaDescription": "Showroomimme on avoinna vain ajanvarauksella, jotta tunnelma säilyy rauhallisena ja henkilökohtaisena. Jätä yhteystietosi, niin tiimimme ottaa sinuun yhteyttä käynnin sopimiseksi.",
+    "ctaButtonText": "Pyydä ajanvarausta"
+  },
+  "checkout": {
+    "cancelTitle": "Kassa keskeytetty",
+    "cancelDescription": "Ei hätää - tuotteesi ovat yhä ostoskorissa.",
+    "reviewBag": "Tarkista ostoskori",
+    "paymentReceived": "Maksu vastaanotettu",
+    "sessionNotFound": "Istuntoa ei löytynyt. Jos olet jo maksanut, tarkista sähköpostisi.",
+    "thankYou": "Kiitos!",
+    "orderConfirmedSuffix": "vahvistettu.",
+    "confirmationSentPrefix": "Vahvistusviesti lähetettiin osoitteeseen",
+    "yourEmailFallback": "sähköpostiosoitteesi",
+    "summary": "Yhteenveto",
+    "productFallback": "Tuote",
+    "total": "Yhteensä",
+    "continueShopping": "Jatka ostoksia"
+  },
+  "contactPage": {
+    "metaTitle": "Ota yhteyttä | Arabian Fragrance",
+    "metaDescription": "Ota yhteyttä concierge-tiimiimme.",
+    "title": "Ota yhteyttä",
+    "intro": "Asiantunteva tiimimme auttaa mielellään kaikissa tuoksuihin, tilauksiin ja Arabian Fragrance -kokemukseen liittyvissä kysymyksissä.",
+    "customerCareTitle": "Asiakaspalvelu",
+    "customerCareDescription": "Apua verkkotilauksiin ja yleisiin tiedusteluihin.",
+    "headquartersTitle": "Päätoimipiste",
+    "headquartersCityCountry": "Helsinki, Suomi",
+    "headquartersAddress": "Mikonkatu 4, 00100 Helsinki",
+    "pressWholesaleTitle": "Lehdistö ja jälleenmyynti",
+    "pressWholesaleDescription": "Lehdistötiedustelut ja yhteistyömahdollisuudet.",
+    "pressWholesaleCta": "Ota yhteyttä PR-tiimiin"
   }
 }

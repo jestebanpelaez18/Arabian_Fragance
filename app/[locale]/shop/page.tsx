@@ -5,14 +5,21 @@ import IntroCompact from "@/components/shop/IntroCompact";
 import NoteFilterChips from "@/components/shop/NoteFilterChips";
 import { type Product } from "@/data/products";
 import { normalizeProduct, type ShopifyRawProduct } from "@/lib/shopify/mapper";
+import { getDictionary } from "@/dictionaries/getDictionary";
+import type { Locale } from "@/i18n-config";
 
 type Note = NonNullable<Product["notes"]>[number];
 
 export default async function ShopIndexPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: Locale }>;
   searchParams: Promise<{ notes?: string }>;
 }) {
+  const { locale } = await params;
+  const dict = await getDictionary(locale);
+
   const rawData =
     (await getShopifyProducts()) as unknown as ShopifyRawProduct[];
 
@@ -39,27 +46,21 @@ export default async function ShopIndexPage({
           <li>
             <Link
               href="/"
-              className="text-foreground transition hover:text-[var(--gold)]"
+              className="text-foreground transition hover:text-gold"
             >
-              Home
+              {dict.shopPage.breadcrumbHome}
             </Link>
           </li>
           <li>/</li>
-          <li className="text-foreground">Shop</li>
+          <li className="text-foreground">{dict.shopPage.breadcrumbShop}</li>
         </ol>
       </nav>
 
       {/* Intro */}
       <IntroCompact
-        title="ALL ARABIAN FRAGRANCE"
+        title={dict.shopPage.title}
         count={filtered.length}
-        subtitle={
-          <>
-            Hand-crafted compositions rooted in Arabian perfumery—resinous
-            depth, luminous florals and ambered warmth. Discover our full
-            selection of timeless signatures for every style.
-          </>
-        }
+        subtitle={<>{dict.shopPage.subtitle}</>}
       />
 
       {/* Chips */}
