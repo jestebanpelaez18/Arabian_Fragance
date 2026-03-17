@@ -1,0 +1,38 @@
+{
+  "hero": {
+    "title": "THE ART OF ARABIAN PERFUMERY",
+    "subtitle": "Luxury fragrances inspired by Dubai's elegance.",
+    "ctaLabel": "Shop the collection"
+  },
+  "dividers": {
+    "shop": "Shop the Collection",
+    "experience": "Experience",
+    "invitation": "Invitation",
+    "ourStory": "Our Story"
+  },
+  "gift": {
+    "label": "Exclusive Gift Collection",
+    "title": "Iconic Gifts",
+    "description": "Transform any occasion into a memory with our exclusive fragrances.",
+    "ctaLabel": "Shop Now"
+  },
+  "invitation": {
+    "title": "ARABIAN FRAGRANCE LAUNCH",
+    "description": "An exclusive evening celebrating the art of Arabian perfumery.",
+    "ctaLabel": "Explore Now"
+  },
+  "about": {
+    "title": "OUR STORY",
+    "description1": "Born from the heart of Arabian perfumery, our fragrances blend tradition, rare ingredients and timeless elegance.",
+    "description2": "Each scent is crafted to leave a lasting impression.",
+    "ctaLabel": "Discover Our Story"
+  },
+  "store": {
+    "welcome": "Welcome to Arabian Fragrance",
+    "shop_now": "Shop now"
+  },
+  "product": {
+    "add_to_cart": "Add to cart",
+    "sold_out": "Sold out"
+  }
+}

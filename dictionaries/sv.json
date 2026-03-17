@@ -1,0 +1,38 @@
+{
+	"hero": {
+		"title": "KONSTEN AV ARABISK PARFYMERI",
+		"subtitle": "Lyxiga dofter inspirerade av Dubais elegans.",
+		"ctaLabel": "Handla kollektionen"
+	},
+	"dividers": {
+		"shop": "Handla kollektionen",
+		"experience": "Upplevelse",
+		"invitation": "Inbjudan",
+		"ourStory": "Var historia"
+	},
+	"gift": {
+		"label": "Exklusiv presentkollektion",
+		"title": "Ikoniska presenter",
+		"description": "Forvandla varje tillfalle till ett minne med vara exklusiva dofter.",
+		"ctaLabel": "Handla nu"
+	},
+	"invitation": {
+		"title": "ARABIAN FRAGRANCE LANSERING",
+		"description": "En exklusiv kvall som firar konsten av arabisk parfym.",
+		"ctaLabel": "Utforska nu"
+	},
+	"about": {
+		"title": "VAR HISTORIA",
+		"description1": "Fodd ur hjartat av arabisk parfymkonst, blandar vara dofter tradition, sallsynta ingredienser och tidlos elegans.",
+		"description2": "Varje doft ar skapad for att lamna ett varaktigt intryck.",
+		"ctaLabel": "Upptack var historia"
+	},
+	"store": {
+		"welcome": "Valkommen till Arabian Fragrance",
+		"shop_now": "Handla nu"
+	},
+	"product": {
+		"add_to_cart": "Lagg i kundvagn",
+		"sold_out": "Slut i lager"
+	}
+}

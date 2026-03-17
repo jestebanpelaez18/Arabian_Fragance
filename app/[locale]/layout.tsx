@@ -77,7 +77,7 @@ export const metadata: Metadata = {
   },
 };
 
-// --- DYNAMIC LOCALE INJECTION STARTS HERE ---
+
 export default async function RootLayout({
   children,
   params,

@@ -1,0 +1,38 @@
+{
+  "hero": {
+    "title": "[FI_HERO_TITLE]",
+    "subtitle": "[FI_HERO_SUBTITLE]",
+    "ctaLabel": "[FI_HERO_CTA_LABEL]"
+  },
+  "dividers": {
+    "shop": "[FI_DIVIDER_SHOP]",
+    "experience": "[FI_DIVIDER_EXPERIENCE]",
+    "invitation": "[FI_DIVIDER_INVITATION]",
+    "ourStory": "[FI_DIVIDER_OUR_STORY]"
+  },
+  "gift": {
+    "label": "[FI_GIFT_LABEL]",
+    "title": "[FI_GIFT_TITLE]",
+    "description": "[FI_GIFT_DESCRIPTION]",
+    "ctaLabel": "[FI_GIFT_CTA_LABEL]"
+  },
+  "invitation": {
+    "title": "[FI_INVITATION_TITLE]",
+    "description": "[FI_INVITATION_DESCRIPTION]",
+    "ctaLabel": "[FI_INVITATION_CTA_LABEL]"
+  },
+  "about": {
+    "title": "[FI_ABOUT_TITLE]",
+    "description1": "[FI_ABOUT_DESCRIPTION_1]",
+    "description2": "[FI_ABOUT_DESCRIPTION_2]",
+    "ctaLabel": "[FI_ABOUT_CTA_LABEL]"
+  },
+  "store": {
+    "welcome": "[FI_WELCOME_ARABIAN_FRAGANCE]",
+    "shop_now": "[FI_SHOP_NOW]"
+  },
+  "product": {
+    "add_to_cart": "[FI_ADD_TO_CART]",
+    "sold_out": "[FI_SOLD_OUT]"
+  }
+}

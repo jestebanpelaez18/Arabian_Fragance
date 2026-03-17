@@ -1,5 +1,3 @@
-"use client";
-
 import DiscoverSection from "@/components/sections/DiscoverSection";
 import LuxeHero from "@/components/ui/LuxeHero";
 import SectionDivider from "@/components/ui/SectionDivider";
@@ -9,60 +7,89 @@ import GiftHero from "@/components/sections/GiftHero";
 import ShowroomSection from "@/components/showroom/ShowroomSection";
 import InvitationHero from "@/components/sections/InvitationHero";
 import AboutSection from "@/components/sections/AboutSection";
+import { getDictionary } from "@/dictionaries/getDictionary";
+import { i18n, type Locale } from "@/i18n-config";
 
-export default function Home() {
+interface PageProps {
+  params: Promise<{ locale: Locale }>;
+}
+
+export async function generateStaticParams() {
+  return i18n.locales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({ params }: PageProps) {
+  const resolvedParams = await params;
+  const dictionary = await getDictionary(resolvedParams.locale);
+  
+  return {
+    title: dictionary.store?.welcome ?? "Arabian Fragrance",
+  };
+}
+
+export default async function Home({ params }: PageProps) {
+  const resolvedParams = await params;
+  const dict = await getDictionary(resolvedParams.locale);
+
   return (
     <div>
-      {/* ===== HERO principal ===== */}
+      {/* ===== Main HERO ===== */}
       <LuxeHero
-        title="THE ART OF ARABIAN PERFUMERY"
-        subtitle="Luxury fragrances inspired by Dubai’s elegance."
-        ctaLabel="Shop the collection"
+        title={dict.hero?.title ?? "THE ART OF ARABIAN PERFUMERY"}
+        subtitle={dict.hero?.subtitle ?? "Luxury fragrances inspired by Dubai’s elegance."}
+        ctaLabel={dict.hero?.ctaLabel ?? "Shop the collection"}
         ctaHref="/shop"
         imageSrc="/hero/AFC-hero-main.avif"
         fit="cover"
         objectClassName="object-[50%_35%]"
         minH="min-h-[90svh] md:min-h-screen"
       />
+      
       <LinkSectionDivider
-        text="Shop the Collection"
+        text={dict.dividers?.shop ?? "Shop the Collection"}
         href="/shop"
         ariaLabel="Shop the Collection"
       />
+      
       <CategoryShowcase />
       <DiscoverSection />
+      
       <GiftHero
         imageSrc="/hero/gift.jpg"
-        label="Exclusive Gift Collection"
-        title="Iconic Gifts"
-        description="Transform any occasion into a memory with our exclusive fragrances."
-        ctaLabel="Shop Now"
+        label={dict.gift?.label ?? "Exclusive Gift Collection"}
+        title={dict.gift?.title ?? "Iconic Gifts"}
+        description={dict.gift?.description ?? "Transform any occasion into a memory with our exclusive fragrances."}
+        ctaLabel={dict.gift?.ctaLabel ?? "Shop Now"}
         ctaHref="/shop"
         heightClassName="h-[78vh] md:h-[70vh]"
         contentAlign="center"
       />
-      <SectionDivider text="Experience" />
+      
+      {/* The rest of your components go here, replacing text with dict.something */}
+      <SectionDivider text={dict.dividers?.experience ?? "Experience"} />
       <ShowroomSection />
-      <SectionDivider text="Invitation" />
+      
+      <SectionDivider text={dict.dividers?.invitation ?? "Invitation"} />
       <InvitationHero
         imageSrc="/hero/party.jpg"
-        title="ARABIAN FRAGRANCE LAUNCH"
-        description="An exclusive evening celebrating the art of Arabian perfumery."
+        title={dict.invitation?.title ?? "ARABIAN FRAGRANCE LAUNCH"}
+        description={dict.invitation?.description ?? "An exclusive evening celebrating the art of Arabian perfumery."}
         ctaHref="/shop"
-        ctaLabel="Explore Now"
+        ctaLabel={dict.invitation?.ctaLabel ?? "Explore Now"} 
         heightClassName="h-[78vh] md:h-[70vh]"
       />
-      <SectionDivider text="Our Story" />
+      
+      <SectionDivider text={dict.dividers?.ourStory ?? "Our Story"} />
       <AboutSection
-        title="OUR STORY"
+        title={dict.about?.title ?? "OUR STORY"}
         descriptions={[
-          "Born from the heart of Arabian perfumery, our fragrances blend tradition, rare ingredients and timeless elegance.",
-          "Each scent is crafted to leave a lasting impression.",
+          dict.about?.description1 ?? "Born from the heart of Arabian perfumery, our fragrances blend tradition, rare ingredients and timeless elegance.",
+          dict.about?.description2 ?? "Each scent is crafted to leave a lasting impression.",
         ]}
         reverse
         showDivider={false}
         ctaHref="/about"
-        ctaLabel="Discover Our Story"
+        ctaLabel={dict.about?.ctaLabel ?? "Discover Our Story"}
       />
     </div>
   );
