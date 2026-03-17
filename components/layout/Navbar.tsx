@@ -10,7 +10,7 @@ import SearchOverlay from "@/components/navbar/SearchOverlay";
 import SmoothImage from "@/components/ui/SmoothImage";
 import LocalizationMenu from "@/components/navbar/LocalizationMenu";
 
-type MobileView = "root" | "shop" | "currency" | "language";
+type MobileView = "root" | "shop" | "language";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -266,8 +266,6 @@ export default function Navbar() {
         title={
           mobileView === "shop"
             ? "Shop"
-            : mobileView === "currency"
-              ? "Currency"
               : mobileView === "language"
                 ? "Language"
                 : ""

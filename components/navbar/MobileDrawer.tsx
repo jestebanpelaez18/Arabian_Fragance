@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Dispatch, SetStateAction } from "react";
 
-type MobileView = "root" | "shop" | "currency" | "language";
+type MobileView = "root" | "shop" | "language";
 
 export default function MobileDrawer({
   openMobile,
@@ -94,20 +94,6 @@ export default function MobileDrawer({
               {/* LOCALIZATION FOOTER */}
               <div className="mt-12 border-t border-black/5 pt-6">
                 <ul className="space-y-6">
-                  {/* Currency Button */}
-                  <li>
-                    <button 
-                      onClick={() => setMobileView("currency")}
-                      className="group flex w-full items-center justify-between text-left"
-                    >
-                      <span className="font-bodoni text-[10px] font-bold tracking-[0.2em] text-[#1a1a1a]/50 uppercase">Currency</span>
-                      <div className="flex items-center gap-2">
-                        <span className="font-garamond text-base tracking-widest text-[#1a1a1a] transition-colors group-hover:text-[#C9A46A]">EUR €</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" className="opacity-30"><path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none" /></svg>
-                      </div>
-                    </button>
-                  </li>
-
                   {/* Language Button */}
                   <li>
                     <button 
@@ -151,16 +137,6 @@ export default function MobileDrawer({
                   </div>
                 </>
               )}
-
-              {/* CURRENCY SUB-MENU */}
-              {mobileView === "currency" && (
-                <ul className="space-y-6">
-                  <li><button className="font-garamond block w-full text-left text-2xl text-[#1a1a1a] hover:text-[#C9A46A]">EUR (€)</button></li>
-                  <li><button className="font-garamond block w-full text-left text-2xl text-[#1a1a1a]/40 hover:text-[#C9A46A]">GBP (£)</button></li>
-                  <li><button className="font-garamond block w-full text-left text-2xl text-[#1a1a1a]/40 hover:text-[#C9A46A]">SEK (kr)</button></li>
-                </ul>
-              )}
-
               {/* LANGUAGE SUB-MENU */}
               {mobileView === "language" && (
                 <ul className="space-y-6 font-garamond tracking-[0.05em] capitalize">

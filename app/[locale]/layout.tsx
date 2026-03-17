@@ -7,7 +7,7 @@ import {
   Bodoni_Moda,
   Plus_Jakarta_Sans,
 } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import CookieBanner from "@/components/ui/CookieBanner";
@@ -77,13 +77,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+// --- DYNAMIC LOCALE INJECTION STARTS HERE ---
+export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>; 
 }>) {
+  const { locale } = await params; 
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body
         className={`${geistGaramond.variable} ${geistPlayfairDisplay.variable} ${geistRoboto.variable} ${geistCarlito.variable} ${jakarta.variable} ${bodoni.variable} antialiased`}
         suppressHydrationWarning

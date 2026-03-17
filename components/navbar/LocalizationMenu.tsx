@@ -37,49 +37,6 @@ export default function LocalizationMenu() {
       ref={menuRef}
       className="font-garamond relative hidden items-center gap-4 text-xs tracking-widest text-[#1a1a1a] uppercase lg:flex"
     >
-      {/* --- CURRENCY SELECTOR --- */}
-      <div className="relative flex flex-col items-center">
-        <button
-          onClick={() => toggleMenu("currency")}
-          className={`py-2 transition-colors hover:text-[#C9A46A] ${
-            activeMenu === "currency" ? "text-[#C9A46A]" : ""
-          }`}
-          aria-expanded={activeMenu === "currency"}
-        >
-          EUR €
-        </button>
-
-        {/* CURRENCY DROPDOWN PANEL (Centered) */}
-        <div
-          className={`absolute top-[85%] left-1/2 z-50 mt-1 w-24 -translate-x-1/2 border border-black/5 bg-[var(--background)] py-2 shadow-sm transition-all duration-200 ${
-            activeMenu === "currency"
-              ? "visible translate-y-0 opacity-100"
-              : "invisible -translate-y-2 opacity-0"
-          }`}
-        >
-          <ul className="flex flex-col text-center">
-            <li>
-              <button className="w-full px-2 py-1.5 transition-colors hover:bg-black/5 hover:text-[#C9A46A]">
-                EUR (€)
-              </button>
-            </li>
-            <li>
-              <button className="w-full px-2 py-1.5 opacity-50 transition-colors hover:bg-black/5 hover:text-[#C9A46A]">
-                GBP (£)
-              </button>
-            </li>
-            <li>
-              <button className="w-full px-2 py-1.5 opacity-50 transition-colors hover:bg-black/5 hover:text-[#C9A46A]">
-                SEK (kr)
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      {/* --- SEPARATOR --- */}
-      <span className="font-light opacity-30">|</span>
-
       {/* --- LANGUAGE SELECTOR --- */}
       <div className="relative flex flex-col items-center">
         <button
