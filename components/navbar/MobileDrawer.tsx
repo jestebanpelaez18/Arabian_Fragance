@@ -1,7 +1,17 @@
+"use client";
+
 import Link from "next/link";
 import type { Dispatch, SetStateAction } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { i18n, type Locale } from "@/i18n-config";
 
 type MobileView = "root" | "shop" | "language";
+
+const LANGUAGE_LABELS: Record<Locale, string> = {
+  en: "English",
+  fi: "Suomi",
+  sv: "Svenska",
+};
 
 export default function MobileDrawer({
   openMobile,
@@ -18,6 +28,35 @@ export default function MobileDrawer({
   viewIndex: number;
   title: string;
 }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const localeSegment = pathname?.split("/")[1];
+  const currentLocale = i18n.locales.includes(localeSegment as Locale)
+    ? (localeSegment as Locale)
+    : i18n.defaultLocale;
+
+  const buildLocalizedPath = (nextLocale: Locale) => {
+    const segments = (pathname || "/").split("/");
+    if (i18n.locales.includes(segments[1] as Locale)) {
+      segments[1] = nextLocale;
+      return segments.join("/") || "/";
+    }
+    return `/${nextLocale}${pathname?.startsWith("/") ? pathname : `/${pathname}`}`;
+  };
+
+  const handleLanguageChange = (nextLocale: Locale) => {
+    document.cookie = `USER_LOCALE=${nextLocale}; path=/; max-age=31536000; samesite=lax`;
+
+    const nextPath = buildLocalizedPath(nextLocale);
+    const query = searchParams?.toString();
+
+    router.push(query ? `${nextPath}?${query}` : nextPath);
+    setOpenMobile(false);
+    setMobileView("root");
+  };
+
   return (
     <div
       aria-hidden={!openMobile}
@@ -102,7 +141,7 @@ export default function MobileDrawer({
                     >
                       <span className="font-bodoni text-[10px] font-bold tracking-[0.2em] text-[#1a1a1a]/50 uppercase">Language</span>
                       <div className="flex items-center gap-2">
-                        <span className="font-garamond text-base tracking-widest text-[#1a1a1a] capitalize transition-colors group-hover:text-[#C9A46A]">English</span>
+                        <span className="font-garamond text-base tracking-widest text-[#1a1a1a] capitalize transition-colors group-hover:text-[#C9A46A]">{LANGUAGE_LABELS[currentLocale]}</span>
                         <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" className="opacity-30"><path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none" /></svg>
                       </div>
                     </button>
@@ -140,9 +179,23 @@ export default function MobileDrawer({
               {/* LANGUAGE SUB-MENU */}
               {mobileView === "language" && (
                 <ul className="space-y-6 font-garamond tracking-[0.05em] capitalize">
-                  <li><button className="block w-full text-left text-2xl text-[#1a1a1a] hover:text-[#C9A46A]">English</button></li>
-                  <li><button className="block w-full text-left text-2xl text-[#1a1a1a]/40 hover:text-[#C9A46A]">Suomi</button></li>
-                  <li><button className="block w-full text-left text-2xl text-[#1a1a1a]/40 hover:text-[#C9A46A]">Svenska</button></li>
+                  {i18n.locales.map((locale) => {
+                    const isActive = locale === currentLocale;
+
+                    return (
+                      <li key={locale}>
+                        <button
+                          onClick={() => handleLanguageChange(locale)}
+                          className={`block w-full text-left text-2xl hover:text-[#C9A46A] ${
+                            isActive ? "text-[#1a1a1a]" : "text-[#1a1a1a]/40"
+                          }`}
+                          aria-current={isActive ? "true" : undefined}
+                        >
+                          {LANGUAGE_LABELS[locale]}
+                        </button>
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
 
