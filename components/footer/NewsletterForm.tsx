@@ -17,30 +17,38 @@ function ArrowRightIcon({ className = "" }: { className?: string }) {
 
 export default function NewsletterForm({
   onSubscribe,
+  labels,
 }: {
   onSubscribe: (e: React.FormEvent<HTMLFormElement>) => void;
+  labels: {
+    joinList: string;
+    description: string;
+    emailPlaceholder: string;
+    subscribeAria: string;
+    subscribeTitle: string;
+  };
 }) {
   return (
     <form onSubmit={onSubscribe} className="mb-4 text-white/90 md:mb-8">
       <h3 className="font-bodoni mb-2 text-base tracking-wide uppercase">
-        Join the list
+        {labels.joinList}
       </h3>
       <p className="font-bodoni mb-4 text-sm">
-        Receive updates on new arrivals, exclusive events, and private releases.
+        {labels.description}
       </p>
       <div className="flex items-center border-b border-stone-300 py-2">
         <input
           id="footerEmail"
           type="email"
           required
-          placeholder="Email address"
+          placeholder={labels.emailPlaceholder}
           className="font-bodoni flex-1 border-none bg-transparent text-xs placeholder-stone-400 outline-none"
         />
         <button
           type="submit"
           className="ml-2 text-white hover:text-stone-900"
-          aria-label="Subscribe"
-          title="Subscribe"
+          aria-label={labels.subscribeAria}
+          title={labels.subscribeTitle}
         >
           <ArrowRightIcon className="h-6 w-6" />
         </button>

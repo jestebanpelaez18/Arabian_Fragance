@@ -1,19 +1,25 @@
 "use client";
 
 import NavCartTrigger from "@/components/navbar/NavCartTrigger";
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 interface NavRightProps {
   onOpenSearch: () => void;
 }
 
 export default function NavRight({ onOpenSearch }: NavRightProps) {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const labels = getUiLabels(locale).navbar;
+
   return (
     <div className="flex items-center justify-end gap-5 text-[#1a1a1a] lg:gap-6">
       {/* SEARCH BUTTON: Icon ONLY for all screens */}
       <button
         onClick={onOpenSearch}
         className="opacity-75 transition-all hover:text-[#C9A46A] hover:opacity-100"
-        aria-label="Search"
+        aria-label={labels.search}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

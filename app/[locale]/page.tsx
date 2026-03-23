@@ -48,7 +48,7 @@ export default async function Home({ params }: PageProps) {
       <LinkSectionDivider
         text={dict.dividers?.shop ?? "Shop the Collection"}
         href="/shop"
-        ariaLabel="Shop the Collection"
+        ariaLabel={dict.dividers?.shop ?? "Shop the Collection"}
       />
       
       <CategoryShowcase />

@@ -1,6 +1,8 @@
 "use client";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import CartView from "./CartView";
+import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 export default function CartDrawer({
   open,
@@ -9,6 +11,10 @@ export default function CartDrawer({
   open: boolean;
   onClose: () => void;
 }) {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const labels = getUiLabels(locale).commerce.cart;
+
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
@@ -28,7 +34,7 @@ export default function CartDrawer({
       {/* Backdrop */}
       <div
         onClick={onClose}
-        aria-label="Close cart"
+        aria-label={labels.closeCart}
         className="absolute inset-0 bg-black/55 backdrop-blur-[2px]"
       />
       {/* Panel */}
@@ -41,13 +47,13 @@ export default function CartDrawer({
       >
         <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
           <h2 className="font-playfair-display text-xl tracking-tight">
-            Your Bag
+            {labels.bagTitle}
           </h2>
           <button
             onClick={onClose}
             className="rounded-full px-3 py-1.5 text-xs tracking-[0.14em] ring-1 ring-white/20 hover:bg-white/5"
           >
-            CLOSE
+            {labels.close.toUpperCase()}
           </button>
         </div>
         <CartView compact />

@@ -3,6 +3,8 @@ import DetailsGrid from "./ProductHeaderComponents/DetailGrids";
 import ActionsWrapper from "./ProductHeaderComponents/ActionsWrapper";
 import PdpTabs from "./PdpTabs";
 import type { Product } from "@/data/products";
+import type { Locale } from "@/i18n-config";
+import { getUiLabels } from "@/lib/i18n/uiLabels";
 
 type ProductHeaderPanelProps = {
   name: string;
@@ -17,6 +19,7 @@ type ProductHeaderPanelProps = {
   pyramid?: Product["pyramid"];
   storage_instructions?: string | null;
   variantId?: string | null;
+  locale?: Locale;
 };
 
 export default function ProductHeaderPanel({
@@ -32,7 +35,10 @@ export default function ProductHeaderPanel({
   pyramid,
   storage_instructions,
   variantId,
+  locale = "en",
 }: ProductHeaderPanelProps) {
+  const labels = getUiLabels(locale).commerce.productHeader;
+
   return (
     <aside className="md:col-span-5">
       <div className="md:sticky md:top-24">
@@ -50,7 +56,10 @@ export default function ProductHeaderPanel({
         <DetailsGrid
           concentration="Eau de Parfum"
           sizeLabel={`${volumeMl ?? 100} ml`}
-          dispatchLabel="Same-day dispatch"
+          dispatchLabel={labels.sameDayDispatch}
+          concentrationLabel={labels.concentration}
+          sizeTextLabel={labels.size}
+          dispatchTextLabel={labels.dispatch}
         />
 
         <ActionsWrapper
@@ -67,9 +76,7 @@ export default function ProductHeaderPanel({
           }}
           notes={notes ?? undefined}
           policies={[
-            "• VAT included. Shipping from Helsinki.",
-            "• Free shipping in the EU from €80.",
-            "• Returns within 14 days.",
+            ...labels.policies.map((line) => `• ${line}`),
           ]}
           ingredients={ingredients ?? undefined}
           pyramid={pyramid}

@@ -9,11 +9,14 @@ import MobileDrawer from "@/components/navbar/MobileDrawer";
 import SearchOverlay from "@/components/navbar/SearchOverlay";
 import SmoothImage from "@/components/ui/SmoothImage";
 import LocalizationMenu from "@/components/navbar/LocalizationMenu";
+import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 type MobileView = "root" | "shop" | "language";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const labels = getUiLabels(locale).navbar;
   const [openMobile, setOpenMobile] = useState(false);
   const [mobileView, setMobileView] = useState<MobileView>("root");
   const [openSearch, setOpenSearch] = useState(false);
@@ -92,7 +95,7 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 z-[9900] w-full border-b border-black/5 bg-[var(--background)] text-[#1a1a1a] transition-transform duration-700 ease-in-out ${
+        className={`fixed top-0 z-9900 w-full border-b border-black/5 bg-background text-[#1a1a1a] transition-transform duration-700 ease-in-out ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
@@ -102,7 +105,7 @@ export default function Navbar() {
             <button
               className="p-2 transition-opacity hover:opacity-70 lg:hidden"
               onClick={handleMobileToggle}
-              aria-label="Open Menu"
+              aria-label={labels.openMenu}
             >
               <svg
                 className="h-6 w-6"
@@ -137,67 +140,67 @@ export default function Navbar() {
           {/* The 'group' class allows the child dropdown to appear on hover */}
           <div className="group h-full">
             <button className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]">
-              Perfumes
+              {labels.perfumes}
             </button>
 
             {/* THE DROPDOWN PANEL (Amouage Style) */}
             {/* Absolute positioning, hides by default, shows on group hover */}
-            <div className="invisible absolute top-full left-0 z-[9999] w-full border-t border-black/5 bg-[var(--background)] opacity-0 shadow-md transition-all duration-300 group-hover:visible group-hover:opacity-100">
+            <div className="invisible absolute top-full left-0 z-9999 w-full border-t border-black/5 bg-background opacity-0 shadow-md transition-all duration-300 group-hover:visible group-hover:opacity-100">
               {/* Container to align content with the rest of the navbar */}
               <div className="mx-auto flex max-w-7xl justify-center gap-24 px-12 py-10">
                 {/* Column 1: By Gender */}
                 <div className="flex flex-col gap-4">
                   <h3 className="font-bodoni mb-2 text-xs font-bold tracking-[0.15em] text-black/50 uppercase">
-                    By Category
+                    {labels.byCategory}
                   </h3>
                   <Link
                     href="/shop?gender=women"
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
-                    Women&apos;s Perfumes
+                    {labels.womenPerfumes}
                   </Link>
                   <Link
                     href="/shop?gender=men"
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
-                    Men&apos;s Perfumes
+                    {labels.menPerfumes}
                   </Link>
                   <Link
                     href="/shop?gender=unisex"
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
-                    Universal Perfumes
+                    {labels.unisexPerfumes}
                   </Link>
                   <Link
                     href="/shop"
                     className="font-garamond mt-2 text-sm font-semibold text-black transition-colors hover:text-[#C9A46A]"
                   >
-                    Shop All
+                    {labels.shopAll}
                   </Link>
                 </div>
 
                 {/* Column 2: By Collection */}
                 <div className="flex flex-col gap-4">
                   <h3 className="font-bodoni mb-2 text-xs font-bold tracking-[0.15em] text-black/50 uppercase">
-                    By Collection
+                    {labels.byCollection}
                   </h3>
                   <Link
                     href="/collections/luxury"
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
-                    The Luxury Collection
+                    {labels.luxuryCollection}
                   </Link>
                   <Link
                     href="/collections/premium"
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
-                    The Premium Collection
+                    {labels.premiumCollection}
                   </Link>
                   <Link
                     href="/collections/signature"
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
-                    The Signature Collection
+                    {labels.signatureCollection}
                   </Link>
                 </div>
 
@@ -205,7 +208,7 @@ export default function Navbar() {
                 <div className="relative hidden h-64 w-48 overflow-hidden rounded-sm bg-white ring-1 ring-black/5 xl:block">
                   <SmoothImage
                     src="/catalog/Bottle_3.png"
-                    alt="Featured Perfume"
+                    alt={labels.featuredPerfumeAlt}
                     fill
                     className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-105"
                   />
@@ -219,7 +222,7 @@ export default function Navbar() {
             href="/oils"
             className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
           >
-            Oils & Attars
+            {labels.oilsAttars}
           </Link>
 
           {/* 3. BATH & BODY (You can add a similar group-hover dropdown here) */}
@@ -227,7 +230,7 @@ export default function Navbar() {
             href="/body"
             className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
           >
-            Bath & Body
+            {labels.bathBody}
           </Link>
 
           {/* 4. HOME */}
@@ -235,7 +238,7 @@ export default function Navbar() {
             href="/home-fragrance"
             className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
           >
-            Home
+            {labels.home}
           </Link>
 
           {/* 5. DISCOVERY */}
@@ -243,7 +246,7 @@ export default function Navbar() {
             href="/product/discovery-set"
             className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
           >
-            Discovery
+            {labels.discovery}
           </Link>
 
           {/* 6. HOUSE OF ARABIAN */}
@@ -251,7 +254,7 @@ export default function Navbar() {
             href="/about"
             className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
           >
-            House of Arabian
+            {labels.houseOfArabian}
           </Link>
         </nav>
       </header>
@@ -265,9 +268,9 @@ export default function Navbar() {
         viewIndex={mobileView === "root" ? 0 : 1}
         title={
           mobileView === "shop"
-            ? "Shop"
+            ? labels.mobileShopTitle
               : mobileView === "language"
-                ? "Language"
+                ? labels.mobileLanguageTitle
                 : ""
         }
       />

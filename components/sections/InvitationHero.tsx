@@ -2,6 +2,8 @@
 
 import SmoothImage from "../ui/SmoothImage";
 import Button from "@/components/ui/button";
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 interface InvitationHeroProps {
   imageSrc: string;
@@ -18,11 +20,16 @@ export default function InvitationHero({
   imageSrc,
   title,
   description,
-  ctaLabel = "Explore Now",
+  ctaLabel,
   ctaHref = "/shop",
   heightClassName = "h-[78vh] md:h-[70vh]",
   priority = false,
 }: InvitationHeroProps) {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const labels = getUiLabels(locale).sections.invitationHero;
+  const resolvedCtaLabel = ctaLabel ?? labels.ctaLabel;
+
   return (
     <section className={`relative overflow-hidden ${heightClassName}`}>
       <SmoothImage
@@ -58,7 +65,7 @@ export default function InvitationHero({
               variant="secondary"
               className="hover:text-background rounded-full border border-white/30 bg-black/40 px-8 py-3 text-[13px] tracking-[0.14em] backdrop-blur-sm transition hover:bg-white"
             >
-              {ctaLabel}
+              {resolvedCtaLabel}
             </Button>
           </div>
         </div>

@@ -3,11 +3,14 @@ import ProductCard from "@/components/shop/ProductCard";
 import SectionDivider from "../ui/SectionDivider";
 import { normalizeProduct, type ShopifyRawProduct } from "@/lib/shopify/mapper";
 import { type Product } from "@/data/products";
+import { getUiLabels } from "@/lib/i18n/uiLabels";
+import type { Locale } from "@/i18n-config";
 
 type Props = {
   currentSlug: string;
   currentNotes?: string[];
   gender?: string;
+  locale?: Locale;
 };
 
 interface ProductEdge {
@@ -43,7 +46,10 @@ export default async function RecommendedProducts({
   currentSlug,
   currentNotes,
   gender,
+  locale = "en",
 }: Props) {
+  const labels = getUiLabels(locale).commerce.recommended;
+
   const res = await shopifyFetch<RecommendedProductsOperation>({
     query: recommendedQuery,
   });
@@ -74,7 +80,7 @@ export default async function RecommendedProducts({
 
   return (
     <section className="pb-12 md:pb-15">
-      <SectionDivider text="You may also like" />
+      <SectionDivider text={labels.title} />
       <div className="grid grid-cols-2 gap-x-2.5 gap-y-6 px-5 md:grid-cols-4 md:gap-x-5">
         {recommended.map((p) => (
           <ProductCard key={p.id} p={p} />

@@ -1,12 +1,20 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 export default function NavCenter() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const labels = getUiLabels(locale).navbar;
+
   return (
     <div className="justify-self-center">
       <Link
         href="/"
-        aria-label="Arabian Fragrance — Inicio"
+        aria-label={labels.homeAriaLabel}
         className="inline-flex items-center"
       >
         <span className="hidden md:inline-flex">
