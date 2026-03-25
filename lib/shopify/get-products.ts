@@ -1,8 +1,10 @@
 import { shopifyFetch } from "@/lib/shopify/shopify";
 import { normalizeProduct, type ShopifyRawProduct } from "@/lib/shopify/mapper";
+import type { Locale } from "@/i18n-config";
+import { getShopifyLanguageCode } from "@/lib/shopify/locale";
 
 const allProductsQuery = `
-  query AllProducts {
+  query AllProducts($language: LanguageCode!) @inContext(language: $language) {
     products(first: 100) {
       edges {
         node {
@@ -51,9 +53,10 @@ type ShopifyProductsOperation = {
   };
 };
 
-export async function getShopifyProducts() {
+export async function getShopifyProducts(locale: Locale) {
   const { body } = await shopifyFetch<ShopifyProductsOperation>({
     query: allProductsQuery,
+    variables: { language: getShopifyLanguageCode(locale) },
   });
 
   const edges = body?.data?.products?.edges || [];

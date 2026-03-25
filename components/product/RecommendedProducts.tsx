@@ -5,6 +5,7 @@ import { normalizeProduct, type ShopifyRawProduct } from "@/lib/shopify/mapper";
 import { type Product } from "@/data/products";
 import { getUiLabels } from "@/lib/i18n/uiLabels";
 import type { Locale } from "@/i18n-config";
+import { getShopifyLanguageCode } from "@/lib/shopify/locale";
 
 type Props = {
   currentSlug: string;
@@ -25,7 +26,7 @@ type RecommendedProductsOperation = {
 };
 
 const recommendedQuery = `
-  query GetRecommendations {
+  query GetRecommendations($language: LanguageCode!) @inContext(language: $language) {
     products(first: 10, sortKey: BEST_SELLING) {
       edges {
         node {
@@ -52,6 +53,7 @@ export default async function RecommendedProducts({
 
   const res = await shopifyFetch<RecommendedProductsOperation>({
     query: recommendedQuery,
+    variables: { language: getShopifyLanguageCode(locale) },
   });
 
   const edges = res.body?.data?.products?.edges || [];

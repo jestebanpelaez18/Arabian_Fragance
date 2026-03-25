@@ -6,6 +6,7 @@ import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
 import NoteFilterChips from "@/components/shop/NoteFilterChips";
 import { type Product } from "@/data/products";
+import type { Locale } from "@/i18n-config";
 
 // Import the new Mapper
 import { normalizeProduct, type ShopifyRawProduct } from "@/lib/shopify/mapper";
@@ -45,10 +46,10 @@ export default async function ShopByGenderPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ gender: string }>;
+  params: Promise<{ locale: Locale; gender: string }>;
   searchParams: Promise<{ notes?: string }>;
 }) {
-  const { gender } = await params;
+  const { locale, gender } = await params;
 
   // Validate Gender Param
   if (!GENDERS.includes(gender as Gender)) return notFound();
@@ -56,7 +57,7 @@ export default async function ShopByGenderPage({
 
   // 1. FETCH DATA (Cast to unknown then to our flexible Raw Interface)
   const rawData =
-    (await getShopifyProducts()) as unknown as ShopifyRawProduct[];
+    (await getShopifyProducts(locale)) as unknown as ShopifyRawProduct[];
 
   // 2. NORMALIZE DATA (The clean separation)
   const PRODUCTS: Product[] = rawData.map(normalizeProduct);

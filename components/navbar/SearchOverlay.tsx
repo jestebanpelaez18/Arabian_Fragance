@@ -40,11 +40,11 @@ export default function SearchOverlay({
   // Load top products in the initial menu (trending products)
   useEffect(() => {
     async function loadTrending() {
-      const trendingProducts = await getTrendingProducts();
+      const trendingProducts = await getTrendingProducts(locale);
       setTrending(trendingProducts);
     }
     loadTrending();
-  }, []);
+  }, [locale]);
 
   useEffect(() => {
     async function fetchResults() {
@@ -54,7 +54,7 @@ export default function SearchOverlay({
       }
       setLoading(true);
       try {
-        const products = await searchProductsAction(debouncedTerm);
+        const products = await searchProductsAction(debouncedTerm, locale);
         setResults(products);
       } catch (error) {
         console.error(error);
@@ -63,7 +63,7 @@ export default function SearchOverlay({
       }
     }
     fetchResults();
-  }, [debouncedTerm]);
+  }, [debouncedTerm, locale]);
 
   // Bloquear scroll + Autofocus
   useEffect(() => {
@@ -159,7 +159,7 @@ export default function SearchOverlay({
                   <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
                     {results.slice(0, 4).map((product) => (
                       <Link
-                        href={`/product/${product.handle}`}
+                        href={`/${locale}/product/${product.handle}`}
                         key={product.id}
                         onClick={onClose}
                         className="group block"
@@ -213,7 +213,7 @@ export default function SearchOverlay({
                       {trending.slice(3, 7).map((product) => (
                         <li key={product.id}>
                           <Link
-                            href={`/product/${product.handle}`}
+                            href={`/${locale}/product/${product.handle}`}
                             key={product.id}
                             onClick={onClose}
                             className="font-garamond block w-full truncate text-left text-lg text-[#1a1a1a]/80 transition-colors hover:text-[#C9A46A]"
@@ -243,7 +243,7 @@ export default function SearchOverlay({
                     <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
                       {trending.slice(0, 3).map((product) => (
                         <Link
-                          href={`/product/${product.handle}`}
+                          href={`/${locale}/product/${product.handle}`}
                           key={product.id}
                           onClick={onClose}
                           className="group cursor-pointer"

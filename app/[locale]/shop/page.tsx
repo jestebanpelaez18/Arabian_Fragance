@@ -21,7 +21,7 @@ export default async function ShopIndexPage({
   const dict = await getDictionary(locale);
 
   const rawData =
-    (await getShopifyProducts()) as unknown as ShopifyRawProduct[];
+    (await getShopifyProducts(locale)) as unknown as ShopifyRawProduct[];
 
   const PRODUCTS: Product[] = rawData.map(normalizeProduct);
 

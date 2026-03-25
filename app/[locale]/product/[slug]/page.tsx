@@ -9,6 +9,7 @@ import { productJsonLd } from "@/lib/seo/jsonld";
 import ProductHeaderPanel from "@/components/product/ProductHeaderPanel";
 import { type Product } from "@/data/products";
 import { i18n } from "@/i18n-config";
+import { getShopifyLanguageCode } from "@/lib/shopify/locale";
 
 // --- TYPES ---
 type Params = { slug: string; locale: "en" | "fi" | "sv" };
@@ -74,7 +75,7 @@ interface AllProductsOperation {
 }
 
 const singleProductQuery = `
-  query SingleProduct($handle: String!) {
+  query SingleProduct($handle: String!, $language: LanguageCode!) @inContext(language: $language) {
     product(handle: $handle) {
       id
       title
@@ -146,11 +147,14 @@ export async function generateMetadata({
 }: {
   params: Promise<Params>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
 
   const response = await shopifyFetch<SingleProductOperation>({
     query: singleProductQuery,
-    variables: { handle: slug },
+    variables: {
+      handle: slug,
+      language: getShopifyLanguageCode(locale),
+    },
   });
 
   const p = response.body?.data?.product;
@@ -184,7 +188,10 @@ export default async function ProductPage({
 
   const response = await shopifyFetch<SingleProductOperation>({
     query: singleProductQuery,
-    variables: { handle: slug },
+    variables: {
+      handle: slug,
+      language: getShopifyLanguageCode(locale),
+    },
   });
 
   const p = response.body?.data?.product;
