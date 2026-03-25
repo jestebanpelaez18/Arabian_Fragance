@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getDictionary } from "@/dictionaries/getDictionary";
 import type { Locale } from "@/i18n-config";
 
@@ -15,12 +16,12 @@ export default async function CancelPage({ params }: PageProps) {
       <p className="mt-3 text-black/80">
         {dict.checkout.cancelDescription}
       </p>
-      <a
+      <Link
         href="/bag"
         className="mt-8 inline-block rounded-full px-6 py-3 ring-1 ring-white/15 hover:bg-white/5"
       >
         {dict.checkout.reviewBag}
-      </a>
+      </Link>
     </main>
   );
 }
