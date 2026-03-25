@@ -19,7 +19,7 @@ function getLocale(request: NextRequest): Locale {
   return i18n.defaultLocale;
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // 1. Skip paths that shouldn't be translated (images, api, next internals)
