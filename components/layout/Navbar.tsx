@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import NavRight from "@/components/navbar/NavRight";
@@ -123,7 +123,9 @@ export default function Navbar() {
             </button>
 
             {/* Localization Menu */}
-            <LocalizationMenu />
+            <Suspense fallback={null}>
+              <LocalizationMenu />
+            </Suspense>
           </div>
 
           {/* Center: Logo */}
@@ -260,20 +262,22 @@ export default function Navbar() {
       </header>
 
       {/* --- OVERLAYS & MENUS --- */}
-      <MobileDrawer
-        openMobile={openMobile}
-        setOpenMobile={setOpenMobile}
-        mobileView={mobileView}
-        setMobileView={setMobileView}
-        viewIndex={mobileView === "root" ? 0 : 1}
-        title={
-          mobileView === "shop"
-            ? labels.mobileShopTitle
-              : mobileView === "language"
-                ? labels.mobileLanguageTitle
-                : ""
-        }
-      />
+      <Suspense fallback={null}>
+        <MobileDrawer
+          openMobile={openMobile}
+          setOpenMobile={setOpenMobile}
+          mobileView={mobileView}
+          setMobileView={setMobileView}
+          viewIndex={mobileView === "root" ? 0 : 1}
+          title={
+            mobileView === "shop"
+              ? labels.mobileShopTitle
+                : mobileView === "language"
+                  ? labels.mobileLanguageTitle
+                  : ""
+          }
+        />
+      </Suspense>
 
       <SearchOverlay isOpen={openSearch} onClose={() => setOpenSearch(false)} />
     </>

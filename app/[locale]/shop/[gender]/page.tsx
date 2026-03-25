@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { getShopifyProducts } from "@/lib/shopify/get-products";
 import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
@@ -111,9 +112,11 @@ export default async function ShopByGenderPage({
 
       {/* Filters */}
       <section className="mt-6 w-full px-5 md:mt-8 md:px-5 xl:px-6">
-        <NoteFilterChips
-          allNotes={["Woody", "Floral", "Amber", "Spice", "Musk", "Citrus"]}
-        />
+        <Suspense fallback={null}>
+          <NoteFilterChips
+            allNotes={["Woody", "Floral", "Amber", "Spice", "Musk", "Citrus"]}
+          />
+        </Suspense>
         <div className="mt-6 h-px w-full md:mt-8" />
       </section>
 
