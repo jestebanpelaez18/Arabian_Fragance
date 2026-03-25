@@ -201,7 +201,7 @@ export default function PdpTabs({
                 </p>
                 {showToggle && (
                   <button
-                    className="mt-3 text-sm underline decoration-white/30 underline-offset-4 hover:decoration-gold"
+                    className="hover:decoration-gold mt-3 text-sm underline decoration-white/30 underline-offset-4"
                     onClick={() => setOpenInci((v) => !v)}
                   >
                     {openInci ? labels.showLess : labels.showMore}
@@ -223,9 +223,7 @@ export default function PdpTabs({
             aria-labelledby="tab-Packaging"
           >
             <ul className="space-y-2 text-[15px] text-black/80 md:text-[16px]">
-              <li>
-                {labels.packagingLine1}
-              </li>
+              <li>{labels.packagingLine1}</li>
               <li>{storage_instructions}</li>
             </ul>
           </div>
@@ -244,9 +242,7 @@ export default function PdpTabs({
                 ))}
               </ul>
             ) : (
-              <p className="text-[15px] md:text-[16px]">
-                {labels.noPolicies}
-              </p>
+              <p className="text-[15px] md:text-[16px]">{labels.noPolicies}</p>
             )}
           </div>
         )}

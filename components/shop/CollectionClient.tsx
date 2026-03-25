@@ -166,14 +166,18 @@ export default function CollectionClient({
               </section>
 
               <section>
-                <h3 className="mb-4 text-base font-medium">{labels.filterBy}</h3>
+                <h3 className="mb-4 text-base font-medium">
+                  {labels.filterBy}
+                </h3>
                 <div className="space-y-3 text-sm">
-                  {([
-                    { key: "all", label: labels.all },
-                    { key: "women", label: labels.women },
-                    { key: "men", label: labels.men },
-                    { key: "unisex", label: labels.unisex },
-                  ] as const).map((g) => (
+                  {(
+                    [
+                      { key: "all", label: labels.all },
+                      { key: "women", label: labels.women },
+                      { key: "men", label: labels.men },
+                      { key: "unisex", label: labels.unisex },
+                    ] as const
+                  ).map((g) => (
                     <label
                       key={g.key}
                       className="flex cursor-pointer items-center gap-3"

@@ -75,9 +75,7 @@ export default function ProductHeaderPanel({
             sku: sku ?? null,
           }}
           notes={notes ?? undefined}
-          policies={[
-            ...labels.policies.map((line) => `• ${line}`),
-          ]}
+          policies={[...labels.policies.map((line) => `• ${line}`)]}
           ingredients={ingredients ?? undefined}
           pyramid={pyramid}
           storage_instructions={storage_instructions}

@@ -57,8 +57,9 @@ export default async function ShopByGenderPage({
   const validGender = gender as Gender;
 
   // 1. FETCH DATA (Cast to unknown then to our flexible Raw Interface)
-  const rawData =
-    (await getShopifyProducts(locale)) as unknown as ShopifyRawProduct[];
+  const rawData = (await getShopifyProducts(
+    locale,
+  )) as unknown as ShopifyRawProduct[];
 
   // 2. NORMALIZE DATA (The clean separation)
   const PRODUCTS: Product[] = rawData.map(normalizeProduct);

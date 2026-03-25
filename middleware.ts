@@ -33,19 +33,20 @@ export function middleware(request: NextRequest) {
 
   // 2. Check if the current pathname already has a locale (e.g. /fi/shop)
   const pathnameIsMissingLocale = i18n.locales.every(
-    (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
+    (locale) =>
+      !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`,
   );
 
   // 3. If it's missing, redirect to the URL with the locale
   if (pathnameIsMissingLocale) {
     const locale = getLocale(request);
-    
+
     // e.g. incoming request is /shop -> redirect to /en/shop
     return NextResponse.redirect(
       new URL(
         `/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}`,
-        request.url
-      )
+        request.url,
+      ),
     );
   }
 

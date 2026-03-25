@@ -33,7 +33,9 @@ export default async function SuccessPage({
   if (!id) {
     return (
       <main className="mx-auto max-w-2xl p-8">
-        <h1 className="text-2xl font-semibold">{dict.checkout.paymentReceived}</h1>
+        <h1 className="text-2xl font-semibold">
+          {dict.checkout.paymentReceived}
+        </h1>
         <p>{dict.checkout.sessionNotFound}</p>
       </main>
     );
@@ -50,11 +52,15 @@ export default async function SuccessPage({
 
       <h1 className="text-3xl font-semibold">{dict.checkout.thankYou}</h1>
       <p className="text-white/80">
-        Order <span className="font-mono">{session.id}</span> {dict.checkout.orderConfirmedSuffix}
+        Order <span className="font-mono">{session.id}</span>{" "}
+        {dict.checkout.orderConfirmedSuffix}
       </p>
       <p>
         {dict.checkout.confirmationSentPrefix}{" "}
-        <strong>{session.customer_details?.email ?? dict.checkout.yourEmailFallback}</strong>.
+        <strong>
+          {session.customer_details?.email ?? dict.checkout.yourEmailFallback}
+        </strong>
+        .
       </p>
 
       <div className="mx-auto max-w-md rounded-lg border border-white/10 p-4 text-left">

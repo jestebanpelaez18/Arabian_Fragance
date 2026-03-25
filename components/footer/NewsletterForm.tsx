@@ -33,9 +33,7 @@ export default function NewsletterForm({
       <h3 className="font-bodoni mb-2 text-base tracking-wide uppercase">
         {labels.joinList}
       </h3>
-      <p className="font-bodoni mb-4 text-sm">
-        {labels.description}
-      </p>
+      <p className="font-bodoni mb-4 text-sm">{labels.description}</p>
       <div className="flex items-center border-b border-stone-300 py-2">
         <input
           id="footerEmail"

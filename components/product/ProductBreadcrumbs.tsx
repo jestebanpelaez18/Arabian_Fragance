@@ -23,11 +23,10 @@ export default function ProductBreadcrumbs({
   const locale = getLocaleFromPathname(pathname);
   const labels = getUiLabels(locale);
 
-  const resolvedPath =
-    path ?? [
-      { label: labels.navbar.home, href: "/" },
-      { label: labels.navbar.mobileShopTitle, href: "/shop" },
-    ];
+  const resolvedPath = path ?? [
+    { label: labels.navbar.home, href: "/" },
+    { label: labels.navbar.mobileShopTitle, href: "/shop" },
+  ];
 
   return (
     <div className={containerClassName}>

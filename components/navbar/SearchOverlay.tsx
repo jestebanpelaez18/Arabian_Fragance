@@ -90,7 +90,7 @@ export default function SearchOverlay({
       />
 
       {/* PANEL PRINCIPAL */}
-      <div className="animate-in slide-in-from-top-2 fixed top-16 right-0 left-0 z-9999 flex flex-col overflow-hidden bg-background text-foreground shadow-2xl duration-300 lg:top-16">
+      <div className="animate-in slide-in-from-top-2 bg-background text-foreground fixed top-16 right-0 left-0 z-9999 flex flex-col overflow-hidden shadow-2xl duration-300 lg:top-16">
         {/* --- 1. SEARCH BAR (Input limpia) --- */}
         <div className="w-full px-6 pt-10 pb-6 md:px-12">
           <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between border-b border-[#1a1a1a]/20 pb-4">

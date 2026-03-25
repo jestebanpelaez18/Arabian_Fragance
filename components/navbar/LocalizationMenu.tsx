@@ -90,7 +90,7 @@ export default function LocalizationMenu() {
 
         {/* LANGUAGE DROPDOWN PANEL (Centered) */}
         <div
-          className={`absolute top-[85%] left-1/2 z-50 mt-1 w-28 -translate-x-1/2 border border-black/5 bg-background py-2 shadow-sm transition-all duration-200 ${
+          className={`bg-background absolute top-[85%] left-1/2 z-50 mt-1 w-28 -translate-x-1/2 border border-black/5 py-2 shadow-sm transition-all duration-200 ${
             activeMenu === "language"
               ? "visible translate-y-0 opacity-100"
               : "invisible -translate-y-2 opacity-0"

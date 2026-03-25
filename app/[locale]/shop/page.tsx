@@ -21,8 +21,9 @@ export default async function ShopIndexPage({
   const { locale } = await params;
   const dict = await getDictionary(locale);
 
-  const rawData =
-    (await getShopifyProducts(locale)) as unknown as ShopifyRawProduct[];
+  const rawData = (await getShopifyProducts(
+    locale,
+  )) as unknown as ShopifyRawProduct[];
 
   const PRODUCTS: Product[] = rawData.map(normalizeProduct);
 
@@ -47,7 +48,7 @@ export default async function ShopIndexPage({
           <li>
             <Link
               href="/"
-              className="text-foreground transition hover:text-gold"
+              className="text-foreground hover:text-gold transition"
             >
               {dict.shopPage.breadcrumbHome}
             </Link>

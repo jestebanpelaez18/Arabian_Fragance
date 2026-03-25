@@ -7,11 +7,7 @@ import ProductCard from "@/components/shop/ProductCard";
 import { PRODUCTS, type Product } from "@/data/products";
 import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
-const TABS = [
-  { key: "women" },
-  { key: "men" },
-  { key: "unisex" },
-] as const;
+const TABS = [{ key: "women" }, { key: "men" }, { key: "unisex" }] as const;
 type Tab = (typeof TABS)[number]["key"];
 
 export default function DiscoverSection() {

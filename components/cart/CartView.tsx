@@ -46,7 +46,9 @@ function FreeShippingBar({
       <div className="mb-2 flex justify-between text-xs">
         {remaining > 0 ? (
           <span className="text-black/70">
-            {labels.addForFreeShipping} <strong>{fmtCurrency(remaining)}</strong> {labels.freeShippingSuffix}
+            {labels.addForFreeShipping}{" "}
+            <strong>{fmtCurrency(remaining)}</strong>{" "}
+            {labels.freeShippingSuffix}
           </span>
         ) : (
           <span className="font-medium text-green-700">
@@ -168,9 +170,7 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
         }
       >
         <h1 className="text-xl font-semibold">{labels.emptyTitle}</h1>
-        <p className="mt-2 text-black/70">
-          {labels.emptyDescription}
-        </p>
+        <p className="mt-2 text-black/70">{labels.emptyDescription}</p>
         <Link
           href="/shop"
           className="mt-6 inline-flex h-11 items-center rounded-full px-6 ring-1 ring-black/10 transition-colors hover:bg-black/5"
@@ -184,7 +184,9 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
   return (
     <div className={compact ? "p-6" : "mx-auto max-w-5xl px-4 py-10"}>
       {!compact && (
-        <h1 className="font-playfair-display mb-6 text-2xl">{labels.bagTitle}</h1>
+        <h1 className="font-playfair-display mb-6 text-2xl">
+          {labels.bagTitle}
+        </h1>
       )}
 
       {/* List */}

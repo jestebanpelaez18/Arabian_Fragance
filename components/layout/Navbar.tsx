@@ -23,7 +23,7 @@ export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-// 1. BODY SCROLL LOCK CONTROLLER
+  // 1. BODY SCROLL LOCK CONTROLLER
   useEffect(() => {
     if (openMobile || openSearch) {
       document.body.style.overflow = "hidden";
@@ -95,7 +95,7 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 z-9900 w-full border-b border-black/5 bg-background text-[#1a1a1a] transition-transform duration-700 ease-in-out ${
+        className={`bg-background fixed top-0 z-9900 w-full border-b border-black/5 text-[#1a1a1a] transition-transform duration-700 ease-in-out ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
@@ -147,7 +147,7 @@ export default function Navbar() {
 
             {/* THE DROPDOWN PANEL (Amouage Style) */}
             {/* Absolute positioning, hides by default, shows on group hover */}
-            <div className="invisible absolute top-full left-0 z-9999 w-full border-t border-black/5 bg-background opacity-0 shadow-md transition-all duration-300 group-hover:visible group-hover:opacity-100">
+            <div className="bg-background invisible absolute top-full left-0 z-9999 w-full border-t border-black/5 opacity-0 shadow-md transition-all duration-300 group-hover:visible group-hover:opacity-100">
               {/* Container to align content with the rest of the navbar */}
               <div className="mx-auto flex max-w-7xl justify-center gap-24 px-12 py-10">
                 {/* Column 1: By Gender */}
@@ -272,9 +272,9 @@ export default function Navbar() {
           title={
             mobileView === "shop"
               ? labels.mobileShopTitle
-                : mobileView === "language"
-                  ? labels.mobileLanguageTitle
-                  : ""
+              : mobileView === "language"
+                ? labels.mobileLanguageTitle
+                : ""
           }
         />
       </Suspense>

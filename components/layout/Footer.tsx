@@ -27,7 +27,10 @@ export default function Footer() {
       <div className="px-4 pt-8 pb-7 md:px-5">
         {/* MOBILE */}
         <div className="block md:hidden">
-          <NewsletterForm onSubscribe={onSubscribe} labels={labels.newsletter} />
+          <NewsletterForm
+            onSubscribe={onSubscribe}
+            labels={labels.newsletter}
+          />
           {/* Collapsible menus */}
           <section className="mb-8">
             {columns.map((col) => (
@@ -80,7 +83,10 @@ export default function Footer() {
             </section>
           ))}
           <aside>
-            <NewsletterForm onSubscribe={onSubscribe} labels={labels.newsletter} />
+            <NewsletterForm
+              onSubscribe={onSubscribe}
+              labels={labels.newsletter}
+            />
             <BrandCopy text={labels.brandCopy} />
             <CurrencySelector
               selectCurrencyAria={labels.selectCurrency}

@@ -254,7 +254,8 @@ const uiLabels: Record<Locale, UiLabels> = {
         menSubtitle: "Intense amber, deep woods and refined oriental spices.",
         menAria: "Shop men fragrances",
         unisexTitle: "UNISEX",
-        unisexSubtitle: "Balanced compositions where rose, spice and oud unite.",
+        unisexSubtitle:
+          "Balanced compositions where rose, spice and oud unite.",
         unisexAria: "Shop unisex fragrances",
         shopNow: "Shop now",
       },
@@ -334,7 +335,8 @@ const uiLabels: Record<Locale, UiLabels> = {
         ingredientsTab: "INGREDIENTS",
         packagingTab: "PACKAGING & CARE",
         policiesTab: "POLICIES",
-        defaultDescription: "A timeless composition crafted with refined notes.",
+        defaultDescription:
+          "A timeless composition crafted with refined notes.",
         top: "Top",
         heart: "Heart",
         base: "Base",
@@ -342,7 +344,8 @@ const uiLabels: Record<Locale, UiLabels> = {
         ingredientsHeading: "Ingredients",
         showLess: "Show less",
         showMore: "Show more",
-        ingredientsUnavailable: "Ingredients information is not available for this product.",
+        ingredientsUnavailable:
+          "Ingredients information is not available for this product.",
         packagingLine1:
           "All items are packaged in our signature Arabian Fragrance box, with complimentary gift wrap for a refined presentation.",
         noPolicies: "No additional policies.",
@@ -407,7 +410,10 @@ const uiLabels: Record<Locale, UiLabels> = {
           title: "Asiakaspalvelu",
           links: [
             { label: "Toimitus", href: "/policies/shipping-policy" },
-            { label: "Palautukset ja hyvitykset", href: "/policies/refund-policy" },
+            {
+              label: "Palautukset ja hyvitykset",
+              href: "/policies/refund-policy",
+            },
             { label: "UKK", href: "/faq" },
             { label: "Kayttoehdot", href: "/policies/terms-conditions" },
             { label: "Tietosuojakaytanto", href: "/policies/privacy-policy" },
@@ -448,13 +454,16 @@ const uiLabels: Record<Locale, UiLabels> = {
     sections: {
       categoryShowcase: {
         womenTitle: "OSTA HANELLE",
-        womenSubtitle: "Aistillisia kukkaistuoksuja, lammin amber ja pehmea oud.",
+        womenSubtitle:
+          "Aistillisia kukkaistuoksuja, lammin amber ja pehmea oud.",
         womenAria: "Osta naisten tuoksuja",
         menTitle: "OSTA HANELLE",
-        menSubtitle: "Intensiivista amberia, syvia puunuotteja ja hienostuneita mausteita.",
+        menSubtitle:
+          "Intensiivista amberia, syvia puunuotteja ja hienostuneita mausteita.",
         menAria: "Osta miesten tuoksuja",
         unisexTitle: "UNISEX",
-        unisexSubtitle: "Tasapainoisia yhdistelmia, joissa ruusu, mausteet ja oud kohtaavat.",
+        unisexSubtitle:
+          "Tasapainoisia yhdistelmia, joissa ruusu, mausteet ja oud kohtaavat.",
         unisexAria: "Osta unisex-tuoksuja",
         shopNow: "Osta nyt",
       },
@@ -542,7 +551,8 @@ const uiLabels: Record<Locale, UiLabels> = {
         ingredientsHeading: "Ainesosat",
         showLess: "Nayta vahemman",
         showMore: "Nayta lisaa",
-        ingredientsUnavailable: "Ainesosatietoja ei ole saatavilla tasta tuotteesta.",
+        ingredientsUnavailable:
+          "Ainesosatietoja ei ole saatavilla tasta tuotteesta.",
         packagingLine1:
           "Kaikki tuotteet pakataan Arabian Fragrancen tunnuslaatikkoon ja viimeistellaan ilmaisella lahjapaketoinnilla.",
         noPolicies: "Ei lisakaytantoja.",
@@ -607,7 +617,10 @@ const uiLabels: Record<Locale, UiLabels> = {
           title: "Kundservice",
           links: [
             { label: "Leverans", href: "/policies/shipping-policy" },
-            { label: "Returer och aterbetalning", href: "/policies/refund-policy" },
+            {
+              label: "Returer och aterbetalning",
+              href: "/policies/refund-policy",
+            },
             { label: "Vanliga fragor", href: "/faq" },
             { label: "Villkor", href: "/policies/terms-conditions" },
             { label: "Integritetspolicy", href: "/policies/privacy-policy" },
@@ -648,13 +661,16 @@ const uiLabels: Record<Locale, UiLabels> = {
     sections: {
       categoryShowcase: {
         womenTitle: "HANDLA FOR HENNE",
-        womenSubtitle: "Sensuella blommor blandade med varm amber och mjuk oud.",
+        womenSubtitle:
+          "Sensuella blommor blandade med varm amber och mjuk oud.",
         womenAria: "Handla damdofter",
         menTitle: "HANDLA FOR HONOM",
-        menSubtitle: "Intensiv amber, djupa tradofter och forfinade orientaliska kryddor.",
+        menSubtitle:
+          "Intensiv amber, djupa tradofter och forfinade orientaliska kryddor.",
         menAria: "Handla herrdofter",
         unisexTitle: "UNISEX",
-        unisexSubtitle: "Balanserade kompositioner dar ros, kryddor och oud forenas.",
+        unisexSubtitle:
+          "Balanserade kompositioner dar ros, kryddor och oud forenas.",
         unisexAria: "Handla unisexdofter",
         shopNow: "Handla nu",
       },
@@ -742,7 +758,8 @@ const uiLabels: Record<Locale, UiLabels> = {
         ingredientsHeading: "Ingredienser",
         showLess: "Visa mindre",
         showMore: "Visa mer",
-        ingredientsUnavailable: "Ingrediensinformation ar inte tillganglig for denna produkt.",
+        ingredientsUnavailable:
+          "Ingrediensinformation ar inte tillganglig for denna produkt.",
         packagingLine1:
           "Alla produkter levereras i var signaturlada fran Arabian Fragrance med kostnadsfri presentinslagning.",
         noPolicies: "Inga ytterligare policyer.",

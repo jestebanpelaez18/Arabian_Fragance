@@ -1,134 +1,128 @@
 {
-	"hero": {
-		"title": "KONSTEN AV ARABISK PARFYMERI",
-		"subtitle": "Lyxiga dofter inspirerade av Dubais elegans.",
-		"ctaLabel": "Handla kollektionen"
-	},
-	"dividers": {
-		"shop": "Handla kollektionen",
-		"experience": "Upplevelse",
-		"invitation": "Inbjudan",
-		"ourStory": "Var historia"
-	},
-	"gift": {
-		"label": "Exklusiv presentkollektion",
-		"title": "Ikoniska presenter",
-		"description": "Forvandla varje tillfalle till ett minne med vara exklusiva dofter.",
-		"ctaLabel": "Handla nu"
-	},
-	"invitation": {
-		"title": "ARABIAN FRAGRANCE LANSERING",
-		"description": "En exklusiv kvall som firar konsten av arabisk parfym.",
-		"ctaLabel": "Utforska nu"
-	},
-	"about": {
-		"title": "VAR HISTORIA",
-		"description1": "Fodd ur hjartat av arabisk parfymkonst, blandar vara dofter tradition, sallsynta ingredienser och tidlos elegans.",
-		"description2": "Varje doft ar skapad for att lamna ett varaktigt intryck.",
-		"ctaLabel": "Upptack var historia"
-	},
-	"store": {
-		"welcome": "Valkommen till Arabian Fragrance",
-		"shop_now": "Handla nu"
-	},
-	"product": {
-		"add_to_cart": "Lagg i kundvagn",
-		"sold_out": "Slut i lager"
-	},
-	"aboutPage": {
-		"heroTitle": "KONSTEN AV ARABISK PARFYMERI",
-		"heroSubtitle": "En forfinad fusion av rik arabisk parfymkonst och modern nordisk sofistikering.",
-		"discoverDivider": "Upptack",
-		"storyTitle": "VAR HISTORIA",
-		"storyDescriptions": [
-			"Arabian Fragrance grundades av Juha Toivanen, en finsk kock kand for att skapa nagra av Finlands mest valkanda matupplevelser.",
-			"Efter ar av arbete med smak, atmosfar och gastfrihetens konst borjade Juha utforska ett nytt satt att skapa kansla genom doft.",
-			"Hans resa ledde honom till Dubai och Emiraten, dar parfym ar invavd i vardagen. Inspirerad av arabiska traditioner och sallsynta naturliga ingredienser borjade han samarbeta med lokala experter for att skapa dofter med djup, autenticitet och modern forfining.",
-			"Arabian Fragrance bygger pa kontraster: oudens kraft balanserad med rosens finkanslighet, Mellanosterns arv forfinat genom nordisk klarhet.",
-			"Varje doft berattar en historia - inte bara for att baras, utan for att bli en del av ens identitet."
-		],
-		"quote": "Arabian Fragrance ger sjalen i Dubais parfymarv liv, skapad med autenticitet, djup och modern elegans.",
-		"experienceDivider": "Upplevelse",
-		"perfumesTitle": "VARA PARFYMER",
-		"perfumesDescriptions": [
-			"Hos Arabian Fragrance ar varje parfym mer an en doft, den ar en upplevelse. Rotad i arabisk parfymtradition och skapad i Dubai kombinerar vara kreationer sallsynta naturliga ingredienser med modern elegans.",
-			"Varje doft bar sin egen historia: oudens varme, rosens finkanslighet och citrusens friskhet. Tillsammans skapar de en kollektion som ar sofistikerad, autentisk och omojlig att glomma.",
-			"Vi bjuder in dig att upptacka parfymer som inte bara kompletterar din narvaro, de definierar den."
-		],
-		"fullImageParagraph": "I hjartat av Arabian Fragrance finns en dialog mellan arv och modernitet. Rotad i arabisk parfymtradition omtolkar varje skapelse oud, amber och ros genom en forfinad, samtida lins."
-	},
-	"shopPage": {
-		"breadcrumbHome": "Hem",
-		"breadcrumbShop": "Butik",
-		"title": "ALL ARABIAN FRAGRANCE",
-		"subtitle": "Handgjorda kompositioner rotade i arabisk parfymkonst med resinost djup, lysande floraler och varm amber. Upptack vart fulla urval av tidlosa signaturer for varje stil."
-	},
-	"showroomPage": {
-		"dividerFinland": "FINLAND",
-		"dividerExperience": "UPPLEVELSE",
-		"dividerBookExperience": "BOKA DIN PRIVATA SHOWROOMUPPLEVELSE",
-		"location": {
-			"city": "HELSINGFORS",
-			"description": [
-				"Arabian Fragrances flaggskeppsshowroom i Helsingfors ligger i stadens hjarta och forenar nordisk minimalism med arabisk lyx.",
-				"Upptack vara kurerade kollektioner och njut av vara lyxtjanster med privata konsultationer, exklusiva presentlosningar och personliga doftresor."
-			],
-			"hours": [
-				"Mandag till lordag 10:00 - 18:00",
-				"Sondag 12:00 - 17:00"
-			],
-			"address": [
-				"Mikonkatu 4",
-				"00100 Helsingfors, Finland"
-			],
-			"imageAlt": "Arabian Fragrance showroom i Helsingfors"
-		},
-		"experienceTitle": "Mer an en butik, en doftritual",
-		"services": [
-			{
-				"title": "Privata konsultationer",
-				"description": "Tid en mot en med vara doftexperter for att forsta dina preferenser och oversatta dem till ett personligt urval."
-			},
-			{
-				"title": "Doftresor",
-				"description": "Utforska oud, amber, floraler och tra genom raa material och lager av kompositioner upplevda not for not."
-			},
-			{
-				"title": "Gavor och tillfallen",
-				"description": "Fran brollop till privata event skapar vi personliga gavooplevelser med gravyr, skraddarsydda set och signaturforpackning."
-			}
-		],
-		"ctaTitle": "Boka din privata showroomupplevelse",
-		"ctaDescription": "Vart showroom ar endast oppet efter bokning for en lugn och personlig atmosfar. Dela nagra detaljer sa kontaktar vart team dig.",
-		"ctaButtonText": "Begar en bokning"
-	},
-	"checkout": {
-		"cancelTitle": "Checkout avbruten",
-		"cancelDescription": "Ingen fara - dina produkter ligger kvar i vaskan.",
-		"reviewBag": "Granska din vaska",
-		"paymentReceived": "Betalning mottagen",
-		"sessionNotFound": "Session hittades inte. Om du redan har betalat, kontrollera din e-post.",
-		"thankYou": "Tack!",
-		"orderConfirmedSuffix": "bekraftad.",
-		"confirmationSentPrefix": "En bekraftelse skickades till",
-		"yourEmailFallback": "din e-post",
-		"summary": "Sammanfattning",
-		"productFallback": "Produkt",
-		"total": "Totalt",
-		"continueShopping": "Fortsatt handla"
-	},
-	"contactPage": {
-		"metaTitle": "Kontakta oss | Arabian Fragrance",
-		"metaDescription": "Kontakta vart concierge-team.",
-		"title": "Kontakta oss",
-		"intro": "Vart engagerade team hjalper dig med fragor om vara dofter, bestallningar och Arabian Fragrance-upplevelsen.",
-		"customerCareTitle": "Kundservice",
-		"customerCareDescription": "For hjalp med onlinebestallningar och allmanna fragor.",
-		"headquartersTitle": "Huvudkontor",
-		"headquartersCityCountry": "Helsingfors, Finland",
-		"headquartersAddress": "Mikonkatu 4, 00100 Helsingfors",
-		"pressWholesaleTitle": "Press och grossist",
-		"pressWholesaleDescription": "For pressfragor och partnerskap.",
-		"pressWholesaleCta": "Kontakta vart PR-team"
-	}
-	}
+  "hero": {
+    "title": "KONSTEN AV ARABISK PARFYMERI",
+    "subtitle": "Lyxiga dofter inspirerade av Dubais elegans.",
+    "ctaLabel": "Handla kollektionen"
+  },
+  "dividers": {
+    "shop": "Handla kollektionen",
+    "experience": "Upplevelse",
+    "invitation": "Inbjudan",
+    "ourStory": "Var historia"
+  },
+  "gift": {
+    "label": "Exklusiv presentkollektion",
+    "title": "Ikoniska presenter",
+    "description": "Forvandla varje tillfalle till ett minne med vara exklusiva dofter.",
+    "ctaLabel": "Handla nu"
+  },
+  "invitation": {
+    "title": "ARABIAN FRAGRANCE LANSERING",
+    "description": "En exklusiv kvall som firar konsten av arabisk parfym.",
+    "ctaLabel": "Utforska nu"
+  },
+  "about": {
+    "title": "VAR HISTORIA",
+    "description1": "Fodd ur hjartat av arabisk parfymkonst, blandar vara dofter tradition, sallsynta ingredienser och tidlos elegans.",
+    "description2": "Varje doft ar skapad for att lamna ett varaktigt intryck.",
+    "ctaLabel": "Upptack var historia"
+  },
+  "store": {
+    "welcome": "Valkommen till Arabian Fragrance",
+    "shop_now": "Handla nu"
+  },
+  "product": {
+    "add_to_cart": "Lagg i kundvagn",
+    "sold_out": "Slut i lager"
+  },
+  "aboutPage": {
+    "heroTitle": "KONSTEN AV ARABISK PARFYMERI",
+    "heroSubtitle": "En forfinad fusion av rik arabisk parfymkonst och modern nordisk sofistikering.",
+    "discoverDivider": "Upptack",
+    "storyTitle": "VAR HISTORIA",
+    "storyDescriptions": [
+      "Arabian Fragrance grundades av Juha Toivanen, en finsk kock kand for att skapa nagra av Finlands mest valkanda matupplevelser.",
+      "Efter ar av arbete med smak, atmosfar och gastfrihetens konst borjade Juha utforska ett nytt satt att skapa kansla genom doft.",
+      "Hans resa ledde honom till Dubai och Emiraten, dar parfym ar invavd i vardagen. Inspirerad av arabiska traditioner och sallsynta naturliga ingredienser borjade han samarbeta med lokala experter for att skapa dofter med djup, autenticitet och modern forfining.",
+      "Arabian Fragrance bygger pa kontraster: oudens kraft balanserad med rosens finkanslighet, Mellanosterns arv forfinat genom nordisk klarhet.",
+      "Varje doft berattar en historia - inte bara for att baras, utan for att bli en del av ens identitet."
+    ],
+    "quote": "Arabian Fragrance ger sjalen i Dubais parfymarv liv, skapad med autenticitet, djup och modern elegans.",
+    "experienceDivider": "Upplevelse",
+    "perfumesTitle": "VARA PARFYMER",
+    "perfumesDescriptions": [
+      "Hos Arabian Fragrance ar varje parfym mer an en doft, den ar en upplevelse. Rotad i arabisk parfymtradition och skapad i Dubai kombinerar vara kreationer sallsynta naturliga ingredienser med modern elegans.",
+      "Varje doft bar sin egen historia: oudens varme, rosens finkanslighet och citrusens friskhet. Tillsammans skapar de en kollektion som ar sofistikerad, autentisk och omojlig att glomma.",
+      "Vi bjuder in dig att upptacka parfymer som inte bara kompletterar din narvaro, de definierar den."
+    ],
+    "fullImageParagraph": "I hjartat av Arabian Fragrance finns en dialog mellan arv och modernitet. Rotad i arabisk parfymtradition omtolkar varje skapelse oud, amber och ros genom en forfinad, samtida lins."
+  },
+  "shopPage": {
+    "breadcrumbHome": "Hem",
+    "breadcrumbShop": "Butik",
+    "title": "ALL ARABIAN FRAGRANCE",
+    "subtitle": "Handgjorda kompositioner rotade i arabisk parfymkonst med resinost djup, lysande floraler och varm amber. Upptack vart fulla urval av tidlosa signaturer for varje stil."
+  },
+  "showroomPage": {
+    "dividerFinland": "FINLAND",
+    "dividerExperience": "UPPLEVELSE",
+    "dividerBookExperience": "BOKA DIN PRIVATA SHOWROOMUPPLEVELSE",
+    "location": {
+      "city": "HELSINGFORS",
+      "description": [
+        "Arabian Fragrances flaggskeppsshowroom i Helsingfors ligger i stadens hjarta och forenar nordisk minimalism med arabisk lyx.",
+        "Upptack vara kurerade kollektioner och njut av vara lyxtjanster med privata konsultationer, exklusiva presentlosningar och personliga doftresor."
+      ],
+      "hours": ["Mandag till lordag 10:00 - 18:00", "Sondag 12:00 - 17:00"],
+      "address": ["Mikonkatu 4", "00100 Helsingfors, Finland"],
+      "imageAlt": "Arabian Fragrance showroom i Helsingfors"
+    },
+    "experienceTitle": "Mer an en butik, en doftritual",
+    "services": [
+      {
+        "title": "Privata konsultationer",
+        "description": "Tid en mot en med vara doftexperter for att forsta dina preferenser och oversatta dem till ett personligt urval."
+      },
+      {
+        "title": "Doftresor",
+        "description": "Utforska oud, amber, floraler och tra genom raa material och lager av kompositioner upplevda not for not."
+      },
+      {
+        "title": "Gavor och tillfallen",
+        "description": "Fran brollop till privata event skapar vi personliga gavooplevelser med gravyr, skraddarsydda set och signaturforpackning."
+      }
+    ],
+    "ctaTitle": "Boka din privata showroomupplevelse",
+    "ctaDescription": "Vart showroom ar endast oppet efter bokning for en lugn och personlig atmosfar. Dela nagra detaljer sa kontaktar vart team dig.",
+    "ctaButtonText": "Begar en bokning"
+  },
+  "checkout": {
+    "cancelTitle": "Checkout avbruten",
+    "cancelDescription": "Ingen fara - dina produkter ligger kvar i vaskan.",
+    "reviewBag": "Granska din vaska",
+    "paymentReceived": "Betalning mottagen",
+    "sessionNotFound": "Session hittades inte. Om du redan har betalat, kontrollera din e-post.",
+    "thankYou": "Tack!",
+    "orderConfirmedSuffix": "bekraftad.",
+    "confirmationSentPrefix": "En bekraftelse skickades till",
+    "yourEmailFallback": "din e-post",
+    "summary": "Sammanfattning",
+    "productFallback": "Produkt",
+    "total": "Totalt",
+    "continueShopping": "Fortsatt handla"
+  },
+  "contactPage": {
+    "metaTitle": "Kontakta oss | Arabian Fragrance",
+    "metaDescription": "Kontakta vart concierge-team.",
+    "title": "Kontakta oss",
+    "intro": "Vart engagerade team hjalper dig med fragor om vara dofter, bestallningar och Arabian Fragrance-upplevelsen.",
+    "customerCareTitle": "Kundservice",
+    "customerCareDescription": "For hjalp med onlinebestallningar och allmanna fragor.",
+    "headquartersTitle": "Huvudkontor",
+    "headquartersCityCountry": "Helsingfors, Finland",
+    "headquartersAddress": "Mikonkatu 4, 00100 Helsingfors",
+    "pressWholesaleTitle": "Press och grossist",
+    "pressWholesaleDescription": "For pressfragor och partnerskap.",
+    "pressWholesaleCta": "Kontakta vart PR-team"
+  }
+}
