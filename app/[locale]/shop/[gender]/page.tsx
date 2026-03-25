@@ -7,7 +7,7 @@ import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
 import NoteFilterChips from "@/components/shop/NoteFilterChips";
 import { type Product } from "@/data/products";
-import type { Locale } from "@/i18n-config";
+import { i18n, type Locale } from "@/i18n-config";
 
 // Import the new Mapper
 import { normalizeProduct, type ShopifyRawProduct } from "@/lib/shopify/mapper";
@@ -25,7 +25,9 @@ const COPY: Record<Gender, string> = {
 };
 
 export function generateStaticParams() {
-  return GENDERS.map((g) => ({ gender: g }));
+  return i18n.locales.flatMap((locale) =>
+    GENDERS.map((gender) => ({ locale, gender })),
+  );
 }
 
 export async function generateMetadata({
