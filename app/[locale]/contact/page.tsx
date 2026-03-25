@@ -1,18 +1,34 @@
 import type { Metadata } from "next";
+import { getDictionary } from "@/dictionaries/getDictionary";
+import type { Locale } from "@/i18n-config";
 
-export const metadata: Metadata = {
-  title: "Contact Us | Arabian Fragrance",
-  description: "Get in touch with our concierge team.",
-};
+interface PageProps {
+  params: Promise<{ locale: Locale }>;
+}
 
-export default function ContactPage() {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const dict = await getDictionary(locale);
+
+  return {
+    title: dict.contactPage.metaTitle,
+    description: dict.contactPage.metaDescription,
+  };
+}
+
+export default async function ContactPage({ params }: PageProps) {
+  const { locale } = await params;
+  const dict = await getDictionary(locale);
+
   return (
     <main className="bg-background text-foreground min-h-screen w-full">
       <article className="mx-auto max-w-2xl px-6 py-24 md:py-32">
         {/* HEADER */}
         <header className="mb-16 text-center">
           <h1 className="font-playfair-display text-ink text-4xl tracking-[0.2em] uppercase md:text-5xl">
-            Contact Us
+            {dict.contactPage.title}
           </h1>
           <div className="bg-gold/50 mx-auto mt-8 h-px w-16" />
         </header>
@@ -20,9 +36,7 @@ export default function ContactPage() {
         {/* INTRODUCCIÓN */}
         <div className="mb-16 text-center">
           <p className="font-garamond text-ink/85 text-xl leading-loose">
-            Our dedicated team is at your disposal to assist with any inquiries
-            regarding our fragrances, orders, or the Arabian Fragrance
-            experience.
+            {dict.contactPage.intro}
           </p>
         </div>
 
@@ -31,10 +45,10 @@ export default function ContactPage() {
           {/* Columna 1: Customer Care */}
           <section className="flex flex-col items-center md:items-start">
             <h2 className="font-playfair-display text-ink mb-6 text-lg tracking-widest uppercase">
-              Customer Care
+              {dict.contactPage.customerCareTitle}
             </h2>
             <p className="font-garamond text-ink/85 text-lg leading-relaxed">
-              For assistance with online orders and general inquiries.
+              {dict.contactPage.customerCareDescription}
             </p>
             <a
               href="mailto:helsinki@arabianfragrance.com"
@@ -47,12 +61,12 @@ export default function ContactPage() {
           {/* Columna 2: Visit Us (Placeholder elegante) */}
           <section className="flex flex-col items-center md:items-start">
             <h2 className="font-playfair-display text-ink mb-6 text-lg tracking-widest uppercase">
-              Headquarters
+              {dict.contactPage.headquartersTitle}
             </h2>
             <div className="font-garamond text-ink/85 text-lg leading-relaxed">
-              <p>Helsinki, Finland</p>
+              <p>{dict.contactPage.headquartersCityCountry}</p>
               <p className="text-ink/50 mt-2 text-sm tracking-wider uppercase">
-                Mikonkatu 4, 00100 Helsinki
+                {dict.contactPage.headquartersAddress}
               </p>
             </div>
           </section>
@@ -61,16 +75,16 @@ export default function ContactPage() {
         {/* PRESS / WHOLESALE (Opcional, da prestigio) */}
         <div className="border-gold/20 mt-20 border-t pt-16 text-center">
           <h2 className="font-playfair-display text-ink mb-4 text-lg tracking-widest uppercase">
-            Press & Wholesale
+            {dict.contactPage.pressWholesaleTitle}
           </h2>
           <p className="font-garamond text-ink/85 mb-4 text-lg">
-            For press inquiries and partnership opportunities.
+            {dict.contactPage.pressWholesaleDescription}
           </p>
           <a
             href="mailto:helsinki@arabianfragrance.com"
             className="font-garamond text-ink/60 hover:text-gold text-lg transition-colors"
           >
-            Contact our PR Team
+            {dict.contactPage.pressWholesaleCta}
           </a>
         </div>
       </article>

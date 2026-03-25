@@ -1,20 +1,29 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { getShopifyProducts } from "@/lib/shopify/get-products";
 import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
 import NoteFilterChips from "@/components/shop/NoteFilterChips";
 import { type Product } from "@/data/products";
 import { normalizeProduct, type ShopifyRawProduct } from "@/lib/shopify/mapper";
+import { getDictionary } from "@/dictionaries/getDictionary";
+import type { Locale } from "@/i18n-config";
 
 type Note = NonNullable<Product["notes"]>[number];
 
 export default async function ShopIndexPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: Locale }>;
   searchParams: Promise<{ notes?: string }>;
 }) {
-  const rawData =
-    (await getShopifyProducts()) as unknown as ShopifyRawProduct[];
+  const { locale } = await params;
+  const dict = await getDictionary(locale);
+
+  const rawData = (await getShopifyProducts(
+    locale,
+  )) as unknown as ShopifyRawProduct[];
 
   const PRODUCTS: Product[] = rawData.map(normalizeProduct);
 
@@ -39,34 +48,30 @@ export default async function ShopIndexPage({
           <li>
             <Link
               href="/"
-              className="text-foreground transition hover:text-[var(--gold)]"
+              className="text-foreground hover:text-gold transition"
             >
-              Home
+              {dict.shopPage.breadcrumbHome}
             </Link>
           </li>
           <li>/</li>
-          <li className="text-foreground">Shop</li>
+          <li className="text-foreground">{dict.shopPage.breadcrumbShop}</li>
         </ol>
       </nav>
 
       {/* Intro */}
       <IntroCompact
-        title="ALL ARABIAN FRAGRANCE"
+        title={dict.shopPage.title}
         count={filtered.length}
-        subtitle={
-          <>
-            Hand-crafted compositions rooted in Arabian perfumery—resinous
-            depth, luminous florals and ambered warmth. Discover our full
-            selection of timeless signatures for every style.
-          </>
-        }
+        subtitle={<>{dict.shopPage.subtitle}</>}
       />
 
       {/* Chips */}
       <section className="mt-6 w-full px-5 md:mt-8 md:px-5 xl:px-6">
-        <NoteFilterChips
-          allNotes={["Woody", "Floral", "Amber", "Spice", "Musk", "Citrus"]}
-        />
+        <Suspense fallback={null}>
+          <NoteFilterChips
+            allNotes={["Woody", "Floral", "Amber", "Spice", "Musk", "Citrus"]}
+          />
+        </Suspense>
         {/* Separation between filter and products */}
         <div className="mt-6 h-px w-full md:mt-8" />
       </section>

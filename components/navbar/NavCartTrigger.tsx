@@ -5,9 +5,14 @@ import { useState } from "react";
 import CartDrawer from "@/components/cart/CartDrawer";
 import CartCount from "@/components/cart/CartCount";
 import Portal from "@/components/system/Portal";
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 export default function NavCartTrigger() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const labels = getUiLabels(locale).navbar;
 
   function onClick(e: React.MouseEvent<HTMLAnchorElement>) {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1)
@@ -22,7 +27,7 @@ export default function NavCartTrigger() {
         href="/bag"
         onClick={onClick}
         className="relative flex items-center opacity-75 transition-all hover:text-[#C9A46A] hover:opacity-100"
-        aria-label="Open bag"
+        aria-label={labels.openBag}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -2,6 +2,8 @@
 
 import SmoothImage from "../ui/SmoothImage";
 import Button from "@/components/ui/button";
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 interface AboutSectionProps {
   imageSrc?: string;
@@ -18,16 +20,25 @@ interface AboutSectionProps {
 
 export default function AboutSection({
   imageSrc = "/hero/story.jpg",
-  imageAlt = "Our Story",
+  imageAlt,
   objectClassName = "object-cover object-[50%_35%]",
-  title = "OUR STORY OF LUXURIOUS ARABIAN FRAGRANCES",
-  description = "Born in Dubai, the heart of Arabian perfumery, our brand blends tradition and luxury to create unique fragrances that embody elegance and sophistication. Each scent is carefully crafted with exquisite ingredients, capturing the essence of Arabian perfume artistry and delivering an exclusive olfactory experience that lasts over time.",
+  title,
+  description,
   ctaHref = "/about",
-  ctaLabel = "Read More",
+  ctaLabel,
   descriptions,
   reverse = true,
   showDivider = false,
 }: AboutSectionProps) {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const labels = getUiLabels(locale).sections.aboutDefaults;
+
+  const resolvedImageAlt = imageAlt ?? labels.imageAlt;
+  const resolvedTitle = title ?? labels.title;
+  const resolvedDescription = description ?? labels.description;
+  const resolvedCtaLabel = ctaLabel ?? labels.ctaLabel;
+
   const imageOrderDesktop = reverse ? "md:order-2" : "md:order-1";
   const textOrderDesktop = reverse ? "md:order-1" : "md:order-2";
   const dividerClass = showDivider
@@ -43,7 +54,7 @@ export default function AboutSection({
       >
         <SmoothImage
           src={imageSrc}
-          alt={imageAlt}
+          alt={resolvedImageAlt}
           fill
           sizes="(min-width:1024px) 50vw, 100vw"
           className={objectClassName}
@@ -58,7 +69,7 @@ export default function AboutSection({
         className={`order-2 flex flex-col justify-center px-16 py-20 ${textOrderDesktop} ${dividerClass} lg:px-20`}
       >
         <h2 className="font-garamond text-4xl leading-tight tracking-[-0.01em] md:text-5xl">
-          {title}
+          {resolvedTitle}
         </h2>
         {descriptions && descriptions.length > 0 ? (
           <div className="font-garamond mt-6 max-w-2xl text-lg/relaxed opacity-85">
@@ -70,7 +81,7 @@ export default function AboutSection({
           </div>
         ) : (
           <p className="font-garamond mt-6 max-w-lg text-lg/relaxed opacity-85">
-            {description}
+            {resolvedDescription}
           </p>
         )}
 
@@ -78,7 +89,7 @@ export default function AboutSection({
 
         <div className="mt-10 flex items-center gap-6">
           <Button href={ctaHref} className="btn-luxe-contrast min-h-11">
-            {ctaLabel}
+            {resolvedCtaLabel}
           </Button>
         </div>
       </div>

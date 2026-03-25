@@ -1,9 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import SmoothImage from "../ui/SmoothImage";
+import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 export default function CategoryShowcase() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const labels = getUiLabels(locale).sections.categoryShowcase;
+
   return (
     <section className="relative min-h-full">
       <div className="grid grid-cols-1 gap-0 md:grid-cols-3">
@@ -11,27 +17,30 @@ export default function CategoryShowcase() {
         <CategoryCard
           href="/shop/women"
           imageSrc="/shop/hero-women.jpg"
-          title="SHOP FOR HER"
-          subtitle="Sensual florals blended with warm amber and soft oud."
-          ariaLabel="Shop women fragrances"
+          title={labels.womenTitle}
+          subtitle={labels.womenSubtitle}
+          ariaLabel={labels.womenAria}
+          shopNowLabel={labels.shopNow}
         />
 
         {/* Men Perfumes */}
         <CategoryCard
           href="/shop/men"
           imageSrc="/shop/hero-men.jpg"
-          title="SHOP FOR HIM"
-          subtitle="Intense amber, deep woods and refined oriental spices."
-          ariaLabel="Shop men fragrances"
+          title={labels.menTitle}
+          subtitle={labels.menSubtitle}
+          ariaLabel={labels.menAria}
+          shopNowLabel={labels.shopNow}
         />
 
         {/* Unisex */}
         <CategoryCard
           href="/shop/unisex"
           imageSrc="/shop/hero-unisex.jpg"
-          title="UNISEX"
-          subtitle="Balanced compositions where rose, spice and oud unite."
-          ariaLabel="Shop unisex fragrances"
+          title={labels.unisexTitle}
+          subtitle={labels.unisexSubtitle}
+          ariaLabel={labels.unisexAria}
+          shopNowLabel={labels.shopNow}
         />
       </div>
     </section>
@@ -44,6 +53,7 @@ type CategoryCardProps = {
   title: string;
   subtitle: string;
   ariaLabel?: string;
+  shopNowLabel: string;
 };
 
 function CategoryCard({
@@ -52,6 +62,7 @@ function CategoryCard({
   title,
   subtitle,
   ariaLabel,
+  shopNowLabel,
 }: CategoryCardProps) {
   return (
     <Link
@@ -93,7 +104,7 @@ function CategoryCard({
             {subtitle}
           </p>
           <span className="font-roboto link-gold mt-2 inline-block text-sm font-medium">
-            Shop now
+            {shopNowLabel}
           </span>
         </div>
       </div>

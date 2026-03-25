@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import SmoothImage from "../ui/SmoothImage";
 import {
   searchProductsAction,
   getTrendingProducts,
 } from "@/lib/shopify/actions";
 import type { Product } from "@/lib/shopify/actions";
+import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -25,6 +27,10 @@ export default function SearchOverlay({
   isOpen: boolean;
   onClose: () => void;
 }) {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const labels = getUiLabels(locale).commerce.searchOverlay;
+
   const [term, setTerm] = useState("");
   const [results, setResults] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
@@ -34,11 +40,11 @@ export default function SearchOverlay({
   // Load top products in the initial menu (trending products)
   useEffect(() => {
     async function loadTrending() {
-      const trendingProducts = await getTrendingProducts();
+      const trendingProducts = await getTrendingProducts(locale);
       setTrending(trendingProducts);
     }
     loadTrending();
-  }, []);
+  }, [locale]);
 
   useEffect(() => {
     async function fetchResults() {
@@ -48,7 +54,7 @@ export default function SearchOverlay({
       }
       setLoading(true);
       try {
-        const products = await searchProductsAction(debouncedTerm);
+        const products = await searchProductsAction(debouncedTerm, locale);
         setResults(products);
       } catch (error) {
         console.error(error);
@@ -57,7 +63,7 @@ export default function SearchOverlay({
       }
     }
     fetchResults();
-  }, [debouncedTerm]);
+  }, [debouncedTerm, locale]);
 
   // Bloquear scroll + Autofocus
   useEffect(() => {
@@ -79,12 +85,12 @@ export default function SearchOverlay({
     <>
       {/* BACKDROP OSCURO (Cierra al hacer click fuera) */}
       <div
-        className="fixed inset-0 top-16 z-[9990] bg-black/40 transition-opacity duration-300 lg:top-[64px]"
+        className="fixed inset-0 top-16 z-9990 bg-black/40 transition-opacity duration-300 lg:top-16"
         onClick={onClose}
       />
 
       {/* PANEL PRINCIPAL */}
-      <div className="animate-in slide-in-from-top-2 fixed top-16 right-0 left-0 z-[9999] flex flex-col overflow-hidden bg-[var(--background)] text-[var(--foreground)] shadow-2xl duration-300 lg:top-[64px]">
+      <div className="animate-in slide-in-from-top-2 bg-background text-foreground fixed top-16 right-0 left-0 z-9999 flex flex-col overflow-hidden shadow-2xl duration-300 lg:top-16">
         {/* --- 1. SEARCH BAR (Input limpia) --- */}
         <div className="w-full px-6 pt-10 pb-6 md:px-12">
           <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between border-b border-[#1a1a1a]/20 pb-4">
@@ -106,7 +112,7 @@ export default function SearchOverlay({
               <input
                 id="search-input"
                 type="text"
-                placeholder="Search..."
+                placeholder={labels.inputPlaceholder}
                 className="font-garamond w-full bg-transparent text-3xl text-[#1a1a1a] placeholder:text-gray-400 focus:outline-none"
                 value={term}
                 onChange={(e) => setTerm(e.target.value)}
@@ -143,7 +149,7 @@ export default function SearchOverlay({
           <div className="mx-auto max-w-[1200px]">
             {loading ? (
               <div className="font-bodoni animate-pulse py-20 text-center text-xs tracking-widest text-gray-400 uppercase">
-                Searching...
+                {labels.searching}
               </div>
             ) : term.length > 0 ? (
               /* --- RESULTADOS DE BÚSQUEDA --- */
@@ -153,12 +159,12 @@ export default function SearchOverlay({
                   <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
                     {results.slice(0, 4).map((product) => (
                       <Link
-                        href={`/product/${product.handle}`}
+                        href={`/${locale}/product/${product.handle}`}
                         key={product.id}
                         onClick={onClose}
                         className="group block"
                       >
-                        <div className="relative mb-4 aspect-[4/5] w-full overflow-hidden bg-white shadow-sm transition-shadow duration-300 group-hover:shadow-md">
+                        <div className="relative mb-4 aspect-4/5 w-full overflow-hidden bg-white shadow-sm transition-shadow duration-300 group-hover:shadow-md">
                           <SmoothImage
                             src={
                               product.featuredImage?.url ||
@@ -186,7 +192,7 @@ export default function SearchOverlay({
                 ) : (
                   <div className="py-12 text-center">
                     <p className="font-garamond text-xl text-gray-400">
-                      No results for &quot;{term}&quot;
+                      {labels.noResultsFor} &quot;{term}&quot;
                     </p>
                   </div>
                 )}
@@ -198,7 +204,7 @@ export default function SearchOverlay({
                 {/* COLUMNA IZQUIERDA: Trending */}
                 <div className="hidden h-full border-r border-[#1a1a1a]/10 pr-8 md:block">
                   <h4 className="font-bodoni mb-6 text-xs font-bold tracking-widest text-[#1a1a1a] uppercase">
-                    Trending Now
+                    {labels.trendingNow}
                   </h4>
 
                   {trending.length > 0 ? (
@@ -207,7 +213,7 @@ export default function SearchOverlay({
                       {trending.slice(3, 7).map((product) => (
                         <li key={product.id}>
                           <Link
-                            href={`/product/${product.handle}`}
+                            href={`/${locale}/product/${product.handle}`}
                             key={product.id}
                             onClick={onClose}
                             className="font-garamond block w-full truncate text-left text-lg text-[#1a1a1a]/80 transition-colors hover:text-[#C9A46A]"
@@ -230,14 +236,14 @@ export default function SearchOverlay({
                 {/* COLUMNA DERECHA: Top Products */}
                 <div>
                   <h4 className="font-bodoni mb-6 text-xs font-bold tracking-widest text-[#1a1a1a] uppercase">
-                    Top Products
+                    {labels.topProducts}
                   </h4>
 
                   {trending.length > 0 ? (
                     <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
                       {trending.slice(0, 3).map((product) => (
                         <Link
-                          href={`/product/${product.handle}`}
+                          href={`/${locale}/product/${product.handle}`}
                           key={product.id}
                           onClick={onClose}
                           className="group cursor-pointer"

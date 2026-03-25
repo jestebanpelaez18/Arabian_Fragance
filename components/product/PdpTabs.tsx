@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useCallback, KeyboardEvent } from "react";
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 type Details = {
   concentration?: string;
@@ -20,11 +22,11 @@ type Props = {
 };
 
 const TABS = [
-  { key: "Description", label: "DESCRIPTION" },
-  { key: "Notes", label: "NOTES" },
-  { key: "Ingredients", label: "INGREDIENTS" },
-  { key: "Packaging", label: "PACKAGING & CARE" },
-  { key: "Policies", label: "POLICIES" },
+  { key: "Description" },
+  { key: "Notes" },
+  { key: "Ingredients" },
+  { key: "Packaging" },
+  { key: "Policies" },
 ] as const;
 type TabKey = (typeof TABS)[number]["key"];
 
@@ -36,7 +38,19 @@ export default function PdpTabs({
   pyramid,
   storage_instructions,
 }: Props) {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const labels = getUiLabels(locale).commerce.pdpTabs;
+
   const [active, setActive] = useState<TabKey>("Description");
+
+  const tabLabels: Record<TabKey, string> = {
+    Description: labels.descriptionTab,
+    Notes: labels.notesTab,
+    Ingredients: labels.ingredientsTab,
+    Packaging: labels.packagingTab,
+    Policies: labels.policiesTab,
+  };
 
   const onKey = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
@@ -57,11 +71,11 @@ export default function PdpTabs({
       {/* Tabs header */}
       <div
         role="tablist"
-        aria-label="Product information"
+        aria-label={labels.ariaLabel}
         onKeyDown={onKey}
         className="font-garamond relative flex flex-nowrap items-end gap-x-6 text-[12px] tracking-[0.08em] md:gap-x-8"
       >
-        {TABS.map(({ key, label }) => {
+        {TABS.map(({ key }) => {
           const isActive = active === key;
           return (
             <button
@@ -76,12 +90,12 @@ export default function PdpTabs({
                 isActive ? "text-black" : "text-black/70 hover:text-black/85",
               ].join(" ")}
             >
-              {label}
+              {tabLabels[key]}
               {/* Subrayado animado: crece desde 0 hasta el ancho total del texto */}
               <span
                 aria-hidden
                 className={[
-                  "absolute -bottom-[2px] left-0 h-[1px] bg-black",
+                  "absolute -bottom-0.5 left-0 h-px bg-black",
                   "transition-all duration-300 ease-out",
                   isActive ? "w-full" : "w-0",
                 ].join(" ")}
@@ -121,7 +135,7 @@ export default function PdpTabs({
               </p>
             ) : (
               <p className="text-[15px] md:text-[16px]">
-                A timeless composition crafted with refined notes.
+                {labels.defaultDescription}
               </p>
             )}
           </div>
@@ -137,7 +151,7 @@ export default function PdpTabs({
                 {pyramid.top?.length ? (
                   <>
                     <dt className="tracking-[0.18em] text-black/60 uppercase">
-                      Top
+                      {labels.top}
                     </dt>
                     <dd className="text-black/90">{pyramid.top.join(" · ")}</dd>
                   </>
@@ -145,7 +159,7 @@ export default function PdpTabs({
                 {pyramid.heart?.length ? (
                   <>
                     <dt className="tracking-[0.18em] text-black/60 uppercase">
-                      Heart
+                      {labels.heart}
                     </dt>
                     <dd className="text-black/90">
                       {pyramid.heart.join(" · ")}
@@ -155,7 +169,7 @@ export default function PdpTabs({
                 {pyramid.base?.length ? (
                   <>
                     <dt className="tracking-[0.18em] text-black/60 uppercase">
-                      Base
+                      {labels.base}
                     </dt>
                     <dd className="text-black/90">
                       {pyramid.base.join(" · ")}
@@ -165,7 +179,7 @@ export default function PdpTabs({
               </dl>
             ) : (
               <p className="text-[15px] md:text-[16px]">
-                Notes: {notes?.length ? notes.join(" · ") : "—"}.
+                {labels.notesPrefix}: {notes?.length ? notes.join(" · ") : "—"}.
               </p>
             )}
           </div>
@@ -179,7 +193,7 @@ export default function PdpTabs({
           >
             {ingredients ? (
               <div>
-                <h3 className="sr-only">Ingredients</h3>
+                <h3 className="sr-only">{labels.ingredientsHeading}</h3>
                 <p className="text-[15px] text-black/80 md:text-[16px]">
                   {openInci
                     ? ingredients
@@ -187,16 +201,16 @@ export default function PdpTabs({
                 </p>
                 {showToggle && (
                   <button
-                    className="mt-3 text-sm underline decoration-white/30 underline-offset-4 hover:decoration-[var(--gold)]"
+                    className="hover:decoration-gold mt-3 text-sm underline decoration-white/30 underline-offset-4"
                     onClick={() => setOpenInci((v) => !v)}
                   >
-                    {openInci ? "Show less" : "Show more"}
+                    {openInci ? labels.showLess : labels.showMore}
                   </button>
                 )}
               </div>
             ) : (
               <p className="text-[15px] md:text-[16px]">
-                Ingredients information is not available for this product.
+                {labels.ingredientsUnavailable}
               </p>
             )}
           </div>
@@ -209,10 +223,7 @@ export default function PdpTabs({
             aria-labelledby="tab-Packaging"
           >
             <ul className="space-y-2 text-[15px] text-black/80 md:text-[16px]">
-              <li>
-                All items are packaged in our signature Arabian Fragrance box,
-                with complimentary gift wrap for a refined presentation.
-              </li>
+              <li>{labels.packagingLine1}</li>
               <li>{storage_instructions}</li>
             </ul>
           </div>
@@ -231,9 +242,7 @@ export default function PdpTabs({
                 ))}
               </ul>
             ) : (
-              <p className="text-[15px] md:text-[16px]">
-                No additional policies.
-              </p>
+              <p className="text-[15px] md:text-[16px]">{labels.noPolicies}</p>
             )}
           </div>
         )}

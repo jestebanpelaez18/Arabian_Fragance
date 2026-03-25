@@ -2,45 +2,19 @@
 
 import Link from "next/link";
 import { FormEvent } from "react";
+import { usePathname } from "next/navigation";
 import NewsletterForm from "@/components/footer/NewsletterForm";
 import BrandCopy from "@/components/footer/BrandCopy";
 import CurrencySelector from "@/components/footer/CurrencySelector";
 import PaymentIcons from "../footer/PaymentsIcons";
-
-const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
-  {
-    title: "Customer Care",
-    links: [
-      { label: "Shipping", href: "/policies/shipping-policy" },
-      { label: "Returns & Refunds", href: "/policies/refund-policy" },
-      { label: "FAQs", href: "/faq" },
-      { label: "Terms & Conditions", href: "/policies/terms-conditions" },
-      { label: "Privacy Policy", href: "/policies/privacy-policy" },
-      { label: "Cookies Policy", href: "/cookies" },
-    ],
-  },
-  {
-    title: "About",
-    links: [
-      { label: "Contact Us", href: "/contact" },
-      { label: "Brand Profile", href: "/about" },
-      { label: "Store", href: "/showroom" },
-    ],
-  },
-  {
-    title: "Social",
-    links: [
-      { label: "Instagram", href: "https://instagram.com/" },
-      { label: "Facebook", href: "https://facebook.com/" },
-      { label: "Pinterest", href: "https://pinterest.com/" },
-    ],
-  },
-];
-
-const BRAND_COPY =
-  "Arabian Fragrance is a contemporary perfumery house crafting evocative scents with ethically sourced ingredients. Explore signature blends, layered rituals and limited editions in-store or online.";
+import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 export default function Footer() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const labels = getUiLabels(locale).footer;
+  const columns = labels.columns;
+
   const year = new Date().getFullYear();
 
   function onSubscribe(e: FormEvent<HTMLFormElement>) {
@@ -53,10 +27,13 @@ export default function Footer() {
       <div className="px-4 pt-8 pb-7 md:px-5">
         {/* MOBILE */}
         <div className="block md:hidden">
-          <NewsletterForm onSubscribe={onSubscribe} />
+          <NewsletterForm
+            onSubscribe={onSubscribe}
+            labels={labels.newsletter}
+          />
           {/* Collapsible menus */}
           <section className="mb-8">
-            {COLUMNS.map((col) => (
+            {columns.map((col) => (
               <details key={col.title} className="mb-2">
                 <summary className="font-bodoni text-footer-text cursor-pointer py-2 text-xs tracking-wide uppercase">
                   {col.title}
@@ -76,17 +53,20 @@ export default function Footer() {
               </details>
             ))}
           </section>
-          <BrandCopy text={BRAND_COPY} />
-          <CurrencySelector />
+          <BrandCopy text={labels.brandCopy} />
+          <CurrencySelector
+            selectCurrencyAria={labels.selectCurrency}
+            logoAlt={labels.logoAlt}
+          />
           <PaymentIcons />
           <div className="mt-2 text-center text-xs text-stone-400">
-            © {year} Arabian Fragrance. All rights reserved.
+            © {year} Arabian Fragrance. {labels.allRightsReserved}
           </div>
         </div>
 
         {/* DESKTOP */}
         <div className="hidden grid-cols-4 gap-5 md:grid">
-          {COLUMNS.map((col) => (
+          {columns.map((col) => (
             <section key={col.title}>
               <ul className="footer space-y-3 text-sm">
                 {col.links.map((l) => (
@@ -103,9 +83,15 @@ export default function Footer() {
             </section>
           ))}
           <aside>
-            <NewsletterForm onSubscribe={onSubscribe} />
-            <BrandCopy text={BRAND_COPY} />
-            <CurrencySelector />
+            <NewsletterForm
+              onSubscribe={onSubscribe}
+              labels={labels.newsletter}
+            />
+            <BrandCopy text={labels.brandCopy} />
+            <CurrencySelector
+              selectCurrencyAria={labels.selectCurrency}
+              logoAlt={labels.logoAlt}
+            />
             <PaymentIcons />
           </aside>
         </div>
@@ -115,7 +101,7 @@ export default function Footer() {
       <div className="hidden md:block">
         <div className="flex max-w-7xl flex-col gap-4 px-4 py-6 md:flex-row md:items-center md:justify-between md:px-5">
           <p className="font-bodoni text-sm text-stone-400">
-            © {year} Arabian Fragrance. All rights reserved.
+            © {year} Arabian Fragrance. {labels.allRightsReserved}
           </p>
         </div>
       </div>

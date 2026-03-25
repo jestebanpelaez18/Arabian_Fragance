@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { shopifyFetch } from "@/lib/shopify/shopify";
 import type { Metadata } from "next";
+import type { Locale } from "@/i18n-config";
+import { getShopifyLanguageCode } from "@/lib/shopify/locale";
 
 // ... (Types, Query y Policy_Map se quedan igual, no hace falta tocarlos) ...
 interface Policy {
@@ -21,7 +23,7 @@ interface ShopPoliciesData {
 }
 
 const getPoliciesQuery = `
-  query getPolicies {
+  query getPolicies($language: LanguageCode!) @inContext(language: $language) {
     shop {
       privacyPolicy { id title body }
       termsOfService { id title body }
@@ -38,12 +40,13 @@ const POLICY_MAP: Record<string, keyof ShopPoliciesData["data"]["shop"]> = {
   "shipping-policy": "shippingPolicy",
 };
 
-async function getPolicy(slug: string): Promise<Policy | null> {
+async function getPolicy(slug: string, locale: Locale): Promise<Policy | null> {
   const shopifyKey = POLICY_MAP[slug];
   if (!shopifyKey) return null;
 
   const res = await shopifyFetch<ShopPoliciesData>({
     query: getPoliciesQuery,
+    variables: { language: getShopifyLanguageCode(locale) },
     tags: ["policies"],
   });
 
@@ -60,10 +63,10 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: Locale; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const policy = await getPolicy(slug);
+  const { locale, slug } = await params;
+  const policy = await getPolicy(slug, locale);
   if (!policy) return {};
   return {
     title: `${policy.title} | Arabian Fragrance`,
@@ -74,10 +77,10 @@ export async function generateMetadata({
 export default async function PolicyPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: Locale; slug: string }>;
 }) {
-  const { slug } = await params;
-  const policy = await getPolicy(slug);
+  const { locale, slug } = await params;
+  const policy = await getPolicy(slug, locale);
 
   if (!policy) return notFound();
 

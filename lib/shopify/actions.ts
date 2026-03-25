@@ -1,6 +1,8 @@
 "use server";
 
 import { shopifyFetch } from "@/lib/shopify/shopify";
+import type { Locale } from "@/i18n-config";
+import { getShopifyLanguageCode } from "@/lib/shopify/locale";
 
 // --- TYPES ---
 export type Product = {
@@ -41,7 +43,7 @@ type SearchData = {
 };
 
 const trendingProductsQuery = `
-  query trendingProducts{
+  query trendingProducts($language: LanguageCode!) @inContext(language: $language) {
     products(first: 10, sortKey: CREATED_AT, reverse: true) {
         nodes {
         id
@@ -63,7 +65,7 @@ const trendingProductsQuery = `
 `;
 
 const searchProductsQuery = `
-  query searchProducts($query: String!, $first: Int) {
+  query searchProducts($query: String!, $first: Int, $language: LanguageCode!) @inContext(language: $language) {
     search(query: $query, first: $first, types: PRODUCT) {
       nodes {
         ... on Product {
@@ -89,10 +91,11 @@ const searchProductsQuery = `
   }
 `;
 
-export async function getTrendingProducts() {
+export async function getTrendingProducts(locale: Locale) {
   try {
     const res = await shopifyFetch<TrendingData>({
       query: trendingProductsQuery,
+      variables: { language: getShopifyLanguageCode(locale) },
       cache: "no-store",
     });
     const products = res.body?.data?.products?.nodes || [];
@@ -107,7 +110,7 @@ export async function getTrendingProducts() {
   }
 }
 
-export async function searchProductsAction(term: string) {
+export async function searchProductsAction(term: string, locale: Locale) {
   if (!term) return [];
 
   const res = await shopifyFetch<SearchData>({
@@ -115,6 +118,7 @@ export async function searchProductsAction(term: string) {
     variables: {
       query: term,
       first: 6,
+      language: getShopifyLanguageCode(locale),
     },
     cache: "no-store",
   });

@@ -1,0 +1,131 @@
+{
+  "hero": {
+    "title": "THE ART OF ARABIAN PERFUMERY",
+    "subtitle": "Luxury fragrances inspired by Dubai's elegance.",
+    "ctaLabel": "Shop the collection"
+  },
+  "dividers": {
+    "shop": "Shop the Collection",
+    "experience": "Experience",
+    "invitation": "Invitation",
+    "ourStory": "Our Story"
+  },
+  "gift": {
+    "label": "Exclusive Gift Collection",
+    "title": "Iconic Gifts",
+    "description": "Transform any occasion into a memory with our exclusive fragrances.",
+    "ctaLabel": "Shop Now"
+  },
+  "invitation": {
+    "title": "ARABIAN FRAGRANCE LAUNCH",
+    "description": "An exclusive evening celebrating the art of Arabian perfumery.",
+    "ctaLabel": "Explore Now"
+  },
+  "about": {
+    "title": "OUR STORY",
+    "description1": "Born from the heart of Arabian perfumery, our fragrances blend tradition, rare ingredients and timeless elegance.",
+    "description2": "Each scent is crafted to leave a lasting impression.",
+    "ctaLabel": "Discover Our Story"
+  },
+  "store": {
+    "welcome": "Welcome to Arabian Fragrance",
+    "shop_now": "Shop now"
+  },
+  "product": {
+    "add_to_cart": "Add to cart",
+    "sold_out": "Sold out"
+  },
+  "aboutPage": {
+    "heroTitle": "THE ART OF ARABIAN PERFUMERY",
+    "heroSubtitle": "A refined fusion of rich Arabian perfumery and modern Nordic sophistication.",
+    "discoverDivider": "Discover",
+    "storyTitle": "OUR STORY",
+    "storyDescriptions": [
+      "Arabian Fragrance was founded by Juha Toivanen, a Finnish chef known for creating some of Finland's most recognized dining experiences.",
+      "After years dedicated to taste, atmosphere, and the art of hospitality, Juha began exploring a new way to create emotion, through scent.",
+      "His journey led him to Dubai and the Emirates, where perfumery is woven into everyday life. Inspired by the richness of Arabian traditions and rare natural ingredients, he began collaborating with local experts to craft fragrances that embody depth, authenticity, and modern refinement.",
+      "Arabian Fragrance is built on contrasts: the boldness of oud balanced with the delicacy of rose, the heritage of the Middle East refined through the clarity of Nordic design.",
+      "Each fragrance tells a story - not merely to be worn, but to become part of one's identity."
+    ],
+    "quote": "Arabian Fragrance brings the soul of Dubai's perfumery heritage to life, crafted with authenticity, depth, and modern elegance.",
+    "experienceDivider": "Experience",
+    "perfumesTitle": "OUR PERFUMES",
+    "perfumesDescriptions": [
+      "At Arabian Fragrance, each perfume is more than a scent, it is an experience. Rooted in the rich traditions of Arabic perfumery and crafted in Dubai, our creations combine rare natural ingredients with a modern touch of elegance.",
+      "Every fragrance carries its own story: the warmth of oud, the delicacy of rose, the freshness of citrus. Together, they form a collection that is sophisticated, authentic, and impossible to forget.",
+      "We invite you to discover perfumes that don't just complement your presence, they define it."
+    ],
+    "fullImageParagraph": "At the heart of Arabian Fragrance lies a dialogue between heritage and modernity. Rooted in the traditions of Arabic perfumery, each creation reinterprets oud, amber and rose through a refined, contemporary lens."
+  },
+  "shopPage": {
+    "breadcrumbHome": "Home",
+    "breadcrumbShop": "Shop",
+    "title": "ALL ARABIAN FRAGRANCE",
+    "subtitle": "Hand-crafted compositions rooted in Arabian perfumery-resinous depth, luminous florals and ambered warmth. Discover our full selection of timeless signatures for every style."
+  },
+  "showroomPage": {
+    "dividerFinland": "FINLAND",
+    "dividerExperience": "EXPERIENCE",
+    "dividerBookExperience": "BOOK YOUR PRIVATE SHOWROOM EXPERIENCE",
+    "location": {
+      "city": "HELSINKI",
+      "description": [
+        "Arabian Fragrance's flagship showroom in Helsinki emerges in the heart of the city, embodying a luxurious sensibility where Nordic minimalism meets Arabian opulence.",
+        "Discover our curated collections and indulge in our full suite of luxury experiences including private consultations, bespoke gifting services, and personalized scent journeys designed to capture your unique story."
+      ],
+      "hours": [
+        "Monday to Saturday 10:00am - 6:00pm",
+        "Sunday 12:00pm - 5:00pm"
+      ],
+      "address": ["Mikonkatu 4", "00100 Helsinki, Finland"],
+      "imageAlt": "Arabian Fragrance Helsinki showroom interior"
+    },
+    "experienceTitle": "More than a boutique, a scented ritual",
+    "services": [
+      {
+        "title": "Private consultations",
+        "description": "One-on-one time with our fragrance specialists to understand your preferences, lifestyle and stories, and translate them into a curated selection."
+      },
+      {
+        "title": "Scent journeys",
+        "description": "Explore oud, amber, florals and woods through raw materials and layered compositions designed to be felt slowly, note by note."
+      },
+      {
+        "title": "Gifting & occasions",
+        "description": "From weddings to private events, we design personalized gifting experiences with engraving, bespoke sets and signature packaging."
+      }
+    ],
+    "ctaTitle": "Book your private showroom experience",
+    "ctaDescription": "Our showroom is open by appointment only to keep the atmosphere calm and personal. Share a few details and our team will contact you to plan your visit.",
+    "ctaButtonText": "Request an appointment"
+  },
+  "checkout": {
+    "cancelTitle": "Checkout canceled",
+    "cancelDescription": "No worries - your items are still in the bag.",
+    "reviewBag": "Review your bag",
+    "paymentReceived": "Payment received",
+    "sessionNotFound": "Session not found. If you already paid, please check your email.",
+    "thankYou": "Thank you!",
+    "orderConfirmedSuffix": "confirmed.",
+    "confirmationSentPrefix": "A confirmation email was sent to",
+    "yourEmailFallback": "your email",
+    "summary": "Summary",
+    "productFallback": "Product",
+    "total": "Total",
+    "continueShopping": "Continue shopping"
+  },
+  "contactPage": {
+    "metaTitle": "Contact Us | Arabian Fragrance",
+    "metaDescription": "Get in touch with our concierge team.",
+    "title": "Contact Us",
+    "intro": "Our dedicated team is at your disposal to assist with any inquiries regarding our fragrances, orders, or the Arabian Fragrance experience.",
+    "customerCareTitle": "Customer Care",
+    "customerCareDescription": "For assistance with online orders and general inquiries.",
+    "headquartersTitle": "Headquarters",
+    "headquartersCityCountry": "Helsinki, Finland",
+    "headquartersAddress": "Mikonkatu 4, 00100 Helsinki",
+    "pressWholesaleTitle": "Press & Wholesale",
+    "pressWholesaleDescription": "For press inquiries and partnership opportunities.",
+    "pressWholesaleCta": "Contact our PR Team"
+  }
+}

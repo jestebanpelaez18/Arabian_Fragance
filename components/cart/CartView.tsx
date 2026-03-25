@@ -3,8 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useMemo } from "react";
+import { usePathname } from "next/navigation";
 import { useCart } from "@/lib/cart/store";
 import CheckoutButton from "@/components/checkout/CheckoutButton";
+import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 // Configurable currency/locale via env
 const LOCALE = process.env.NEXT_PUBLIC_LOCALE ?? "en-IE";
@@ -23,9 +25,15 @@ const fmtCurrency = (n: number) =>
 function FreeShippingBar({
   total,
   threshold,
+  labels,
 }: {
   total: number;
   threshold: number;
+  labels: {
+    addForFreeShipping: string;
+    freeShippingSuffix: string;
+    freeShippingUnlocked: string;
+  };
 }) {
   const progress = useMemo(
     () => Math.min(100, Math.max(0, (total / threshold) * 100)),
@@ -38,11 +46,13 @@ function FreeShippingBar({
       <div className="mb-2 flex justify-between text-xs">
         {remaining > 0 ? (
           <span className="text-black/70">
-            Add <strong>{fmtCurrency(remaining)}</strong> for free shipping
+            {labels.addForFreeShipping}{" "}
+            <strong>{fmtCurrency(remaining)}</strong>{" "}
+            {labels.freeShippingSuffix}
           </span>
         ) : (
           <span className="font-medium text-green-700">
-            You got free shipping!
+            {labels.freeShippingUnlocked}
           </span>
         )}
         <span className="text-black/50">{Math.round(progress)}%</span>
@@ -63,6 +73,7 @@ function CartItemRow({
   it,
   updateQty,
   remove,
+  labels,
 }: {
   it: {
     id: string;
@@ -73,6 +84,13 @@ function CartItemRow({
   };
   updateQty: (id: string, qty: number) => void;
   remove: (id: string) => void;
+  labels: {
+    productImageAltFallback: string;
+    decreaseItemAriaPrefix: string;
+    increaseItemAriaPrefix: string;
+    removeItemAriaPrefix: string;
+    remove: string;
+  };
 }) {
   const disableMinus = it.qty <= 1;
 
@@ -83,7 +101,7 @@ function CartItemRow({
           fill
           sizes="80px"
           src={it.image ?? "/catalog/Bottle_3.png"}
-          alt={it.name || "Product image"}
+          alt={it.name || labels.productImageAltFallback}
           className="object-cover"
         />
       </div>
@@ -100,7 +118,7 @@ function CartItemRow({
             onClick={() =>
               !disableMinus && updateQty(it.id, Math.max(1, it.qty - 1))
             }
-            aria-label={`Decrease ${it.name}`}
+            aria-label={`${labels.decreaseItemAriaPrefix} ${it.name}`}
             disabled={disableMinus}
           >
             −
@@ -111,16 +129,16 @@ function CartItemRow({
           <button
             className="flex h-7 w-7 items-center justify-center rounded ring-1 ring-black/10 transition-colors hover:bg-black/5"
             onClick={() => updateQty(it.id, it.qty + 1)}
-            aria-label={`Increase ${it.name}`}
+            aria-label={`${labels.increaseItemAriaPrefix} ${it.name}`}
           >
             +
           </button>
           <button
             className="ml-4 text-xs text-black/60 underline underline-offset-4 transition-colors hover:text-black"
             onClick={() => remove(it.id)}
-            aria-label={`Remove ${it.name}`}
+            aria-label={`${labels.removeItemAriaPrefix} ${it.name}`}
           >
-            Remove
+            {labels.remove}
           </button>
         </div>
       </div>
@@ -133,6 +151,10 @@ function CartItemRow({
 }
 
 export default function CartView({ compact = false }: { compact?: boolean }) {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const labels = getUiLabels(locale).commerce.cart;
+
   const { items, subtotal, updateQty, remove } = useCart();
 
   // Recompute total when items change
@@ -147,15 +169,13 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
             : "mx-auto max-w-4xl px-4 py-16 text-center"
         }
       >
-        <h1 className="text-xl font-semibold">Your bag is empty</h1>
-        <p className="mt-2 text-black/70">
-          Discover our fragrances and add your favorites.
-        </p>
+        <h1 className="text-xl font-semibold">{labels.emptyTitle}</h1>
+        <p className="mt-2 text-black/70">{labels.emptyDescription}</p>
         <Link
           href="/shop"
           className="mt-6 inline-flex h-11 items-center rounded-full px-6 ring-1 ring-black/10 transition-colors hover:bg-black/5"
         >
-          Shop now
+          {labels.shopNow}
         </Link>
       </div>
     );
@@ -164,7 +184,9 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
   return (
     <div className={compact ? "p-6" : "mx-auto max-w-5xl px-4 py-10"}>
       {!compact && (
-        <h1 className="font-playfair-display mb-6 text-2xl">Your Bag</h1>
+        <h1 className="font-playfair-display mb-6 text-2xl">
+          {labels.bagTitle}
+        </h1>
       )}
 
       {/* List */}
@@ -175,29 +197,34 @@ export default function CartView({ compact = false }: { compact?: boolean }) {
             it={it}
             updateQty={updateQty}
             remove={remove}
+            labels={labels}
           />
         ))}
       </ul>
 
       {/* Subtotal */}
       <div className="mt-8 flex items-center justify-between border-t border-black/10 pt-6">
-        <div className="text-sm text-black/70">Subtotal</div>
+        <div className="text-sm text-black/70">{labels.subtotal}</div>
         <div className="text-lg font-semibold tabular-nums">
           {fmtCurrency(total)}
         </div>
       </div>
 
       {/* Free shipping progress */}
-      <FreeShippingBar total={total} threshold={FREE_SHIPPING_THRESHOLD} />
+      <FreeShippingBar
+        total={total}
+        threshold={FREE_SHIPPING_THRESHOLD}
+        labels={labels}
+      />
 
       <p className="mt-2 mb-4 text-xs text-black/60">
-        VAT included. Shipping calculated at checkout.
+        {labels.vatIncludedNote}
       </p>
 
       {/* Checkout */}
       <div className="mt-2">
         <CheckoutButton className="inline-flex h-12 w-full items-center justify-center rounded-full bg-black px-6 font-medium text-white transition-colors hover:bg-gray-800">
-          Checkout
+          {labels.checkout}
         </CheckoutButton>
       </div>
     </div>

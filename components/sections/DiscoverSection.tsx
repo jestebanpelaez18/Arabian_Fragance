@@ -2,18 +2,25 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import ProductCard from "@/components/shop/ProductCard";
 import { PRODUCTS, type Product } from "@/data/products";
+import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
-const TABS = [
-  { label: "WOMEN", key: "women" },
-  { label: "MEN", key: "men" },
-  { label: "UNISEX", key: "unisex" },
-] as const;
+const TABS = [{ key: "women" }, { key: "men" }, { key: "unisex" }] as const;
 type Tab = (typeof TABS)[number]["key"];
 
 export default function DiscoverSection() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const labels = getUiLabels(locale).sections.discover;
   const [active, setActive] = useState<Tab>("women");
+
+  const tabLabels: Record<Tab, string> = {
+    women: labels.womenTab,
+    men: labels.menTab,
+    unisex: labels.unisexTab,
+  };
 
   const filtered: Product[] = useMemo(() => {
     const byBestSeller = (a: Product, b: Product) =>
@@ -39,7 +46,7 @@ export default function DiscoverSection() {
       <div className="flex w-full flex-col items-center justify-center px-5 py-12 text-center md:px-5 md:py-14 xl:px-6">
         {/* Tabs */}
         <nav className="my-8 flex flex-wrap justify-center gap-8 text-[12px] md:text-sm">
-          {TABS.map(({ label, key }) => {
+          {TABS.map(({ key }) => {
             const isActive = key === active;
             return (
               <button
@@ -53,7 +60,7 @@ export default function DiscoverSection() {
                     : "hover:text-gold text-black/60",
                 ].join(" ")}
               >
-                {label}
+                {tabLabels[key]}
               </button>
             );
           })}
@@ -73,7 +80,7 @@ export default function DiscoverSection() {
           href={`/shop/${active}`}
           className="font-garamond link-gold ease-luxe inline-block text-[12px] tracking-[0.18em] uppercase opacity-80 md:text-[13px]"
         >
-          View all {active}
+          {labels.viewAllPrefix} {active}
         </Link>
       </div>
     </section>

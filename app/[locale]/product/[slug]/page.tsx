@@ -8,9 +8,11 @@ import ProductImage from "@/components/product/ProductImage";
 import { productJsonLd } from "@/lib/seo/jsonld";
 import ProductHeaderPanel from "@/components/product/ProductHeaderPanel";
 import { type Product } from "@/data/products";
+import { i18n } from "@/i18n-config";
+import { getShopifyLanguageCode } from "@/lib/shopify/locale";
 
 // --- TYPES ---
-type Params = { slug: string };
+type Params = { slug: string; locale: "en" | "fi" | "sv" };
 type Gender = "women" | "men" | "unisex";
 type Note = NonNullable<Product["notes"]>[number];
 
@@ -73,7 +75,7 @@ interface AllProductsOperation {
 }
 
 const singleProductQuery = `
-  query SingleProduct($handle: String!) {
+  query SingleProduct($handle: String!, $language: LanguageCode!) @inContext(language: $language) {
     product(handle: $handle) {
       id
       title
@@ -132,9 +134,12 @@ export async function generateStaticParams() {
   });
   const products = response.body?.data?.products?.edges || [];
 
-  return products.map(({ node }) => ({
-    slug: node.handle,
-  }));
+  return i18n.locales.flatMap((locale) =>
+    products.map(({ node }) => ({
+      locale,
+      slug: node.handle,
+    })),
+  );
 }
 
 export async function generateMetadata({
@@ -142,11 +147,14 @@ export async function generateMetadata({
 }: {
   params: Promise<Params>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
 
   const response = await shopifyFetch<SingleProductOperation>({
     query: singleProductQuery,
-    variables: { handle: slug },
+    variables: {
+      handle: slug,
+      language: getShopifyLanguageCode(locale),
+    },
   });
 
   const p = response.body?.data?.product;
@@ -176,11 +184,14 @@ export default async function ProductPage({
 }: {
   params: Promise<Params>;
 }) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
 
   const response = await shopifyFetch<SingleProductOperation>({
     query: singleProductQuery,
-    variables: { handle: slug },
+    variables: {
+      handle: slug,
+      language: getShopifyLanguageCode(locale),
+    },
   });
 
   const p = response.body?.data?.product;
@@ -266,6 +277,7 @@ export default async function ProductPage({
             pyramid={pyramid}
             storage_instructions={storage_instructions}
             variantId={variantId}
+            locale={locale}
           />
         </div>
       </section>
@@ -274,6 +286,7 @@ export default async function ProductPage({
         currentSlug={p.handle}
         currentNotes={notes}
         gender={gender}
+        locale={locale}
       />
     </main>
   );

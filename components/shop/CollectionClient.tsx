@@ -2,12 +2,14 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import type { Product } from "@/data/products";
+import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 type Crumb = { label: string; href?: string; current?: boolean };
 
-type GenderTab = "All" | "Women" | "Men" | "Unisex";
+type GenderTab = "all" | "women" | "men" | "unisex";
 type SortKey = "best" | "price-asc" | "price-desc";
 
 export default function CollectionClient({
@@ -17,7 +19,11 @@ export default function CollectionClient({
   items: Product[];
   breadcrumbs?: Crumb[];
 }) {
-  const [tab, setTab] = useState<GenderTab>("All");
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const labels = getUiLabels(locale).commerce.collection;
+
+  const [tab, setTab] = useState<GenderTab>("all");
   const [sort, setSort] = useState<SortKey>("best");
   const [open, setOpen] = useState(false);
 
@@ -30,8 +36,8 @@ export default function CollectionClient({
   const visible = useMemo(() => {
     let list = items;
 
-    if (tab !== "All") {
-      const key = tab.toLowerCase() as Product["gender"];
+    if (tab !== "all") {
+      const key = tab as Product["gender"];
       list = list.filter((p) => p.gender === key);
     }
 
@@ -51,7 +57,7 @@ export default function CollectionClient({
   }, [items, tab, sort]);
 
   function clearAll() {
-    setTab("All");
+    setTab("all");
     setSort("best");
   }
 
@@ -77,7 +83,7 @@ export default function CollectionClient({
               strokeLinecap="round"
             />
           </svg>
-          Filters &amp; Sort
+          {labels.filtersSort}
         </button>
       </div>
 
@@ -108,24 +114,24 @@ export default function CollectionClient({
       {open && (
         <div className="fixed inset-0 z-50">
           <button
-            aria-label="Close filters"
+            aria-label={labels.closeFilters}
             onClick={() => setOpen(false)}
             className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
           />
           <aside className="absolute top-0 right-0 flex h-full w-full flex-col border-l border-white/10 text-white shadow-xl sm:w-[420px] md:w-[480px]">
             <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
-              <h2 className="text-lg font-medium">Filters &amp; Sort</h2>
+              <h2 className="text-lg font-medium">{labels.filtersSort}</h2>
               <div className="flex items-center gap-4">
                 <button
                   onClick={clearAll}
                   className="text-sm underline decoration-1 underline-offset-4 opacity-80 hover:opacity-100"
                 >
-                  Clear All
+                  {labels.clearAll}
                 </button>
                 <button
                   onClick={() => setOpen(false)}
                   className="-m-2 p-2 opacity-80 hover:opacity-100"
-                  aria-label="Close"
+                  aria-label={labels.close}
                 >
                   ✕
                 </button>
@@ -134,12 +140,12 @@ export default function CollectionClient({
 
             <div className="flex-1 space-y-8 overflow-y-auto px-6 py-6">
               <section>
-                <h3 className="mb-4 text-base font-medium">Sort by</h3>
+                <h3 className="mb-4 text-base font-medium">{labels.sortBy}</h3>
                 <div className="space-y-3 text-sm">
                   {[
-                    { id: "best", label: "Best Selling" },
-                    { id: "price-asc", label: "Price, Low To High" },
-                    { id: "price-desc", label: "Price, High To Low" },
+                    { id: "best", label: labels.bestSelling },
+                    { id: "price-asc", label: labels.priceLowToHigh },
+                    { id: "price-desc", label: labels.priceHighToLow },
                   ].map((opt) => (
                     <label
                       key={opt.id}
@@ -160,22 +166,31 @@ export default function CollectionClient({
               </section>
 
               <section>
-                <h3 className="mb-4 text-base font-medium">Filter by</h3>
+                <h3 className="mb-4 text-base font-medium">
+                  {labels.filterBy}
+                </h3>
                 <div className="space-y-3 text-sm">
-                  {(["All", "Women", "Men", "Unisex"] as const).map((g) => (
+                  {(
+                    [
+                      { key: "all", label: labels.all },
+                      { key: "women", label: labels.women },
+                      { key: "men", label: labels.men },
+                      { key: "unisex", label: labels.unisex },
+                    ] as const
+                  ).map((g) => (
                     <label
-                      key={g}
+                      key={g.key}
                       className="flex cursor-pointer items-center gap-3"
                     >
                       <input
                         type="radio"
                         name="gender"
-                        value={g}
-                        checked={tab === g}
-                        onChange={() => setTab(g)}
+                        value={g.key}
+                        checked={tab === g.key}
+                        onChange={() => setTab(g.key)}
                         className="accent-current"
                       />
-                      <span>{g}</span>
+                      <span>{g.label}</span>
                     </label>
                   ))}
                 </div>
@@ -187,7 +202,7 @@ export default function CollectionClient({
                 onClick={() => setOpen(false)}
                 className="w-full rounded border border-white/20 py-2 transition hover:border-white/40"
               >
-                Apply
+                {labels.apply}
               </button>
             </div>
           </aside>

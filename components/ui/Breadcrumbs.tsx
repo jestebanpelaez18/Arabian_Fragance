@@ -1,10 +1,18 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 type Crumb = { label: string; href?: string; current?: boolean };
 
 export default function Breadcrumbs({ items }: { items: Crumb[] }) {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const labels = getUiLabels(locale).commerce;
+
   return (
-    <nav aria-label="Breadcrumb" className="w-7xl py-4">
+    <nav aria-label={labels.breadcrumbs} className="w-7xl py-4">
       <ol className="font-garamond flex items-center gap-2 text-sm md:text-base">
         {items.map((it, i) => {
           const isLast = i === items.length - 1;

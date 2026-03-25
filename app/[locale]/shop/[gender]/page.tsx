@@ -1,11 +1,13 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { getShopifyProducts } from "@/lib/shopify/get-products";
 import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
 import NoteFilterChips from "@/components/shop/NoteFilterChips";
 import { type Product } from "@/data/products";
+import { i18n, type Locale } from "@/i18n-config";
 
 // Import the new Mapper
 import { normalizeProduct, type ShopifyRawProduct } from "@/lib/shopify/mapper";
@@ -23,7 +25,9 @@ const COPY: Record<Gender, string> = {
 };
 
 export function generateStaticParams() {
-  return GENDERS.map((g) => ({ gender: g }));
+  return i18n.locales.flatMap((locale) =>
+    GENDERS.map((gender) => ({ locale, gender })),
+  );
 }
 
 export async function generateMetadata({
@@ -45,18 +49,19 @@ export default async function ShopByGenderPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ gender: string }>;
+  params: Promise<{ locale: Locale; gender: string }>;
   searchParams: Promise<{ notes?: string }>;
 }) {
-  const { gender } = await params;
+  const { locale, gender } = await params;
 
   // Validate Gender Param
   if (!GENDERS.includes(gender as Gender)) return notFound();
   const validGender = gender as Gender;
 
   // 1. FETCH DATA (Cast to unknown then to our flexible Raw Interface)
-  const rawData =
-    (await getShopifyProducts()) as unknown as ShopifyRawProduct[];
+  const rawData = (await getShopifyProducts(
+    locale,
+  )) as unknown as ShopifyRawProduct[];
 
   // 2. NORMALIZE DATA (The clean separation)
   const PRODUCTS: Product[] = rawData.map(normalizeProduct);
@@ -110,9 +115,11 @@ export default async function ShopByGenderPage({
 
       {/* Filters */}
       <section className="mt-6 w-full px-5 md:mt-8 md:px-5 xl:px-6">
-        <NoteFilterChips
-          allNotes={["Woody", "Floral", "Amber", "Spice", "Musk", "Citrus"]}
-        />
+        <Suspense fallback={null}>
+          <NoteFilterChips
+            allNotes={["Woody", "Floral", "Amber", "Spice", "Musk", "Citrus"]}
+          />
+        </Suspense>
         <div className="mt-6 h-px w-full md:mt-8" />
       </section>
 
