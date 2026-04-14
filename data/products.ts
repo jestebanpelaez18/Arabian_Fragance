@@ -43,7 +43,6 @@ export type Product = {
   sku?: string;
   volumeMl?: number;
   stock?: number;
-  stripe_price_id?: string;
   status?: ProductStatus;
 };
 

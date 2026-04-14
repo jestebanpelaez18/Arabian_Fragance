@@ -1,7 +1,7 @@
 .PHONY: format lint typecheck dev build start e2e setup e2e-headed e2e-ui report
 
 format:
-	npm run format -- --write
+	npm run format:write
 
 lint:
 	npm run lint
@@ -14,6 +14,9 @@ dev:
 
 build:
 	npm run build
+
+start:
+	npm run start
 
 
 setup:

@@ -1,7 +1,5 @@
-import PriceBlock from "./ProductHeaderComponents/PriceBlock";
-import DetailsGrid from "./ProductHeaderComponents/DetailGrids";
-import ActionsWrapper from "./ProductHeaderComponents/ActionsWrapper";
 import PdpTabs from "./PdpTabs";
+import ProductActions from "@/components/product/ProductActions";
 import type { Product } from "@/data/products";
 import type { Locale } from "@/i18n-config";
 import { getUiLabels } from "@/lib/i18n/uiLabels";
@@ -51,21 +49,48 @@ export default function ProductHeaderPanel({
           </p>
         </header>
 
-        <PriceBlock price={price} volumeMl={volumeMl ?? undefined} />
+        <section className="font-playfair-display pt-10">
+          <div className="text-[34px] tracking-tight md:text-[38px]">
+            {price} EUR
+          </div>
+          {volumeMl && (
+            <div className="mt-1.5 text-sm text-black/70">/ {volumeMl} ml</div>
+          )}
+        </section>
 
-        <DetailsGrid
-          concentration="Eau de Parfum"
-          sizeLabel={`${volumeMl ?? 100} ml`}
-          dispatchLabel={labels.sameDayDispatch}
-          concentrationLabel={labels.concentration}
-          sizeTextLabel={labels.size}
-          dispatchTextLabel={labels.dispatch}
-        />
+        <dl className="mt-10 grid grid-cols-[180px_minmax(0,1fr)] gap-x-10 gap-y-6 text-[15px]">
+          <div className="contents">
+            <dt className="tracking-[0.18em] whitespace-nowrap text-black/60 uppercase">
+              {labels.concentration}
+            </dt>
+            <dd className="leading-7 text-black/90">Eau de Parfum</dd>
+          </div>
 
-        <ActionsWrapper
-          product={{ id: variantId ?? sku ?? name, name, price, image }}
-          stock={stock}
-        />
+          <div className="contents">
+            <dt className="tracking-[0.18em] whitespace-nowrap text-black/60 uppercase">
+              {labels.size}
+            </dt>
+            <dd className="leading-7 text-black/90">
+              <span className="inline-block border-b border-black/80 pb-0.5">
+                {volumeMl ?? 100} ml
+              </span>
+            </dd>
+          </div>
+
+          <div className="contents">
+            <dt className="tracking-[0.18em] whitespace-nowrap text-black/60 uppercase">
+              {labels.dispatch}
+            </dt>
+            <dd className="text-gold/90 leading-7">{labels.sameDayDispatch}</dd>
+          </div>
+        </dl>
+
+        <div className="mt-10 [&_a]:hidden [&_button]:h-14 [&_button]:w-full [&_button]:rounded-full [&_button]:bg-black [&_button]:text-sm [&_button]:tracking-[0.18em] [&_button]:text-[var(--background)] [&_button]:hover:opacity-90 [&_button:nth-of-type(2)]:hidden [&_div]:border-0 [&_div]:shadow-none [&_div]:ring-0 [&_form]:m-0 [&_form]:border-0 [&_form]:p-0 [&_form]:shadow-none [&_form]:ring-0">
+          <ProductActions
+            product={{ id: variantId ?? sku ?? name, name, price, image }}
+            stock={stock}
+          />
+        </div>
 
         <PdpTabs
           description={description}
