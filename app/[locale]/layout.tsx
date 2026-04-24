@@ -11,6 +11,13 @@ import "../globals.css";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import CookieBanner from "@/components/ui/CookieBanner";
+import localFont from "next/font/local";
+
+const magister = localFont({
+  src: "../../public/fonts/Magister-Extended.otf",
+  variable: "--font-magister",
+  display: "swap",
+});
 
 const geistGaramond = Cormorant_Garamond({
   variable: "--font-cormorant-garamond",
@@ -89,7 +96,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body
-        className={`${geistGaramond.variable} ${geistPlayfairDisplay.variable} ${geistRoboto.variable} ${geistCarlito.variable} ${jakarta.variable} ${bodoni.variable} antialiased`}
+        className={`${geistGaramond.variable} ${geistPlayfairDisplay.variable} ${geistRoboto.variable} ${geistCarlito.variable} ${jakarta.variable} ${bodoni.variable} ${magister.variable} antialiased`}
         suppressHydrationWarning
       >
         <Navbar />

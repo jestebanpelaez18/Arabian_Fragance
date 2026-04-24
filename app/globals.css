@@ -69,6 +69,7 @@
   --font-carlito: var(--font-carlito);
   --font-jakarta: var(--font-jakarta);
   --font-bodoni: var(--font-bodoni);
+  --font-magister: var(--font-magister);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -93,6 +94,11 @@ body {
   background: var(--navbar-bg);
   color: var(--navbar-text);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* ===== FONTS ===== */
+.font-magister {
+  font-family: var(--font-magister), serif;
 }
 
 /* ====== NAV LINKS ====== */
