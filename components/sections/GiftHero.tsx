@@ -56,7 +56,7 @@ export default function GiftHero({
 
           {/* Centered title and CTA */}
           <div className="absolute inset-0 flex flex-col items-center justify-center px-8 text-center text-white md:px-16 lg:px-32 xl:px-48">
-            <h2 className="font-garamond text-shadow-soft mx-auto max-w-4xl text-4xl leading-[1.15] tracking-[-0.015em] md:text-[48px] lg:text-[56px]">
+            <h2 className="text-shadow-soft mx-auto max-w-4xl text-4xl leading-[1.15] tracking-[-0.015em] md:text-[48px] lg:text-[56px]">
               {title}
             </h2>
             <div className="mt-7">
@@ -78,7 +78,7 @@ export default function GiftHero({
             </span>
           ) : null}
 
-          <h2 className="font-garamond text-shadow-soft mx-auto max-w-4xl text-4xl leading-[1.15] tracking-[-0.015em] md:text-[44px] lg:text-[50px]">
+          <h2 className="text-shadow-soft mx-auto max-w-4xl text-4xl leading-[1.15] tracking-[-0.015em] md:text-[44px] lg:text-[50px]">
             {title}
           </h2>
 

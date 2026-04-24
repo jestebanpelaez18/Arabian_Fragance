@@ -146,7 +146,7 @@ export default function LuxeHero({
         className={`relative z-10 mx-auto flex min-h-[80vh] max-w-5xl flex-col px-6 text-white ${containerAlign}`}
       >
         <div className={`flex flex-1 flex-col gap-4 ${innerAlign}`}>
-          <h1 className="font-magister text-shadow-soft max-w-4xl text-4xl leading-tight tracking-[0em] md:text-5xl lg:text-6xl">
+          <h1 className="text-shadow-soft max-w-4xl text-4xl leading-tight tracking-[0em] md:text-5xl lg:text-6xl">
             {title}
           </h1>
           {subtitle ? (

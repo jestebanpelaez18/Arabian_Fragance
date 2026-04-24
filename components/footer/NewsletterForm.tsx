@@ -30,7 +30,7 @@ export default function NewsletterForm({
 }) {
   return (
     <form onSubmit={onSubscribe} className="mb-4 text-white/90 md:mb-8">
-      <h3 className="font-bodoni mb-2 text-base tracking-wide uppercase">
+      <h3 className="mb-2 text-base tracking-wide uppercase">
         {labels.joinList}
       </h3>
       <p className="font-bodoni mb-4 text-sm">{labels.description}</p>

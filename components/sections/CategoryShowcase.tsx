@@ -97,7 +97,7 @@ function CategoryCard({
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-linear-to-t from-black/55 via-black/20 to-transparent" />
 
         <div className="relative mx-auto w-full max-w-7xl px-6 pb-8 text-white md:px-12 xl:px-16">
-          <h2 className="font-magister text-shadow-soft text-3xl leading-tight tracking-[0em] md:text-[32px] xl:text-[36px]">
+          <h2 className="text-shadow-soft text-3xl leading-tight tracking-[0em] md:text-[32px] xl:text-[36px]">
             {title}
           </h2>
           <p className="font-garamond mt-1 max-w-md text-lg opacity-95 md:text-xl">

@@ -41,7 +41,7 @@ export default function ProductHeaderPanel({
     <aside className="md:col-span-5">
       <div className="md:sticky md:top-24">
         <header className="border-b border-black/10 pb-8">
-          <h1 className="font-garamond text-[42px] leading-[1.08] md:text-[56px]">
+          <h1 className="text-[42px] leading-[1.08] md:text-[56px]">
             {name}
           </h1>
           <p className="font-playfair-display mt-3 text-sm tracking-[0.18em] text-black/70 uppercase">

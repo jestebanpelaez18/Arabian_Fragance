@@ -49,7 +49,7 @@ export default function InvitationHero({
       {/* Centered content styled like ShowroomHero */}
       <div className="absolute inset-0 flex h-full items-center justify-center px-8 text-white md:px-16 lg:px-32 xl:px-48">
         <div className="mx-auto max-w-5xl text-center">
-          <h2 className="font-garamond mx-auto text-4xl leading-tight tracking-[-0.01em] md:text-[44px] lg:text-[54px]">
+          <h2 className="mx-auto text-4xl leading-tight tracking-[-0.01em] md:text-[44px] lg:text-[54px]">
             {title}
           </h2>
 

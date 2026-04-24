@@ -152,7 +152,7 @@ export default function Navbar() {
               <div className="mx-auto flex max-w-7xl justify-center gap-24 px-12 py-10">
                 {/* Column 1: By Gender */}
                 <div className="flex flex-col gap-4">
-                  <h3 className="font-bodoni mb-2 text-xs font-bold tracking-[0.15em] text-black/50 uppercase">
+                  <h3 className="mb-2 text-xs font-bold tracking-[0.15em] text-black/50 uppercase">
                     {labels.byCategory}
                   </h3>
                   <Link
@@ -183,7 +183,7 @@ export default function Navbar() {
 
                 {/* Column 2: By Collection */}
                 <div className="flex flex-col gap-4">
-                  <h3 className="font-bodoni mb-2 text-xs font-bold tracking-[0.15em] text-black/50 uppercase">
+                  <h3 className="mb-2 text-xs font-bold tracking-[0.15em] text-black/50 uppercase">
                     {labels.byCollection}
                   </h3>
                   <Link

@@ -68,7 +68,7 @@ export default function AboutSection({
       <div
         className={`order-2 flex flex-col justify-center px-16 py-20 ${textOrderDesktop} ${dividerClass} lg:px-20`}
       >
-        <h2 className="font-garamond text-4xl leading-tight tracking-[-0.01em] md:text-5xl">
+        <h2 className="text-4xl leading-tight tracking-[-0.01em] md:text-5xl">
           {resolvedTitle}
         </h2>
         {descriptions && descriptions.length > 0 ? (

@@ -58,7 +58,7 @@ export default function ShowroomSection({
           <span className="font-garamond block text-xs tracking-[0.24em] uppercase opacity-70">
             {resolvedLabel}
           </span>
-          <h2 className="font-playfair-display mt-2 text-4xl leading-tight tracking-[-0.01em] md:text-5xl">
+          <h2 className="mt-2 text-4xl leading-tight tracking-[-0.01em] md:text-5xl">
             {resolvedHeading}
           </h2>
         </div>

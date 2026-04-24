@@ -89,6 +89,15 @@ body {
   text-rendering: optimizeLegibility;
   font-feature-settings: "kern", "liga", "clig", "calt";
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-magister), serif !important;
+}
 /* ====== NAVBAR ====== */
 .navbar {
   background: var(--navbar-bg);
