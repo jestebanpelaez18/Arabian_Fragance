@@ -9,6 +9,7 @@ import InvitationHero from "@/components/sections/InvitationHero";
 import AboutSection from "@/components/sections/AboutSection";
 import { getDictionary } from "@/dictionaries/getDictionary";
 import { i18n, type Locale } from "@/i18n-config";
+import { getShopifyProducts } from "@/lib/shopify/get-products";
 
 interface PageProps {
   params: Promise<{ locale: Locale }>;
@@ -30,6 +31,7 @@ export async function generateMetadata({ params }: PageProps) {
 export default async function Home({ params }: PageProps) {
   const resolvedParams = await params;
   const dict = await getDictionary(resolvedParams.locale);
+  const products = await getShopifyProducts(resolvedParams.locale);
 
   return (
     <div>
@@ -55,7 +57,7 @@ export default async function Home({ params }: PageProps) {
       />
 
       <CategoryShowcase />
-      <DiscoverSection />
+      <DiscoverSection products={products} />
 
       <GiftHero
         imageSrc="/hero/gift.jpg"

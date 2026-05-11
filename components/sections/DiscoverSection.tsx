@@ -3,14 +3,22 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import ProductCard from "@/components/shop/ProductCard";
-import { PRODUCTS, type Product } from "@/data/products";
+import ProductCard, { type ProductCardProduct } from "@/components/shop/ProductCard";
 import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 const TABS = [{ key: "women" }, { key: "men" }, { key: "unisex" }] as const;
 type Tab = (typeof TABS)[number]["key"];
 
-export default function DiscoverSection() {
+type DiscoverProduct = ProductCardProduct & {
+  gender?: "women" | "men" | "unisex";
+  bestSeller?: boolean;
+};
+
+export default function DiscoverSection({
+  products,
+}: {
+  products: DiscoverProduct[];
+}) {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname);
   const labels = getUiLabels(locale).sections.discover;
@@ -22,24 +30,27 @@ export default function DiscoverSection() {
     unisex: labels.unisexTab,
   };
 
-  const filtered: Product[] = useMemo(() => {
-    const byBestSeller = (a: Product, b: Product) =>
+  const filtered: DiscoverProduct[] = useMemo(() => {
+    const byBestSeller = (a: DiscoverProduct, b: DiscoverProduct) =>
       Number(b.bestSeller ?? false) - Number(a.bestSeller ?? false);
 
     if (active === "women") {
-      return PRODUCTS.filter((p) => p.gender === "women")
+      return products
+        .filter((p) => p.gender === "women")
         .sort(byBestSeller)
         .slice(0, 4);
     }
     if (active === "men") {
-      return PRODUCTS.filter((p) => p.gender === "men")
+      return products
+        .filter((p) => p.gender === "men")
         .sort(byBestSeller)
         .slice(0, 4);
     }
-    return PRODUCTS.filter((p) => p.gender === "unisex")
+    return products
+      .filter((p) => p.gender === "unisex")
       .sort(byBestSeller)
       .slice(0, 4);
-  }, [active]);
+  }, [active, products]);
 
   return (
     <section className="w-full">
