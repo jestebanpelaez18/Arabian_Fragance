@@ -11,42 +11,49 @@ export default function CategoryShowcase() {
   const labels = getUiLabels(locale).sections.categoryShowcase;
 
   return (
-    <section className="relative min-h-full">
-      <div className="grid grid-cols-1 gap-0 md:grid-cols-3">
-        {/* Women Perfumes */}
-        <CategoryCard
-          href="/shop/women"
-          imageSrc="/shop/hero-women.jpg"
-          title={labels.womenTitle}
-          subtitle={labels.womenSubtitle}
-          ariaLabel={labels.womenAria}
-          shopNowLabel={labels.shopNow}
-        />
+    <section className="px-4 py-12 md:px-8 lg:px-12">
+      <div className="mx-auto max-w-[1600px]">
+        {/* Dior-style hybrid grid: Product - Editorial - Product */}
+        <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-3 lg:gap-8">
+          
+          {/* Left: Women (Product Focus) */}
+          <CategoryProductCard
+            href="/shop/women"
+            imageSrc="/shop/bottle-women.png" // Use an image of the bottle with a transparent or pure white background
+            title={labels.womenTitle}
+            subtitle={labels.womenSubtitle}
+            ariaLabel={labels.womenAria}
+            shopNowLabel={labels.shopNow}
+          />
 
-        {/* Men Perfumes */}
-        <CategoryCard
-          href="/shop/men"
-          imageSrc="/shop/hero-men.jpg"
-          title={labels.menTitle}
-          subtitle={labels.menSubtitle}
-          ariaLabel={labels.menAria}
-          shopNowLabel={labels.shopNow}
-        />
+          {/* Center: Unisex (Editorial/Lifestyle Focus - Keeps your original dramatic style) */}
+          <CategoryEditorialCard
+            href="/shop/unisex"
+            imageSrc="/shop/hero-unisex.jpg" // Use a lifestyle or campaign image
+            title={labels.unisexTitle}
+            subtitle={labels.unisexSubtitle}
+            ariaLabel={labels.unisexAria}
+            shopNowLabel={labels.shopNow}
+          />
 
-        {/* Unisex */}
-        <CategoryCard
-          href="/shop/unisex"
-          imageSrc="/shop/hero-unisex.jpg"
-          title={labels.unisexTitle}
-          subtitle={labels.unisexSubtitle}
-          ariaLabel={labels.unisexAria}
-          shopNowLabel={labels.shopNow}
-        />
+          {/* Right: Men (Product Focus) */}
+          <CategoryProductCard
+            href="/shop/men"
+            imageSrc="/shop/bottle-men.png" // Use an image of the bottle with a transparent or pure white background
+            title={labels.menTitle}
+            subtitle={labels.menSubtitle}
+            ariaLabel={labels.menAria}
+            shopNowLabel={labels.shopNow}
+          />
+        </div>
       </div>
     </section>
   );
 }
 
+// ---------------------------------------------------------------------------
+// Card for Product Focus (Left and Right columns)
+// ---------------------------------------------------------------------------
 type CategoryCardProps = {
   href: string;
   imageSrc: string;
@@ -56,7 +63,7 @@ type CategoryCardProps = {
   shopNowLabel: string;
 };
 
-function CategoryCard({
+function CategoryProductCard({
   href,
   imageSrc,
   title,
@@ -69,41 +76,78 @@ function CategoryCard({
       href={href}
       prefetch
       aria-label={ariaLabel ?? title}
-      className="group card-luxe relative block aspect-3/4 overflow-hidden"
+      className="group flex h-full min-h-[500px] flex-col items-center justify-between bg-white p-8 text-center transition-colors duration-500 hover:bg-stone-50"
     >
-      {/* Background image */}
+      <div className="relative w-full flex-1">
+        {/* The bottle should be isolated, object-contain ensures it fits nicely */}
+        <SmoothImage
+          src={imageSrc}
+          alt={ariaLabel ?? title}
+          fill
+          sizes="(min-width:768px) 33vw, 100vw"
+          className="object-contain p-4 transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
+        />
+      </div>
+      
+      <div className="mt-8">
+        <h2 className="font-serif text-2xl text-black md:text-3xl">
+          {title}
+        </h2>
+        <p className="font-garamond mt-2 text-base text-gray-500">
+          {subtitle}
+        </p>
+        <span className="mt-6 inline-block border-b border-black/30 pb-1 text-xs font-medium uppercase tracking-[0.2em] text-black transition-colors group-hover:border-black">
+          {shopNowLabel}
+        </span>
+      </div>
+    </Link>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Card for Editorial Focus (Center column)
+// ---------------------------------------------------------------------------
+function CategoryEditorialCard({
+  href,
+  imageSrc,
+  title,
+  subtitle,
+  ariaLabel,
+  shopNowLabel,
+}: CategoryCardProps) {
+  return (
+    <Link
+      href={href}
+      prefetch
+      aria-label={ariaLabel ?? title}
+      className="group relative block aspect-[3/4] h-full min-h-[500px] w-full overflow-hidden"
+    >
       <SmoothImage
         src={imageSrc}
         alt={ariaLabel ?? title}
         fill
         sizes="(min-width:768px) 33vw, 100vw"
-        className="ease-luxe object-cover transition-transform duration-700 group-hover:scale-[1.03] group-active:scale-[0.99]"
+        className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
         loading="lazy"
-        priority={false}
-        decoding="async"
       />
 
-      {/* Luxe overlays: subtle dark for legibility + amber glow + grain */}
-      <div className="absolute inset-0 bg-black/30 md:bg-black/10" />
-      <div className="overlay-amber absolute inset-0" />
-      <div className="grain pointer-events-none absolute inset-0" />
+      {/* Dark overlays for text legibility */}
+      <div className="absolute inset-0 bg-black/20" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/80 via-black/30 to-transparent" />
 
-      {/* Soft gold border highlight on hover */}
-      <div className="ring-navbar-border group-hover:ring-gold/50 pointer-events-none absolute inset-0 ring-1 transition duration-500" />
+      {/* Subtle gold border on hover */}
+      <div className="pointer-events-none absolute inset-0 ring-1 ring-white/20 transition duration-500 group-hover:ring-white/50" />
 
-      {/* Content */}
       <div className="absolute inset-0 z-10 flex items-end">
-        {/* gradient bottom to top for readability */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-linear-to-t from-black/55 via-black/20 to-transparent" />
-
-        <div className="relative mx-auto w-full max-w-7xl px-6 pb-8 text-white md:px-12 xl:px-16">
-          <h2 className="text-shadow-soft text-3xl leading-tight tracking-[0em] md:text-[32px] xl:text-[36px]">
+        <div className="mx-auto w-full p-8 text-center text-white md:p-10">
+          <h2 className="font-serif text-3xl leading-tight text-white md:text-4xl">
             {title}
           </h2>
-          <p className="font-garamond mt-1 max-w-md text-lg opacity-95 md:text-xl">
+          <p className="font-garamond mt-2 text-lg text-white/90">
             {subtitle}
           </p>
-          <span className="font-roboto link-gold mt-2 inline-block text-sm font-medium">
+          <span className="mt-6 inline-block border border-white bg-transparent px-8 py-3 text-xs font-medium uppercase tracking-[0.2em] text-white transition-colors group-hover:bg-white group-hover:text-black">
             {shopNowLabel}
           </span>
         </div>
