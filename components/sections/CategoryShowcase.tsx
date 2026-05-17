@@ -49,7 +49,7 @@ export default function CategoryShowcase() {
   ];
 
   return (
-    <section className="bg-[#f9f6f0] px-4 py-12 md:px-8 lg:px-12">
+    <section className="bg-background px-4 py-12 md:px-8 lg:px-12">
       <div className="mx-auto max-w-[1600px]">
         <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-3 lg:gap-8">
           {categoryItems.map((item) => (

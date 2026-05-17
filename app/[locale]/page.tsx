@@ -10,6 +10,8 @@ import AboutSection from "@/components/sections/AboutSection";
 import { getDictionary } from "@/dictionaries/getDictionary";
 import { i18n, type Locale } from "@/i18n-config";
 import { getShopifyProducts } from "@/lib/shopify/get-products";
+import { getHomeCollections } from "@/lib/shopify/get-collections";
+import CollectionsShowcase from "@/components/sections/CollectionsShowcase";
 
 interface PageProps {
   params: Promise<{ locale: Locale }>;
@@ -32,6 +34,7 @@ export default async function Home({ params }: PageProps) {
   const resolvedParams = await params;
   const dict = await getDictionary(resolvedParams.locale);
   const products = await getShopifyProducts(resolvedParams.locale);
+  const collections = await getHomeCollections(resolvedParams.locale);
 
   return (
     <div>
@@ -57,6 +60,7 @@ export default async function Home({ params }: PageProps) {
       />
 
       <CategoryShowcase />
+      <CollectionsShowcase collections={collections} />
       <DiscoverSection products={products} />
 
       <GiftHero
