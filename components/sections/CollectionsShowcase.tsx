@@ -10,8 +10,8 @@ export default function CollectionsShowcase({
   collections,
 }: CollectionsShowcaseProps) {
   return (
-    <section className="bg-background px-4 py-16 md:px-8 lg:px-12 md:py-24">
-      <div className="mx-auto w-full max-w-[1600px]">
+    <section className="bg-background px-4 py-16 md:py-24">
+      <div className="w-full">
         <div className="mb-16 text-center">
           <h2 className="font-serif text-3xl tracking-wide text-gray-900 md:text-5xl">
             Our Collections
@@ -41,13 +41,15 @@ type CollectionRowProps = {
 };
 
 function CollectionRow({ collection, isEven }: CollectionRowProps) {
+  const rowLayoutClass = isEven ? "" : "lg:[&>*:first-child]:order-last";
+  const textSpacingClass = isEven
+    ? "px-4 md:px-12 lg:pl-16 lg:pr-8 xl:pl-24 xl:pr-12"
+    : "px-4 md:px-12 lg:pr-16 lg:pl-8 xl:pr-24 xl:pl-12";
+
   return (
     <div
-      className={`grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12 ${
-        isEven ? "" : "lg:[&>*:first-child]:order-last"
-      }`}
+      className={`grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-16 ${rowLayoutClass}`}
     >
-      {/* Columna de la Imagen */}
       <div className="w-full">
         <Link
           href={collection.href}
@@ -63,23 +65,26 @@ function CollectionRow({ collection, isEven }: CollectionRowProps) {
         </Link>
       </div>
 
-      {/* Columna del Texto: Alineado a la cuadrícula sin paddings inventados */}
-      <div className="flex w-full flex-col justify-center text-center lg:items-start lg:text-left">
-        <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">
-          {collection.subtitle}
-        </span>
-        <h3 className="font-serif mt-4 text-3xl leading-tight text-gray-900 md:text-4xl lg:text-5xl">
-          {collection.title}
-        </h3>
-        <p className="font-garamond mt-6 max-w-md text-base leading-relaxed text-gray-600 md:text-lg">
-          {collection.description}
-        </p>
-        <Link
-          href={collection.href}
-          className="mt-10 inline-block border-b border-gray-900 pb-1 text-sm font-medium tracking-[0.15em] uppercase text-gray-900 transition-colors hover:border-gray-500 hover:text-gray-500"
-        >
-          {collection.buttonText}
-        </Link>
+      <div
+        className={`flex w-full flex-col justify-center text-center lg:items-start lg:text-left ${textSpacingClass}`}
+      >
+        <div className="mx-auto w-full max-w-md lg:mx-0">
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">
+            {collection.subtitle}
+          </span>
+          <h3 className="font-serif mt-4 text-3xl leading-tight text-gray-900 md:text-4xl lg:text-5xl">
+            {collection.title}
+          </h3>
+          <p className="font-garamond mt-6 text-base leading-relaxed text-gray-600 md:text-lg">
+            {collection.description}
+          </p>
+          <Link
+            href={collection.href}
+            className="mt-10 inline-block border-b border-gray-900 pb-1 text-sm font-medium tracking-[0.15em] uppercase text-gray-900 transition-colors hover:border-gray-500 hover:text-gray-500"
+          >
+            {collection.buttonText}
+          </Link>
+        </div>
       </div>
     </div>
   );

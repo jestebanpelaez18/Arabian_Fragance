@@ -49,8 +49,8 @@ export default function CategoryShowcase() {
   ];
 
   return (
-    <section className="bg-background px-4 py-12 md:px-8 lg:px-12">
-      <div className="mx-auto max-w-[1600px]">
+    <section className="bg-background px-4 py-12">
+      <div className="w-full">
         <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-3 lg:gap-8">
           {categoryItems.map((item) => (
             <CategoryCard
@@ -91,7 +91,6 @@ function CategoryCard({
 }: CategoryCardProps) {
   const isLight = theme === "light";
 
-  const imagePositionClass = isLight ? "object-bottom" : "object-center";
   const ringClass = isLight
     ? "ring-black/5 group-hover:ring-black/20"
     : "ring-white/10 group-hover:ring-white/40";
@@ -105,14 +104,14 @@ function CategoryCard({
     <Link
       href={href}
       aria-label={ariaLabel ?? title}
-      className="group relative block aspect-3/4 min-h-[500px] w-full overflow-hidden"
+      className="group relative block aspect-4/5 w-full overflow-hidden"
     >
       <SmoothImage
         src={imageSrc}
         alt={ariaLabel ?? title}
         fill
         sizes="(min-width:768px) 33vw, 100vw"
-        className={`object-cover transition-transform duration-700 group-hover:scale-[1.03] ${imagePositionClass}`}
+        className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
         loading="lazy"
       />
       {!isLight && (
@@ -128,10 +127,14 @@ function CategoryCard({
 
       <div className="absolute inset-0 z-10 flex items-end">
         <div className="mx-auto w-full p-8 text-center md:p-10">
-          <h2 className={`font-serif text-3xl leading-tight md:text-4xl ${titleClass}`}>
+          <h2
+            className={`font-serif text-3xl leading-tight md:text-4xl ${titleClass}`}
+          >
             {title}
           </h2>
-          <p className={`font-garamond mt-3 text-sm md:text-base ${subtitleClass}`}>
+          <p
+            className={`font-garamond mt-3 text-sm md:text-base ${subtitleClass}`}
+          >
             {subtitle}
           </p>
           <span
