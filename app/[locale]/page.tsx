@@ -1,7 +1,6 @@
 import DiscoverSection from "@/components/sections/DiscoverSection";
 import LuxeHero from "@/components/ui/LuxeHero";
 import SectionDivider from "@/components/ui/SectionDivider";
-import LinkSectionDivider from "@/components/ui/LinkSectionDivider";
 import CategoryShowcase from "@/components/sections/CategoryShowcase";
 import GiftHero from "@/components/sections/GiftHero";
 import ShowroomSection from "@/components/showroom/ShowroomSection";
@@ -12,6 +11,7 @@ import { i18n, type Locale } from "@/i18n-config";
 import { getShopifyProducts } from "@/lib/shopify/get-products";
 import { getHomeCollections } from "@/lib/shopify/get-collections";
 import CollectionsShowcase from "@/components/sections/CollectionsShowcase";
+import SectionHeader from "@/components/ui/SectionHeader";
 
 interface PageProps {
   params: Promise<{ locale: Locale }>;
@@ -53,14 +53,18 @@ export default async function Home({ params }: PageProps) {
         minH="min-h-[90svh] md:min-h-screen"
       />
 
-      <LinkSectionDivider
-        text={dict.dividers?.shop ?? "Shop the Collection"}
-        href="/shop"
-        ariaLabel={dict.dividers?.shop ?? "Shop the Collection"}
+      <SectionHeader
+        title="The Art of Essence"
+        description="A curated selection of olfactory expressions crafted to define identity, blending heritage techniques with contemporary luxury."
       />
 
       <CategoryShowcase />
       <CollectionsShowcase collections={collections} />
+
+      <SectionHeader
+        title="La Collection Privée"
+        description="Explore our signatures in their definitive forms. Compositions born from rare ingredients, tailored for those who seek an unforgettable trail."
+      />
       <DiscoverSection products={products} />
 
       <GiftHero
