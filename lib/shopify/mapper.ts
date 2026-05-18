@@ -11,6 +11,7 @@ export interface ShopifyRawProduct {
   slug?: string;
   title?: string;
   name?: string;
+  productType?: string;
   description?: string;
   price?: string | number;
   priceRange?: { minVariantPrice: { amount: string } };
@@ -18,6 +19,7 @@ export interface ShopifyRawProduct {
   images?: { edges: { node: { url: string } }[] };
   gender?: { value: string } | string;
   notes?: { value: string } | string[] | string;
+  concentration?: { value: string } | string;
 }
 
 export function normalizeProduct(p: ShopifyRawProduct): Product {
@@ -92,11 +94,27 @@ export function normalizeProduct(p: ShopifyRawProduct): Product {
     }
   }
 
+  let concentration: string | undefined;
+  if (
+    typeof p.concentration === "object" &&
+    p.concentration !== null &&
+    "value" in p.concentration
+  ) {
+    concentration = p.concentration.value?.trim();
+  } else if (typeof p.concentration === "string") {
+    concentration = p.concentration.trim();
+  }
+
+  if (!concentration) {
+    concentration = p.productType?.trim();
+  }
+
   return {
     id: p.id,
     slug: p.handle || p.slug || "product",
     name,
     price,
+    concentration,
     gender,
     image,
     images,

@@ -3,16 +3,14 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import ProductCard, { type ProductCardProduct } from "@/components/shop/ProductCard";
+import ProductCard from "@/components/shop/ProductCard";
+import { type Product } from "@/data/products";
 import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 const TABS = [{ key: "women" }, { key: "men" }, { key: "unisex" }] as const;
 type Tab = (typeof TABS)[number]["key"];
 
-type DiscoverProduct = ProductCardProduct & {
-  gender?: "women" | "men" | "unisex";
-  bestSeller?: boolean;
-};
+type DiscoverProduct = Product;
 
 export default function DiscoverSection({
   products,
@@ -34,65 +32,62 @@ export default function DiscoverSection({
     const byBestSeller = (a: DiscoverProduct, b: DiscoverProduct) =>
       Number(b.bestSeller ?? false) - Number(a.bestSeller ?? false);
 
-    if (active === "women") {
-      return products
-        .filter((p) => p.gender === "women")
-        .sort(byBestSeller)
-        .slice(0, 4);
-    }
-    if (active === "men") {
-      return products
-        .filter((p) => p.gender === "men")
-        .sort(byBestSeller)
-        .slice(0, 4);
-    }
     return products
-      .filter((p) => p.gender === "unisex")
+      .filter((p) => p.gender === active)
       .sort(byBestSeller)
       .slice(0, 4);
   }, [active, products]);
 
   return (
-    <section className="w-full">
-      <div className="flex w-full flex-col items-center justify-center px-5 py-12 text-center md:px-5 md:py-14 xl:px-6">
-        {/* Tabs */}
-        <nav className="my-8 flex flex-wrap justify-center gap-8 text-[12px] md:text-sm">
-          {TABS.map(({ key }) => {
-            const isActive = key === active;
-            return (
-              <button
-                key={key}
-                onClick={() => setActive(key)}
-                aria-current={isActive ? "page" : undefined}
-                className={[
-                  "font-garamond ease-luxe relative pb-3 tracking-[0.24em] uppercase transition-colors",
-                  isActive
-                    ? "text-ink after:bg-gold after:absolute after:right-0 after:-bottom-0.5 after:left-0 after:h-px"
-                    : "hover:text-gold text-black/60",
-                ].join(" ")}
-              >
-                {tabLabels[key]}
-              </button>
-            );
-          })}
-        </nav>
-      </div>
-
-      {/* Grid */}
-      <div className="w-full px-5 pb-8 md:px-5 md:pb-12 xl:px-6">
-        <div className="grid grid-cols-2 items-stretch gap-x-2.5 gap-y-16 md:grid-cols-3 md:gap-x-5 xl:grid-cols-4">
-          {filtered.map((p) => (
-            <ProductCard key={p.id} p={p} />
-          ))}
+    // EL ARREGLO DEL PADDING: Ancho total exacto (w-full px-4 md:px-6) sin max-w restrictivos
+    <section className="w-full bg-background px-4 py-16 md:px-6 md:py-24">
+      <div className="w-full">
+        
+        {/* Navigation Tabs - Clean typography minimal look like Dior */}
+        <div className="mb-14 flex flex-col items-center justify-center text-center">
+          <nav className="flex items-center justify-center gap-10 text-xs tracking-[0.25em] uppercase">
+            {TABS.map(({ key }) => {
+              const isActive = key === active;
+              return (
+                <button
+                  key={key}
+                  onClick={() => setActive(key)}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`font-serif pb-2 transition-colors duration-300 cursor-pointer relative ${
+                    isActive
+                      ? "text-gray-900 font-medium"
+                      : "text-gray-400 hover:text-gray-900"
+                  }`}
+                >
+                  {tabLabels[key]}
+                  {isActive && (
+                    <span className="absolute right-0 bottom-0 left-0 h-px bg-gray-950 animate-fade-in" />
+                  )}
+                </button>
+              );
+            })}
+          </nav>
         </div>
-      </div>
-      <div className="w-full px-5 pb-12 text-center md:px-8 md:pb-16 xl:px-12">
-        <Link
-          href={`/shop/${active}`}
-          className="font-garamond link-gold ease-luxe inline-block text-[12px] tracking-[0.18em] uppercase opacity-80 md:text-[13px]"
-        >
-          {labels.viewAllPrefix} {active}
-        </Link>
+
+        {/* Products Grid: 4 columns stretched fully sideways with minimal gaps */}
+        <div className="mb-16 w-full">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-16 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-5">
+            {filtered.map((p) => (
+              <ProductCard key={p.id} p={p} />
+            ))}
+          </div>
+        </div>
+
+        {/* View All CTA Link - Fixed to matching luxury editorial design */}
+        <div className="text-center">
+          <Link
+            href={`/shop/${active}`}
+            className="font-serif inline-block border-b border-gray-900 pb-1 text-xs tracking-[0.2em] uppercase text-gray-900 transition-colors duration-300 hover:border-gray-400 hover:text-gray-400"
+          >
+            {labels.viewAllPrefix} {active}
+          </Link>
+        </div>
+
       </div>
     </section>
   );

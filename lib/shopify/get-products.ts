@@ -11,6 +11,7 @@ const allProductsQuery = `
           id
           title
           handle
+          productType
           availableForSale
           priceRange {
             minVariantPrice {
@@ -35,6 +36,7 @@ const allProductsQuery = `
           }
           gender: metafield(namespace: "custom", key: "gender") { value }
           notes: metafield(namespace: "custom", key: "main_accord") { value }
+          concentration: metafield(namespace: "custom", key: "concentration") { value }
         }
       }
     }
