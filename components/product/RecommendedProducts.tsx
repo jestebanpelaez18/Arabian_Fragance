@@ -33,10 +33,12 @@ const recommendedQuery = `
           id
           title
           handle
+          productType
           priceRange { minVariantPrice { amount currencyCode } }
           images(first: 1) { edges { node { url altText } } }
           notes: metafield(namespace: "custom", key: "main_accord") { value }
           gender: metafield(namespace: "custom", key: "gender") { value }
+          concentration: metafield(namespace: "custom", key: "concentration") { value }
         }
       }
     }
