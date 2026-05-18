@@ -39,13 +39,10 @@ export default function DiscoverSection({
   }, [active, products]);
 
   return (
-    // EL ARREGLO DEL PADDING: Ancho total exacto (w-full px-4 md:px-6) sin max-w restrictivos
     <section className="w-full bg-background px-4 py-16 md:px-6 md:py-24">
       <div className="w-full">
-        
-        {/* Navigation Tabs - Clean typography minimal look like Dior */}
         <div className="mb-14 flex flex-col items-center justify-center text-center">
-          <nav className="flex items-center justify-center gap-10 text-xs tracking-[0.25em] uppercase">
+          <nav className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-xs tracking-[0.25em] uppercase">
             {TABS.map(({ key }) => {
               const isActive = key === active;
               return (
@@ -53,23 +50,26 @@ export default function DiscoverSection({
                   key={key}
                   onClick={() => setActive(key)}
                   aria-current={isActive ? "page" : undefined}
-                  className={`font-serif pb-2 transition-colors duration-300 cursor-pointer relative ${
+                  className={`font-garamond relative cursor-pointer pb-2 transition-colors duration-300 ${
                     isActive
-                      ? "text-gray-900 font-medium"
-                      : "text-gray-400 hover:text-gray-900"
+                      ? "text-gray-900 hover:text-gold"
+                      : "text-gray-900/70 hover:text-gold"
                   }`}
                 >
                   {tabLabels[key]}
-                  {isActive && (
-                    <span className="absolute right-0 bottom-0 left-0 h-px bg-gray-950 animate-fade-in" />
-                  )}
+                  <span
+                    className={`absolute right-0 bottom-0 left-0 h-px transition-colors duration-300 ${
+                      isActive
+                        ? "bg-gray-900/35 group-hover:bg-gold"
+                        : "bg-transparent group-hover:bg-gold"
+                    }`}
+                  />
                 </button>
               );
             })}
           </nav>
         </div>
 
-        {/* Products Grid: 4 columns stretched fully sideways with minimal gaps */}
         <div className="mb-16 w-full">
           <div className="grid grid-cols-2 gap-x-4 gap-y-16 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-5">
             {filtered.map((p) => (
@@ -78,16 +78,17 @@ export default function DiscoverSection({
           </div>
         </div>
 
-        {/* View All CTA Link - Fixed to matching luxury editorial design */}
         <div className="text-center">
           <Link
             href={`/shop/${active}`}
-            className="font-serif inline-block border-b border-gray-900 pb-1 text-xs tracking-[0.2em] uppercase text-gray-900 transition-colors duration-300 hover:border-gray-400 hover:text-gray-400"
+            className="group inline-flex min-w-max flex-col items-stretch"
           >
-            {labels.viewAllPrefix} {active}
+            <span className="font-garamond text-center text-xs tracking-[0.2em] uppercase text-gray-900 transition-colors duration-200 group-hover:text-gold">
+              {labels.viewAllPrefix} {active}
+            </span>
+            <span className="mt-2 h-px w-full bg-gray-900/25 transition-colors duration-200 group-hover:bg-gold" />
           </Link>
         </div>
-
       </div>
     </section>
   );
