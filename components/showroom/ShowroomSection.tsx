@@ -29,21 +29,23 @@ export default function ShowroomSection({
 
   // Resolving text fallbacks gracefully
   const resolvedHeading = heading ?? labels.heading ?? "Our Showroom";
-  const resolvedDescription = description ?? "Experience the art of Arabian perfumery in person. Visit our Helsinki boutique to discover our rare ingredients and signature collections.";
-  const resolvedImageAlt = imageAlt ?? labels.rightImageAlt ?? "Arabian Fragrance Showroom";
+  const resolvedDescription =
+    description ??
+    "Experience the art of Arabian perfumery in person. Visit our Helsinki boutique to discover our rare ingredients and signature collections.";
+  const resolvedImageAlt =
+    imageAlt ?? labels.rightImageAlt ?? "Arabian Fragrance Showroom";
   const resolvedCtaLabel = ctaLabel ?? labels.ctaLabel ?? "Visit Boutique";
 
   return (
-    <section className="bg-background w-full pb-20 pt-12">
-      
+    <section className="bg-background w-full pt-12 pb-20">
       {/* 1. EDITORIAL HEADER: Reusing the unified layout block */}
-      <SectionHeader 
-        title={resolvedHeading} 
-        description={resolvedDescription} 
+      <SectionHeader
+        title={resolvedHeading}
+        description={resolvedDescription}
       />
 
       {/* 2. HAUTE COUTURE CTA BUTTON: Matches the hero and gift sections */}
-      <div className="mb-16 -mt-4 w-full px-4 text-center">
+      <div className="-mt-4 mb-16 w-full px-4 text-center">
         <div className="mx-auto flex max-w-3xl flex-col items-center">
           <Link
             href={ctaHref}
@@ -55,13 +57,13 @@ export default function ShowroomSection({
       </div>
 
       {/* 3. CINEMATIC SHOWROOM IMAGE: Framed perfectly within the container */}
-      <div className="mx-auto max-w-[1600px] w-full px-4 md:px-6">
+      <div className="w-full px-4 md:px-6">
         <div className="relative aspect-video w-full overflow-hidden bg-neutral-100">
           <SmoothImage
             src={imageSrc}
             alt={resolvedImageAlt}
             fill
-            sizes="(min-width:1024px) 90vw, 100vw"
+            sizes="(min-width:1024px) 100vw, 100vw"
             className="object-cover object-center transition-transform duration-1000 hover:scale-[1.02]"
             loading="lazy"
             priority={false}
@@ -69,7 +71,6 @@ export default function ShowroomSection({
           />
         </div>
       </div>
-
     </section>
   );
 }

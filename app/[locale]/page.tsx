@@ -77,8 +77,6 @@ export default async function Home({ params }: PageProps) {
         ctaHref="/shop"
       />
 
-      {/* The rest of your components go here, replacing text with dict.something */}
-      <SectionDivider text={dict.dividers?.experience ?? "Experience"} />
       <ShowroomSection />
 
       <SectionDivider text={dict.dividers?.ourStory ?? "Our Story"} />
