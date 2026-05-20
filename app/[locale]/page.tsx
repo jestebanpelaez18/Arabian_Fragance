@@ -68,7 +68,7 @@ export default async function Home({ params }: PageProps) {
       <DiscoverSection products={products} />
 
       <GiftHero
-        imageSrc="/hero/gift.jpg"
+        imageSrc="/hero/the_discovery_section.jpg"
         label={dict.gift?.label ?? "Exclusive Gift Collection"}
         title={dict.gift?.title ?? "Iconic Gifts"}
         description={
@@ -77,8 +77,6 @@ export default async function Home({ params }: PageProps) {
         }
         ctaLabel={dict.gift?.ctaLabel ?? "Shop Now"}
         ctaHref="/shop"
-        heightClassName="h-[78vh] md:h-[70vh]"
-        contentAlign="center"
       />
 
       {/* The rest of your components go here, replacing text with dict.something */}
