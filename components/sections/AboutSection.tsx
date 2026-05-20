@@ -40,7 +40,7 @@ export default function AboutSection({
   const textOrder = reverse ? "lg:order-2" : "lg:order-1";
 
   return (
-    <section className="w-full bg-background px-4 py-16 md:px-6 md:py-24">
+    <section className="w-full bg-background px-4 pt-12 pb-20 md:px-6 md:pt-16 md:pb-24">
       <div className="grid w-full grid-cols-1 items-stretch overflow-hidden lg:grid-cols-2 lg:min-h-[620px] xl:min-h-[700px]">
         
         {/* COLUMNA IMAGEN: A sangre 50% */}
@@ -58,7 +58,7 @@ export default function AboutSection({
         </div>
 
         {/* COLUMNA TEXTO: Padding asimétrico idéntico al CollectionsShowcase */}
-        <div className={`flex w-full flex-col justify-center px-6 py-14 md:px-10 md:py-16 ${
+        <div className={`flex w-full flex-col justify-center px-6 py-10 md:px-10 md:py-12 ${
           reverse 
             // Si el texto está a la derecha: padding a la izquierda para separarlo de la foto
             ? "lg:pl-14 lg:pr-8 xl:pl-20" 
