@@ -17,83 +17,89 @@ interface AboutSectionProps {
 }
 
 export default function AboutSection({
-  imageSrc = "/hero/story.jpg", // Replace with your high-end ingredient shot
+  imageSrc = "/hero/story.jpg", 
   imageAlt,
   title,
   description,
   ctaHref = "/about",
   ctaLabel,
   descriptions,
-  reverse = false,
+  // True = Imagen a la izquierda, Texto a la derecha (Como en "The Luxury Collection")
+  reverse = true, 
 }: AboutSectionProps) {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname);
   const labels = getUiLabels(locale).sections.aboutDefaults;
 
   const resolvedImageAlt = imageAlt ?? labels.imageAlt;
-  const resolvedTitle = title ?? labels.title ?? "The Art of Ingredients";
+  const resolvedTitle = title ?? labels.title ?? "Our Story";
   const resolvedDescription = description ?? labels.description;
   const resolvedCtaLabel = ctaLabel ?? labels.ctaLabel ?? "Discover Our Story";
 
-  // Control layout direction
-  const imageOrder = reverse ? "lg:order-2" : "lg:order-1";
-  const textOrder = reverse ? "lg:order-1" : "lg:order-2";
+  const imageOrder = reverse ? "lg:order-1" : "lg:order-2";
+  const textOrder = reverse ? "lg:order-2" : "lg:order-1";
 
   return (
     <section className="w-full bg-background px-4 py-16 md:px-6 md:py-24">
-      <div className="mx-auto flex max-w-[1400px] flex-col lg:flex-row items-center gap-12 lg:gap-24">
+      <div className="grid w-full grid-cols-1 items-stretch overflow-hidden lg:grid-cols-2 lg:min-h-[620px] xl:min-h-[700px]">
         
-        {/* 1. EDITORIAL IMAGE: Vertical portrait style for high-fashion feel */}
-        <div className={`w-full lg:w-1/2 ${imageOrder}`}>
-          <div className="relative aspect-[4/5] w-full overflow-hidden bg-neutral-100">
-            <SmoothImage
-              src={imageSrc}
-              alt={resolvedImageAlt}
-              fill
-              sizes="(min-width:1024px) 50vw, 100vw"
-              className="object-cover transition-transform duration-1000 hover:scale-[1.02]"
-              loading="lazy"
-              priority={false}
-              decoding="async"
-            />
-          </div>
+        {/* COLUMNA IMAGEN: A sangre 50% */}
+        <div className={`relative w-full min-h-[380px] md:min-h-[460px] lg:min-h-full ${imageOrder}`}>
+          <SmoothImage
+            src={imageSrc}
+            alt={resolvedImageAlt}
+            fill
+            sizes="(min-width:1024px) 50vw, 100vw"
+            className="object-cover"
+            loading="lazy"
+            priority={false}
+            decoding="async"
+          />
         </div>
 
-        {/* 2. MANIFESTO TEXT BLOCK: Deep paddings, elegant typography rhythm */}
-        <div className={`w-full lg:w-1/2 flex flex-col justify-center text-center lg:text-left ${textOrder}`}>
+        {/* COLUMNA TEXTO: Padding asimétrico idéntico al CollectionsShowcase */}
+        <div className={`flex w-full flex-col justify-center px-6 py-14 md:px-10 md:py-16 ${
+          reverse 
+            // Si el texto está a la derecha: padding a la izquierda para separarlo de la foto
+            ? "lg:pl-14 lg:pr-8 xl:pl-20" 
+            // Si el texto está a la izquierda: padding a la derecha para separarlo de la foto
+            : "lg:pr-14 lg:pl-8 xl:pr-20"
+        } ${textOrder}`}>
           
-          <span className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-neutral-400 font-light mb-6 block">
-            Savoir-Faire
-          </span>
+          {/* CONTENEDOR INTERNO: mr-auto / ml-auto ancla el bloque de texto cerca de la imagen */}
+          <div className={`w-full max-w-[440px] ${reverse ? "mr-auto" : "ml-auto"}`}>
+            <span className="mb-4 block text-[10px] font-light tracking-[0.3em] text-neutral-400 uppercase md:text-xs">
+              Savoir-Faire
+            </span>
 
-          <h2 className="font-serif text-3xl tracking-[0.08em] uppercase text-neutral-900 md:text-4xl lg:text-5xl font-light leading-tight">
-            {resolvedTitle}
-          </h2>
-          
-          <div className="mt-8 flex flex-col gap-5">
-            {descriptions && descriptions.length > 0 ? (
-              descriptions.map((para, idx) => (
-                <p key={idx} className="font-garamond text-base leading-relaxed text-neutral-600 md:text-lg max-w-lg mx-auto lg:mx-0">
-                  {para}
+            <h2 className="font-serif mb-6 text-3xl font-light leading-tight tracking-[0.08em] text-neutral-900 uppercase md:text-4xl lg:text-5xl">
+              {resolvedTitle}
+            </h2>
+
+            <div className="flex flex-col gap-5">
+              {descriptions && descriptions.length > 0 ? (
+                descriptions.map((para, idx) => (
+                  <p key={idx} className="font-garamond text-base leading-relaxed text-neutral-600 md:text-lg">
+                    {para}
+                  </p>
+                ))
+              ) : (
+                <p className="font-garamond text-base leading-relaxed text-neutral-600 md:text-lg">
+                  {resolvedDescription}
                 </p>
-              ))
-            ) : (
-              <p className="font-garamond text-base leading-relaxed text-neutral-600 md:text-lg max-w-lg mx-auto lg:mx-0">
-                {resolvedDescription}
-              </p>
-            )}
-          </div>
+              )}
+            </div>
 
-          {/* 3. RECTANGULAR COUTURE BUTTON */}
-          <div className="mt-12">
-            <Link
-              href={ctaHref}
-              className="inline-block border border-neutral-900 bg-transparent px-9 py-3.5 text-xs font-medium tracking-[0.22em] text-neutral-900 uppercase transition-colors duration-300 hover:bg-neutral-900 hover:text-white"
-            >
-              {resolvedCtaLabel}
-            </Link>
+            <div className="mt-12">
+              <Link
+                href={ctaHref}
+                className="inline-block border border-neutral-900 bg-transparent px-9 py-3.5 text-xs font-medium tracking-[0.22em] text-neutral-900 uppercase transition-colors duration-300 hover:bg-neutral-900 hover:text-white"
+              >
+                {resolvedCtaLabel}
+              </Link>
+            </div>
           </div>
-
+          
         </div>
       </div>
     </section>

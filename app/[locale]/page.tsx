@@ -78,8 +78,6 @@ export default async function Home({ params }: PageProps) {
       />
 
       <ShowroomSection />
-
-      <SectionDivider text={dict.dividers?.ourStory ?? "Our Story"} />
       <AboutSection
         title={dict.about?.title ?? "OUR STORY"}
         descriptions={[
@@ -89,7 +87,6 @@ export default async function Home({ params }: PageProps) {
             "Each scent is crafted to leave a lasting impression.",
         ]}
         reverse
-        showDivider={false}
         ctaHref="/about"
         ctaLabel={dict.about?.ctaLabel ?? "Discover Our Story"}
       />

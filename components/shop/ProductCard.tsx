@@ -16,7 +16,7 @@ export default function ProductCard({ p }: { p: Product }) {
   const detailLabel = formatProductDetailLabel(p);
 
   return (
-    <article className="group flex flex-col">
+    <article data-testid="product-card" className="group flex flex-col">
       <Link
         href={href}
         aria-label={p.name}
