@@ -4,7 +4,6 @@ import SectionDivider from "@/components/ui/SectionDivider";
 import CategoryShowcase from "@/components/sections/CategoryShowcase";
 import GiftHero from "@/components/sections/GiftHero";
 import ShowroomSection from "@/components/showroom/ShowroomSection";
-import InvitationHero from "@/components/sections/InvitationHero";
 import AboutSection from "@/components/sections/AboutSection";
 import { getDictionary } from "@/dictionaries/getDictionary";
 import { i18n, type Locale } from "@/i18n-config";
@@ -81,19 +80,6 @@ export default async function Home({ params }: PageProps) {
       {/* The rest of your components go here, replacing text with dict.something */}
       <SectionDivider text={dict.dividers?.experience ?? "Experience"} />
       <ShowroomSection />
-
-      <SectionDivider text={dict.dividers?.invitation ?? "Invitation"} />
-      <InvitationHero
-        imageSrc="/hero/party.jpg"
-        title={dict.invitation?.title ?? "ARABIAN FRAGRANCE LAUNCH"}
-        description={
-          dict.invitation?.description ??
-          "An exclusive evening celebrating the art of Arabian perfumery."
-        }
-        ctaHref="/shop"
-        ctaLabel={dict.invitation?.ctaLabel ?? "Explore Now"}
-        heightClassName="h-[78vh] md:h-[70vh]"
-      />
 
       <SectionDivider text={dict.dividers?.ourStory ?? "Our Story"} />
       <AboutSection
