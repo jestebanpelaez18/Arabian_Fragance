@@ -69,7 +69,6 @@ export default async function Home({ params }: PageProps) {
 
       <GiftHero
         imageSrc="/hero/the_discovery_section.jpg"
-        label={dict.gift?.label ?? "Exclusive Gift Collection"}
         title={dict.gift?.title ?? "Iconic Gifts"}
         description={
           dict.gift?.description ??
