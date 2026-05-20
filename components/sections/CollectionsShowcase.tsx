@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { HomeCollectionCard } from "@/lib/shopify/get-collections";
 import SmoothImage from "../ui/SmoothImage";
+import SectionHeader from "../ui/SectionHeader";
 
 type CollectionsShowcaseProps = {
   collections: HomeCollectionCard[];
@@ -12,13 +13,11 @@ export default function CollectionsShowcase({
   return (
     <section className="bg-background px-4 py-16 md:py-24">
       <div className="w-full">
-        <div className="mb-16 text-center">
-          <h2 className="font-serif text-3xl tracking-wide text-gray-900 md:text-5xl">
-            Our Collections
-          </h2>
-          <p className="font-garamond mt-4 text-lg text-gray-500">
-            Discover the three tiers of olfactory excellence.
-          </p>
+        <div className="mb-16">
+          <SectionHeader
+            title="Our Collections"
+            description="Discover the three tiers of olfactory excellence."
+          />
         </div>
 
         <div className="flex flex-col gap-24 md:gap-32">
