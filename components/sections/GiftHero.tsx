@@ -40,7 +40,7 @@ export default function GiftShowcase({
 
       {/* 3. FULL-BLEED CAMPAIGN IMAGE */}
       <div className="w-full px-4 md:px-6">
-        <div className="relative aspect-[4/3] w-full overflow-hidden md:aspect-video">
+        <div className="relative aspect-4/3 w-full overflow-hidden md:aspect-video">
           <SmoothImage
             src={imageSrc}
             alt={title}

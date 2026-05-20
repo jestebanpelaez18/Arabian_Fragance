@@ -81,7 +81,7 @@ function CollectionRow({ collection, isEven }: CollectionRowProps) {
             href={collection.href}
             className="group mt-10 inline-flex min-w-max flex-col items-stretch"
           >
-            <span className="font-garamond text-left text-sm tracking-[0.15em] uppercase text-gray-900 transition-colors duration-200 group-hover:text-gold">
+            <span className="font-garamond text-center text-sm tracking-[0.15em] uppercase text-gray-900 transition-colors duration-200 group-hover:text-gold lg:text-left">
               {collection.buttonText}
             </span>
             <span className="mt-2 h-px w-full bg-gray-900/25 transition-colors duration-200 group-hover:bg-gold" />
