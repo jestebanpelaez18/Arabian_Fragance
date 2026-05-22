@@ -11,6 +11,7 @@ import { getShopifyProducts } from "@/lib/shopify/get-products";
 import { getHomeCollections } from "@/lib/shopify/get-collections";
 import CollectionsShowcase from "@/components/sections/CollectionsShowcase";
 import SectionHeader from "@/components/ui/SectionHeader";
+import QuickNav from "@/components/layout/QuickNav";
 
 interface PageProps {
   params: Promise<{ locale: Locale }>;
@@ -51,7 +52,7 @@ export default async function Home({ params }: PageProps) {
         objectClassName="object-[50%_35%]"
         minH="min-h-[90svh] md:min-h-screen"
       />
-
+      <QuickNav />
       <SectionHeader
         title="The Art of Essence"
         description="A curated selection of olfactory expressions crafted to define identity, blending heritage techniques with contemporary luxury."
