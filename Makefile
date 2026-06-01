@@ -1,4 +1,4 @@
-.PHONY: format lint typecheck dev build start e2e setup e2e-headed e2e-ui report
+.PHONY: format lint typecheck dev build start e2e setup e2e-headed e2e-ui report release-check
 
 format:
 	npm run format:write
@@ -34,3 +34,6 @@ e2e-ui:
 
 report:
 	npx playwright show-report
+
+# Verificacion completa antes de push/release
+release-check: lint typecheck build e2e
