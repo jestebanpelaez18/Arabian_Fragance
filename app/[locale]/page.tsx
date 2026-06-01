@@ -10,7 +10,6 @@ import { i18n, type Locale } from "@/i18n-config";
 import { getShopifyProducts } from "@/lib/shopify/get-products";
 import { getHomeCollections } from "@/lib/shopify/get-collections";
 import CollectionsShowcase from "@/components/sections/CollectionsShowcase";
-import SectionHeader from "@/components/ui/SectionHeader";
 import QuickNav from "@/components/layout/QuickNav";
 
 interface PageProps {
@@ -53,19 +52,17 @@ export default async function Home({ params }: PageProps) {
         minH="min-h-[90svh] md:min-h-screen"
       />
       <QuickNav />
-      <SectionHeader
-        title="The Art of Essence"
-        description="A curated selection of olfactory expressions crafted to define identity, blending heritage techniques with contemporary luxury."
+      <CategoryShowcase
+        headerTitle="The Art of Essence"
+        headerDescription="A curated selection of olfactory expressions crafted to define identity, blending heritage techniques with contemporary luxury."
       />
-
-      <CategoryShowcase />
       <CollectionsShowcase collections={collections} />
 
-      <SectionHeader
-        title="La Collection Privée"
-        description="Explore our signatures in their definitive forms. Compositions born from rare ingredients, tailored for those who seek an unforgettable trail."
+      <DiscoverSection
+        products={products}
+        headerTitle="La Collection Privée"
+        headerDescription="Explore our signatures in their definitive forms. Compositions born from rare ingredients, tailored for those who seek an unforgettable trail."
       />
-      <DiscoverSection products={products} />
 
       <GiftHero
         imageSrc="/hero/the_discovery_section.jpg"

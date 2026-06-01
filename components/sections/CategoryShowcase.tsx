@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SmoothImage from "../ui/SmoothImage";
 import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
+import SectionHeader from "../ui/SectionHeader";
 
 type CategoryTheme = "light" | "dark";
 
@@ -16,7 +17,15 @@ type CategoryItem = {
   theme: CategoryTheme;
 };
 
-export default function CategoryShowcase() {
+type CategoryShowcaseProps = {
+  headerTitle?: string;
+  headerDescription?: string;
+};
+
+export default function CategoryShowcase({
+  headerTitle,
+  headerDescription,
+}: CategoryShowcaseProps) {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname);
   const labels = getUiLabels(locale).sections.categoryShowcase;
@@ -49,24 +58,30 @@ export default function CategoryShowcase() {
   ];
 
   return (
-    <section className="bg-background px-4 py-12">
-      <div className="w-full">
-        <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-3 lg:gap-8">
-          {categoryItems.map((item) => (
-            <CategoryCard
-              key={item.href}
-              href={item.href}
-              imageSrc={item.imageSrc}
-              title={item.title}
-              subtitle={item.subtitle}
-              ariaLabel={item.ariaLabel}
-              shopNowLabel={labels.shopNow}
-              theme={item.theme}
-            />
-          ))}
+    <>
+      {headerTitle && headerDescription ? (
+        <SectionHeader title={headerTitle} description={headerDescription} />
+      ) : null}
+
+      <section className="bg-background px-4 md:px-6 py-14 md:py-18">
+        <div className="w-full">
+          <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-3 lg:gap-8">
+            {categoryItems.map((item) => (
+              <CategoryCard
+                key={item.href}
+                href={item.href}
+                imageSrc={item.imageSrc}
+                title={item.title}
+                subtitle={item.subtitle}
+                ariaLabel={item.ariaLabel}
+                shopNowLabel={labels.shopNow}
+                theme={item.theme}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 

@@ -11,26 +11,25 @@ export default function CollectionsShowcase({
   collections,
 }: CollectionsShowcaseProps) {
   return (
-    <section className="bg-background px-4 py-16 md:py-24">
-      <div className="w-full">
-        <div className="mb-16">
-          <SectionHeader
-            title="Our Collections"
-            description="Discover the three tiers of olfactory excellence."
-          />
+    <>
+      <SectionHeader
+        title="Our Collections"
+        description="Discover the three tiers of olfactory excellence."
+      />
+      <section className="bg-background px-4 md:px-6 py-14 md:py-18">
+        <div className="w-full">
+          <div className="flex flex-col gap-24 md:gap-32">
+            {collections.map((collection, index) => (
+              <CollectionRow
+                key={collection.id}
+                collection={collection}
+                isEven={index % 2 === 0}
+              />
+            ))}
+          </div>
         </div>
-
-        <div className="flex flex-col gap-24 md:gap-32">
-          {collections.map((collection, index) => (
-            <CollectionRow
-              key={collection.id}
-              collection={collection}
-              isEven={index % 2 === 0}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 
