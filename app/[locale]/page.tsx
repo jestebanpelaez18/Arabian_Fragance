@@ -1,6 +1,5 @@
 import DiscoverSection from "@/components/sections/DiscoverSection";
 import LuxeHero from "@/components/ui/LuxeHero";
-import SectionDivider from "@/components/ui/SectionDivider";
 import CategoryShowcase from "@/components/sections/CategoryShowcase";
 import GiftHero from "@/components/sections/GiftHero";
 import ShowroomSection from "@/components/showroom/ShowroomSection";

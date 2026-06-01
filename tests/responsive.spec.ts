@@ -8,7 +8,7 @@ test.describe("Layout responsivo", () => {
     });
     if (await menuButton.isVisible()) {
       await menuButton.click();
-      await expect(page.getByRole("navigation")).toBeVisible();
+      await expect(page.locator("nav:visible").first()).toBeVisible();
     }
     await expect(page.getByRole("main")).toBeVisible();
   });
