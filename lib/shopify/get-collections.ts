@@ -69,7 +69,7 @@ const FALLBACK_BY_TIER: Record<TierKey, HomeCollectionCard> = {
     subtitle: "Sophisticated oriental blends",
     description:
       "The perfect equilibrium between traditional Middle Eastern depth and modern French perfumery techniques. Complex, long-lasting, and undeniably elegant.",
-    imageSrc: "/shop/hero-unisex.jpg",
+    imageSrc: "/shop/premium_collection.png",
     href: "/collections/premium",
     buttonText: "Explore Premium",
   },
@@ -107,7 +107,7 @@ const TIER_CONFIG: Record<
   premium: {
     subtitle: "Sophisticated oriental blends",
     buttonText: "Explore Premium",
-    fallbackImage: "/shop/hero-unisex.jpg",
+    fallbackImage: "/shop/premium_collection.png",
     handleKeywords: ["premium", "oriental"],
     titleKeywords: ["premium", "oriental"],
   },
