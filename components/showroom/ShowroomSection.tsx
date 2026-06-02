@@ -65,6 +65,7 @@ export default function ShowroomSection({
               fill
               sizes="(min-width:1024px) 100vw, 100vw"
               className="object-cover object-center transition-transform duration-1000 hover:scale-[1.02]"
+              quality={85}
               loading="lazy"
               priority={false}
               decoding="async"

@@ -142,6 +142,7 @@ export default function LuxeHero({
             alt={imageAlt}
             fill
             priority={priority}
+            quality={88}
             sizes={sizes}
             placeholder={placeholder}
             blurDataURL={placeholder === "blur" ? blurDataURL : undefined}

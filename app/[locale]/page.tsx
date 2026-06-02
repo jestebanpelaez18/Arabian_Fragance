@@ -45,7 +45,7 @@ export default async function Home({ params }: PageProps) {
         }
         ctaLabel={dict.hero?.ctaLabel ?? "Shop the collection"}
         ctaHref="/shop"
-        imageSrc="/hero/AFC-hero-main.avif"
+        imageSrc="/hero/brand_hero.avif"
         fit="cover"
         objectClassName="object-[50%_35%]"
         minH="min-h-[90svh] md:min-h-screen"

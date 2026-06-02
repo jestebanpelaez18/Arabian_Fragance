@@ -47,7 +47,7 @@ export default function GiftShowcase({
               sizes="100vw"
               className="object-cover object-center transition-transform duration-1000 hover:scale-[1.01]"
               priority={false}
-              quality={95}
+              quality={88}
             />
           </div>
         </div>
