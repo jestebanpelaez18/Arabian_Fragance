@@ -5,16 +5,23 @@ import SectionHeader from "../ui/SectionHeader";
 
 type CollectionsShowcaseProps = {
   collections: HomeCollectionCard[];
+  headerTitle?: string;
+  headerDescription?: string;
 };
 
 export default function CollectionsShowcase({
   collections,
+  headerTitle,
+  headerDescription,
 }: CollectionsShowcaseProps) {
   return (
     <>
       <SectionHeader
-        title="Our Collections"
-        description="Discover the three tiers of olfactory excellence."
+        title={headerTitle ?? "Our Collections"}
+        description={
+          headerDescription ??
+          "Discover the three tiers of olfactory excellence."
+        }
       />
       <section className="bg-background px-4 py-14 md:px-6 md:py-18">
         <div className="w-full">

@@ -4,6 +4,20 @@
     "subtitle": "Ylellisiä tuoksuja Dubain eleganssin inspiroimana.",
     "ctaLabel": "Tutustu kokoelmaan"
   },
+  "homeSections": {
+    "artOfEssence": {
+      "title": "Tuoksun taide",
+      "description": "Kuratoitu valikoima tuoksullisia ilmaisumuotoja, joissa perinteet ja moderni ylellisyys kohtaavat."
+    },
+    "collections": {
+      "title": "Kokoelmamme",
+      "description": "Tutustu kolmeen tasoon tuoksullista huippuosaamista."
+    },
+    "privateCollection": {
+      "title": "La Collection Privee",
+      "description": "Tutustu tunnustuoksuihimme niiden puhtaimmassa muodossa. Harvinaisista raaka-aineista syntyneita koostumuksia niille, jotka haluavat unohtumattoman jaljen."
+    }
+  },
   "dividers": {
     "shop": "Tutustu kokoelmaan",
     "experience": "Elämys",

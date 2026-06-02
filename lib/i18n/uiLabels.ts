@@ -68,11 +68,19 @@ type UiLabels = {
       unisexTab: string;
       viewAllPrefix: string;
     };
+    quickNav: {
+      newArrivals: string;
+      bestSellers: string;
+      luxuryCollection: string;
+      premiumCollection: string;
+      oudSignatures: string;
+    };
     showroomSection: {
       leftImageAlt: string;
       rightImageAlt: string;
       label: string;
       heading: string;
+      description: string;
       ctaLabel: string;
     };
     showroomHero: {
@@ -85,6 +93,7 @@ type UiLabels = {
     };
     aboutDefaults: {
       imageAlt: string;
+      eyebrow: string;
       title: string;
       description: string;
       ctaLabel: string;
@@ -265,11 +274,20 @@ const uiLabels: Record<Locale, UiLabels> = {
         unisexTab: "UNISEX",
         viewAllPrefix: "View all",
       },
+      quickNav: {
+        newArrivals: "New Arrivals",
+        bestSellers: "Best Sellers",
+        luxuryCollection: "Luxury Collection",
+        premiumCollection: "Premium Collection",
+        oudSignatures: "Oud Signatures",
+      },
       showroomSection: {
         leftImageAlt: "Arabian Fragrance showroom",
         rightImageAlt: "Showroom detail",
         label: "VISIT US",
         heading: "IN HELSINKI",
+        description:
+          "Experience the art of Arabian perfumery in person. Visit our Helsinki boutique to discover our rare ingredients and signature collections.",
         ctaLabel: "Our Shop",
       },
       showroomHero: {
@@ -282,6 +300,7 @@ const uiLabels: Record<Locale, UiLabels> = {
       },
       aboutDefaults: {
         imageAlt: "Our story",
+        eyebrow: "Savoir-Faire",
         title: "OUR STORY OF LUXURIOUS ARABIAN FRAGRANCES",
         description:
           "Born in Dubai, the heart of Arabian perfumery, our brand blends tradition and luxury to create unique fragrances that embody elegance and sophistication. Each scent is carefully crafted with exquisite ingredients, capturing the essence of Arabian perfume artistry and delivering an exclusive olfactory experience that lasts over time.",
@@ -473,11 +492,20 @@ const uiLabels: Record<Locale, UiLabels> = {
         unisexTab: "UNISEX",
         viewAllPrefix: "Nayta kaikki",
       },
+      quickNav: {
+        newArrivals: "Uutuudet",
+        bestSellers: "Myydyimmat",
+        luxuryCollection: "Luxury-kokoelma",
+        premiumCollection: "Premium-kokoelma",
+        oudSignatures: "Oud-signatuurit",
+      },
       showroomSection: {
         leftImageAlt: "Arabian Fragrancen showroom",
         rightImageAlt: "Showroom-yksityiskohta",
         label: "VIERAILE MEILLA",
         heading: "HELSINGISSA",
+        description:
+          "Koe arabialaisen hajuvesitaiteen maailma paikan paalla. Vieraile Helsingin myymalassamme ja tutustu harvinaisiin raaka-aineisiin seka tunnustuoksuihin.",
         ctaLabel: "Myymalamme",
       },
       showroomHero: {
@@ -490,6 +518,7 @@ const uiLabels: Record<Locale, UiLabels> = {
       },
       aboutDefaults: {
         imageAlt: "Tarinamme",
+        eyebrow: "Savoir-Faire",
         title: "TARINAMME YLELLISISTA ARABIALAISISTA TUOKSUISTA",
         description:
           "Dubain sydamessa syntynyt brandomme yhdistaa perinteet ja ylellisyyden luodakseen ainutlaatuisia tuoksuja, jotka huokuvat eleganssia ja hienostuneisuutta.",
@@ -680,11 +709,20 @@ const uiLabels: Record<Locale, UiLabels> = {
         unisexTab: "UNISEX",
         viewAllPrefix: "Visa alla",
       },
+      quickNav: {
+        newArrivals: "Nyheter",
+        bestSellers: "Bastsaljare",
+        luxuryCollection: "Luxury-kollektionen",
+        premiumCollection: "Premium-kollektionen",
+        oudSignatures: "Oud-signaturer",
+      },
       showroomSection: {
         leftImageAlt: "Arabian Fragrance showroom",
         rightImageAlt: "Showroom-detalj",
         label: "BESOK OSS",
         heading: "I HELSINGFORS",
+        description:
+          "Upplev konsten av arabisk parfym pa plats. Besok var butik i Helsingfors och upptack vara sallsynta ingredienser och signaturkollektioner.",
         ctaLabel: "Var butik",
       },
       showroomHero: {
@@ -697,6 +735,7 @@ const uiLabels: Record<Locale, UiLabels> = {
       },
       aboutDefaults: {
         imageAlt: "Var historia",
+        eyebrow: "Savoir-Faire",
         title: "VAR HISTORIA OM LYXIGA ARABISKA DOFTER",
         description:
           "Fodd i Dubai, hjartat av arabisk parfymkonst, forenar vart varumarke tradition och lyx for att skapa unika dofter med elegans och sofistikation.",

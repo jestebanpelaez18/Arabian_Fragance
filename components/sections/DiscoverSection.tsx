@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ProductCard from "@/components/shop/ProductCard";
@@ -34,6 +34,26 @@ export default function DiscoverSection({
     men: labels.menTab,
     unisex: labels.unisexTab,
   };
+
+  const hasProductsByTab = useMemo(() => {
+    return {
+      women: products.some((p) => p.gender === "women"),
+      men: products.some((p) => p.gender === "men"),
+      unisex: products.some((p) => p.gender === "unisex"),
+    } satisfies Record<Tab, boolean>;
+  }, [products]);
+
+  useEffect(() => {
+    if (hasProductsByTab[active]) return;
+
+    const firstAvailableTab = TABS.map((tab) => tab.key).find(
+      (tab) => hasProductsByTab[tab],
+    );
+
+    if (firstAvailableTab && firstAvailableTab !== active) {
+      setActive(firstAvailableTab);
+    }
+  }, [active, hasProductsByTab]);
 
   const filtered: DiscoverProduct[] = useMemo(() => {
     const byBestSeller = (a: DiscoverProduct, b: DiscoverProduct) =>

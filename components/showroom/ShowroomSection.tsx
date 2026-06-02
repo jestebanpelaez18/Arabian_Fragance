@@ -31,6 +31,7 @@ export default function ShowroomSection({
   const resolvedHeading = heading ?? labels.heading ?? "Our Showroom";
   const resolvedDescription =
     description ??
+    labels.description ??
     "Experience the art of Arabian perfumery in person. Visit our Helsinki boutique to discover our rare ingredients and signature collections.";
   const resolvedImageAlt =
     imageAlt ?? labels.rightImageAlt ?? "Arabian Fragrance Showroom";

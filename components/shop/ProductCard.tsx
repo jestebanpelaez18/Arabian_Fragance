@@ -1,19 +1,27 @@
+"use client";
+
 import Link from "next/link";
 import SmoothImage from "../ui/SmoothImage";
 import { type Product } from "@/data/products";
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname } from "@/lib/i18n/uiLabels";
 import {
   formatProductDetailLabel,
+  getIntensityLabel,
   getIntensityLevel,
 } from "@/lib/shopify/product-display";
 
 const INTENSITY_STEPS = [1, 2, 3, 4] as const;
 
 export default function ProductCard({ p }: { p: Product }) {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
   const href = `/product/${p.slug ?? p.id}`;
   const cardImage =
     p.images?.[1] || p.images?.[0] || p.image || "/catalog/Bottle_3.png";
   const intensityLevel = getIntensityLevel(p.concentration);
-  const detailLabel = formatProductDetailLabel(p);
+  const detailLabel = formatProductDetailLabel(p, locale);
+  const intensityLabel = getIntensityLabel(locale);
 
   return (
     <article data-testid="product-card" className="group flex flex-col">
@@ -45,7 +53,7 @@ export default function ProductCard({ p }: { p: Product }) {
 
         <div className="mt-3 flex items-center gap-2.5 text-[10px] md:text-xs">
           <span className="font-garamond tracking-[0.05em] text-neutral-500">
-            Intensity
+            {intensityLabel}
           </span>
           <span className="inline-flex gap-1.5">
             {INTENSITY_STEPS.map((step) => (

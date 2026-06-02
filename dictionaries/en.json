@@ -4,6 +4,20 @@
     "subtitle": "Luxury fragrances inspired by Dubai's elegance.",
     "ctaLabel": "Shop the collection"
   },
+  "homeSections": {
+    "artOfEssence": {
+      "title": "The Art of Essence",
+      "description": "A curated selection of olfactory expressions crafted to define identity, blending heritage techniques with contemporary luxury."
+    },
+    "collections": {
+      "title": "Our Collections",
+      "description": "Discover the three tiers of olfactory excellence."
+    },
+    "privateCollection": {
+      "title": "La Collection Privee",
+      "description": "Explore our signatures in their definitive forms. Compositions born from rare ingredients, tailored for those who seek an unforgettable trail."
+    }
+  },
   "dividers": {
     "shop": "Shop the Collection",
     "experience": "Experience",

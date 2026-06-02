@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: PageProps) {
   const dictionary = await getDictionary(resolvedParams.locale);
 
   return {
-    title: dictionary.store?.welcome ?? "Arabian Fragrance",
+    title: dictionary.store.welcome,
   };
 }
 
@@ -38,12 +38,9 @@ export default async function Home({ params }: PageProps) {
     <div>
       {/* ===== Main HERO ===== */}
       <LuxeHero
-        title={dict.hero?.title ?? "THE ART OF ARABIAN PERFUMERY"}
-        subtitle={
-          dict.hero?.subtitle ??
-          "Luxury fragrances inspired by Dubai’s elegance."
-        }
-        ctaLabel={dict.hero?.ctaLabel ?? "Shop the collection"}
+        title={dict.hero.title}
+        subtitle={dict.hero.subtitle}
+        ctaLabel={dict.hero.ctaLabel}
         ctaHref="/shop"
         imageSrc="/hero/brand_hero.avif"
         fit="cover"
@@ -52,40 +49,36 @@ export default async function Home({ params }: PageProps) {
       />
       <QuickNav />
       <CategoryShowcase
-        headerTitle="The Art of Essence"
-        headerDescription="A curated selection of olfactory expressions crafted to define identity, blending heritage techniques with contemporary luxury."
+        headerTitle={dict.homeSections.artOfEssence.title}
+        headerDescription={dict.homeSections.artOfEssence.description}
       />
-      <CollectionsShowcase collections={collections} />
+      <CollectionsShowcase
+        collections={collections}
+        headerTitle={dict.homeSections.collections.title}
+        headerDescription={dict.homeSections.collections.description}
+      />
 
       <DiscoverSection
         products={products}
-        headerTitle="La Collection Privée"
-        headerDescription="Explore our signatures in their definitive forms. Compositions born from rare ingredients, tailored for those who seek an unforgettable trail."
+        headerTitle={dict.homeSections.privateCollection.title}
+        headerDescription={dict.homeSections.privateCollection.description}
       />
 
       <GiftHero
         imageSrc="/hero/the_discovery_section.jpg"
-        title={dict.gift?.title ?? "Iconic Gifts"}
-        description={
-          dict.gift?.description ??
-          "Transform any occasion into a memory with our exclusive fragrances."
-        }
-        ctaLabel={dict.gift?.ctaLabel ?? "Shop Now"}
+        title={dict.gift.title}
+        description={dict.gift.description}
+        ctaLabel={dict.gift.ctaLabel}
         ctaHref="/shop"
       />
 
       <ShowroomSection />
       <AboutSection
-        title={dict.about?.title ?? "OUR STORY"}
-        descriptions={[
-          dict.about?.description1 ??
-            "Born from the heart of Arabian perfumery, our fragrances blend tradition, rare ingredients and timeless elegance.",
-          dict.about?.description2 ??
-            "Each scent is crafted to leave a lasting impression.",
-        ]}
+        title={dict.about.title}
+        descriptions={[dict.about.description1, dict.about.description2]}
         reverse
         ctaHref="/about"
-        ctaLabel={dict.about?.ctaLabel ?? "Discover Our Story"}
+        ctaLabel={dict.about.ctaLabel}
       />
     </div>
   );

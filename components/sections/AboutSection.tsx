@@ -32,6 +32,7 @@ export default function AboutSection({
   const labels = getUiLabels(locale).sections.aboutDefaults;
 
   const resolvedImageAlt = imageAlt ?? labels.imageAlt;
+  const resolvedEyebrow = labels.eyebrow ?? "Savoir-Faire";
   const resolvedTitle = title ?? labels.title ?? "Our Story";
   const resolvedDescription = description ?? labels.description;
   const resolvedCtaLabel = ctaLabel ?? labels.ctaLabel ?? "Discover Our Story";
@@ -74,7 +75,7 @@ export default function AboutSection({
             className={`w-full max-w-[440px] ${reverse ? "mr-auto" : "ml-auto"}`}
           >
             <span className="mb-4 block text-[10px] font-light tracking-[0.3em] text-neutral-400 uppercase md:text-xs">
-              Savoir-Faire
+              {resolvedEyebrow}
             </span>
 
             <h2 className="mb-6 font-serif text-3xl leading-tight font-light tracking-[0.08em] text-neutral-900 uppercase md:text-4xl lg:text-5xl">

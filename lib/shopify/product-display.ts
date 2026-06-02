@@ -1,4 +1,5 @@
 import { type Product } from "@/data/products";
+import { i18n, type Locale } from "@/i18n-config";
 
 export type ConcentrationFamily =
   | "extrait"
@@ -8,18 +9,24 @@ export type ConcentrationFamily =
   | "eau_de_cologne"
   | "mist";
 
-export type Locale = "en" | "es" | "fi";
-
 const DEFAULT_CONCENTRATION_FAMILY: ConcentrationFamily = "eau_de_parfum";
-const DEFAULT_NOTE_PROFILE = "Signature Notes";
 
-const TRANSLATION_DICTIONARIES: Record<Locale, {
+type ProductDisplayLabels = {
+  defaultNoteProfile: string;
+  noteSuffix: string;
+  andWord: string;
+  intensityLabel: string;
   noteAdjectives: Partial<Record<NonNullable<Product["notes"]>[number], string>>;
   concentrationLabels: Record<ConcentrationFamily, string>;
   genderPrefix: Record<Product["gender"], string>;
-  defaultNoteProfile: string;
-}> = {
+};
+
+const PRODUCT_DISPLAY_LABELS: Record<Locale, ProductDisplayLabels> = {
   en: {
+    defaultNoteProfile: "Signature Notes",
+    noteSuffix: "Notes",
+    andWord: "and",
+    intensityLabel: "Intensity",
     noteAdjectives: {
       Amber: "Ambery",
       Citrus: "Citrusy",
@@ -48,74 +55,79 @@ const TRANSLATION_DICTIONARIES: Record<Locale, {
       men: "For Him ",
       unisex: "Unisex ",
     },
-    defaultNoteProfile: "Signature Notes",
-  },
-  es: {
-    noteAdjectives: {
-      Amber: "Ámbar",
-      Citrus: "Cítrico",
-      Spice: "Especiado",
-      Sweet: "Dulce",
-      Floral: "Floral",
-      Woody: "Amaderado",
-      Musk: "Almízcaro",
-      Oud: "Oud",
-      Fresh: "Fresco",
-      Fruity: "Afrutado",
-      Leather: "Cuero",
-      Vanilla: "Vainilla",
-      Smoky: "Ahumado",
-    },
-    concentrationLabels: {
-      extrait: "Espíritu de Perfume",
-      parfum: "Perfume",
-      eau_de_parfum: "Eau de Parfum",
-      eau_de_toilette: "Eau de Toilette",
-      eau_de_cologne: "Eau de Colonia",
-      mist: "Bruma Corporal",
-    },
-    genderPrefix: {
-      women: "Para Ella ",
-      men: "Para Él ",
-      unisex: "Unisex ",
-    },
-    defaultNoteProfile: "Notas Características",
   },
   fi: {
+    defaultNoteProfile: "Tunnusomaiset nuotit",
+    noteSuffix: "nuotit",
+    andWord: "ja",
+    intensityLabel: "Voimakkuus",
     noteAdjectives: {
-      Amber: "Ambra",
-      Citrus: "Sitruunainen",
-      Spice: "Mausteikas",
+      Amber: "Meripihkainen",
+      Citrus: "Sitruksinen",
+      Spice: "Mausteinen",
       Sweet: "Makea",
-      Floral: "Kukkea",
-      Woody: "Puumainen",
-      Musk: "Muski",
+      Floral: "Kukkainen",
+      Woody: "Puinen",
+      Musk: "Myskinen",
       Oud: "Oud",
-      Fresh: "Tuore",
-      Fruity: "Hedelmäinen",
+      Fresh: "Raikas",
+      Fruity: "Hedelmainen",
       Leather: "Nahkainen",
-      Vanilla: "Vanilja",
+      Vanilla: "Vaniljainen",
       Smoky: "Savuinen",
     },
     concentrationLabels: {
-      extrait: "Parfyymi-eetteri",
+      extrait: "Parfyymiuute",
       parfum: "Parfyymi",
       eau_de_parfum: "Eau de Parfum",
       eau_de_toilette: "Eau de Toilette",
       eau_de_cologne: "Eau de Cologne",
-      mist: "Kehön Sumu",
+      mist: "Body Mist",
     },
     genderPrefix: {
-      women: "Hänelle ",
-      men: "Hänelle ",
+      women: "Naisille ",
+      men: "Miehille ",
       unisex: "Unisex ",
     },
-    defaultNoteProfile: "Signature Notes",
+  },
+  sv: {
+    defaultNoteProfile: "Signaturnoter",
+    noteSuffix: "noter",
+    andWord: "och",
+    intensityLabel: "Intensitet",
+    noteAdjectives: {
+      Amber: "Ambradoftande",
+      Citrus: "Citrusdoftande",
+      Spice: "Kryddig",
+      Sweet: "Sot",
+      Floral: "Blommig",
+      Woody: "Traig",
+      Musk: "Myskig",
+      Oud: "Oud",
+      Fresh: "Frasch",
+      Fruity: "Fruktig",
+      Leather: "Lader",
+      Vanilla: "Vanilj",
+      Smoky: "Rokig",
+    },
+    concentrationLabels: {
+      extrait: "Parfymextrakt",
+      parfum: "Parfym",
+      eau_de_parfum: "Eau de Parfum",
+      eau_de_toilette: "Eau de Toilette",
+      eau_de_cologne: "Eau de Cologne",
+      mist: "Body Mist",
+    },
+    genderPrefix: {
+      women: "For henne ",
+      men: "For honom ",
+      unisex: "Unisex ",
+    },
   },
 };
 
-function getTranslations(locale: Locale = "en") {
-  return TRANSLATION_DICTIONARIES[locale] || TRANSLATION_DICTIONARIES.en;
+function getProductDisplayLabels(locale: Locale = i18n.defaultLocale) {
+  return PRODUCT_DISPLAY_LABELS[locale] ?? PRODUCT_DISPLAY_LABELS[i18n.defaultLocale];
 }
 
 function normalizeConcentration(rawConcentration?: string) {
@@ -177,8 +189,13 @@ export function inferConcentrationFamily(
   return DEFAULT_CONCENTRATION_FAMILY;
 }
 
-export function formatConcentrationLabel(rawConcentration?: string) {
-  return CONCENTRATION_LABELS[inferConcentrationFamily(rawConcentration)];
+export function formatConcentrationLabel(
+  rawConcentration?: string,
+  locale: Locale = i18n.defaultLocale,
+) {
+  return getProductDisplayLabels(locale).concentrationLabels[
+    inferConcentrationFamily(rawConcentration)
+  ];
 }
 
 export function getIntensityLevel(rawConcentration?: string) {
@@ -190,31 +207,48 @@ export function getIntensityLevel(rawConcentration?: string) {
   return 1;
 }
 
-export function formatNoteProfile(notes?: Product["notes"]) {
-  if (!notes || notes.length === 0) return DEFAULT_NOTE_PROFILE;
+export function formatNoteProfile(
+  notes?: Product["notes"],
+  locale: Locale = i18n.defaultLocale,
+) {
+  const labels = getProductDisplayLabels(locale);
+
+  if (!notes || notes.length === 0) return labels.defaultNoteProfile;
 
   const uniqueNotes = Array.from(
     new Set(notes.map((note) => note.trim())),
   ).filter(Boolean);
 
   const toDescriptor = (note: string) =>
-    NOTE_ADJECTIVES[note as NonNullable<Product["notes"]>[number]] ?? note;
+    labels.noteAdjectives[note as NonNullable<Product["notes"]>[number]] ?? note;
 
-  if (uniqueNotes.length === 0) return DEFAULT_NOTE_PROFILE;
-  if (uniqueNotes.length === 1) return `${toDescriptor(uniqueNotes[0])} Notes`;
+  if (uniqueNotes.length === 0) return labels.defaultNoteProfile;
+  if (uniqueNotes.length === 1) {
+    return `${toDescriptor(uniqueNotes[0])} ${labels.noteSuffix}`;
+  }
 
-  return `${toDescriptor(uniqueNotes[0])} and ${toDescriptor(uniqueNotes[1])} Notes`;
+  return `${toDescriptor(uniqueNotes[0])} ${labels.andWord} ${toDescriptor(uniqueNotes[1])} ${labels.noteSuffix}`;
 }
 
-export function formatGenderPrefix(gender?: Product["gender"]) {
+export function formatGenderPrefix(
+  gender?: Product["gender"],
+  locale: Locale = i18n.defaultLocale,
+) {
   if (!gender) return "";
-  return GENDER_PREFIX[gender] ?? "";
+  return getProductDisplayLabels(locale).genderPrefix[gender] ?? "";
 }
 
-export function formatProductDetailLabel(product: Product) {
-  const genderPrefix = formatGenderPrefix(product.gender);
-  const concentrationLabel = formatConcentrationLabel(product.concentration);
-  const noteProfile = formatNoteProfile(product.notes);
+export function formatProductDetailLabel(
+  product: Product,
+  locale: Locale = i18n.defaultLocale,
+) {
+  const genderPrefix = formatGenderPrefix(product.gender, locale);
+  const concentrationLabel = formatConcentrationLabel(product.concentration, locale);
+  const noteProfile = formatNoteProfile(product.notes, locale);
 
   return `${genderPrefix}${concentrationLabel} – ${noteProfile}`;
+}
+
+export function getIntensityLabel(locale: Locale = i18n.defaultLocale) {
+  return getProductDisplayLabels(locale).intensityLabel;
 }

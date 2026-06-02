@@ -1,16 +1,22 @@
 "use client";
 
 import Link from "next/link";
-
-const navLinks = [
-  { label: "New Arrivals", href: "/collection/new-arrivals" },
-  { label: "Best Sellers", href: "/collection/best-sellers" },
-  { label: "Luxury Collection", href: "/collection/luxury" },
-  { label: "Premium Collection", href: "/collection/premium" },
-  { label: "Oud Signatures", href: "/collection/oud" },
-];
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 export default function QuickNav() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const labels = getUiLabels(locale).sections.quickNav;
+
+  const navLinks = [
+    { label: labels.newArrivals, href: "/collection/new-arrivals" },
+    { label: labels.bestSellers, href: "/collection/best-sellers" },
+    { label: labels.luxuryCollection, href: "/collection/luxury" },
+    { label: labels.premiumCollection, href: "/collection/premium" },
+    { label: labels.oudSignatures, href: "/collection/oud" },
+  ];
+
   return (
     // Clean, static navigation bar that scrolls away naturally with the page
     <nav className="bg-background w-full border-b border-black/10 py-4 md:py-5">
