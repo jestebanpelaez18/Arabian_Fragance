@@ -88,21 +88,21 @@ const TIER_COPY_BY_LOCALE: Record<Locale, Record<TierKey, TierCopy>> = {
       title: "Luxury-kokoelma",
       subtitle: "Puhtaat ekstraktit ja harvinaiset raaka-aineet",
       description:
-        "Eksklusiivisin tasomme. Mestarisekoituksia kypsytetysta oudista ja puhtaista kukkaisabsoluuteista. Arabialaisen parfymitaiteen ylellisyytta parhaimmillaan.",
+        "Eksklusiivisin tasomme. Mestarisekoituksia kypsytetystä oudista ja puhtaista kukkaisabsoluuteista. Arabialaisen parfymitaiteen ylellisyyttä parhaimmillaan.",
       buttonText: "Tutustu Luxuryyn",
     },
     premium: {
       title: "Premium-kokoelma",
       subtitle: "Hienostuneet orientaaliset sekoitukset",
       description:
-        "Tasapaino perinteisen lahi-idan syvyyden ja modernien ranskalaisten parfymitekniikoiden valilla. Monivivahteinen, pitkaikainen ja elegantti.",
+        "Tasapaino perinteisen lähi-idän syvyyden ja modernien ranskalaisten parfymitekniikoiden välillä. Monivivahteinen, pitkäaikainen ja elegantti.",
       buttonText: "Tutustu Premiumiin",
     },
     signature: {
       title: "Signature-kokoelma",
       subtitle: "Arjen saavutettavaa eleganssia",
       description:
-        "Raikkaita, monipuolisia ja valittomasti lumoavia tuoksuja. Moderneja klassikoitamme, jotka jattavat hienovaraisen mutta unohtumattoman jaljen.",
+        "Raikkaita, monipuolisia ja välittömästi lumoavia tuoksuja. Moderneja klassikoitamme, jotka jättävät hienovaraisen mutta unohtumattoman jäljen.",
       buttonText: "Osta Signaturea",
     },
   },

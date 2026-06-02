@@ -73,7 +73,7 @@ const PRODUCT_DISPLAY_LABELS: Record<Locale, ProductDisplayLabels> = {
       Musk: "Myskinen",
       Oud: "Oud",
       Fresh: "Raikas",
-      Fruity: "Hedelmainen",
+      Fruity: "Hedelmäinen",
       Leather: "Nahkainen",
       Vanilla: "Vaniljainen",
       Smoky: "Savuinen",
