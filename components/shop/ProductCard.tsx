@@ -20,7 +20,7 @@ export default function ProductCard({ p }: { p: Product }) {
       <Link
         href={href}
         aria-label={p.name}
-        className="group relative block aspect-4/5 w-full overflow-hidden bg-background"
+        className="group bg-background relative block aspect-4/5 w-full overflow-hidden"
       >
         <SmoothImage
           src={cardImage}
@@ -44,7 +44,9 @@ export default function ProductCard({ p }: { p: Product }) {
         </p>
 
         <div className="mt-3 flex items-center gap-2.5 text-[10px] md:text-xs">
-          <span className="font-garamond text-neutral-500 tracking-[0.05em]">Intensity</span>
+          <span className="font-garamond tracking-[0.05em] text-neutral-500">
+            Intensity
+          </span>
           <span className="inline-flex gap-1.5">
             {INTENSITY_STEPS.map((step) => (
               <span
@@ -57,7 +59,7 @@ export default function ProductCard({ p }: { p: Product }) {
           </span>
         </div>
 
-        <p className="font-serif mt-3 text-xs font-light tracking-[0.06em] text-neutral-800 md:text-sm">
+        <p className="mt-3 font-serif text-xs font-light tracking-[0.06em] text-neutral-800 md:text-sm">
           {p.price} EUR
         </p>
       </div>

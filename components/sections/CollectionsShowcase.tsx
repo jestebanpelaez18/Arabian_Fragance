@@ -16,7 +16,7 @@ export default function CollectionsShowcase({
         title="Our Collections"
         description="Discover the three tiers of olfactory excellence."
       />
-      <section className="bg-background px-4 md:px-6 py-14 md:py-18">
+      <section className="bg-background px-4 py-14 md:px-6 md:py-18">
         <div className="w-full">
           <div className="flex flex-col gap-24 md:gap-32">
             {collections.map((collection, index) => (
@@ -51,7 +51,7 @@ function CollectionRow({ collection, isEven }: CollectionRowProps) {
       <div className="w-full">
         <Link
           href={collection.href}
-          className="group relative block aspect-4/5 w-full overflow-hidden bg-background"
+          className="group bg-background relative block aspect-4/5 w-full overflow-hidden"
         >
           <SmoothImage
             src={collection.imageSrc}
@@ -67,10 +67,10 @@ function CollectionRow({ collection, isEven }: CollectionRowProps) {
         className={`flex w-full flex-col justify-center text-center lg:items-start lg:text-left ${textSpacingClass}`}
       >
         <div className="mx-auto w-full max-w-md lg:mx-0">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">
+          <span className="text-xs font-semibold tracking-[0.2em] text-gray-400 uppercase">
             {collection.subtitle}
           </span>
-          <h3 className="font-serif mt-4 text-3xl leading-tight text-gray-900 md:text-4xl lg:text-5xl">
+          <h3 className="mt-4 font-serif text-3xl leading-tight text-gray-900 md:text-4xl lg:text-5xl">
             {collection.title}
           </h3>
           <p className="font-garamond mt-6 text-base leading-relaxed text-gray-600 md:text-lg">
@@ -80,10 +80,10 @@ function CollectionRow({ collection, isEven }: CollectionRowProps) {
             href={collection.href}
             className="group mt-10 inline-flex min-w-max flex-col items-stretch"
           >
-            <span className="font-garamond text-center text-sm tracking-[0.15em] uppercase text-gray-900 transition-colors duration-200 group-hover:text-gold lg:text-left">
+            <span className="font-garamond group-hover:text-gold text-center text-sm tracking-[0.15em] text-gray-900 uppercase transition-colors duration-200 lg:text-left">
               {collection.buttonText}
             </span>
-            <span className="mt-2 h-px w-full bg-gray-900/25 transition-colors duration-200 group-hover:bg-gold" />
+            <span className="group-hover:bg-gold mt-2 h-px w-full bg-gray-900/25 transition-colors duration-200" />
           </Link>
         </div>
       </div>

@@ -119,9 +119,9 @@ export function getIntensityLevel(rawConcentration?: string) {
 export function formatNoteProfile(notes?: Product["notes"]) {
   if (!notes || notes.length === 0) return DEFAULT_NOTE_PROFILE;
 
-  const uniqueNotes = Array.from(new Set(notes.map((note) => note.trim()))).filter(
-    Boolean,
-  );
+  const uniqueNotes = Array.from(
+    new Set(notes.map((note) => note.trim())),
+  ).filter(Boolean);
 
   const toDescriptor = (note: string) =>
     NOTE_ADJECTIVES[note as NonNullable<Product["notes"]>[number]] ?? note;

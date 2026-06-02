@@ -72,7 +72,9 @@ export default function LuxeHero({
     ? "items-center justify-center"
     : "items-start justify-center";
   const centeredClass = shouldCenterContent ? "mx-auto" : "";
-  const sectionCenterClass = shouldCenterContent ? "grid place-items-center" : "";
+  const sectionCenterClass = shouldCenterContent
+    ? "grid place-items-center"
+    : "";
 
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -166,7 +168,7 @@ export default function LuxeHero({
         className={`relative z-10 mx-auto flex h-full max-w-5xl flex-col px-6 py-24 text-white ${containerAlign}`}
       >
         <div className={`flex flex-1 flex-col gap-6 ${innerAlign}`}>
-          <h1 className="max-w-4xl font-serif text-4xl leading-tight tracking-widest uppercase md:text-5xl lg:text-6xl text-white">
+          <h1 className="max-w-4xl font-serif text-4xl leading-tight tracking-widest text-white uppercase md:text-5xl lg:text-6xl">
             {title}
           </h1>
           {subtitle ? (

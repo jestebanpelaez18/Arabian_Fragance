@@ -22,7 +22,7 @@ export default function SectionHeader({
   return (
     <section
       className={cx(
-        "w-full bg-background px-4 py-14 text-center md:py-18",
+        "bg-background w-full px-4 py-14 text-center md:py-18",
         className,
       )}
     >
@@ -34,7 +34,7 @@ export default function SectionHeader({
       >
         <h2
           className={cx(
-            "text-2xl leading-tight font-light tracking-[0.14em] uppercase text-neutral-900 md:text-3xl lg:text-4xl",
+            "text-2xl leading-tight font-light tracking-[0.14em] text-neutral-900 uppercase md:text-3xl lg:text-4xl",
             titleClassName,
           )}
         >

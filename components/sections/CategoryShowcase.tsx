@@ -63,7 +63,7 @@ export default function CategoryShowcase({
         <SectionHeader title={headerTitle} description={headerDescription} />
       ) : null}
 
-      <section className="bg-background px-4 md:px-6 py-14 md:py-18">
+      <section className="bg-background px-4 py-14 md:px-6 md:py-18">
         <div className="w-full">
           <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-3 lg:gap-8">
             {categoryItems.map((item) => (

@@ -51,7 +51,7 @@ export default function DiscoverSection({
         <SectionHeader title={headerTitle} description={headerDescription} />
       ) : null}
 
-      <section className="w-full bg-background px-4 py-14 md:px-6 md:py-18">
+      <section className="bg-background w-full px-4 py-14 md:px-6 md:py-18">
         <div className="w-full">
           <div className="mb-14 flex flex-col items-center justify-center text-center">
             <nav className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-xs tracking-[0.25em] uppercase">
@@ -64,16 +64,16 @@ export default function DiscoverSection({
                     aria-current={isActive ? "page" : undefined}
                     className={`font-garamond relative cursor-pointer pb-2 transition-colors duration-300 ${
                       isActive
-                        ? "text-gray-900 hover:text-gold"
-                        : "text-gray-900/70 hover:text-gold"
+                        ? "hover:text-gold text-gray-900"
+                        : "hover:text-gold text-gray-900/70"
                     }`}
                   >
                     {tabLabels[key]}
                     <span
                       className={`absolute right-0 bottom-0 left-0 h-px transition-colors duration-300 ${
                         isActive
-                          ? "bg-gray-900/35 group-hover:bg-gold"
-                          : "bg-transparent group-hover:bg-gold"
+                          ? "group-hover:bg-gold bg-gray-900/35"
+                          : "group-hover:bg-gold bg-transparent"
                       }`}
                     />
                   </button>
@@ -95,10 +95,10 @@ export default function DiscoverSection({
               href={`/shop/${active}`}
               className="group inline-flex min-w-max flex-col items-stretch"
             >
-              <span className="font-garamond text-center text-xs tracking-[0.2em] uppercase text-gray-900 transition-colors duration-200 group-hover:text-gold">
+              <span className="font-garamond group-hover:text-gold text-center text-xs tracking-[0.2em] text-gray-900 uppercase transition-colors duration-200">
                 {labels.viewAllPrefix} {active}
               </span>
-              <span className="mt-2 h-px w-full bg-gray-900/25 transition-colors duration-200 group-hover:bg-gold" />
+              <span className="group-hover:bg-gold mt-2 h-px w-full bg-gray-900/25 transition-colors duration-200" />
             </Link>
           </div>
         </div>

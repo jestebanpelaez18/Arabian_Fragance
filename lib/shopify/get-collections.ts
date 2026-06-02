@@ -125,7 +125,10 @@ function safeText(value: string | undefined, fallback: string) {
   return trimmed && trimmed.length > 0 ? trimmed : fallback;
 }
 
-function normalizeCollection(node: ShopifyCollectionNode, tier: TierKey): HomeCollectionCard {
+function normalizeCollection(
+  node: ShopifyCollectionNode,
+  tier: TierKey,
+): HomeCollectionCard {
   const config = TIER_CONFIG[tier];
 
   return {
@@ -171,7 +174,9 @@ function pickCollectionForTier(
   return candidates[0]?.node ?? null;
 }
 
-export async function getHomeCollections(locale: Locale): Promise<HomeCollectionCard[]> {
+export async function getHomeCollections(
+  locale: Locale,
+): Promise<HomeCollectionCard[]> {
   try {
     const { body } = await shopifyFetch<CollectionsOperation>({
       query: collectionsQuery,

@@ -26,7 +26,7 @@ export default function GiftShowcase({
       {/* We maintain the content block with matching background transitions */}
       <section className="bg-background w-full pb-16">
         {/* 2. UNIFIED HAUTE COUTURE CTA BUTTON */}
-        <div className="mb-14 w-full px-4 text-center -mt-4">
+        <div className="-mt-4 mb-14 w-full px-4 text-center">
           <div className="mx-auto flex max-w-3xl flex-col items-center">
             <Link
               href={ctaHref}

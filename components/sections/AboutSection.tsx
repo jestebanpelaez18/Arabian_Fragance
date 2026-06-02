@@ -13,11 +13,11 @@ interface AboutSectionProps {
   descriptions?: string[];
   ctaHref?: string;
   ctaLabel?: string;
-  reverse?: boolean; 
+  reverse?: boolean;
 }
 
 export default function AboutSection({
-  imageSrc = "/hero/story.jpg", 
+  imageSrc = "/hero/story.jpg",
   imageAlt,
   title,
   description,
@@ -25,7 +25,7 @@ export default function AboutSection({
   ctaLabel,
   descriptions,
   // True = Imagen a la izquierda, Texto a la derecha (Como en "The Luxury Collection")
-  reverse = true, 
+  reverse = true,
 }: AboutSectionProps) {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname);
@@ -40,11 +40,12 @@ export default function AboutSection({
   const textOrder = reverse ? "lg:order-2" : "lg:order-1";
 
   return (
-    <section className="w-full bg-background px-4 pt-12 pb-20 md:px-6 md:pt-16 md:pb-24">
-      <div className="grid w-full grid-cols-1 items-stretch overflow-hidden lg:grid-cols-2 lg:min-h-[620px] xl:min-h-[700px]">
-        
+    <section className="bg-background w-full px-4 pt-12 pb-20 md:px-6 md:pt-16 md:pb-24">
+      <div className="grid w-full grid-cols-1 items-stretch overflow-hidden lg:min-h-[620px] lg:grid-cols-2 xl:min-h-[700px]">
         {/* COLUMNA IMAGEN: A sangre 50% */}
-        <div className={`relative w-full min-h-[380px] md:min-h-[460px] lg:min-h-full ${imageOrder}`}>
+        <div
+          className={`relative min-h-[380px] w-full md:min-h-[460px] lg:min-h-full ${imageOrder}`}
+        >
           <SmoothImage
             src={imageSrc}
             alt={resolvedImageAlt}
@@ -59,28 +60,34 @@ export default function AboutSection({
         </div>
 
         {/* COLUMNA TEXTO: Padding asimétrico idéntico al CollectionsShowcase */}
-        <div className={`flex w-full flex-col justify-center px-6 py-10 md:px-10 md:py-12 ${
-          reverse 
-            // Si el texto está a la derecha: padding a la izquierda para separarlo de la foto
-            ? "lg:pl-14 lg:pr-8 xl:pl-20" 
-            // Si el texto está a la izquierda: padding a la derecha para separarlo de la foto
-            : "lg:pr-14 lg:pl-8 xl:pr-20"
-        } ${textOrder}`}>
-          
+        <div
+          className={`flex w-full flex-col justify-center px-6 py-10 md:px-10 md:py-12 ${
+            reverse
+              ? // Si el texto está a la derecha: padding a la izquierda para separarlo de la foto
+                "lg:pr-8 lg:pl-14 xl:pl-20"
+              : // Si el texto está a la izquierda: padding a la derecha para separarlo de la foto
+                "lg:pr-14 lg:pl-8 xl:pr-20"
+          } ${textOrder}`}
+        >
           {/* CONTENEDOR INTERNO: mr-auto / ml-auto ancla el bloque de texto cerca de la imagen */}
-          <div className={`w-full max-w-[440px] ${reverse ? "mr-auto" : "ml-auto"}`}>
+          <div
+            className={`w-full max-w-[440px] ${reverse ? "mr-auto" : "ml-auto"}`}
+          >
             <span className="mb-4 block text-[10px] font-light tracking-[0.3em] text-neutral-400 uppercase md:text-xs">
               Savoir-Faire
             </span>
 
-            <h2 className="font-serif mb-6 text-3xl font-light leading-tight tracking-[0.08em] text-neutral-900 uppercase md:text-4xl lg:text-5xl">
+            <h2 className="mb-6 font-serif text-3xl leading-tight font-light tracking-[0.08em] text-neutral-900 uppercase md:text-4xl lg:text-5xl">
               {resolvedTitle}
             </h2>
 
             <div className="flex flex-col gap-5">
               {descriptions && descriptions.length > 0 ? (
                 descriptions.map((para, idx) => (
-                  <p key={idx} className="font-garamond text-base leading-relaxed text-neutral-600 md:text-lg">
+                  <p
+                    key={idx}
+                    className="font-garamond text-base leading-relaxed text-neutral-600 md:text-lg"
+                  >
                     {para}
                   </p>
                 ))
@@ -100,7 +107,6 @@ export default function AboutSection({
               </Link>
             </div>
           </div>
-          
         </div>
       </div>
     </section>
