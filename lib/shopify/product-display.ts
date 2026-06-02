@@ -8,41 +8,115 @@ export type ConcentrationFamily =
   | "eau_de_cologne"
   | "mist";
 
+export type Locale = "en" | "es" | "fi";
+
 const DEFAULT_CONCENTRATION_FAMILY: ConcentrationFamily = "eau_de_parfum";
 const DEFAULT_NOTE_PROFILE = "Signature Notes";
 
-const NOTE_ADJECTIVES: Partial<
-  Record<NonNullable<Product["notes"]>[number], string>
-> = {
-  Amber: "Ambery",
-  Citrus: "Citrusy",
-  Spice: "Spicy",
-  Sweet: "Sweet",
-  Floral: "Floral",
-  Woody: "Woody",
-  Musk: "Musky",
-  Oud: "Oud",
-  Fresh: "Fresh",
-  Fruity: "Fruity",
-  Leather: "Leather",
-  Vanilla: "Vanilla",
-  Smoky: "Smoky",
+const TRANSLATION_DICTIONARIES: Record<Locale, {
+  noteAdjectives: Partial<Record<NonNullable<Product["notes"]>[number], string>>;
+  concentrationLabels: Record<ConcentrationFamily, string>;
+  genderPrefix: Record<Product["gender"], string>;
+  defaultNoteProfile: string;
+}> = {
+  en: {
+    noteAdjectives: {
+      Amber: "Ambery",
+      Citrus: "Citrusy",
+      Spice: "Spicy",
+      Sweet: "Sweet",
+      Floral: "Floral",
+      Woody: "Woody",
+      Musk: "Musky",
+      Oud: "Oud",
+      Fresh: "Fresh",
+      Fruity: "Fruity",
+      Leather: "Leather",
+      Vanilla: "Vanilla",
+      Smoky: "Smoky",
+    },
+    concentrationLabels: {
+      extrait: "Esprit de Parfum",
+      parfum: "Parfum",
+      eau_de_parfum: "Eau de Parfum",
+      eau_de_toilette: "Eau de Toilette",
+      eau_de_cologne: "Eau de Cologne",
+      mist: "Body Mist",
+    },
+    genderPrefix: {
+      women: "For Her ",
+      men: "For Him ",
+      unisex: "Unisex ",
+    },
+    defaultNoteProfile: "Signature Notes",
+  },
+  es: {
+    noteAdjectives: {
+      Amber: "Ámbar",
+      Citrus: "Cítrico",
+      Spice: "Especiado",
+      Sweet: "Dulce",
+      Floral: "Floral",
+      Woody: "Amaderado",
+      Musk: "Almízcaro",
+      Oud: "Oud",
+      Fresh: "Fresco",
+      Fruity: "Afrutado",
+      Leather: "Cuero",
+      Vanilla: "Vainilla",
+      Smoky: "Ahumado",
+    },
+    concentrationLabels: {
+      extrait: "Espíritu de Perfume",
+      parfum: "Perfume",
+      eau_de_parfum: "Eau de Parfum",
+      eau_de_toilette: "Eau de Toilette",
+      eau_de_cologne: "Eau de Colonia",
+      mist: "Bruma Corporal",
+    },
+    genderPrefix: {
+      women: "Para Ella ",
+      men: "Para Él ",
+      unisex: "Unisex ",
+    },
+    defaultNoteProfile: "Notas Características",
+  },
+  fi: {
+    noteAdjectives: {
+      Amber: "Ambra",
+      Citrus: "Sitruunainen",
+      Spice: "Mausteikas",
+      Sweet: "Makea",
+      Floral: "Kukkea",
+      Woody: "Puumainen",
+      Musk: "Muski",
+      Oud: "Oud",
+      Fresh: "Tuore",
+      Fruity: "Hedelmäinen",
+      Leather: "Nahkainen",
+      Vanilla: "Vanilja",
+      Smoky: "Savuinen",
+    },
+    concentrationLabels: {
+      extrait: "Parfyymi-eetteri",
+      parfum: "Parfyymi",
+      eau_de_parfum: "Eau de Parfum",
+      eau_de_toilette: "Eau de Toilette",
+      eau_de_cologne: "Eau de Cologne",
+      mist: "Kehön Sumu",
+    },
+    genderPrefix: {
+      women: "Hänelle ",
+      men: "Hänelle ",
+      unisex: "Unisex ",
+    },
+    defaultNoteProfile: "Signature Notes",
+  },
 };
 
-const CONCENTRATION_LABELS: Record<ConcentrationFamily, string> = {
-  extrait: "Esprit de Parfum",
-  parfum: "Parfum",
-  eau_de_parfum: "Eau de Parfum",
-  eau_de_toilette: "Eau de Toilette",
-  eau_de_cologne: "Eau de Cologne",
-  mist: "Body Mist",
-};
-
-const GENDER_PREFIX: Record<Product["gender"], string> = {
-  women: "For Her ",
-  men: "For Him ",
-  unisex: "Unisex ",
-};
+function getTranslations(locale: Locale = "en") {
+  return TRANSLATION_DICTIONARIES[locale] || TRANSLATION_DICTIONARIES.en;
+}
 
 function normalizeConcentration(rawConcentration?: string) {
   return rawConcentration?.trim().toLowerCase() ?? "";

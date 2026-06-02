@@ -181,7 +181,7 @@ export async function getHomeCollections(
     const { body } = await shopifyFetch<CollectionsOperation>({
       query: collectionsQuery,
       variables: { language: getShopifyLanguageCode(locale) },
-      cache: "no-store",
+      next: { revalidate: 300, tags: ["home", "collections"] },
     });
 
     const nodes = body?.data?.collections?.edges?.map(({ node }) => node) ?? [];

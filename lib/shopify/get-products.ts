@@ -59,6 +59,7 @@ export async function getShopifyProducts(locale: Locale) {
   const { body } = await shopifyFetch<ShopifyProductsOperation>({
     query: allProductsQuery,
     variables: { language: getShopifyLanguageCode(locale) },
+    next: { revalidate: 300, tags: ["home", "products"] },
   });
 
   const edges = body?.data?.products?.edges || [];
