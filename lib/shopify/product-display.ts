@@ -16,7 +16,9 @@ type ProductDisplayLabels = {
   noteSuffix: string;
   andWord: string;
   intensityLabel: string;
-  noteAdjectives: Partial<Record<NonNullable<Product["notes"]>[number], string>>;
+  noteAdjectives: Partial<
+    Record<NonNullable<Product["notes"]>[number], string>
+  >;
   concentrationLabels: Record<ConcentrationFamily, string>;
   genderPrefix: Record<Product["gender"], string>;
 };
@@ -127,7 +129,9 @@ const PRODUCT_DISPLAY_LABELS: Record<Locale, ProductDisplayLabels> = {
 };
 
 function getProductDisplayLabels(locale: Locale = i18n.defaultLocale) {
-  return PRODUCT_DISPLAY_LABELS[locale] ?? PRODUCT_DISPLAY_LABELS[i18n.defaultLocale];
+  return (
+    PRODUCT_DISPLAY_LABELS[locale] ?? PRODUCT_DISPLAY_LABELS[i18n.defaultLocale]
+  );
 }
 
 function normalizeConcentration(rawConcentration?: string) {
@@ -220,7 +224,8 @@ export function formatNoteProfile(
   ).filter(Boolean);
 
   const toDescriptor = (note: string) =>
-    labels.noteAdjectives[note as NonNullable<Product["notes"]>[number]] ?? note;
+    labels.noteAdjectives[note as NonNullable<Product["notes"]>[number]] ??
+    note;
 
   if (uniqueNotes.length === 0) return labels.defaultNoteProfile;
   if (uniqueNotes.length === 1) {
@@ -243,7 +248,10 @@ export function formatProductDetailLabel(
   locale: Locale = i18n.defaultLocale,
 ) {
   const genderPrefix = formatGenderPrefix(product.gender, locale);
-  const concentrationLabel = formatConcentrationLabel(product.concentration, locale);
+  const concentrationLabel = formatConcentrationLabel(
+    product.concentration,
+    locale,
+  );
   const noteProfile = formatNoteProfile(product.notes, locale);
 
   return `${genderPrefix}${concentrationLabel} – ${noteProfile}`;

@@ -97,7 +97,8 @@ export function normalizeProduct(p: ShopifyRawProduct): Product {
 
   const gender: Gender =
     mappedGender ??
-    (normalizedRawGender && (GENDERS as readonly string[]).includes(normalizedRawGender)
+    (normalizedRawGender &&
+    (GENDERS as readonly string[]).includes(normalizedRawGender)
       ? (normalizedRawGender as Gender)
       : "unisex");
 
