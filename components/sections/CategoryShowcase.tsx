@@ -4,46 +4,84 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SmoothImage from "../ui/SmoothImage";
 import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
+import SectionHeader from "../ui/SectionHeader";
 
-export default function CategoryShowcase() {
+type CategoryTheme = "light" | "dark";
+
+type CategoryItem = {
+  href: string;
+  imageSrc: string;
+  title: string;
+  subtitle: string;
+  ariaLabel?: string;
+  theme: CategoryTheme;
+};
+
+type CategoryShowcaseProps = {
+  headerTitle?: string;
+  headerDescription?: string;
+};
+
+export default function CategoryShowcase({
+  headerTitle,
+  headerDescription,
+}: CategoryShowcaseProps) {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname);
   const labels = getUiLabels(locale).sections.categoryShowcase;
 
+  const categoryItems: CategoryItem[] = [
+    {
+      href: "/shop/women",
+      imageSrc: "/shop/bottle-women.png",
+      title: labels.womenTitle,
+      subtitle: labels.womenSubtitle,
+      ariaLabel: labels.womenAria,
+      theme: "light",
+    },
+    {
+      href: "/shop/unisex",
+      imageSrc: "/shop/hero-unisex.jpg",
+      title: labels.unisexTitle,
+      subtitle: labels.unisexSubtitle,
+      ariaLabel: labels.unisexAria,
+      theme: "dark",
+    },
+    {
+      href: "/shop/men",
+      imageSrc: "/shop/bottle-men.png",
+      title: labels.menTitle,
+      subtitle: labels.menSubtitle,
+      ariaLabel: labels.menAria,
+      theme: "light",
+    },
+  ];
+
   return (
-    <section className="relative min-h-full">
-      <div className="grid grid-cols-1 gap-0 md:grid-cols-3">
-        {/* Women Perfumes */}
-        <CategoryCard
-          href="/shop/women"
-          imageSrc="/shop/hero-women.jpg"
-          title={labels.womenTitle}
-          subtitle={labels.womenSubtitle}
-          ariaLabel={labels.womenAria}
-          shopNowLabel={labels.shopNow}
-        />
+    <>
+      {headerTitle && headerDescription ? (
+        <SectionHeader title={headerTitle} description={headerDescription} />
+      ) : null}
 
-        {/* Men Perfumes */}
-        <CategoryCard
-          href="/shop/men"
-          imageSrc="/shop/hero-men.jpg"
-          title={labels.menTitle}
-          subtitle={labels.menSubtitle}
-          ariaLabel={labels.menAria}
-          shopNowLabel={labels.shopNow}
-        />
-
-        {/* Unisex */}
-        <CategoryCard
-          href="/shop/unisex"
-          imageSrc="/shop/hero-unisex.jpg"
-          title={labels.unisexTitle}
-          subtitle={labels.unisexSubtitle}
-          ariaLabel={labels.unisexAria}
-          shopNowLabel={labels.shopNow}
-        />
-      </div>
-    </section>
+      <section className="bg-background px-4 py-14 md:px-6 md:py-18">
+        <div className="w-full">
+          <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-3 lg:gap-8">
+            {categoryItems.map((item) => (
+              <CategoryCard
+                key={item.href}
+                href={item.href}
+                imageSrc={item.imageSrc}
+                title={item.title}
+                subtitle={item.subtitle}
+                ariaLabel={item.ariaLabel}
+                shopNowLabel={labels.shopNow}
+                theme={item.theme}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
 
@@ -54,6 +92,7 @@ type CategoryCardProps = {
   subtitle: string;
   ariaLabel?: string;
   shopNowLabel: string;
+  theme?: CategoryTheme;
 };
 
 function CategoryCard({
@@ -63,47 +102,59 @@ function CategoryCard({
   subtitle,
   ariaLabel,
   shopNowLabel,
+  theme = "dark",
 }: CategoryCardProps) {
+  const isLight = theme === "light";
+
+  const ringClass = isLight
+    ? "ring-black/5 group-hover:ring-black/20"
+    : "ring-white/10 group-hover:ring-white/40";
+  const titleClass = isLight ? "text-gray-900" : "text-white";
+  const subtitleClass = isLight ? "text-gray-600" : "text-white/90";
+  const buttonClass = isLight
+    ? "border-gray-900 text-gray-900 group-hover:bg-gray-900 group-hover:text-white"
+    : "border-white text-white group-hover:bg-white group-hover:text-black";
+
   return (
     <Link
       href={href}
-      prefetch
       aria-label={ariaLabel ?? title}
-      className="group card-luxe relative block aspect-3/4 overflow-hidden"
+      className="group relative block aspect-4/5 w-full overflow-hidden"
     >
-      {/* Background image */}
       <SmoothImage
         src={imageSrc}
         alt={ariaLabel ?? title}
         fill
         sizes="(min-width:768px) 33vw, 100vw"
-        className="ease-luxe object-cover transition-transform duration-700 group-hover:scale-[1.03] group-active:scale-[0.99]"
+        className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
         loading="lazy"
-        priority={false}
-        decoding="async"
+      />
+      {!isLight && (
+        <>
+          <div className="absolute inset-0 bg-black/10 transition-opacity duration-500 group-hover:bg-black/20" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-3/5 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
+        </>
+      )}
+
+      <div
+        className={`pointer-events-none absolute inset-0 ring-1 transition duration-500 ${ringClass}`}
       />
 
-      {/* Luxe overlays: subtle dark for legibility + amber glow + grain */}
-      <div className="absolute inset-0 bg-black/30 md:bg-black/10" />
-      <div className="overlay-amber absolute inset-0" />
-      <div className="grain pointer-events-none absolute inset-0" />
-
-      {/* Soft gold border highlight on hover */}
-      <div className="ring-navbar-border group-hover:ring-gold/50 pointer-events-none absolute inset-0 ring-1 transition duration-500" />
-
-      {/* Content */}
       <div className="absolute inset-0 z-10 flex items-end">
-        {/* gradient bottom to top for readability */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-linear-to-t from-black/55 via-black/20 to-transparent" />
-
-        <div className="relative mx-auto w-full max-w-7xl px-6 pb-8 text-white md:px-12 xl:px-16">
-          <h2 className="font-playfair-display text-shadow-soft text-3xl leading-tight tracking-tight md:text-[32px] xl:text-[36px]">
+        <div className="mx-auto w-full p-8 text-center md:p-10">
+          <h2
+            className={`font-serif text-3xl leading-tight md:text-4xl ${titleClass}`}
+          >
             {title}
           </h2>
-          <p className="font-garamond mt-1 max-w-md text-lg opacity-95 md:text-xl">
+          <p
+            className={`font-garamond mt-3 text-sm md:text-base ${subtitleClass}`}
+          >
             {subtitle}
           </p>
-          <span className="font-roboto link-gold mt-2 inline-block text-sm font-medium">
+          <span
+            className={`mt-8 inline-block border bg-transparent px-8 py-3 text-xs font-medium tracking-[0.2em] uppercase transition-colors ${buttonClass}`}
+          >
             {shopNowLabel}
           </span>
         </div>

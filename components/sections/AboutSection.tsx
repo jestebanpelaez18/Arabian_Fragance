@@ -1,96 +1,113 @@
 "use client";
 
+import Link from "next/link";
 import SmoothImage from "../ui/SmoothImage";
-import Button from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 interface AboutSectionProps {
   imageSrc?: string;
   imageAlt?: string;
-  objectClassName?: string;
   title?: string;
   description?: string;
-  descriptions?: string[]; // optional multi-paragraph
+  descriptions?: string[];
   ctaHref?: string;
   ctaLabel?: string;
-  reverse?: boolean; // text left, image right
-  showDivider?: boolean; // vertical divider between columns
+  reverse?: boolean;
 }
 
 export default function AboutSection({
   imageSrc = "/hero/story.jpg",
   imageAlt,
-  objectClassName = "object-cover object-[50%_35%]",
   title,
   description,
   ctaHref = "/about",
   ctaLabel,
   descriptions,
+  // True = Imagen a la izquierda, Texto a la derecha (Como en "The Luxury Collection")
   reverse = true,
-  showDivider = false,
 }: AboutSectionProps) {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname);
   const labels = getUiLabels(locale).sections.aboutDefaults;
 
   const resolvedImageAlt = imageAlt ?? labels.imageAlt;
-  const resolvedTitle = title ?? labels.title;
+  const resolvedEyebrow = labels.eyebrow ?? "Savoir-Faire";
+  const resolvedTitle = title ?? labels.title ?? "Our Story";
   const resolvedDescription = description ?? labels.description;
-  const resolvedCtaLabel = ctaLabel ?? labels.ctaLabel;
+  const resolvedCtaLabel = ctaLabel ?? labels.ctaLabel ?? "Discover Our Story";
 
-  const imageOrderDesktop = reverse ? "md:order-2" : "md:order-1";
-  const textOrderDesktop = reverse ? "md:order-1" : "md:order-2";
-  const dividerClass = showDivider
-    ? reverse
-      ? "md:border-r md:border-black/15"
-      : "md:border-l md:border-black/15"
-    : "";
+  const imageOrder = reverse ? "lg:order-1" : "lg:order-2";
+  const textOrder = reverse ? "lg:order-2" : "lg:order-1";
+
   return (
-    <section className="grid min-h-[680px] grid-cols-1 px-2.5 pb-16 md:grid-cols-2 md:px-5">
-      {/* Image left on desktop */}
-      <div
-        className={`relative order-1 aspect-4/3 ${imageOrderDesktop} md:aspect-auto md:min-h-[680px]`}
-      >
-        <SmoothImage
-          src={imageSrc}
-          alt={resolvedImageAlt}
-          fill
-          sizes="(min-width:1024px) 50vw, 100vw"
-          className={objectClassName}
-          loading="lazy"
-          priority={false}
-          decoding="async"
-        />
-      </div>
+    <section className="bg-background w-full px-4 pt-12 pb-20 md:px-6 md:pt-16 md:pb-24">
+      <div className="grid w-full grid-cols-1 items-stretch overflow-hidden lg:min-h-[620px] lg:grid-cols-2 xl:min-h-[700px]">
+        {/* COLUMNA IMAGEN: A sangre 50% */}
+        <div
+          className={`relative min-h-[380px] w-full md:min-h-[460px] lg:min-h-full ${imageOrder}`}
+        >
+          <SmoothImage
+            src={imageSrc}
+            alt={resolvedImageAlt}
+            fill
+            sizes="(min-width:1024px) 50vw, 100vw"
+            quality={85}
+            className="object-cover"
+            loading="lazy"
+            priority={false}
+            decoding="async"
+          />
+        </div>
 
-      {/* Text right */}
-      <div
-        className={`order-2 flex flex-col justify-center px-16 py-20 ${textOrderDesktop} ${dividerClass} lg:px-20`}
-      >
-        <h2 className="font-garamond text-4xl leading-tight tracking-[-0.01em] md:text-5xl">
-          {resolvedTitle}
-        </h2>
-        {descriptions && descriptions.length > 0 ? (
-          <div className="font-garamond mt-6 max-w-2xl text-lg/relaxed opacity-85">
-            {descriptions.map((para, idx) => (
-              <p key={idx} className={idx > 0 ? "mt-4" : undefined}>
-                {para}
-              </p>
-            ))}
+        {/* COLUMNA TEXTO: Padding asimétrico idéntico al CollectionsShowcase */}
+        <div
+          className={`flex w-full flex-col justify-center px-6 py-10 md:px-10 md:py-12 ${
+            reverse
+              ? // Si el texto está a la derecha: padding a la izquierda para separarlo de la foto
+                "lg:pr-8 lg:pl-14 xl:pl-20"
+              : // Si el texto está a la izquierda: padding a la derecha para separarlo de la foto
+                "lg:pr-14 lg:pl-8 xl:pr-20"
+          } ${textOrder}`}
+        >
+          {/* CONTENEDOR INTERNO: mr-auto / ml-auto ancla el bloque de texto cerca de la imagen */}
+          <div
+            className={`w-full max-w-[440px] ${reverse ? "mr-auto" : "ml-auto"}`}
+          >
+            <span className="mb-4 block text-[10px] font-light tracking-[0.3em] text-neutral-400 uppercase md:text-xs">
+              {resolvedEyebrow}
+            </span>
+
+            <h2 className="mb-6 font-serif text-3xl leading-tight font-light tracking-[0.08em] text-neutral-900 uppercase md:text-4xl lg:text-5xl">
+              {resolvedTitle}
+            </h2>
+
+            <div className="flex flex-col gap-5">
+              {descriptions && descriptions.length > 0 ? (
+                descriptions.map((para, idx) => (
+                  <p
+                    key={idx}
+                    className="font-garamond text-base leading-relaxed text-neutral-600 md:text-lg"
+                  >
+                    {para}
+                  </p>
+                ))
+              ) : (
+                <p className="font-garamond text-base leading-relaxed text-neutral-600 md:text-lg">
+                  {resolvedDescription}
+                </p>
+              )}
+            </div>
+
+            <div className="mt-12">
+              <Link
+                href={ctaHref}
+                className="inline-block border border-neutral-900 bg-transparent px-9 py-3.5 text-xs font-medium tracking-[0.22em] text-neutral-900 uppercase transition-colors duration-300 hover:bg-neutral-900 hover:text-white"
+              >
+                {resolvedCtaLabel}
+              </Link>
+            </div>
           </div>
-        ) : (
-          <p className="font-garamond mt-6 max-w-lg text-lg/relaxed opacity-85">
-            {resolvedDescription}
-          </p>
-        )}
-
-        <div className="mt-10 h-px w-full bg-black/15" />
-
-        <div className="mt-10 flex items-center gap-6">
-          <Button href={ctaHref} className="btn-luxe-contrast min-h-11">
-            {resolvedCtaLabel}
-          </Button>
         </div>
       </div>
     </section>

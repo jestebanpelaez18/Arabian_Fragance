@@ -177,7 +177,7 @@ export default function SearchOverlay({
                             className="object-cover transition duration-700 ease-out group-hover:scale-105"
                           />
                         </div>
-                        <h3 className="font-bodoni text-center text-xs tracking-widest text-[#1a1a1a] uppercase transition-colors group-hover:text-[#C9A46A]">
+                        <h3 className="text-center text-xs tracking-widest text-[#1a1a1a] uppercase transition-colors group-hover:text-[#C9A46A]">
                           {product.title}
                         </h3>
                         <p className="font-garamond mt-1 text-center text-sm text-gray-500">
@@ -203,7 +203,7 @@ export default function SearchOverlay({
               <div className="mt-8 grid grid-cols-1 gap-12 md:grid-cols-[250px_1fr]">
                 {/* COLUMNA IZQUIERDA: Trending */}
                 <div className="hidden h-full border-r border-[#1a1a1a]/10 pr-8 md:block">
-                  <h4 className="font-bodoni mb-6 text-xs font-bold tracking-widest text-[#1a1a1a] uppercase">
+                  <h4 className="mb-6 text-xs font-bold tracking-widest text-[#1a1a1a] uppercase">
                     {labels.trendingNow}
                   </h4>
 
@@ -235,7 +235,7 @@ export default function SearchOverlay({
 
                 {/* COLUMNA DERECHA: Top Products */}
                 <div>
-                  <h4 className="font-bodoni mb-6 text-xs font-bold tracking-widest text-[#1a1a1a] uppercase">
+                  <h4 className="mb-6 text-xs font-bold tracking-widest text-[#1a1a1a] uppercase">
                     {labels.topProducts}
                   </h4>
 

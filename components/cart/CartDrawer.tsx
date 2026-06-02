@@ -46,9 +46,7 @@ export default function CartDrawer({
         }}
       >
         <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-          <h2 className="font-playfair-display text-xl tracking-tight">
-            {labels.bagTitle}
-          </h2>
+          <h2 className="text-xl tracking-tight">{labels.bagTitle}</h2>
           <button
             onClick={onClose}
             className="rounded-full px-3 py-1.5 text-xs tracking-[0.14em] ring-1 ring-white/20 hover:bg-white/5"

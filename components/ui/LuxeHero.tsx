@@ -4,6 +4,9 @@ import SmoothImage from "./SmoothImage";
 import Link from "next/link";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+const VIDEO_IN_VIEW_THRESHOLD = 0.4;
+
 type Props = {
   title: ReactNode;
   subtitle?: string;
@@ -12,22 +15,22 @@ type Props = {
   imageSrc?: string;
   videoSrc?: string;
   poster?: string;
-  objectClassName?: string; // ej: "object-[50%_35%]"
-  minH?: string; // ej: "min-h-[90svh] md:min-h-screen"
-  fit?: "contain" | "cover"; // control del ajuste de media
-  centerContent?: boolean; // centrar contenido exactamente
+  objectClassName?: string; // e.g., "object-[50%_35%]"
+  minH?: string; // e.g., "min-h-[90svh] md:min-h-screen"
+  fit?: "contain" | "cover"; // media fit control
+  centerContent?: boolean; // center content exactly
   imageAlt?: string;
-  // Optimización imagen
-  priority?: boolean; // controla si es crítica (por defecto true)
-  sizes?: string; // tamaños responsivos para fill
+  // Image optimization
+  priority?: boolean; // controls if it is critical (default true)
+  sizes?: string; // responsive sizes for fill
   placeholder?: "blur" | "empty";
   blurDataURL?: string;
   // Overlays
   overlaysEnabled?: boolean;
   softLightBlend?: boolean;
-  // Optimización video
-  autoPlayVideo?: boolean; // respeta prefers-reduced-motion
-  pauseVideoOffscreen?: boolean; // pausa si no está visible
+  // Video optimization
+  autoPlayVideo?: boolean; // respects prefers-reduced-motion
+  pauseVideoOffscreen?: boolean; // pauses if not visible
   videoPreload?: "auto" | "metadata" | "none";
 };
 
@@ -41,8 +44,8 @@ export default function LuxeHero({
   poster,
   // CRITICAL FIX: Changed default from "object-center" to shift focus down
   objectClassName = "object-[center_15%]",
-  minH = "min-h-[80vh]",
-  fit = "cover", // default como en ShowroomHero (llena el área)
+  minH = "min-h-[80vh] md:min-h-screen", // Make it full screen on desktop by default
+  fit = "cover",
   centerContent = true,
   imageAlt = "",
   priority = true,
@@ -55,54 +58,72 @@ export default function LuxeHero({
   pauseVideoOffscreen = true,
   videoPreload = "metadata",
 }: Props) {
+  const hasVideo = Boolean(videoSrc);
+  const hasImage = Boolean(imageSrc);
+  const safeImageSrc = imageSrc ?? "";
+  const shouldCenterContent = centerContent;
+  const shouldShowSoftBlend = overlaysEnabled && softLightBlend;
+
   const mediaFitClass = fit === "cover" ? "object-cover" : "object-contain";
-  const containerAlign = centerContent
+  const containerAlign = shouldCenterContent
     ? "items-center text-center"
     : "items-start text-left";
-  const innerAlign = centerContent
+  const innerAlign = shouldCenterContent
     ? "items-center justify-center"
     : "items-start justify-center";
+  const centeredClass = shouldCenterContent ? "mx-auto" : "";
+  const sectionCenterClass = shouldCenterContent
+    ? "grid place-items-center"
+    : "";
 
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [allowMotion, setAllowMotion] = useState(true);
   const [inView, setInView] = useState(true);
 
+  const shouldPlayVideo = autoPlayVideo && allowMotion && inView;
+
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mq = window.matchMedia(REDUCED_MOTION_QUERY);
     const update = () => setAllowMotion(!mq.matches);
+
     update();
     mq.addEventListener("change", update);
+
     return () => mq.removeEventListener("change", update);
   }, []);
 
   useEffect(() => {
     if (!pauseVideoOffscreen) return;
+
     const el = sectionRef.current;
     if (!el) return;
+
     const obs = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
-      { threshold: 0.4 },
+      { threshold: VIDEO_IN_VIEW_THRESHOLD },
     );
+
     obs.observe(el);
+
     return () => obs.disconnect();
   }, [pauseVideoOffscreen]);
 
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    const shouldPlay = autoPlayVideo && allowMotion && inView;
-    if (shouldPlay) v.play().catch(() => {});
+
+    if (shouldPlayVideo) v.play().catch(() => {});
     else v.pause();
-  }, [autoPlayVideo, allowMotion, inView]);
+  }, [shouldPlayVideo]);
 
   return (
     <section
       ref={sectionRef}
-      className={`relative w-full overflow-hidden ${minH} ${centerContent ? "grid place-items-center" : ""}`}
+      className={`relative w-full overflow-hidden bg-black ${minH} ${sectionCenterClass}`}
     >
       {/* Background media */}
-      {videoSrc ? (
+      {hasVideo ? (
         <video
           ref={videoRef}
           className={`absolute inset-0 h-full w-full ${objectClassName} ${mediaFitClass}`}
@@ -116,13 +137,14 @@ export default function LuxeHero({
         >
           <source src={videoSrc} />
         </video>
-      ) : imageSrc ? (
-        <div className="absolute inset-0 bg-[#F2F0EB]">
+      ) : hasImage ? (
+        <div className="absolute inset-0 bg-black">
           <SmoothImage
-            src={imageSrc}
+            src={safeImageSrc}
             alt={imageAlt}
             fill
             priority={priority}
+            quality={88}
             sizes={sizes}
             placeholder={placeholder}
             blurDataURL={placeholder === "blur" ? blurDataURL : undefined}
@@ -131,36 +153,37 @@ export default function LuxeHero({
         </div>
       ) : null}
 
-      {/* Overlays para look “luxe” */}
+      {/* Overlays for a deep, rich "luxe" look */}
       {overlaysEnabled && (
         <>
-          <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/45 via-black/20 to-black/45" />
-          {softLightBlend && (
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_30%,rgba(255,255,255,0.08),transparent_60%)] mix-blend-soft-light" />
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/60 via-transparent to-black/60" />
+          {shouldShowSoftBlend && (
+            <div className="pointer-events-none absolute inset-0 bg-black/20 mix-blend-overlay" />
           )}
         </>
       )}
 
       {/* Content */}
       <div
-        className={`relative z-10 mx-auto flex min-h-[80vh] max-w-5xl flex-col px-6 text-white ${containerAlign}`}
+        className={`relative z-10 mx-auto flex h-full max-w-5xl flex-col px-6 py-24 text-white ${containerAlign}`}
       >
-        <div className={`flex flex-1 flex-col gap-4 ${innerAlign}`}>
-          <h1 className="font-garamond text-shadow-soft text-3xl leading-tight tracking-[0.04em] md:text-5xl lg:text-6xl">
+        <div className={`flex flex-1 flex-col gap-6 ${innerAlign}`}>
+          <h1 className="max-w-4xl font-serif text-4xl leading-tight tracking-widest text-white uppercase md:text-5xl lg:text-6xl">
             {title}
           </h1>
           {subtitle ? (
             <p
-              className={`font-garamond max-w-2xl text-base text-white/85 md:text-lg ${centerContent ? "mx-auto" : ""}`}
+              className={`max-w-2xl font-serif text-base tracking-wide text-white/80 md:text-lg ${centeredClass}`}
             >
               {subtitle}
             </p>
           ) : null}
           {ctaHref && ctaLabel ? (
-            <div className={`${centerContent ? "mx-auto" : ""} mt-8`}>
+            <div className={`${centeredClass} mt-10`}>
               <Link
                 href={ctaHref}
-                className="ease-luxe inline-flex h-11 items-center rounded-full border border-white/55 bg-white/10 px-6 text-sm tracking-[0.18em] text-white/95 uppercase backdrop-blur-sm hover:bg-white/20 hover:shadow-[0_10px_30px_rgba(0,0,0,.25)] motion-safe:transition-all motion-safe:duration-300"
+                // Redesigned Editorial Button: Thin border, no rounding, sharp hover
+                className="inline-flex items-center border border-white bg-transparent px-10 py-4 text-xs font-medium tracking-[0.2em] text-white uppercase transition-colors duration-500 hover:bg-white hover:text-black"
               >
                 {ctaLabel}
               </Link>

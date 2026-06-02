@@ -28,6 +28,7 @@ export type Product = {
   slug: string;
   name: string;
   price: number;
+  concentration?: string;
   image?: string | null;
   images?: string[];
   gender: "women" | "men" | "unisex";

@@ -11,6 +11,7 @@ const allProductsQuery = `
           id
           title
           handle
+          productType
           availableForSale
           priceRange {
             minVariantPrice {
@@ -18,7 +19,7 @@ const allProductsQuery = `
               currencyCode
             }
           }
-          images(first: 1) {
+          images(first: 2) {
             edges {
               node {
                 url
@@ -35,6 +36,7 @@ const allProductsQuery = `
           }
           gender: metafield(namespace: "custom", key: "gender") { value }
           notes: metafield(namespace: "custom", key: "main_accord") { value }
+          concentration: metafield(namespace: "custom", key: "concentration") { value }
         }
       }
     }
@@ -57,6 +59,7 @@ export async function getShopifyProducts(locale: Locale) {
   const { body } = await shopifyFetch<ShopifyProductsOperation>({
     query: allProductsQuery,
     variables: { language: getShopifyLanguageCode(locale) },
+    next: { revalidate: 300, tags: ["home", "products"] },
   });
 
   const edges = body?.data?.products?.edges || [];

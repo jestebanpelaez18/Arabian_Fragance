@@ -16,7 +16,7 @@ export default function CTASection({
   return (
     <section className="pb-12 md:pb-15">
       <div className="mx-auto max-w-3xl px-6 text-center">
-        <h2 className="font-garamond mb-6 text-3xl leading-tight md:text-4xl lg:text-5xl">
+        <h2 className="mb-6 text-3xl leading-tight md:text-4xl lg:text-5xl">
           {title}
         </h2>
         <p className="font-playfair-display mb-8 text-[15px] leading-relaxed md:text-base">

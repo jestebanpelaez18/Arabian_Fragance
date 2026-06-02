@@ -4,6 +4,20 @@
     "subtitle": "Lyxiga dofter inspirerade av Dubais elegans.",
     "ctaLabel": "Handla kollektionen"
   },
+  "homeSections": {
+    "artOfEssence": {
+      "title": "Essensens konst",
+      "description": "Ett kurerat urval av doftuttryck som formar identitet genom att forena traditionella tekniker med modern lyx."
+    },
+    "collections": {
+      "title": "Vara kollektioner",
+      "description": "Upptack de tre nivaerna av olfaktorisk excellens."
+    },
+    "privateCollection": {
+      "title": "La Collection Privee",
+      "description": "Utforska vara signaturer i deras definitiva form. Kompositioner skapade av sallsynta ingredienser for den som soker ett oforglomligt avtryck."
+    }
+  },
   "dividers": {
     "shop": "Handla kollektionen",
     "experience": "Upplevelse",

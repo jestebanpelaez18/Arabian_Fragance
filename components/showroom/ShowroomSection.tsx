@@ -1,28 +1,25 @@
 "use client";
 
+import Link from "next/link";
 import SmoothImage from "../ui/SmoothImage";
-import Button from "@/components/ui/button";
+import SectionHeader from "@/components/ui/SectionHeader";
 import { usePathname } from "next/navigation";
 import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 type ShowroomSectionProps = {
-  leftImageSrc?: string;
-  leftImageAlt?: string;
-  rightImageSrc?: string;
-  rightImageAlt?: string;
-  label?: string; // small label above the heading
-  heading?: string; // main heading text
+  imageSrc?: string;
+  imageAlt?: string;
+  heading?: string;
+  description?: string;
   ctaLabel?: string;
   ctaHref?: string;
 };
 
 export default function ShowroomSection({
-  leftImageSrc = "/hero/shop.jpg",
-  leftImageAlt,
-  rightImageSrc = "/showroom/example_shop.avif",
-  rightImageAlt,
-  label,
+  imageSrc = "/showroom/example_shop.avif",
+  imageAlt,
   heading,
+  description,
   ctaLabel,
   ctaHref = "/showroom",
 }: ShowroomSectionProps) {
@@ -30,58 +27,53 @@ export default function ShowroomSection({
   const locale = getLocaleFromPathname(pathname);
   const labels = getUiLabels(locale).sections.showroomSection;
 
-  const resolvedLeftImageAlt = leftImageAlt ?? labels.leftImageAlt;
-  const resolvedRightImageAlt = rightImageAlt ?? labels.rightImageAlt;
-  const resolvedLabel = label ?? labels.label;
-  const resolvedHeading = heading ?? labels.heading;
-  const resolvedCtaLabel = ctaLabel ?? labels.ctaLabel;
+  // Resolving text fallbacks gracefully
+  const resolvedHeading = heading ?? labels.heading ?? "Our Showroom";
+  const resolvedDescription =
+    description ??
+    labels.description ??
+    "Experience the art of Arabian perfumery in person. Visit our Helsinki boutique to discover our rare ingredients and signature collections.";
+  const resolvedImageAlt =
+    imageAlt ?? labels.rightImageAlt ?? "Arabian Fragrance Showroom";
+  const resolvedCtaLabel = ctaLabel ?? labels.ctaLabel ?? "Visit Boutique";
 
   return (
-    <section className="grid grid-cols-1 items-stretch gap-x-0 px-5 py-3 md:grid-cols-2">
-      {/* Large image on the left */}
-      <div className="relative order-1 aspect-4/3 md:order-1 md:aspect-auto md:min-h-[680px]">
-        <SmoothImage
-          src={leftImageSrc}
-          alt={resolvedLeftImageAlt}
-          fill
-          sizes="(min-width:1024px) 50vw, 100vw"
-          className="object-cover"
-          loading="lazy"
-          priority={false}
-          decoding="async"
-        />
-      </div>
+    <>
+      <SectionHeader
+        title={resolvedHeading}
+        description={resolvedDescription}
+      />
 
-      {/* Right column: title + portrait image + CTA */}
-      <div className="order-2 flex flex-col justify-center border-b border-black/15 px-12 py-12 md:order-2 md:border-b-0 md:border-l lg:px-16">
-        <div className="mb-8">
-          <span className="font-garamond block text-xs tracking-[0.24em] uppercase opacity-70">
-            {resolvedLabel}
-          </span>
-          <h2 className="font-playfair-display mt-2 text-4xl leading-tight tracking-[-0.01em] md:text-5xl">
-            {resolvedHeading}
-          </h2>
+      <section className="bg-background w-full pb-20">
+        {/* 2. HAUTE COUTURE CTA BUTTON: Matches the hero and gift sections */}
+        <div className="-mt-4 mb-16 w-full px-4 text-center">
+          <div className="mx-auto flex max-w-3xl flex-col items-center">
+            <Link
+              href={ctaHref}
+              className="inline-block border border-neutral-900 bg-transparent px-9 py-3.5 text-xs font-medium tracking-[0.22em] text-neutral-900 uppercase transition-colors duration-300 hover:bg-neutral-900 hover:text-white"
+            >
+              {resolvedCtaLabel}
+            </Link>
+          </div>
         </div>
 
-        <div className="relative mb-10 h-[420px] w-full md:h-[520px]">
-          <SmoothImage
-            src={rightImageSrc}
-            alt={resolvedRightImageAlt}
-            fill
-            sizes="(min-width:1024px) 50vw, 100vw"
-            className="object-cover object-center"
-            loading="lazy"
-            priority={false}
-            decoding="async"
-          />
+        {/* 3. CINEMATIC SHOWROOM IMAGE: Framed perfectly within the container */}
+        <div className="w-full px-4 md:px-6">
+          <div className="relative aspect-video w-full overflow-hidden bg-neutral-100">
+            <SmoothImage
+              src={imageSrc}
+              alt={resolvedImageAlt}
+              fill
+              sizes="(min-width:1024px) 100vw, 100vw"
+              className="object-cover object-center transition-transform duration-1000 hover:scale-[1.02]"
+              quality={85}
+              loading="lazy"
+              priority={false}
+              decoding="async"
+            />
+          </div>
         </div>
-
-        <div className="mt-2 flex items-center">
-          <Button href={ctaHref} className="btn-luxe-contrast min-h-11">
-            {resolvedCtaLabel}
-          </Button>
-        </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

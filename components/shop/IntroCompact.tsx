@@ -13,7 +13,7 @@ export default function IntroCompact({
   return (
     <section className="w-full px-5 pt-6 md:px-5 md:pt-8 xl:px-6">
       <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-[1.05fr_1fr]">
-        <h1 className="font-playfair-display text-[28px] leading-tight md:text-[40px]">
+        <h1 className="text-[28px] leading-tight md:text-[40px]">
           {title}
           {typeof count === "number" && (
             <span className="ml-3 align-super text-sm opacity-70">

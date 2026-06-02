@@ -24,7 +24,7 @@ export default function ShowroomHero() {
       <div className="bg-gold/15 absolute inset-0" />
       <div className="relative z-10 mx-auto flex min-h-[80vh] max-w-5xl flex-col items-center px-6 text-center">
         <div className="flex flex-1 items-center justify-center">
-          <h1 className="font-garamond text-3xl leading-tight md:text-5xl lg:text-6xl">
+          <h1 className="text-3xl leading-tight md:text-5xl lg:text-6xl">
             {labels.title}
           </h1>
         </div>

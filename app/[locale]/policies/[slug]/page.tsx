@@ -89,7 +89,7 @@ export default async function PolicyPage({
       <article className="mx-auto px-6 py-24 md:py-32">
         {/* HEADER */}
         <header className="mb-20 text-center">
-          <h1 className="font-playfair-display text-ink text-3xl tracking-[0.2em] uppercase md:text-5xl">
+          <h1 className="text-ink text-3xl tracking-[0.2em] uppercase md:text-5xl">
             {policy.title}
           </h1>
           <div className="bg-gold/50 mx-auto mt-8 h-px w-16" />

@@ -21,7 +21,7 @@ export default function LocationSection({ location }: LocationSectionProps) {
       <div className="grid gap-16 px-5 lg:grid-cols-[1fr_1.2fr] lg:gap-0">
         <div className="flex flex-col justify-start space-y-8 lg:pr-16">
           <div>
-            <h2 className="font-garamond mb-12 text-5xl leading-[0.95] tracking-tight md:text-6xl lg:text-7xl">
+            <h2 className="mb-12 text-5xl leading-[0.95] tracking-tight md:text-6xl lg:text-7xl">
               {location.city}
             </h2>
             {location.description.map((paragraph, index) => (
@@ -35,7 +35,7 @@ export default function LocationSection({ location }: LocationSectionProps) {
           </div>
 
           <div className="space-y-6">
-            <h3 className="font-garamond text-[11px] font-medium tracking-[0.2em] uppercase">
+            <h3 className="text-[11px] font-medium tracking-[0.2em] uppercase">
               Hours & Contact
             </h3>
             <div className="font-playfair-display space-y-1 text-[15px] leading-relaxed text-black/80">
@@ -55,7 +55,7 @@ export default function LocationSection({ location }: LocationSectionProps) {
           </div>
 
           <div className="font-playfair-display space-y-6 pt-8">
-            <h3 className="font-garamond text-[11px] font-medium tracking-[0.2em] uppercase">
+            <h3 className="text-[11px] font-medium tracking-[0.2em] uppercase">
               Address
             </h3>
             <p className="text-[15px] leading-relaxed">

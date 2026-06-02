@@ -88,7 +88,7 @@ const singleProductQuery = `
           currencyCode
         }
       }
-      images(first: 1) {
+      images(first: 10) {
         edges {
           node {
             url
@@ -164,7 +164,8 @@ export async function generateMetadata({
   const desc = p.description
     ? p.description.substring(0, 160)
     : `Discover ${p.title}`;
-  const img = p.images?.edges?.[0]?.node?.url || "/catalog/Bottle_3.png";
+  const imageNode = p.images?.edges?.[1]?.node ?? p.images?.edges?.[0]?.node;
+  const img = imageNode?.url || "/catalog/Bottle_3.png";
 
   return {
     title,
@@ -197,7 +198,8 @@ export default async function ProductPage({
   const p = response.body?.data?.product;
   if (!p) return notFound();
 
-  const img = p.images?.edges?.[0]?.node?.url || "/catalog/Bottle_3.png";
+  const imageNode = p.images?.edges?.[1]?.node ?? p.images?.edges?.[0]?.node;
+  const img = imageNode?.url || "/catalog/Bottle_3.png";
   const priceAmount = parseFloat(p.priceRange.minVariantPrice.amount);
   const sku = p.variants?.edges?.[0]?.node?.sku || "N/A";
   const variantId = p.variants?.edges?.[0]?.node?.id;

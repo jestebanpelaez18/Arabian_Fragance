@@ -68,11 +68,19 @@ type UiLabels = {
       unisexTab: string;
       viewAllPrefix: string;
     };
+    quickNav: {
+      newArrivals: string;
+      bestSellers: string;
+      luxuryCollection: string;
+      premiumCollection: string;
+      oudSignatures: string;
+    };
     showroomSection: {
       leftImageAlt: string;
       rightImageAlt: string;
       label: string;
       heading: string;
+      description: string;
       ctaLabel: string;
     };
     showroomHero: {
@@ -85,6 +93,7 @@ type UiLabels = {
     };
     aboutDefaults: {
       imageAlt: string;
+      eyebrow: string;
       title: string;
       description: string;
       ctaLabel: string;
@@ -265,11 +274,20 @@ const uiLabels: Record<Locale, UiLabels> = {
         unisexTab: "UNISEX",
         viewAllPrefix: "View all",
       },
+      quickNav: {
+        newArrivals: "New Arrivals",
+        bestSellers: "Best Sellers",
+        luxuryCollection: "Luxury Collection",
+        premiumCollection: "Premium Collection",
+        oudSignatures: "Oud Signatures",
+      },
       showroomSection: {
         leftImageAlt: "Arabian Fragrance showroom",
         rightImageAlt: "Showroom detail",
         label: "VISIT US",
         heading: "IN HELSINKI",
+        description:
+          "Experience the art of Arabian perfumery in person. Visit our Helsinki boutique to discover our rare ingredients and signature collections.",
         ctaLabel: "Our Shop",
       },
       showroomHero: {
@@ -282,6 +300,7 @@ const uiLabels: Record<Locale, UiLabels> = {
       },
       aboutDefaults: {
         imageAlt: "Our story",
+        eyebrow: "Savoir-Faire",
         title: "OUR STORY OF LUXURIOUS ARABIAN FRAGRANCES",
         description:
           "Born in Dubai, the heart of Arabian perfumery, our brand blends tradition and luxury to create unique fragrances that embody elegance and sophistication. Each scent is carefully crafted with exquisite ingredients, capturing the essence of Arabian perfume artistry and delivering an exclusive olfactory experience that lasts over time.",
@@ -415,17 +434,17 @@ const uiLabels: Record<Locale, UiLabels> = {
               href: "/policies/refund-policy",
             },
             { label: "UKK", href: "/faq" },
-            { label: "Kayttoehdot", href: "/policies/terms-conditions" },
-            { label: "Tietosuojakaytanto", href: "/policies/privacy-policy" },
-            { label: "Evastekaytanto", href: "/cookies" },
+            { label: "Käyttöehdot", href: "/policies/terms-conditions" },
+            { label: "Tietosuojakäytäntö", href: "/policies/privacy-policy" },
+            { label: "Evästekäytäntö", href: "/cookies" },
           ],
         },
         {
-          title: "Tietoa meista",
+          title: "Tietoa meistä",
           links: [
-            { label: "Ota yhteytta", href: "/contact" },
+            { label: "Ota yhteyttä", href: "/contact" },
             { label: "Brandi", href: "/about" },
-            { label: "Myymala", href: "/showroom" },
+            { label: "Myymälä", href: "/showroom" },
           ],
         },
         {
@@ -438,13 +457,13 @@ const uiLabels: Record<Locale, UiLabels> = {
         },
       ],
       brandCopy:
-        "Arabian Fragrance on moderni parfymitalo, joka luo mieleenpainuvia tuoksuja eettisesti hankituista raaka-aineista. Tutustu tunnustuoksuihin, kerroksellisiin rituaaleihin ja rajoitettuihin eriin verkossa tai myymalassa.",
-      allRightsReserved: "Kaikki oikeudet pidatetaan.",
+        "Arabian Fragrance on moderni parfymitalo, joka luo mieleenpainuvia tuoksuja eettisesti hankituista raaka-aineista. Tutustu tunnustuoksuihin, kerroksellisiin rituaaleihin ja rajoitettuihin eriin verkossa tai myymälässä.",
+      allRightsReserved: "Kaikki oikeudet pidätetään.",
       newsletter: {
         joinList: "Liity listalle",
         description:
-          "Saa paivityksia uutuuksista, yksityisista tapahtumista ja eksklusiivisista julkaisuista.",
-        emailPlaceholder: "Sahkopostiosoite",
+          "Saa päivityksiä uutuuksista, yksityisistä tapahtumista ja eksklusiivisista julkaisuista.",
+        emailPlaceholder: "Sähköpostiosoite",
         subscribeAria: "Tilaa",
         subscribeTitle: "Tilaa",
       },
@@ -453,13 +472,13 @@ const uiLabels: Record<Locale, UiLabels> = {
     },
     sections: {
       categoryShowcase: {
-        womenTitle: "OSTA HANELLE",
+        womenTitle: "OSTA HÄNELLE",
         womenSubtitle:
-          "Aistillisia kukkaistuoksuja, lammin amber ja pehmea oud.",
+          "Aistillisia kukkaistuoksuja, lämmin amber ja pehmeä oud.",
         womenAria: "Osta naisten tuoksuja",
-        menTitle: "OSTA HANELLE",
+        menTitle: "OSTA HÄNELLE",
         menSubtitle:
-          "Intensiivista amberia, syvia puunuotteja ja hienostuneita mausteita.",
+          "Intensiivistä amberia, syviä puunuotteja ja hienostuneita mausteita.",
         menAria: "Osta miesten tuoksuja",
         unisexTitle: "UNISEX",
         unisexSubtitle:
@@ -471,17 +490,26 @@ const uiLabels: Record<Locale, UiLabels> = {
         womenTab: "NAISET",
         menTab: "MIEHET",
         unisexTab: "UNISEX",
-        viewAllPrefix: "Nayta kaikki",
+        viewAllPrefix: "Näytä kaikki",
+      },
+      quickNav: {
+        newArrivals: "Uutuudet",
+        bestSellers: "Myydyimmät",
+        luxuryCollection: "Luxury-kokoelma",
+        premiumCollection: "Premium-kokoelma",
+        oudSignatures: "Oud-signatuurit",
       },
       showroomSection: {
         leftImageAlt: "Arabian Fragrancen showroom",
         rightImageAlt: "Showroom-yksityiskohta",
-        label: "VIERAILE MEILLA",
-        heading: "HELSINGISSA",
-        ctaLabel: "Myymalamme",
+        label: "VIERAILE MEILLÄ",
+        heading: "HELSINGISSÄ",
+        description:
+          "Koe arabialaisen hajuvesitaiteen maailma paikan päällä. Vieraile Helsingin myymälässämme ja tutustu harvinaisiin raaka-aineisiin sekä tunnustuoksuihin.",
+        ctaLabel: "Myymälämme",
       },
       showroomHero: {
-        imageAlt: "Arabian Fragrancen showroomin sisatila",
+        imageAlt: "Arabian Fragrancen showroomin sisätila",
         title: "SHOWROOM",
         ctaLabel: "Varaa vierailu",
       },
@@ -490,29 +518,30 @@ const uiLabels: Record<Locale, UiLabels> = {
       },
       aboutDefaults: {
         imageAlt: "Tarinamme",
-        title: "TARINAMME YLELLISISTA ARABIALAISISTA TUOKSUISTA",
+        eyebrow: "Savoir-Faire",
+        title: "TARINAMME YLELLISISTÄ ARABIALAISISTA TUOKSUISTA",
         description:
-          "Dubain sydamessa syntynyt brandomme yhdistaa perinteet ja ylellisyyden luodakseen ainutlaatuisia tuoksuja, jotka huokuvat eleganssia ja hienostuneisuutta.",
-        ctaLabel: "Lue lisaa",
+          "Dubain sydämessä syntynyt brandomme yhdistää perinteet ja ylellisyyden luodakseen ainutlaatuisia tuoksuja, jotka huokuvat eleganssia ja hienostuneisuutta.",
+        ctaLabel: "Lue lisää",
       },
     },
     commerce: {
       breadcrumbs: "Polku",
       cart: {
-        addForFreeShipping: "Lisaa",
+        addForFreeShipping: "Lisää",
         freeShippingSuffix: "ilmaista toimitusta varten",
         freeShippingUnlocked: "Sait ilmaisen toimituksen!",
         productImageAltFallback: "Tuotekuva",
-        decreaseItemAriaPrefix: "Vahenna",
-        increaseItemAriaPrefix: "Lisaa",
+        decreaseItemAriaPrefix: "Vähennä",
+        increaseItemAriaPrefix: "Lisää",
         removeItemAriaPrefix: "Poista",
         remove: "Poista",
-        emptyTitle: "Ostoskorisi on tyhja",
-        emptyDescription: "Tutustu tuoksuihimme ja lisaa suosikkisi.",
+        emptyTitle: "Ostoskorisi on tyhjä",
+        emptyDescription: "Tutustu tuoksuihimme ja lisää suosikkisi.",
         shopNow: "Osta nyt",
         bagTitle: "Ostoskorisi",
-        subtotal: "Valisumma",
-        vatIncludedNote: "ALV sisaltyy. Toimitus lasketaan kassalla.",
+        subtotal: "Välisumma",
+        vatIncludedNote: "ALV sisältyy. Toimitus lasketaan kassalla.",
         checkout: "Kassa",
         closeCart: "Sulje ostoskori",
         close: "Sulje",
@@ -524,17 +553,17 @@ const uiLabels: Record<Locale, UiLabels> = {
         close: "Sulje",
         sortBy: "Lajittele",
         filterBy: "Suodata",
-        bestSelling: "Myydyimmat",
+        bestSelling: "Myydyimmät",
         priceLowToHigh: "Hinta, matalasta korkeaan",
         priceHighToLow: "Hinta, korkeasta matalaan",
         all: "Kaikki",
         women: "Naiset",
         men: "Miehet",
         unisex: "Unisex",
-        apply: "Kayta",
+        apply: "Käytä",
       },
       recommended: {
-        title: "Saatat myos pita",
+        title: "Saatat myös pitää",
       },
       pdpTabs: {
         ariaLabel: "Tuotetiedot",
@@ -542,20 +571,20 @@ const uiLabels: Record<Locale, UiLabels> = {
         notesTab: "NUOTIT",
         ingredientsTab: "AINESOSAT",
         packagingTab: "PAKKAUS JA HOITO",
-        policiesTab: "KAYTANNOT",
+        policiesTab: "KÄYTÄNNÖT",
         defaultDescription: "Ajaton koostumus hienostuneilla nuoteilla.",
-        top: "Ylanuotti",
-        heart: "Sydannuotti",
+        top: "Ylänuotti",
+        heart: "Sydännuotti",
         base: "Pohjanuotti",
         notesPrefix: "Nuotit",
         ingredientsHeading: "Ainesosat",
-        showLess: "Nayta vahemman",
-        showMore: "Nayta lisaa",
+        showLess: "Näytä vähemmän",
+        showMore: "Näytä lisää",
         ingredientsUnavailable:
-          "Ainesosatietoja ei ole saatavilla tasta tuotteesta.",
+          "Ainesosatietoja ei ole saatavilla tästä tuotteesta.",
         packagingLine1:
           "Kaikki tuotteet pakataan Arabian Fragrancen tunnuslaatikkoon ja viimeistellaan ilmaisella lahjapaketoinnilla.",
-        noPolicies: "Ei lisakaytantoja.",
+        noPolicies: "Ei lisäkäytäntöjä.",
       },
       searchOverlay: {
         inputPlaceholder: "Hae...",
@@ -568,11 +597,11 @@ const uiLabels: Record<Locale, UiLabels> = {
         concentration: "Pitoisuus",
         size: "Koko",
         dispatch: "Toimitus",
-        sameDayDispatch: "Lahetys samana paivana",
+        sameDayDispatch: "Lähetys samana päivänä",
         policies: [
-          "ALV sisaltyy. Toimitus Helsingista.",
+          "ALV sisältyy. Toimitus Helsingistä.",
           "Ilmainen toimitus EU:ssa yli 80 EUR tilauksiin.",
-          "Palautus 14 paivan sisalla.",
+          "Palautus 14 päivän sisällä.",
         ],
       },
     },
@@ -680,11 +709,20 @@ const uiLabels: Record<Locale, UiLabels> = {
         unisexTab: "UNISEX",
         viewAllPrefix: "Visa alla",
       },
+      quickNav: {
+        newArrivals: "Nyheter",
+        bestSellers: "Bastsaljare",
+        luxuryCollection: "Luxury-kollektionen",
+        premiumCollection: "Premium-kollektionen",
+        oudSignatures: "Oud-signaturer",
+      },
       showroomSection: {
         leftImageAlt: "Arabian Fragrance showroom",
         rightImageAlt: "Showroom-detalj",
         label: "BESOK OSS",
         heading: "I HELSINGFORS",
+        description:
+          "Upplev konsten av arabisk parfym pa plats. Besok var butik i Helsingfors och upptack vara sallsynta ingredienser och signaturkollektioner.",
         ctaLabel: "Var butik",
       },
       showroomHero: {
@@ -697,6 +735,7 @@ const uiLabels: Record<Locale, UiLabels> = {
       },
       aboutDefaults: {
         imageAlt: "Var historia",
+        eyebrow: "Savoir-Faire",
         title: "VAR HISTORIA OM LYXIGA ARABISKA DOFTER",
         description:
           "Fodd i Dubai, hjartat av arabisk parfymkonst, forenar vart varumarke tradition och lyx for att skapa unika dofter med elegans och sofistikation.",

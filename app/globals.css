@@ -69,6 +69,7 @@
   --font-carlito: var(--font-carlito);
   --font-jakarta: var(--font-jakarta);
   --font-bodoni: var(--font-bodoni);
+  --font-magister: var(--font-magister);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -88,11 +89,25 @@ body {
   text-rendering: optimizeLegibility;
   font-feature-settings: "kern", "liga", "clig", "calt";
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-magister), serif !important;
+}
 /* ====== NAVBAR ====== */
 .navbar {
   background: var(--navbar-bg);
   color: var(--navbar-text);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* ===== FONTS ===== */
+.font-magister {
+  font-family: var(--font-magister), serif;
 }
 
 /* ====== NAV LINKS ====== */

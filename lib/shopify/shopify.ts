@@ -3,6 +3,10 @@ interface ShopifyFetchParams {
   variables?: Record<string, unknown>;
   cache?: RequestCache;
   tags?: string[];
+  next?: {
+    revalidate?: number;
+    tags?: string[];
+  };
 }
 
 interface ShopifyFetchResult<T = unknown> {
@@ -14,6 +18,9 @@ interface ShopifyFetchResult<T = unknown> {
 export async function shopifyFetch<T = unknown>({
   query,
   variables,
+  cache,
+  tags,
+  next,
 }: ShopifyFetchParams): Promise<ShopifyFetchResult<T>> {
   const domain = process.env.SHOPIFY_STORE_DOMAIN;
   const key = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN;
@@ -25,6 +32,7 @@ export async function shopifyFetch<T = unknown>({
   }
 
   const endpoint = `https://${domain}/api/2024-01/graphql.json`;
+  const nextConfig = next ?? (tags && tags.length > 0 ? { tags } : undefined);
 
   try {
     const result = await fetch(endpoint, {
@@ -33,6 +41,8 @@ export async function shopifyFetch<T = unknown>({
         "Content-Type": "application/json",
         "X-Shopify-Storefront-Access-Token": key,
       },
+      cache,
+      next: nextConfig,
       // JSON.stringify acepta cualquier objeto, así que esto es seguro
       body: JSON.stringify({ query, variables }),
     });

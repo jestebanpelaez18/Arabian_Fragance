@@ -5,12 +5,35 @@ type Gender = NonNullable<Product["gender"]>;
 
 const GENDERS: Gender[] = ["women", "men", "unisex"];
 
+const NORMALIZED_GENDER_BY_VALUE: Record<string, Gender> = {
+  women: "women",
+  woman: "women",
+  female: "women",
+  ladies: "women",
+  nainen: "women",
+  naiset: "women",
+  dam: "women",
+  damer: "women",
+
+  men: "men",
+  man: "men",
+  male: "men",
+  miehet: "men",
+  mies: "men",
+  herr: "men",
+  herrar: "men",
+
+  unisex: "unisex",
+  uni: "unisex",
+};
+
 export interface ShopifyRawProduct {
   id: string;
   handle?: string;
   slug?: string;
   title?: string;
   name?: string;
+  productType?: string;
   description?: string;
   price?: string | number;
   priceRange?: { minVariantPrice: { amount: string } };
@@ -18,6 +41,7 @@ export interface ShopifyRawProduct {
   images?: { edges: { node: { url: string } }[] };
   gender?: { value: string } | string;
   notes?: { value: string } | string[] | string;
+  concentration?: { value: string } | string;
 }
 
 export function normalizeProduct(p: ShopifyRawProduct): Product {
@@ -30,17 +54,19 @@ export function normalizeProduct(p: ShopifyRawProduct): Product {
     price = Number(p.priceRange.minVariantPrice.amount);
   }
 
+  const images = (p.images?.edges ?? [])
+    .map((edge) => edge.node?.url)
+    .filter((url): url is string => Boolean(url));
+
   let image = "/catalog/Bottle_3.png";
   if (p.image) {
     image = p.image;
-  } else if (p.images?.edges?.[0]?.node?.url) {
-    image = p.images.edges[0].node.url;
+  } else if (images[0]) {
+    image = images[0];
   }
 
-  // --- ARREGLO DEL GÉNERO ---
   let rawGender: string | undefined;
 
-  // 1. Extraemos el valor
   if (
     typeof p.gender === "object" &&
     p.gender !== null &&
@@ -51,18 +77,30 @@ export function normalizeProduct(p: ShopifyRawProduct): Product {
     rawGender = p.gender;
   }
 
-  // 2. Limpiamos: Minúsculas y quitamos espacios (ESTO FALTABA)
-  if (rawGender) {
-    rawGender = rawGender.toLowerCase().trim();
-  }
+  const normalizedRawGender = rawGender
+    ?.toLowerCase()
+    .trim()
+    .replace(/[\s_-]+/g, " ");
 
-  // 3. Comparamos
+  const tokenCandidates = normalizedRawGender
+    ? normalizedRawGender
+        .split(/[\/,|]/)
+        .map((token) => token.trim())
+        .filter(Boolean)
+    : [];
+
+  const mappedGender =
+    NORMALIZED_GENDER_BY_VALUE[normalizedRawGender ?? ""] ??
+    tokenCandidates
+      .map((token) => NORMALIZED_GENDER_BY_VALUE[token])
+      .find(Boolean);
+
   const gender: Gender =
-    rawGender && (GENDERS as readonly string[]).includes(rawGender)
-      ? (rawGender as Gender)
-      : "unisex"; // Si falla, se va a unisex (aquí es donde estaba cayendo)
-
-  // --- FIN ARREGLO ---
+    mappedGender ??
+    (normalizedRawGender &&
+    (GENDERS as readonly string[]).includes(normalizedRawGender)
+      ? (normalizedRawGender as Gender)
+      : "unisex");
 
   let notes: Note[] = [];
   const rawNotes = p.notes;
@@ -88,13 +126,30 @@ export function normalizeProduct(p: ShopifyRawProduct): Product {
     }
   }
 
+  let concentration: string | undefined;
+  if (
+    typeof p.concentration === "object" &&
+    p.concentration !== null &&
+    "value" in p.concentration
+  ) {
+    concentration = p.concentration.value?.trim();
+  } else if (typeof p.concentration === "string") {
+    concentration = p.concentration.trim();
+  }
+
+  if (!concentration) {
+    concentration = p.productType?.trim();
+  }
+
   return {
     id: p.id,
     slug: p.handle || p.slug || "product",
     name,
     price,
+    concentration,
     gender,
     image,
+    images,
     notes,
     description: p.description || "",
     status: "active",

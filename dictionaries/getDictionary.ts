@@ -29,6 +29,20 @@ type Dictionary = {
     description2: string;
     ctaLabel: string;
   };
+  homeSections: {
+    artOfEssence: {
+      title: string;
+      description: string;
+    };
+    collections: {
+      title: string;
+      description: string;
+    };
+    privateCollection: {
+      title: string;
+      description: string;
+    };
+  };
   store: {
     welcome: string;
     shop_now: string;
