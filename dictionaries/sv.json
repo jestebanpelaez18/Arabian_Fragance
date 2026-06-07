@@ -75,7 +75,9 @@
     "breadcrumbHome": "Hem",
     "breadcrumbShop": "Butik",
     "title": "ALL ARABIAN FRAGRANCE",
-    "subtitle": "Handgjorda kompositioner rotade i arabisk parfymkonst med resinost djup, lysande floraler och varm amber. Upptack vart fulla urval av tidlosa signaturer for varje stil."
+    "subtitle": "Handgjorda kompositioner rotade i arabisk parfymkonst med resinost djup, lysande floraler och varm amber. Upptack vart fulla urval av tidlosa signaturer for varje stil.",
+    "countLabelSingular": "Doft",
+    "countLabelPlural": "Dofter"
   },
   "showroomPage": {
     "dividerFinland": "FINLAND",

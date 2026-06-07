@@ -8,6 +8,7 @@ import IntroCompact from "@/components/shop/IntroCompact";
 import NoteFilterChips from "@/components/shop/NoteFilterChips";
 import { type Product } from "@/data/products";
 import { i18n, type Locale } from "@/i18n-config";
+import { getDictionary } from "@/dictionaries/getDictionary";
 
 // Import the new Mapper
 import { normalizeProduct, type ShopifyRawProduct } from "@/lib/shopify/mapper";
@@ -53,6 +54,7 @@ export default async function ShopByGenderPage({
   searchParams: Promise<{ notes?: string }>;
 }) {
   const { locale, gender } = await params;
+  const dict = await getDictionary(locale);
 
   // Validate Gender Param
   if (!GENDERS.includes(gender as Gender)) return notFound();
@@ -87,7 +89,7 @@ export default async function ShopByGenderPage({
           <li>
             <Link
               href="/"
-              className="text-foreground transition hover:text-[var(--gold)]"
+              className="text-foreground transition hover:text-gold"
             >
               Home
             </Link>
@@ -96,7 +98,7 @@ export default async function ShopByGenderPage({
           <li>
             <Link
               href="/shop"
-              className="text-foreground transition hover:text-[var(--gold)]"
+              className="text-foreground transition hover:text-gold"
             >
               Shop
             </Link>
@@ -110,6 +112,8 @@ export default async function ShopByGenderPage({
       <IntroCompact
         title={`${validGender.toUpperCase()} FRAGRANCES`}
         count={filtered.length}
+        countLabelSingular={dict.shopPage.countLabelSingular}
+        countLabelPlural={dict.shopPage.countLabelPlural}
         subtitle={<>{COPY[validGender]}</>}
       />
 

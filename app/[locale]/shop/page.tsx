@@ -62,6 +62,8 @@ export default async function ShopIndexPage({
       <IntroCompact
         title={dict.shopPage.title}
         count={filtered.length}
+        countLabelSingular={dict.shopPage.countLabelSingular}
+        countLabelPlural={dict.shopPage.countLabelPlural}
         subtitle={<>{dict.shopPage.subtitle}</>}
       />
 

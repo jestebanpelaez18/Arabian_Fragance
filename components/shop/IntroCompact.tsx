@@ -1,33 +1,45 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 export default function IntroCompact({
   title,
   subtitle,
   count,
+  countLabelSingular = "Fragrance",
+  countLabelPlural = "Fragrances",
 }: {
   title: string;
   subtitle?: ReactNode;
   count?: number;
+  countLabelSingular?: string;
+  countLabelPlural?: string;
   chips?: string[];
 }) {
   return (
-    <section className="w-full px-5 pt-6 md:px-5 md:pt-8 xl:px-6">
-      <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-[1.05fr_1fr]">
-        <h1 className="text-[28px] leading-tight md:text-[40px]">
+    <section className="w-full px-5 pt-10 text-center md:px-8 md:pt-14 xl:px-12">
+      <div className="mx-auto max-w-3xl flex flex-col items-center gap-4 md:gap-5">
+        
+        {/* Contador elegante en la parte superior como un meta-dato editorial */}
+        {typeof count === "number" && (
+          <span className="text-[10px] uppercase tracking-[0.25em] text-black/40 font-light">
+            {count} {count === 1 ? countLabelSingular : countLabelPlural}
+          </span>
+        )}
+
+        {/* Título de la colección: Imponente, limpio y sin añadidos que rompan la línea */}
+        <h1 className="font-serif text-3xl font-normal uppercase tracking-[0.03em] text-neutral-900 md:text-4xl lg:text-5xl">
           {title}
-          {typeof count === "number" && (
-            <span className="ml-3 align-super text-sm opacity-70">
-              [ {count} ]
-            </span>
-          )}
         </h1>
-        <div className="font-garamond text-base opacity-85 md:text-lg/relaxed">
-          {subtitle}
-        </div>
+
+        {/* Descripción: Centrada, ligera, usando Garamond con aire de alta perfumería */}
+        {subtitle && (
+          <div className="mt-2 font-garamond text-base italic leading-relaxed text-black/60 md:text-lg max-w-2xl">
+            {subtitle}
+          </div>
+        )}
       </div>
 
-      {/* Divider */}
-      <div className="mt-6 h-px w-full bg-black/15 md:mt-8" />
+      {/* Divisor ultrafino y sutil */}
+      <div className="mt-10 h-px w-full bg-black/8 md:mt-14" />
     </section>
   );
 }
