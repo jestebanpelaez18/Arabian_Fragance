@@ -156,19 +156,19 @@ export default function Navbar() {
                     {labels.byCategory}
                   </h3>
                   <Link
-                    href="/shop?gender=women"
+                    href="/shop/women"
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
                     {labels.womenPerfumes}
                   </Link>
                   <Link
-                    href="/shop?gender=men"
+                    href="/shop/men"
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
                     {labels.menPerfumes}
                   </Link>
                   <Link
-                    href="/shop?gender=unisex"
+                    href="/shop/unisex"
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
                     {labels.unisexPerfumes}

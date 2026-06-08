@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Suspense } from "react";
 import { getShopifyProducts } from "@/lib/shopify/get-products";
 import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
 import NoteFilterChips from "@/components/shop/NoteFilterChips";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { type Product } from "@/data/products";
 import { i18n, type Locale } from "@/i18n-config";
 import { getDictionary } from "@/dictionaries/getDictionary";
@@ -76,30 +76,13 @@ export default async function ShopByGenderPage({
 
   return (
     <main>
-      {/* Breadcrumb */}
-      <nav className="w-full px-5 pt-4 pb-2 text-xs tracking-[0.08em] text-black/60 md:px-5 xl:px-6">
-        <ol className="flex items-center gap-2">
-          <li>
-            <Link
-              href="/"
-              className="text-foreground transition hover:text-gold"
-            >
-              Home
-            </Link>
-          </li>
-          <li>/</li>
-          <li>
-            <Link
-              href="/shop"
-              className="text-foreground transition hover:text-gold"
-            >
-              Shop
-            </Link>
-          </li>
-          <li>/</li>
-          <li className="text-foreground">{validGender}</li>
-        </ol>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { label: dict.shopPage.breadcrumbHome, href: "/" },
+          { label: dict.shopPage.breadcrumbShop, href: "/shop" },
+          { label: validGender },
+        ]}
+      />
 
       {/* Intro */}
       <IntroCompact
