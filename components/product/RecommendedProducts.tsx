@@ -87,7 +87,7 @@ export default async function RecommendedProducts({
       <SectionDivider text={labels.title} />
       <div className="grid grid-cols-2 gap-x-2.5 gap-y-6 px-5 md:grid-cols-4 md:gap-x-5">
         {recommended.map((p) => (
-          <ProductCard key={p.id} p={p} />
+          <ProductCard key={p.id} p={p} locale={locale} />
         ))}
       </div>
     </section>

@@ -51,7 +51,7 @@ export default async function ShopIndexPage({
           { label: dict.shopPage.breadcrumbShop },
         ]}
       />
-      
+
       {/* Intro */}
       <IntroCompact
         title={dict.shopPage.title}
@@ -66,8 +66,8 @@ export default async function ShopIndexPage({
         <Suspense fallback={null}>
           <NoteFilterChips allNotes={allNotes} />
         </Suspense>
-        {/* Separation between filter and products */}
         <div className="mt-6 h-px w-full md:mt-8" />
+        {/* Separation between filter and products */}
       </section>
 
       {/* Grid */}
@@ -75,7 +75,7 @@ export default async function ShopIndexPage({
         <div className="grid grid-cols-2 gap-x-2.5 gap-y-16 md:gap-x-5 lg:grid-cols-4">
           {/* Al ser filtered un array de Product, ProductCard no se queja */}
           {filtered.map((p) => (
-            <ProductCard key={p.id} p={p} />
+            <ProductCard key={p.id} p={p} locale={locale} />
           ))}
         </div>
       </section>

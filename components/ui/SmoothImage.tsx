@@ -15,12 +15,13 @@ export default function SmoothImage({
     <Image
       alt={alt}
       src={src}
-      className={`duration-700 ease-in-out ${
+      className={`transition-[transform,opacity] duration-700 ease-out ${
         isLoading
-          ? "scale-105 bg-black/5 blur-lg grayscale"
-          : "blur-0 scale-100 bg-transparent grayscale-0"
+          ? "scale-[1.02] opacity-0"
+          : "scale-100 opacity-100"
       } ${className || ""}`}
       onLoad={() => setLoading(false)}
+      decoding="async"
       {...props}
     />
   );

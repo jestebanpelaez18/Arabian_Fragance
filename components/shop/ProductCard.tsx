@@ -1,10 +1,7 @@
-"use client";
-
 import Link from "next/link";
-import SmoothImage from "../ui/SmoothImage";
+import ProductCardImages from "./ProductCardImages";
 import { type Product } from "@/data/products";
-import { usePathname } from "next/navigation";
-import { getLocaleFromPathname } from "@/lib/i18n/uiLabels";
+import { i18n, type Locale } from "@/i18n-config";
 import {
   formatProductDetailLabel,
   getIntensityLabel,
@@ -13,12 +10,20 @@ import {
 
 const INTENSITY_STEPS = [1, 2, 3, 4] as const;
 
-export default function ProductCard({ p }: { p: Product }) {
-  const pathname = usePathname();
-  const locale = getLocaleFromPathname(pathname);
+type ProductCardProps = {
+  p: Product;
+  locale?: Locale;
+};
+
+export default function ProductCard({
+  p,
+  locale = i18n.defaultLocale,
+}: ProductCardProps) {
   const href = `/product/${p.slug ?? p.id}`;
-  const cardImage =
-    p.images?.[1] || p.images?.[0] || p.image || "/catalog/Bottle_3.png";
+
+  const primaryImage = p.images?.[0] || p.image || "/catalog/Bottle_3.png";
+  const hoverImage = p.images?.[1] || null;
+
   const intensityLevel = getIntensityLevel(p.concentration);
   const detailLabel = formatProductDetailLabel(p, locale);
   const intensityLabel = getIntensityLabel(locale);
@@ -28,21 +33,19 @@ export default function ProductCard({ p }: { p: Product }) {
       <Link
         href={href}
         aria-label={p.name}
-        className="group bg-background relative block aspect-4/5 w-full overflow-hidden"
+        className="bg-background relative block aspect-4/5 w-full overflow-hidden"
       >
-        <SmoothImage
-          src={cardImage}
-          alt={p.name}
-          fill
-          sizes="(min-width:1280px) 25vw, (min-width:768px) 33vw, 50vw"
-          className="object-cover transition-transform duration-1000 group-hover:scale-[1.02]"
+        <ProductCardImages
+          name={p.name}
+          primaryImage={primaryImage}
+          hoverImage={hoverImage}
         />
       </Link>
 
       <div className="mt-4 flex flex-col items-center px-1 text-center">
         <Link
           href={href}
-          className="font-magister text-sm leading-snug font-medium tracking-wide text-neutral-900 transition-colors duration-300 group-hover:text-neutral-500 md:text-sm"
+          className="font-magister text-sm leading-snug font-medium tracking-wide text-neutral-900 transition-colors duration-300 group-hover:text-gold md:text-sm"
         >
           {p.name}
         </Link>
@@ -60,7 +63,7 @@ export default function ProductCard({ p }: { p: Product }) {
               <span
                 key={step}
                 className={`h-[5px] w-2 transition-colors duration-500 ${
-                  step <= intensityLevel ? "bg-neutral-700" : "bg-neutral-200"
+                  step <= intensityLevel ? "bg-gold" : "bg-neutral-200"
                 }`}
               />
             ))}
