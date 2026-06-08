@@ -21,8 +21,9 @@ export default function ProductCard({
 }: ProductCardProps) {
   const href = `/product/${p.slug ?? p.id}`;
 
-  const primaryImage = p.images?.[0] || p.image || "/catalog/Bottle_3.png";
-  const hoverImage = p.images?.[1] || null;
+  const primaryImage =
+    p.images?.[1] || p.images?.[0] || p.image || "/catalog/Bottle_3.png";
+  const hoverImage = p.images?.[1] ? (p.images?.[0] ?? null) : null;
 
   const intensityLevel = getIntensityLevel(p.concentration);
   const detailLabel = formatProductDetailLabel(p, locale);
