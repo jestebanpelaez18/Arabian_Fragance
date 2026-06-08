@@ -41,7 +41,59 @@ export interface ShopifyRawProduct {
   images?: { edges: { node: { url: string } }[] };
   gender?: { value: string } | string;
   notes?: { value: string } | string[] | string;
+  topNotes?: { value: string } | string[] | string;
+  heartNotes?: { value: string } | string[] | string;
+  baseNotes?: { value: string } | string[] | string;
   concentration?: { value: string } | string;
+}
+
+function parseShopifyListField(
+  field?: { value: string } | string[] | string,
+): string[] {
+  if (!field) return [];
+
+  const splitRawText = (value: string) => {
+    const cleaned = value.replace(/[\[\]"]/g, "").trim();
+    if (!cleaned) return [];
+    if (cleaned.includes("|")) {
+      return cleaned.split("|").map((s) => s.trim());
+    }
+    if (cleaned.includes("•")) {
+      return cleaned.split("•").map((s) => s.trim());
+    }
+    if (cleaned.includes("·")) {
+      return cleaned.split("·").map((s) => s.trim());
+    }
+    if (cleaned.includes(",")) {
+      return cleaned.split(",").map((s) => s.trim());
+    }
+    return [cleaned];
+  };
+
+  if (Array.isArray(field)) {
+    return field.map((s) => s.trim()).filter(Boolean);
+  }
+
+  if (typeof field === "string") {
+    return splitRawText(field).filter(Boolean);
+  }
+
+  if (typeof field === "object" && field !== null && "value" in field) {
+    try {
+      const parsed = JSON.parse(field.value);
+      if (Array.isArray(parsed)) {
+        return parsed
+          .map((item) => String(item).trim())
+          .filter(Boolean);
+      }
+    } catch {
+      // Fall back to plain text parsing below.
+    }
+
+    return splitRawText(field.value).filter(Boolean);
+  }
+
+  return [];
 }
 
 export function normalizeProduct(p: ShopifyRawProduct): Product {
@@ -102,29 +154,19 @@ export function normalizeProduct(p: ShopifyRawProduct): Product {
       ? (normalizedRawGender as Gender)
       : "unisex");
 
-  let notes: Note[] = [];
-  const rawNotes = p.notes;
+  let notes = parseShopifyListField(p.notes);
 
-  if (Array.isArray(rawNotes)) {
-    notes = rawNotes as Note[];
-  } else if (typeof rawNotes === "string") {
-    notes = [rawNotes] as Note[];
-  } else if (
-    typeof rawNotes === "object" &&
-    rawNotes !== null &&
-    "value" in rawNotes
-  ) {
-    try {
-      const parsed = JSON.parse(rawNotes.value);
-      notes = Array.isArray(parsed)
-        ? (parsed as Note[])
-        : ([rawNotes.value] as Note[]);
-    } catch {
-      notes = rawNotes.value.includes(",")
-        ? (rawNotes.value.split(",").map((s) => s.trim()) as Note[])
-        : ([rawNotes.value] as Note[]);
-    }
+  if (notes.length === 0) {
+    notes = [
+      ...parseShopifyListField(p.topNotes),
+      ...parseShopifyListField(p.heartNotes),
+      ...parseShopifyListField(p.baseNotes),
+    ];
   }
+
+  const normalizedNotes = Array.from(
+    new Set(notes.map((note) => note.trim()).filter(Boolean)),
+  ) as Note[];
 
   let concentration: string | undefined;
   if (
@@ -150,7 +192,7 @@ export function normalizeProduct(p: ShopifyRawProduct): Product {
     gender,
     image,
     images,
-    notes,
+    notes: normalizedNotes,
     description: p.description || "",
     status: "active",
   };

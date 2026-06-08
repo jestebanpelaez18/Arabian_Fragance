@@ -9,11 +9,12 @@ import NoteFilterChips from "@/components/shop/NoteFilterChips";
 import { type Product } from "@/data/products";
 import { i18n, type Locale } from "@/i18n-config";
 import { getDictionary } from "@/dictionaries/getDictionary";
+import {
+  getAvailablePrimaryNotes,
+  productMatchesAllNotes,
+  sanitizeSelectedNotes,
+} from "@/lib/shop/note-filters";
 
-// Import the new Mapper
-import { normalizeProduct, type ShopifyRawProduct } from "@/lib/shopify/mapper";
-
-type Note = NonNullable<Product["notes"]>[number];
 type Gender = NonNullable<Product["gender"]>;
 
 const GENDERS: Gender[] = ["women", "men", "unisex"];
@@ -60,25 +61,17 @@ export default async function ShopByGenderPage({
   if (!GENDERS.includes(gender as Gender)) return notFound();
   const validGender = gender as Gender;
 
-  // 1. FETCH DATA (Cast to unknown then to our flexible Raw Interface)
-  const rawData = (await getShopifyProducts(
-    locale,
-  )) as unknown as ShopifyRawProduct[];
+  const PRODUCTS: Product[] = await getShopifyProducts(locale);
 
-  // 2. NORMALIZE DATA (The clean separation)
-  const PRODUCTS: Product[] = rawData.map(normalizeProduct);
-
-  // 3. FILTER LOGIC
   const sp = await searchParams;
-  const selected = (sp.notes?.split(",").filter(Boolean) ?? []) as Note[];
+  const selected = sp.notes?.split(",").filter(Boolean) ?? [];
 
   const base = PRODUCTS.filter((p) => p.gender === validGender);
+  const allNotes = getAvailablePrimaryNotes(base);
+  const activeFilters = sanitizeSelectedNotes(selected, allNotes);
 
-  const filtered = base.filter((p) =>
-    selected.length === 0
-      ? true
-      : (p.notes ?? []).length > 0 &&
-        selected.every((n) => (p.notes ?? []).includes(n)),
+  const filtered = base.filter((product) =>
+    productMatchesAllNotes(product, activeFilters),
   );
 
   return (
@@ -120,9 +113,7 @@ export default async function ShopByGenderPage({
       {/* Filters */}
       <section className="mt-6 w-full px-5 md:mt-8 md:px-5 xl:px-6">
         <Suspense fallback={null}>
-          <NoteFilterChips
-            allNotes={["Woody", "Floral", "Amber", "Spice", "Musk", "Citrus"]}
-          />
+          <NoteFilterChips allNotes={allNotes} />
         </Suspense>
         <div className="mt-6 h-px w-full md:mt-8" />
       </section>

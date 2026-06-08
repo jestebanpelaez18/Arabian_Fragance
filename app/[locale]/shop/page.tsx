@@ -5,11 +5,13 @@ import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
 import NoteFilterChips from "@/components/shop/NoteFilterChips";
 import { type Product } from "@/data/products";
-import { normalizeProduct, type ShopifyRawProduct } from "@/lib/shopify/mapper";
 import { getDictionary } from "@/dictionaries/getDictionary";
 import type { Locale } from "@/i18n-config";
-
-type Note = NonNullable<Product["notes"]>[number];
+import {
+  getAvailablePrimaryNotes,
+  productMatchesAllNotes,
+  sanitizeSelectedNotes,
+} from "@/lib/shop/note-filters";
 
 export default async function ShopIndexPage({
   params,
@@ -21,25 +23,15 @@ export default async function ShopIndexPage({
   const { locale } = await params;
   const dict = await getDictionary(locale);
 
-  const rawData = (await getShopifyProducts(
-    locale,
-  )) as unknown as ShopifyRawProduct[];
-
-  const PRODUCTS: Product[] = rawData.map(normalizeProduct);
+  const PRODUCTS: Product[] = await getShopifyProducts(locale);
+  const allNotes = getAvailablePrimaryNotes(PRODUCTS);
 
   const sp = await searchParams;
-  const selected = (sp.notes?.split(",").filter(Boolean) ?? []) as Note[];
-
-  const filtered = PRODUCTS.filter((p) => {
-    if (selected.length === 0) return true;
-
-    // Verificación segura de notas
-    return (
-      p.notes &&
-      p.notes.length > 0 &&
-      selected.every((n) => p.notes!.includes(n))
-    );
-  });
+  const selected = sp.notes?.split(",").filter(Boolean) ?? [];
+  const activeFilters = sanitizeSelectedNotes(selected, allNotes);
+  const filtered = PRODUCTS.filter((product) =>
+    productMatchesAllNotes(product, activeFilters),
+  );
 
   return (
     <main>
@@ -68,11 +60,9 @@ export default async function ShopIndexPage({
       />
 
       {/* Chips */}
-      <section className="mt-6 w-full px-5 md:mt-8 md:px-5 xl:px-6">
+      <section className="mt-6 w-full px-5 md:mt-8">
         <Suspense fallback={null}>
-          <NoteFilterChips
-            allNotes={["Woody", "Floral", "Amber", "Spice", "Musk", "Citrus"]}
-          />
+          <NoteFilterChips allNotes={allNotes} />
         </Suspense>
         {/* Separation between filter and products */}
         <div className="mt-6 h-px w-full md:mt-8" />
