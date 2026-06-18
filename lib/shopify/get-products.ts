@@ -19,7 +19,7 @@ const allProductsQuery = `
               currencyCode
             }
           }
-          images(first: 2) {
+          images(first: 8) {
             edges {
               node {
                 url
@@ -36,6 +36,9 @@ const allProductsQuery = `
           }
           gender: metafield(namespace: "custom", key: "gender") { value }
           notes: metafield(namespace: "custom", key: "main_accord") { value }
+          topNotes: metafield(namespace: "custom", key: "top_notes") { value }
+          heartNotes: metafield(namespace: "custom", key: "hearth_notes") { value }
+          baseNotes: metafield(namespace: "custom", key: "base_notes") { value }
           concentration: metafield(namespace: "custom", key: "concentration") { value }
         }
       }

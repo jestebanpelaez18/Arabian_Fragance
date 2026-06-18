@@ -23,6 +23,28 @@ export type Note =
   | "Oud"
   | "Smoky";
 
+export const VALID_NOTES: readonly Note[] = [
+  "Woody",
+  "Floral",
+  "Amber",
+  "Spice",
+  "Musk",
+  "Citrus",
+  "Sweet",
+  "Fresh",
+  "Fruity",
+  "Aquatic",
+  "Gourmand",
+  "Earthy",
+  "Herbal",
+  "Powdery",
+  "Leather",
+  "Tobacco",
+  "Vanilla",
+  "Oud",
+  "Smoky",
+];
+
 export type Product = {
   id: string;
   slug: string;

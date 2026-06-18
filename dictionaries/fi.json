@@ -75,7 +75,9 @@
     "breadcrumbHome": "Etusivu",
     "breadcrumbShop": "Kauppa",
     "title": "KOKO ARABIAN FRAGRANCE",
-    "subtitle": "Käsintehtyjä koostumuksia arabialaisen hajuvesiperinteen pohjalta - pihkaista syvyyttä, hehkuvia kukkaistuoksuja ja lämpimän meripihkaisia sävyjä. Löydä ajattomat suosikit jokaiseen tyyliin."
+    "subtitle": "Käsintehtyjä koostumuksia arabialaisen hajuvesiperinteen pohjalta - pihkaista syvyyttä, hehkuvia kukkaistuoksuja ja lämpimän meripihkaisia sävyjä. Löydä ajattomat suosikit jokaiseen tyyliin.",
+    "countLabelSingular": "Tuoksu",
+    "countLabelPlural": "Tuoksua"
   },
   "showroomPage": {
     "dividerFinland": "SUOMI",

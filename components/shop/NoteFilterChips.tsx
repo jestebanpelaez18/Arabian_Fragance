@@ -1,57 +1,106 @@
 "use client";
 
-import { useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type Props = {
   allNotes: string[];
   className?: string;
+  allLabel?: string;
 };
 
-export default function NoteFilterChips({ allNotes, className }: Props) {
+const CHIP_BASE_CLASS =
+  "relative py-1.5 text-xs uppercase tracking-[0.18em] transition-colors duration-300 font-light";
+const CHIP_ACTIVE_CLASS = "text-gold font-normal";
+const CHIP_INACTIVE_CLASS = "text-black/40 hover:text-gold";
+const UNDERLINE_BASE_CLASS =
+  "absolute bottom-0 left-0 h-px w-full bg-gold transition-transform duration-300 origin-left";
+
+export default function NoteFilterChips({
+  allNotes,
+  className,
+  allLabel = "All",
+}: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const sp = useSearchParams();
 
-  const selected = useMemo(() => {
-    const raw = sp.get("notes");
-    return raw ? raw.split(",").filter(Boolean) : [];
-  }, [sp]);
+  const selectedNote = sp.get("notes") || null;
 
-  const toggle = (note: string) => {
-    const set = new Set(selected);
-    if (set.has(note)) {
-      set.delete(note);
-    } else {
-      set.add(note);
+  const pushWithQuery = (qs: URLSearchParams) => {
+    const query = qs.toString();
+    const nextUrl = query ? `${pathname}?${query}` : pathname;
+    const currentUrl = sp.toString()
+      ? `${pathname}?${sp.toString()}`
+      : pathname;
+
+    if (nextUrl !== currentUrl) {
+      router.push(nextUrl, { scroll: false });
     }
-    const next = [...set].join(",");
-    const qs = new URLSearchParams(sp.toString());
-    if (next) qs.set("notes", next);
-    else qs.delete("notes");
-    router.push(`${pathname}?${qs.toString()}`, { scroll: false });
   };
 
+  const toggle = (note: string) => {
+    const qs = new URLSearchParams(sp.toString());
+
+    if (selectedNote === note) {
+      qs.delete("notes");
+    } else {
+      qs.set("notes", note);
+    }
+
+    pushWithQuery(qs);
+  };
+
+  const clearFilter = () => {
+    if (selectedNote === null) return;
+
+    const qs = new URLSearchParams(sp.toString());
+    qs.delete("notes");
+    pushWithQuery(qs);
+  };
+
+  const isAllActive = selectedNote === null;
+
   return (
-    <div className={className ?? ""}>
-      <div className="flex flex-wrap gap-4">
+    <div className={`w-full ${className ?? ""}`}>
+      <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 md:gap-x-12">
+        <button
+          type="button"
+          onClick={clearFilter}
+          className={[
+            CHIP_BASE_CLASS,
+            isAllActive ? CHIP_ACTIVE_CLASS : CHIP_INACTIVE_CLASS,
+          ].join(" ")}
+          aria-pressed={isAllActive}
+        >
+          {allLabel}
+          <span
+            className={[
+              UNDERLINE_BASE_CLASS,
+              isAllActive ? "scale-x-100" : "scale-x-0",
+            ].join(" ")}
+          />
+        </button>
+
         {allNotes.map((n) => {
-          const active = selected.includes(n);
+          const active = selectedNote === n;
           return (
             <button
               key={n}
               type="button"
               onClick={() => toggle(n)}
               className={[
-                "rounded-full px-4 py-2 text-sm transition",
-                "border",
-                active
-                  ? "border-black/80 bg-white/10 text-black"
-                  : "border-black/25 text-black/85 hover:border-black/40 hover:bg-white/5",
+                CHIP_BASE_CLASS,
+                active ? CHIP_ACTIVE_CLASS : CHIP_INACTIVE_CLASS,
               ].join(" ")}
               aria-pressed={active}
             >
               {n}
+              <span
+                className={[
+                  UNDERLINE_BASE_CLASS,
+                  active ? "scale-x-100" : "scale-x-0",
+                ].join(" ")}
+              />
             </button>
           );
         })}

@@ -1,79 +1,73 @@
-import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { getShopifyProducts } from "@/lib/shopify/get-products";
 import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
 import NoteFilterChips from "@/components/shop/NoteFilterChips";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { type Product } from "@/data/products";
-import { normalizeProduct, type ShopifyRawProduct } from "@/lib/shopify/mapper";
 import { getDictionary } from "@/dictionaries/getDictionary";
 import type { Locale } from "@/i18n-config";
-
-type Note = NonNullable<Product["notes"]>[number];
+import {
+  getAvailablePrimaryNotes,
+  productMatchesAllNotes,
+  sanitizeSelectedNotes,
+} from "@/lib/shop/note-filters";
 
 export default async function ShopIndexPage({
   params,
   searchParams,
 }: {
   params: Promise<{ locale: Locale }>;
-  searchParams: Promise<{ notes?: string }>;
+  searchParams: Promise<{ notes?: string; gender?: string }>;
 }) {
   const { locale } = await params;
   const dict = await getDictionary(locale);
-
-  const rawData = (await getShopifyProducts(
-    locale,
-  )) as unknown as ShopifyRawProduct[];
-
-  const PRODUCTS: Product[] = rawData.map(normalizeProduct);
-
   const sp = await searchParams;
-  const selected = (sp.notes?.split(",").filter(Boolean) ?? []) as Note[];
 
-  const filtered = PRODUCTS.filter((p) => {
-    if (selected.length === 0) return true;
+  const legacyGender = sp.gender?.toLowerCase();
+  if (
+    legacyGender === "women" ||
+    legacyGender === "men" ||
+    legacyGender === "unisex"
+  ) {
+    redirect(`/${locale}/shop/${legacyGender}`);
+  }
 
-    // Verificación segura de notas
-    return (
-      p.notes &&
-      p.notes.length > 0 &&
-      selected.every((n) => p.notes!.includes(n))
-    );
-  });
+  const PRODUCTS: Product[] = await getShopifyProducts(locale);
+  const allNotes = getAvailablePrimaryNotes(PRODUCTS);
+
+  const selected = sp.notes?.split(",").filter(Boolean) ?? [];
+  const activeFilters = sanitizeSelectedNotes(selected, allNotes);
+  const filtered = PRODUCTS.filter((product) =>
+    productMatchesAllNotes(product, activeFilters),
+  );
 
   return (
     <main>
-      <nav className="w-full px-5 pt-4 pb-2 text-xs tracking-[0.08em] text-black/60 md:px-5 xl:px-7">
-        <ol className="flex items-center gap-2">
-          <li>
-            <Link
-              href="/"
-              className="text-foreground hover:text-gold transition"
-            >
-              {dict.shopPage.breadcrumbHome}
-            </Link>
-          </li>
-          <li>/</li>
-          <li className="text-foreground">{dict.shopPage.breadcrumbShop}</li>
-        </ol>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { label: dict.shopPage.breadcrumbHome, href: "/" },
+          { label: dict.shopPage.breadcrumbShop },
+        ]}
+      />
 
       {/* Intro */}
       <IntroCompact
         title={dict.shopPage.title}
         count={filtered.length}
+        countLabelSingular={dict.shopPage.countLabelSingular}
+        countLabelPlural={dict.shopPage.countLabelPlural}
         subtitle={<>{dict.shopPage.subtitle}</>}
       />
 
       {/* Chips */}
-      <section className="mt-6 w-full px-5 md:mt-8 md:px-5 xl:px-6">
+      <section className="mt-6 w-full px-5 md:mt-8">
         <Suspense fallback={null}>
-          <NoteFilterChips
-            allNotes={["Woody", "Floral", "Amber", "Spice", "Musk", "Citrus"]}
-          />
+          <NoteFilterChips allNotes={allNotes} />
         </Suspense>
-        {/* Separation between filter and products */}
         <div className="mt-6 h-px w-full md:mt-8" />
+        {/* Separation between filter and products */}
       </section>
 
       {/* Grid */}
@@ -81,7 +75,7 @@ export default async function ShopIndexPage({
         <div className="grid grid-cols-2 gap-x-2.5 gap-y-16 md:gap-x-5 lg:grid-cols-4">
           {/* Al ser filtered un array de Product, ProductCard no se queja */}
           {filtered.map((p) => (
-            <ProductCard key={p.id} p={p} />
+            <ProductCard key={p.id} p={p} locale={locale} />
           ))}
         </div>
       </section>

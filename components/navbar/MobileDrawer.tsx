@@ -224,7 +224,7 @@ export default function MobileDrawer({
                     <ul className="space-y-4">
                       <li>
                         <Link
-                          href="/shop?gender=women"
+                          href="/shop/women"
                           onClick={() => setOpenMobile(false)}
                           className="font-garamond block text-lg text-[#1a1a1a]"
                         >
@@ -233,7 +233,7 @@ export default function MobileDrawer({
                       </li>
                       <li>
                         <Link
-                          href="/shop?gender=men"
+                          href="/shop/men"
                           onClick={() => setOpenMobile(false)}
                           className="font-garamond block text-lg text-[#1a1a1a]"
                         >
@@ -242,7 +242,7 @@ export default function MobileDrawer({
                       </li>
                       <li>
                         <Link
-                          href="/shop?gender=unisex"
+                          href="/shop/unisex"
                           onClick={() => setOpenMobile(false)}
                           className="font-garamond block text-lg text-[#1a1a1a]"
                         >

@@ -105,7 +105,7 @@ export default function DiscoverSection({
           <div className="mb-16 w-full">
             <div className="grid grid-cols-2 gap-x-4 gap-y-16 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-5">
               {filtered.map((p) => (
-                <ProductCard key={p.id} p={p} />
+                <ProductCard key={p.id} p={p} locale={locale} />
               ))}
             </div>
           </div>

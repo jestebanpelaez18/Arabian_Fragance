@@ -68,6 +68,8 @@ type Dictionary = {
     breadcrumbShop: string;
     title: string;
     subtitle: string;
+    countLabelSingular: string;
+    countLabelPlural: string;
   };
   showroomPage: {
     dividerFinland: string;
