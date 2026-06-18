@@ -212,6 +212,7 @@ export default function Navbar() {
                     src="/catalog/Bottle_3.png"
                     alt={labels.featuredPerfumeAlt}
                     fill
+                    sizes="192px"
                     className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                 </div>
