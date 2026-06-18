@@ -13,13 +13,11 @@ const INTENSITY_STEPS = [1, 2, 3, 4] as const;
 type ProductCardProps = {
   p: Product;
   locale?: Locale;
-  priority?: boolean;
 };
 
 export default function ProductCard({
   p,
   locale = i18n.defaultLocale,
-  priority = false,
 }: ProductCardProps) {
   const href = `/product/${p.slug ?? p.id}`;
 
@@ -42,7 +40,6 @@ export default function ProductCard({
           name={p.name}
           primaryImage={primaryImage}
           hoverImage={hoverImage}
-          priority={priority}
         />
       </Link>
 

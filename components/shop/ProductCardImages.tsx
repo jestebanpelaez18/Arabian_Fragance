@@ -12,14 +12,12 @@ type ProductCardImagesProps = {
   name: string;
   primaryImage: string;
   hoverImage: string | null;
-  priority?: boolean;
 };
 
 export default function ProductCardImages({
   name,
   primaryImage,
   hoverImage,
-  priority = false,
 }: ProductCardImagesProps) {
   if (!hoverImage || hoverImage === primaryImage) {
     return (
@@ -29,7 +27,6 @@ export default function ProductCardImages({
         fill
         sizes={IMAGE_SIZES}
         className={PRIMARY_IMAGE_CLASS}
-        priority={priority}
       />
     );
   }
@@ -42,7 +39,6 @@ export default function ProductCardImages({
         fill
         sizes={IMAGE_SIZES}
         className={PRIMARY_IMAGE_CLASS}
-        priority={priority}
       />
 
       <SmoothImage
