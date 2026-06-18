@@ -1,7 +1,11 @@
-import { type Product } from "@/data/products";
+import { type Product, VALID_NOTES } from "@/data/products";
 
 type Note = NonNullable<Product["notes"]>[number];
 type Gender = NonNullable<Product["gender"]>;
+
+const NOTE_BY_NORMALIZED_VALUE = new Map(
+  VALID_NOTES.map((note) => [note.toLowerCase(), note] as const),
+);
 
 const GENDERS: Gender[] = ["women", "men", "unisex"];
 
@@ -94,6 +98,10 @@ function parseShopifyListField(
   return [];
 }
 
+function normalizeToKnownNote(value: string): Note | undefined {
+  return NOTE_BY_NORMALIZED_VALUE.get(value.trim().toLowerCase());
+}
+
 export function normalizeProduct(p: ShopifyRawProduct): Product {
   const name = p.title || p.name || "Arabian Fragrance";
 
@@ -167,8 +175,12 @@ export function normalizeProduct(p: ShopifyRawProduct): Product {
   }
 
   const normalizedNotes = Array.from(
-    new Set(notes.map((note) => note.trim()).filter(Boolean)),
-  ) as Note[];
+    new Set(
+      notes
+        .map(normalizeToKnownNote)
+        .filter((note): note is Note => note !== undefined),
+    ),
+  );
 
   let concentration: string | undefined;
   if (
