@@ -106,9 +106,13 @@ export function normalizeProduct(p: ShopifyRawProduct): Product {
     price = Number(p.priceRange.minVariantPrice.amount);
   }
 
-  const images = (p.images?.edges ?? [])
-    .map((edge) => edge.node?.url)
-    .filter((url): url is string => Boolean(url));
+  const images = Array.from(
+    new Set(
+      (p.images?.edges ?? [])
+        .map((edge) => edge.node?.url)
+        .filter((url): url is string => Boolean(url)),
+    ),
+  );
 
   let image = "/catalog/Bottle_3.png";
   if (p.image) {

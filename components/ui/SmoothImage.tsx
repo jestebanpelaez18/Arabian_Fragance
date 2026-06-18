@@ -1,7 +1,6 @@
 "use client";
 
 import Image, { ImageProps } from "next/image";
-import { useState } from "react";
 
 export default function SmoothImage({
   alt,
@@ -9,19 +8,14 @@ export default function SmoothImage({
   className,
   ...props
 }: ImageProps) {
-  const [isLoading, setLoading] = useState(true);
-
   return (
     <Image
       alt={alt}
       src={src}
-      className={`transition-[transform,opacity] duration-700 ease-out ${
-        isLoading
-          ? "scale-[1.02] opacity-0"
-          : "scale-100 opacity-100"
-      } ${className || ""}`}
-      onLoad={() => setLoading(false)}
+      className={`transition-all duration-1200 ease-out ${className || ""}`}
       decoding="async"
+      placeholder="blur"
+      blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA0MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNTAiIGZpbGw9IiNGNEYzRUYiLz48L3N2Zz4="
       {...props}
     />
   );

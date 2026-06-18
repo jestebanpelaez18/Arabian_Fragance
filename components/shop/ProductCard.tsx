@@ -13,17 +13,19 @@ const INTENSITY_STEPS = [1, 2, 3, 4] as const;
 type ProductCardProps = {
   p: Product;
   locale?: Locale;
+  priority?: boolean;
 };
 
 export default function ProductCard({
   p,
   locale = i18n.defaultLocale,
+  priority = false,
 }: ProductCardProps) {
   const href = `/product/${p.slug ?? p.id}`;
 
-  const primaryImage =
-    p.images?.[1] || p.images?.[0] || p.image || "/catalog/Bottle_3.png";
-  const hoverImage = p.images?.[1] ? (p.images?.[0] ?? null) : null;
+  const uniqueImages = Array.from(new Set((p.images ?? []).filter(Boolean)));
+  const primaryImage = uniqueImages[0] || p.image || "/catalog/Bottle_3.png";
+  const hoverImage = uniqueImages[1] ?? null;
 
   const intensityLevel = getIntensityLevel(p.concentration);
   const detailLabel = formatProductDetailLabel(p, locale);
@@ -40,18 +42,19 @@ export default function ProductCard({
           name={p.name}
           primaryImage={primaryImage}
           hoverImage={hoverImage}
+          priority={priority}
         />
       </Link>
 
       <div className="mt-4 flex flex-col items-center px-1 text-center">
         <Link
           href={href}
-          className="font-magister text-sm leading-snug font-medium tracking-wide text-neutral-900 transition-colors duration-300 group-hover:text-gold md:text-sm"
+          className="font-magister group-hover:text-gold text-sm leading-snug font-medium tracking-wide text-neutral-900 transition-colors duration-300 md:text-sm"
         >
           {p.name}
         </Link>
 
-        <p className="font-garamond mt-2 max-w-[280px] text-xs tracking-wide text-neutral-600 md:text-sm">
+        <p className="font-garamond mt-2 max-w-[300px] text-xs leading-snug tracking-wide text-neutral-600 md:max-w-[320px] md:text-sm">
           {detailLabel}
         </p>
 
