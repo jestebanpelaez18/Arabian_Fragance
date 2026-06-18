@@ -28,7 +28,9 @@ export function sanitizeSelectedNotes(
   availableNotes: ProductNote[],
 ): ProductNote[] {
   const availableSet = new Set(availableNotes);
-  return selected.filter((note): note is ProductNote => availableSet.has(note as ProductNote));
+  return selected.filter((note): note is ProductNote =>
+    availableSet.has(note as ProductNote),
+  );
 }
 
 export function productMatchesAllNotes(

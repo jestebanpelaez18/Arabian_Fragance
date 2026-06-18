@@ -82,9 +82,7 @@ function parseShopifyListField(
     try {
       const parsed = JSON.parse(field.value);
       if (Array.isArray(parsed)) {
-        return parsed
-          .map((item) => String(item).trim())
-          .filter(Boolean);
+        return parsed.map((item) => String(item).trim()).filter(Boolean);
       }
     } catch {
       // Fall back to plain text parsing below.

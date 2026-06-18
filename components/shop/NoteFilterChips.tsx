@@ -29,7 +29,9 @@ export default function NoteFilterChips({
   const pushWithQuery = (qs: URLSearchParams) => {
     const query = qs.toString();
     const nextUrl = query ? `${pathname}?${query}` : pathname;
-    const currentUrl = sp.toString() ? `${pathname}?${sp.toString()}` : pathname;
+    const currentUrl = sp.toString()
+      ? `${pathname}?${sp.toString()}`
+      : pathname;
 
     if (nextUrl !== currentUrl) {
       router.push(nextUrl, { scroll: false });
