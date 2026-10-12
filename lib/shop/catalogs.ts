@@ -70,6 +70,12 @@ export const SHOP_CATALOGS = {
     subtitle: "",
     matches: (product: Product) => product.productType === "Body Mist",
   },
+  discovery: {
+  title: "Discovery",
+  subtitle: "",
+  matches: (product: Product) =>
+    product.productType === "Discovery Set",
+},
 } satisfies Record<string, ShopCatalog>;
 
 export type ShopSlug = keyof typeof SHOP_CATALOGS;

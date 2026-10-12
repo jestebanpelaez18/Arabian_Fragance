@@ -138,35 +138,35 @@ export default function MobileDrawer({
                 </button>
 
                 <Link
-                  href="/oils"
+                  href={`/${currentLocale}/shop/tolas`}
                   onClick={() => setOpenMobile(false)}
                   className="font-bodoni block text-lg tracking-widest text-[#1a1a1a] uppercase"
                 >
                   {labels.oilsAttars}
                 </Link>
                 <Link
-                  href="/body"
+                  href={`/${currentLocale}/shop/body-mists`}
                   onClick={() => setOpenMobile(false)}
                   className="font-bodoni block text-lg tracking-widest text-[#1a1a1a] uppercase"
                 >
                   {labels.bathBody}
                 </Link>
+                  {/* <Link
+                    href={`/${currentLocale}/shop/home-fragrance`}
+                    onClick={() => setOpenMobile(false)}
+                    className="font-bodoni block text-lg tracking-widest text-[#1a1a1a] uppercase"
+                  >
+                    {labels.home}
+                  </Link> */}
                 <Link
-                  href="/home-fragrance"
-                  onClick={() => setOpenMobile(false)}
-                  className="font-bodoni block text-lg tracking-widest text-[#1a1a1a] uppercase"
-                >
-                  {labels.home}
-                </Link>
-                <Link
-                  href="/product/discovery-set"
+                  href={`/${currentLocale}/shop/discovery`}
                   onClick={() => setOpenMobile(false)}
                   className="font-bodoni block text-lg tracking-widest text-[#1a1a1a] uppercase"
                 >
                   {labels.discovery}
                 </Link>
                 <Link
-                  href="/about"
+                  href={`/${currentLocale}/about`}
                   onClick={() => setOpenMobile(false)}
                   className="font-bodoni block text-lg tracking-widest text-[#1a1a1a] uppercase"
                 >
@@ -224,7 +224,7 @@ export default function MobileDrawer({
                     <ul className="space-y-4">
                       <li>
                         <Link
-                          href="/shop/women"
+                          href={`/${currentLocale}/shop/women`}
                           onClick={() => setOpenMobile(false)}
                           className="font-garamond block text-lg text-[#1a1a1a]"
                         >
@@ -233,7 +233,7 @@ export default function MobileDrawer({
                       </li>
                       <li>
                         <Link
-                          href="/shop/men"
+                          href={`/${currentLocale}/shop/men`}
                           onClick={() => setOpenMobile(false)}
                           className="font-garamond block text-lg text-[#1a1a1a]"
                         >
@@ -242,7 +242,7 @@ export default function MobileDrawer({
                       </li>
                       <li>
                         <Link
-                          href="/shop/unisex"
+                          href={`/${currentLocale}/shop/unisex`}
                           onClick={() => setOpenMobile(false)}
                           className="font-garamond block text-lg text-[#1a1a1a]"
                         >
@@ -251,7 +251,7 @@ export default function MobileDrawer({
                       </li>
                       <li className="pt-2">
                         <Link
-                          href="/shop"
+                          href={`/${currentLocale}/shop`}
                           onClick={() => setOpenMobile(false)}
                           className="font-garamond block text-lg font-semibold text-[#1a1a1a] underline decoration-black/20 underline-offset-4"
                         >
@@ -267,7 +267,7 @@ export default function MobileDrawer({
                     <ul className="space-y-4">
                       <li>
                         <Link
-                          href="/collections/luxury"
+                          href={`/${currentLocale}/shop/luxury`}
                           onClick={() => setOpenMobile(false)}
                           className="font-garamond block text-lg text-[#1a1a1a]"
                         >
@@ -276,7 +276,7 @@ export default function MobileDrawer({
                       </li>
                       <li>
                         <Link
-                          href="/collections/premium"
+                          href={`/${currentLocale}/shop/premium`}
                           onClick={() => setOpenMobile(false)}
                           className="font-garamond block text-lg text-[#1a1a1a]"
                         >
@@ -285,7 +285,7 @@ export default function MobileDrawer({
                       </li>
                       <li>
                         <Link
-                          href="/collections/signature"
+                          href={`/${currentLocale}/shop/essential`}
                           onClick={() => setOpenMobile(false)}
                           className="font-garamond block text-lg text-[#1a1a1a]"
                         >
