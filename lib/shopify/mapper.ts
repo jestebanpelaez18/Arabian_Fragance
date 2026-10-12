@@ -38,6 +38,13 @@ export interface ShopifyRawProduct {
   title?: string;
   name?: string;
   productType?: string;
+  collections?: {
+    edges: {
+      node: {
+        handle: string;
+      };
+    }[];
+  };
   description?: string;
   price?: string | number;
   priceRange?: { minVariantPrice: { amount: string } };
@@ -201,6 +208,14 @@ export function normalizeProduct(p: ShopifyRawProduct): Product {
     id: p.id,
     slug: p.handle || p.slug || "product",
     name,
+    productType: p.productType?.trim() || undefined,
+    collectionHandles: Array.from(
+      new Set(
+        (p.collections?.edges ?? [])
+          .map(({ node }) => node.handle.trim())
+          .filter(Boolean),
+      ),
+    ),
     price,
     concentration,
     gender,

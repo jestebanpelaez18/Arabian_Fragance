@@ -12,6 +12,13 @@ const allProductsQuery = `
           title
           handle
           productType
+          collections(first: 20) {
+            edges {
+              node {
+                handle
+              }
+            }
+          }
           availableForSale
           priceRange {
             minVariantPrice {

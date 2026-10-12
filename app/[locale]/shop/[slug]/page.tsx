@@ -28,19 +28,19 @@ const COPY: Record<Gender, string> = {
 
 export function generateStaticParams() {
   return i18n.locales.flatMap((locale) =>
-    GENDERS.map((gender) => ({ locale, gender })),
+  GENDERS.map((gender) => ({ locale, slug: gender })),
   );
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ gender: string }>;
+  params: Promise<{  slug: string }>;
 }): Promise<Metadata> {
-  const { gender } = await params;
-  if (!GENDERS.includes(gender as Gender)) return {};
+  const { slug } = await params;
+  if (!GENDERS.includes(slug as Gender)) return {};
 
-  const name = gender[0].toUpperCase() + gender.slice(1);
+  const name = slug[0].toUpperCase() + slug.slice(1); 
   return {
     title: `${name} Fragrances | Shop`,
     description: `Shop ${name.toLowerCase()} perfumes by Arabian Fragrance.`,
@@ -51,15 +51,15 @@ export default async function ShopByGenderPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ locale: Locale; gender: string }>;
+  params: Promise<{ locale: Locale; slug: string }>;
   searchParams: Promise<{ notes?: string }>;
 }) {
-  const { locale, gender } = await params;
+  const { locale, slug } = await params;
   const dict = await getDictionary(locale);
 
   // Validate Gender Param
-  if (!GENDERS.includes(gender as Gender)) return notFound();
-  const validGender = gender as Gender;
+  if (!GENDERS.includes(slug as Gender)) return notFound();
+  const validGender = slug as Gender;
 
   const PRODUCTS: Product[] = await getShopifyProducts(locale);
 

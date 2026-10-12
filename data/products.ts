@@ -49,6 +49,8 @@ export type Product = {
   id: string;
   slug: string;
   name: string;
+  productType?: string;
+  collectionHandles?: string[];
   price: number;
   concentration?: string;
   image?: string | null;
