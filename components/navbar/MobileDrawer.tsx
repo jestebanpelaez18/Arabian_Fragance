@@ -4,9 +4,32 @@ import Link from "next/link";
 import type { Dispatch, SetStateAction } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { i18n, type Locale } from "@/i18n-config";
+import { MAIN_LINKS, PERFUME_SECTIONS } from "@/lib/shop/navigation";
 import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 type MobileView = "root" | "shop" | "language";
+
+function DrawerLink({
+  href,
+  onNavigate,
+  className,
+  children,
+}: {
+  href: string;
+  onNavigate: () => void;
+  className: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      onClick={onNavigate}
+      className={`${className} py-1 text-[#1a1a1a]`}
+    >
+      {children}
+    </Link>
+  );
+}
 
 export default function MobileDrawer({
   openMobile,
@@ -39,6 +62,8 @@ export default function MobileDrawer({
     return `/${nextLocale}${pathname?.startsWith("/") ? pathname : `/${pathname}`}`;
   };
 
+  const closeDrawer = () => setOpenMobile(false);
+
   const handleLanguageChange = (nextLocale: Locale) => {
     document.cookie = `USER_LOCALE=${nextLocale}; path=/; max-age=31536000; samesite=lax`;
 
@@ -66,7 +91,6 @@ export default function MobileDrawer({
       />
 
       <aside
-        // CRITICAL FIX: Changed h-[100dvh] to h-full so it perfectly fits the space under the Navbar
         className={`bg-background absolute top-0 left-0 z-20 flex h-full w-[88vw] max-w-[380px] flex-col overscroll-contain border-r border-black/5 shadow-2xl duration-300 ease-out will-change-transform motion-safe:transition-transform ${
           openMobile ? "translate-x-0" : "-translate-x-full"
         } `}
@@ -137,41 +161,16 @@ export default function MobileDrawer({
                   </svg>
                 </button>
 
-                <Link
-                  href={`/${currentLocale}/shop/tolas`}
-                  onClick={() => setOpenMobile(false)}
-                  className="font-bodoni block text-lg tracking-widest text-[#1a1a1a] uppercase"
-                >
-                  {labels.oilsAttars}
-                </Link>
-                <Link
-                  href={`/${currentLocale}/shop/body-mists`}
-                  onClick={() => setOpenMobile(false)}
-                  className="font-bodoni block text-lg tracking-widest text-[#1a1a1a] uppercase"
-                >
-                  {labels.bathBody}
-                </Link>
-                  {/* <Link
-                    href={`/${currentLocale}/shop/home-fragrance`}
-                    onClick={() => setOpenMobile(false)}
-                    className="font-bodoni block text-lg tracking-widest text-[#1a1a1a] uppercase"
+                {MAIN_LINKS.map(({ path, label }) => (
+                  <DrawerLink
+                    key={path}
+                    href={`/${currentLocale}${path}`}
+                    onNavigate={closeDrawer}
+                    className="font-bodoni block text-lg tracking-widest uppercase"
                   >
-                    {labels.home}
-                  </Link> */}
-                <Link
-                  href={`/${currentLocale}/shop/discovery`}
-                  onClick={() => setOpenMobile(false)}
-                  className="font-bodoni block text-lg tracking-widest text-[#1a1a1a] uppercase"
-                >
-                  {labels.discovery}
-                </Link>
-                <Link
-                  href={`/${currentLocale}/about`}
-                  onClick={() => setOpenMobile(false)}
-                  className="font-bodoni block text-lg tracking-widest text-[#1a1a1a] uppercase"
-                >
-                  {labels.houseOfArabian}
-                </Link>
+                    {labels[label]}
+                  </DrawerLink>
+                ))}
               </div>
 
               {/* LOCALIZATION FOOTER */}
@@ -217,83 +216,33 @@ export default function MobileDrawer({
               {/* SHOP SUB-MENU */}
               {mobileView === "shop" && (
                 <>
-                  <div className="mb-10">
-                    <p className="font-bodoni mb-5 text-[10px] font-bold tracking-[0.2em] text-[#1a1a1a]/50 uppercase">
-                      {labels.byCategory}
-                    </p>
-                    <ul className="space-y-4">
-                      <li>
-                        <Link
-                          href={`/${currentLocale}/shop/women`}
-                          onClick={() => setOpenMobile(false)}
-                          className="font-garamond block text-lg text-[#1a1a1a]"
-                        >
-                          {labels.womenPerfumes}
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href={`/${currentLocale}/shop/men`}
-                          onClick={() => setOpenMobile(false)}
-                          className="font-garamond block text-lg text-[#1a1a1a]"
-                        >
-                          {labels.menPerfumes}
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href={`/${currentLocale}/shop/unisex`}
-                          onClick={() => setOpenMobile(false)}
-                          className="font-garamond block text-lg text-[#1a1a1a]"
-                        >
-                          {labels.unisexPerfumes}
-                        </Link>
-                      </li>
-                      <li className="pt-2">
-                        <Link
-                          href={`/${currentLocale}/shop`}
-                          onClick={() => setOpenMobile(false)}
-                          className="font-garamond block text-lg font-semibold text-[#1a1a1a] underline decoration-black/20 underline-offset-4"
-                        >
-                          {labels.shopAll}
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="font-bodoni mb-5 text-[10px] font-bold tracking-[0.2em] text-[#1a1a1a]/50 uppercase">
-                      {labels.byCollection}
-                    </p>
-                    <ul className="space-y-4">
-                      <li>
-                        <Link
-                          href={`/${currentLocale}/shop/luxury`}
-                          onClick={() => setOpenMobile(false)}
-                          className="font-garamond block text-lg text-[#1a1a1a]"
-                        >
-                          {labels.luxuryCollection}
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href={`/${currentLocale}/shop/premium`}
-                          onClick={() => setOpenMobile(false)}
-                          className="font-garamond block text-lg text-[#1a1a1a]"
-                        >
-                          {labels.premiumCollection}
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href={`/${currentLocale}/shop/essential`}
-                          onClick={() => setOpenMobile(false)}
-                          className="font-garamond block text-lg text-[#1a1a1a]"
-                        >
-                          {labels.signatureCollection}
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
+                  {PERFUME_SECTIONS.map(({ title, links }) => (
+                    <div key={title} className="mb-10 last:mb-0">
+                      <p className="font-bodoni mb-5 text-[10px] font-bold tracking-[0.2em] text-[#1a1a1a]/50 uppercase">
+                        {labels[title]}
+                      </p>
+                      <ul className="space-y-4">
+                        {links.map(({ path, label, emphasized }) => (
+                          <li
+                            key={path}
+                            className={emphasized ? "pt-2" : undefined}
+                          >
+                            <DrawerLink
+                              href={`/${currentLocale}${path}`}
+                              onNavigate={closeDrawer}
+                              className={`font-garamond block text-lg ${
+                                emphasized
+                                  ? "font-semibold underline decoration-black/20 underline-offset-4"
+                                  : ""
+                              }`}
+                            >
+                              {labels[label]}
+                            </DrawerLink>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
                 </>
               )}
               {/* LANGUAGE SUB-MENU */}

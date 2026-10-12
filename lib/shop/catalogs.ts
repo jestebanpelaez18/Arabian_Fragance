@@ -10,13 +10,9 @@ export function isPerfume(product: Product): boolean {
   return product.productType === "Perfume";
 }
 
-function belongsToPerfumeCollection(
-  product: Product,
-  handle: string,
-): boolean {
+function belongsToPerfumeCollection(product: Product, handle: string): boolean {
   return (
-    isPerfume(product) &&
-    (product.collectionHandles?.includes(handle) ?? false)
+    isPerfume(product) && (product.collectionHandles?.includes(handle) ?? false)
   );
 }
 
@@ -71,11 +67,10 @@ export const SHOP_CATALOGS = {
     matches: (product: Product) => product.productType === "Body Mist",
   },
   discovery: {
-  title: "Discovery",
-  subtitle: "",
-  matches: (product: Product) =>
-    product.productType === "Discovery Set",
-},
+    title: "Discovery",
+    subtitle: "",
+    matches: (product: Product) => product.productType === "Discovery Set",
+  },
 } satisfies Record<string, ShopCatalog>;
 
 export type ShopSlug = keyof typeof SHOP_CATALOGS;
