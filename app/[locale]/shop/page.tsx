@@ -6,6 +6,7 @@ import IntroCompact from "@/components/shop/IntroCompact";
 import NoteFilterChips from "@/components/shop/NoteFilterChips";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { type Product } from "@/data/products";
+import { isPerfume } from "@/lib/shop/catalogs";
 import { getDictionary } from "@/dictionaries/getDictionary";
 import type { Locale } from "@/i18n-config";
 import {
@@ -34,7 +35,8 @@ export default async function ShopIndexPage({
     redirect(`/${locale}/shop/${legacyGender}`);
   }
 
-  const PRODUCTS: Product[] = await getShopifyProducts(locale);
+  const products: Product[] = await getShopifyProducts(locale);
+  const PRODUCTS = products.filter(isPerfume);
   const allNotes = getAvailablePrimaryNotes(PRODUCTS);
 
   const selected = sp.notes?.split(",").filter(Boolean) ?? [];

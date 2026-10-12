@@ -6,68 +6,75 @@ import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
 import NoteFilterChips from "@/components/shop/NoteFilterChips";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import { type Product } from "@/data/products";
 import { i18n, type Locale } from "@/i18n-config";
 import { getDictionary } from "@/dictionaries/getDictionary";
+import {
+  SHOP_CATALOGS,
+  isShopSlug,
+} from "@/lib/shop/catalogs";
 import {
   getAvailablePrimaryNotes,
   productMatchesAllNotes,
   sanitizeSelectedNotes,
 } from "@/lib/shop/note-filters";
 
-type Gender = NonNullable<Product["gender"]>;
-
-const GENDERS: Gender[] = ["women", "men", "unisex"];
-const COPY: Record<Gender, string> = {
-  women:
-    "Luminous florals with oriental warmth. Compositions crafted for elegance, sensuality and a lasting trail—unmistakably Arabian.",
-  men: "Smoky woods, spice and amber facets in measured balance. Distinctive signatures designed for modern understatement.",
-  unisex:
-    "Refined, versatile compositions: resinous depth, airy florals and citrus lift—contemporary scents made to be shared.",
+type ShopPageParams = {
+  locale: Locale;
+  slug: string;
 };
 
 export function generateStaticParams() {
   return i18n.locales.flatMap((locale) =>
-  GENDERS.map((gender) => ({ locale, slug: gender })),
+    Object.keys(SHOP_CATALOGS).map((slug) => ({
+      locale,
+      slug,
+    })),
   );
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{  slug: string }>;
+  params: Promise<ShopPageParams>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  if (!GENDERS.includes(slug as Gender)) return {};
 
-  const name = slug[0].toUpperCase() + slug.slice(1); 
+  if (!isShopSlug(slug)) {
+    notFound();
+  }
+
+  const catalog = SHOP_CATALOGS[slug];
+
   return {
-    title: `${name} Fragrances | Shop`,
-    description: `Shop ${name.toLowerCase()} perfumes by Arabian Fragrance.`,
+    title: `${catalog.title} | Arabian Fragrance`,
+    ...(catalog.subtitle
+      ? { description: catalog.subtitle }
+      : {}),
   };
 }
 
-export default async function ShopByGenderPage({
+export default async function ShopCatalogPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ locale: Locale; slug: string }>;
+  params: Promise<ShopPageParams>;
   searchParams: Promise<{ notes?: string }>;
 }) {
   const { locale, slug } = await params;
+
+  if (!isShopSlug(slug)) {
+    notFound();
+  }
+
+  const catalog = SHOP_CATALOGS[slug];
   const dict = await getDictionary(locale);
-
-  // Validate Gender Param
-  if (!GENDERS.includes(slug as Gender)) return notFound();
-  const validGender = slug as Gender;
-
-  const PRODUCTS: Product[] = await getShopifyProducts(locale);
-
+  const products = await getShopifyProducts(locale);
   const sp = await searchParams;
-  const selected = sp.notes?.split(",").filter(Boolean) ?? [];
 
-  const base = PRODUCTS.filter((p) => p.gender === validGender);
+  const base = products.filter(catalog.matches);
   const allNotes = getAvailablePrimaryNotes(base);
+
+  const selected = sp.notes?.split(",").filter(Boolean) ?? [];
   const activeFilters = sanitizeSelectedNotes(selected, allNotes);
 
   const filtered = base.filter((product) =>
@@ -80,20 +87,18 @@ export default async function ShopByGenderPage({
         items={[
           { label: dict.shopPage.breadcrumbHome, href: "/" },
           { label: dict.shopPage.breadcrumbShop, href: "/shop" },
-          { label: validGender },
+          { label: catalog.title },
         ]}
       />
 
-      {/* Intro */}
       <IntroCompact
-        title={`${validGender.toUpperCase()} FRAGRANCES`}
+        title={catalog.title}
         count={filtered.length}
         countLabelSingular={dict.shopPage.countLabelSingular}
         countLabelPlural={dict.shopPage.countLabelPlural}
-        subtitle={<>{COPY[validGender]}</>}
+        subtitle={<>{catalog.subtitle}</>}
       />
 
-      {/* Filters */}
       <section className="mt-6 w-full px-5 md:mt-8 md:px-5 xl:px-6">
         <Suspense fallback={null}>
           <NoteFilterChips allNotes={allNotes} />
@@ -101,11 +106,14 @@ export default async function ShopByGenderPage({
         <div className="mt-6 h-px w-full md:mt-8" />
       </section>
 
-      {/* Grid */}
       <section className="w-full px-5 pb-12 md:px-5 xl:px-6">
         <div className="grid grid-cols-2 gap-x-2.5 gap-y-16 md:gap-x-5 lg:grid-cols-4">
-          {filtered.map((p) => (
-            <ProductCard key={p.id} p={p} locale={locale} />
+          {filtered.map((product) => (
+            <ProductCard
+              key={product.id}
+              p={product}
+              locale={locale}
+            />
           ))}
         </div>
       </section>
