@@ -156,25 +156,25 @@ export default function Navbar() {
                     {labels.byCategory}
                   </h3>
                   <Link
-                    href="/shop/women"
+                    href={`/${locale}/shop/women`}
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
                     {labels.womenPerfumes}
                   </Link>
                   <Link
-                    href="/shop/men"
+                    href={`/${locale}/shop/men`}
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
                     {labels.menPerfumes}
                   </Link>
                   <Link
-                    href="/shop/unisex"
+                    href={`/${locale}/shop/unisex`}
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
                     {labels.unisexPerfumes}
                   </Link>
                   <Link
-                    href="/shop"
+                    href={`/${locale}/shop`}
                     className="font-garamond mt-2 text-sm font-semibold text-black transition-colors hover:text-[#C9A46A]"
                   >
                     {labels.shopAll}
@@ -187,19 +187,19 @@ export default function Navbar() {
                     {labels.byCollection}
                   </h3>
                   <Link
-                    href="/collections/luxury"
+                    href={`/${locale}/shop/luxury`}
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
                     {labels.luxuryCollection}
                   </Link>
                   <Link
-                    href="/collections/premium"
+                    href={`/${locale}/shop/premium`}
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
                     {labels.premiumCollection}
                   </Link>
                   <Link
-                    href="/collections/signature"
+                    href={`/${locale}/shop/essential`}
                     className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
                   >
                     {labels.signatureCollection}
@@ -222,7 +222,7 @@ export default function Navbar() {
 
           {/* 2. OILS & ATTARS */}
           <Link
-            href="/oils"
+            href={`/${locale}/shop/tolas`}
             className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
           >
             {labels.oilsAttars}
@@ -230,23 +230,23 @@ export default function Navbar() {
 
           {/* 3. BATH & BODY (You can add a similar group-hover dropdown here) */}
           <Link
-            href="/body"
+            href={`/${locale}/shop/body-mists`}
             className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
           >
             {labels.bathBody}
           </Link>
 
           {/* 4. HOME */}
-          <Link
-            href="/home-fragrance"
+          {/* <Link
+            href={`/${locale}/shop/home-fragrance`}
             className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
           >
             {labels.home}
-          </Link>
+          </Link> */}
 
           {/* 5. DISCOVERY */}
           <Link
-            href="/product/discovery-set"
+            href={`/${locale}/shop/discovery`}
             className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
           >
             {labels.discovery}
@@ -254,7 +254,7 @@ export default function Navbar() {
 
           {/* 6. HOUSE OF ARABIAN */}
           <Link
-            href="/about"
+            href={`/${locale}/about`}
             className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
           >
             {labels.houseOfArabian}
