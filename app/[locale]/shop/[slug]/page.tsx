@@ -5,13 +5,9 @@ import { getShopifyProducts } from "@/lib/shopify/get-products";
 import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
 import NoteFilterChips from "@/components/shop/NoteFilterChips";
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { i18n, type Locale } from "@/i18n-config";
 import { getDictionary } from "@/dictionaries/getDictionary";
-import {
-  SHOP_CATALOGS,
-  isShopSlug,
-} from "@/lib/shop/catalogs";
+import { SHOP_CATALOGS, isShopSlug } from "@/lib/shop/catalogs";
 import {
   getAvailablePrimaryNotes,
   productMatchesAllNotes,
@@ -47,9 +43,7 @@ export async function generateMetadata({
 
   return {
     title: `${catalog.title} | Arabian Fragrance`,
-    ...(catalog.subtitle
-      ? { description: catalog.subtitle }
-      : {}),
+    ...(catalog.subtitle ? { description: catalog.subtitle } : {}),
   };
 }
 
@@ -83,20 +77,12 @@ export default async function ShopCatalogPage({
 
   return (
     <main>
-      <Breadcrumbs
-        items={[
-          { label: dict.shopPage.breadcrumbHome, href: "/" },
-          { label: dict.shopPage.breadcrumbShop, href: "/shop" },
-          { label: catalog.title },
-        ]}
-      />
-
       <IntroCompact
         title={catalog.title}
         count={filtered.length}
         countLabelSingular={dict.shopPage.countLabelSingular}
         countLabelPlural={dict.shopPage.countLabelPlural}
-        subtitle={<>{catalog.subtitle}</>}
+        subtitle={catalog.subtitle}
       />
 
       <section className="mt-6 w-full px-5 md:mt-8 md:px-5 xl:px-6">
@@ -109,11 +95,7 @@ export default async function ShopCatalogPage({
       <section className="w-full px-5 pb-12 md:px-5 xl:px-6">
         <div className="grid grid-cols-2 gap-x-2.5 gap-y-16 md:gap-x-5 lg:grid-cols-4">
           {filtered.map((product) => (
-            <ProductCard
-              key={product.id}
-              p={product}
-              locale={locale}
-            />
+            <ProductCard key={product.id} p={product} locale={locale} />
           ))}
         </div>
       </section>

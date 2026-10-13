@@ -4,7 +4,6 @@ import { getShopifyProducts } from "@/lib/shopify/get-products";
 import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
 import NoteFilterChips from "@/components/shop/NoteFilterChips";
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { type Product } from "@/data/products";
 import { isPerfume } from "@/lib/shop/catalogs";
 import { getDictionary } from "@/dictionaries/getDictionary";
@@ -47,20 +46,13 @@ export default async function ShopIndexPage({
 
   return (
     <main>
-      <Breadcrumbs
-        items={[
-          { label: dict.shopPage.breadcrumbHome, href: "/" },
-          { label: dict.shopPage.breadcrumbShop },
-        ]}
-      />
-
       {/* Intro */}
       <IntroCompact
         title={dict.shopPage.title}
         count={filtered.length}
         countLabelSingular={dict.shopPage.countLabelSingular}
         countLabelPlural={dict.shopPage.countLabelPlural}
-        subtitle={<>{dict.shopPage.subtitle}</>}
+        subtitle={dict.shopPage.subtitle}
       />
 
       {/* Chips */}
