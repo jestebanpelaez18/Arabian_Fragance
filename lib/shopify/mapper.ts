@@ -56,6 +56,7 @@ export interface ShopifyRawProduct {
   heartNotes?: { value: string } | string[] | string;
   baseNotes?: { value: string } | string[] | string;
   concentration?: { value: string } | string;
+  fragranceType?: { value: string } | string;
 }
 
 function parseShopifyListField(
@@ -189,20 +190,17 @@ export function normalizeProduct(p: ShopifyRawProduct): Product {
     ),
   );
 
-  let concentration: string | undefined;
-  if (
-    typeof p.concentration === "object" &&
-    p.concentration !== null &&
-    "value" in p.concentration
-  ) {
-    concentration = p.concentration.value?.trim();
-  } else if (typeof p.concentration === "string") {
-    concentration = p.concentration.trim();
-  }
+  const concentration =
+    (typeof p.concentration === "string"
+      ? p.concentration
+      : p.concentration?.value
+    )?.trim() || undefined;
 
-  if (!concentration) {
-    concentration = p.productType?.trim();
-  }
+  const fragranceType =
+    (typeof p.fragranceType === "string"
+      ? p.fragranceType
+      : p.fragranceType?.value
+    )?.trim() || undefined;
 
   return {
     id: p.id,
@@ -218,6 +216,7 @@ export function normalizeProduct(p: ShopifyRawProduct): Product {
     ),
     price,
     concentration,
+    fragranceType,
     gender,
     image,
     images,

@@ -53,6 +53,7 @@ export type Product = {
   collectionHandles?: string[];
   price: number;
   concentration?: string;
+  fragranceType?: string;
   image?: string | null;
   images?: string[];
   gender: "women" | "men" | "unisex";

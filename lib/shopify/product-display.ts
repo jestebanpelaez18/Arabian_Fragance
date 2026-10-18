@@ -9,18 +9,17 @@ export type ConcentrationFamily =
   | "eau_de_cologne"
   | "mist";
 
-const DEFAULT_CONCENTRATION_FAMILY: ConcentrationFamily = "eau_de_parfum";
+type ProductNote = NonNullable<Product["notes"]>[number];
+type ProductGender = NonNullable<Product["gender"]>;
 
 type ProductDisplayLabels = {
   defaultNoteProfile: string;
   noteSuffix: string;
   andWord: string;
   intensityLabel: string;
-  noteAdjectives: Partial<
-    Record<NonNullable<Product["notes"]>[number], string>
-  >;
+  noteAdjectives: Partial<Record<ProductNote, string>>;
   concentrationLabels: Record<ConcentrationFamily, string>;
-  genderPrefix: Record<Product["gender"], string>;
+  genderPrefix: Record<ProductGender, string>;
 };
 
 const PRODUCT_DISPLAY_LABELS: Record<Locale, ProductDisplayLabels> = {
@@ -45,7 +44,7 @@ const PRODUCT_DISPLAY_LABELS: Record<Locale, ProductDisplayLabels> = {
       Smoky: "Smoky",
     },
     concentrationLabels: {
-      extrait: "Esprit de Parfum",
+      extrait: "Extrait de Parfum",
       parfum: "Parfum",
       eau_de_parfum: "Eau de Parfum",
       eau_de_toilette: "Eau de Toilette",
@@ -101,16 +100,16 @@ const PRODUCT_DISPLAY_LABELS: Record<Locale, ProductDisplayLabels> = {
       Amber: "Ambradoftande",
       Citrus: "Citrusdoftande",
       Spice: "Kryddig",
-      Sweet: "Sot",
+      Sweet: "Söt",
       Floral: "Blommig",
-      Woody: "Traig",
+      Woody: "Träig",
       Musk: "Myskig",
       Oud: "Oud",
-      Fresh: "Frasch",
+      Fresh: "Fräsch",
       Fruity: "Fruktig",
-      Leather: "Lader",
+      Leather: "Läder",
       Vanilla: "Vanilj",
-      Smoky: "Rokig",
+      Smoky: "Rökig",
     },
     concentrationLabels: {
       extrait: "Parfymextrakt",
@@ -121,142 +120,166 @@ const PRODUCT_DISPLAY_LABELS: Record<Locale, ProductDisplayLabels> = {
       mist: "Body Mist",
     },
     genderPrefix: {
-      women: "For henne ",
-      men: "For honom ",
+      women: "För henne ",
+      men: "För honom ",
       unisex: "Unisex ",
     },
   },
 };
 
-function getProductDisplayLabels(locale: Locale = i18n.defaultLocale) {
+const FRAGRANCE_TYPE_FAMILIES: Record<string, ConcentrationFamily> = {
+  extrait: "extrait",
+  "extrait de parfum": "extrait",
+  parfum: "parfum",
+  perfume: "parfum",
+  "eau de parfum": "eau_de_parfum",
+  edp: "eau_de_parfum",
+  "eau de toilette": "eau_de_toilette",
+  edt: "eau_de_toilette",
+  "eau de cologne": "eau_de_cologne",
+  edc: "eau_de_cologne",
+  cologne: "eau_de_cologne",
+  "body mist": "mist",
+  mist: "mist",
+};
+
+function getProductDisplayLabels(
+  locale: Locale = i18n.defaultLocale,
+): ProductDisplayLabels {
   return (
     PRODUCT_DISPLAY_LABELS[locale] ?? PRODUCT_DISPLAY_LABELS[i18n.defaultLocale]
   );
 }
 
-function normalizeConcentration(rawConcentration?: string) {
-  return rawConcentration?.trim().toLowerCase() ?? "";
-}
-
-function extractConcentrationPercent(rawConcentration?: string) {
-  const normalized = normalizeConcentration(rawConcentration);
-  if (!normalized) return null;
-
-  const percentageMatch = normalized.match(/(\d+(?:[.,]\d+)?)/);
-  if (!percentageMatch) return null;
-
-  const parsed = Number(percentageMatch[1].replace(",", "."));
-  return Number.isNaN(parsed) ? null : parsed;
-}
-
-function getFamilyFromPercent(percent: number): ConcentrationFamily {
-  if (percent >= 30) return "extrait";
-  if (percent >= 22) return "parfum";
-  if (percent >= 15) return "eau_de_parfum";
-  if (percent >= 8) return "eau_de_toilette";
-  if (percent >= 3) return "eau_de_cologne";
-  return "mist";
-}
-
-export function inferConcentrationFamily(
-  rawConcentration?: string,
-): ConcentrationFamily {
-  const normalized = normalizeConcentration(rawConcentration);
-  if (!normalized) return DEFAULT_CONCENTRATION_FAMILY;
-
-  const explicitPercent = extractConcentrationPercent(normalized);
-  if (explicitPercent !== null) {
-    return getFamilyFromPercent(explicitPercent);
-  }
-
-  if (normalized.includes("extrait")) return "extrait";
-  if (normalized.includes("eau de parfum") || normalized.includes("edp")) {
-    return "eau_de_parfum";
-  }
-  if (normalized.includes("eau de toilette") || normalized.includes("edt")) {
-    return "eau_de_toilette";
-  }
-  if (
-    normalized.includes("eau de cologne") ||
-    normalized.includes("edc") ||
-    normalized.includes("cologne")
-  ) {
-    return "eau_de_cologne";
-  }
-  if (normalized.includes("parfum") || normalized.includes("perfume")) {
-    return "parfum";
-  }
-  if (normalized.includes("mist") || normalized.includes("splash")) {
-    return "mist";
-  }
-
-  return DEFAULT_CONCENTRATION_FAMILY;
-}
-
-export function formatConcentrationLabel(
-  rawConcentration?: string,
+/**
+ * Reads the name configured in Shopify's Fragrance Type field.
+ * The percentage is not used to infer this name.
+ */
+export function formatFragranceTypeLabel(
+  rawFragranceType?: string,
   locale: Locale = i18n.defaultLocale,
-) {
-  return getProductDisplayLabels(locale).concentrationLabels[
-    inferConcentrationFamily(rawConcentration)
-  ];
+): string {
+  const value = rawFragranceType?.trim();
+  if (!value) return "";
+
+  const normalized = value
+    .toLowerCase()
+    .replace(/[_-]+/g, " ")
+    .replace(/\s+/g, " ");
+
+  const family = Object.prototype.hasOwnProperty.call(
+    FRAGRANCE_TYPE_FAMILIES,
+    normalized,
+  )
+    ? FRAGRANCE_TYPE_FAMILIES[normalized]
+    : undefined;
+
+  // Preserve other types, such as Attar, as configured in Shopify.
+  if (!family) return value;
+
+  return getProductDisplayLabels(locale).concentrationLabels[family];
 }
 
-export function getIntensityLevel(rawConcentration?: string) {
-  const family = inferConcentrationFamily(rawConcentration);
+/**
+ * Reads a percentage from Shopify's Concentration field.
+ * Accepts "25%", "25 %" and plain numeric values such as "25".
+ */
+export function getConcentrationPercent(
+  rawConcentration?: string,
+): number | null {
+  const value = rawConcentration?.trim();
+  if (!value) return null;
 
-  if (family === "extrait" || family === "parfum") return 4;
-  if (family === "eau_de_parfum") return 3;
-  if (family === "eau_de_toilette") return 2;
+  const match = value.match(/^(\d+(?:[.,]\d+)?)\s*%?$/);
+  if (!match) return null;
+
+  const percent = Number(match[1].replace(",", "."));
+
+  if (!Number.isFinite(percent) || percent <= 0 || percent > 100) {
+    return null;
+  }
+
+  return percent;
+}
+
+/**
+ * AFC visual scale for concentration percentages.
+ * This is not a measurement of projection, longevity or intensity.
+ */
+export function getConcentrationLevel(
+  percent: number,
+): 1 | 2 | 3 | 4 | 5 | null {
+  if (!Number.isFinite(percent) || percent <= 0 || percent > 100) {
+    return null;
+  }
+
+  if (percent >= 30) return 5;
+  if (percent >= 22) return 4;
+  if (percent >= 15) return 3;
+  if (percent >= 10) return 2;
+
   return 1;
 }
 
 export function formatNoteProfile(
   notes?: Product["notes"],
   locale: Locale = i18n.defaultLocale,
-) {
+): string {
   const labels = getProductDisplayLabels(locale);
 
-  if (!notes || notes.length === 0) return labels.defaultNoteProfile;
+  if (!notes || notes.length === 0) {
+    return labels.defaultNoteProfile;
+  }
 
   const uniqueNotes = Array.from(
     new Set(notes.map((note) => note.trim())),
   ).filter(Boolean);
 
-  const toDescriptor = (note: string) =>
-    labels.noteAdjectives[note as NonNullable<Product["notes"]>[number]] ??
-    note;
+  if (uniqueNotes.length === 0) {
+    return labels.defaultNoteProfile;
+  }
 
-  if (uniqueNotes.length === 0) return labels.defaultNoteProfile;
+  const toDescriptor = (note: string): string =>
+    labels.noteAdjectives[note as ProductNote] ?? note;
+
   if (uniqueNotes.length === 1) {
     return `${toDescriptor(uniqueNotes[0])} ${labels.noteSuffix}`;
   }
 
-  return `${toDescriptor(uniqueNotes[0])} ${labels.andWord} ${toDescriptor(uniqueNotes[1])} ${labels.noteSuffix}`;
+  return `${toDescriptor(uniqueNotes[0])} ${labels.andWord} ${toDescriptor(
+    uniqueNotes[1],
+  )} ${labels.noteSuffix}`;
 }
 
 export function formatGenderPrefix(
   gender?: Product["gender"],
   locale: Locale = i18n.defaultLocale,
-) {
+): string {
   if (!gender) return "";
+
   return getProductDisplayLabels(locale).genderPrefix[gender] ?? "";
 }
 
 export function formatProductDetailLabel(
   product: Product,
   locale: Locale = i18n.defaultLocale,
-) {
-  const genderPrefix = formatGenderPrefix(product.gender, locale);
-  const concentrationLabel = formatConcentrationLabel(
-    product.concentration,
+): string {
+  const genderPrefix = formatGenderPrefix(product.gender, locale).trim();
+
+  const fragranceTypeLabel = formatFragranceTypeLabel(
+    product.fragranceType,
     locale,
   );
+
   const noteProfile = formatNoteProfile(product.notes, locale);
 
-  return `${genderPrefix}${concentrationLabel} – ${noteProfile}`;
+  const productHeading = [genderPrefix, fragranceTypeLabel]
+    .filter(Boolean)
+    .join(" ");
+
+  return [productHeading, noteProfile].filter(Boolean).join(" – ");
 }
 
-export function getIntensityLabel(locale: Locale = i18n.defaultLocale) {
+export function getIntensityLabel(locale: Locale = i18n.defaultLocale): string {
   return getProductDisplayLabels(locale).intensityLabel;
 }

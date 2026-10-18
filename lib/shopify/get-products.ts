@@ -47,6 +47,7 @@ const allProductsQuery = `
           heartNotes: metafield(namespace: "custom", key: "hearth_notes") { value }
           baseNotes: metafield(namespace: "custom", key: "base_notes") { value }
           concentration: metafield(namespace: "custom", key: "concentration") { value }
+          fragranceType: metafield(namespace: "custom", key: "fragrance_type") { value }
         }
       }
     }
