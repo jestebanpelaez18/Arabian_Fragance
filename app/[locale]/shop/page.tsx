@@ -1,10 +1,11 @@
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { getShopifyProducts } from "@/lib/shopify/get-products";
+import { getShopifyCollection } from "@/lib/shopify/get-collection";
 import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
 import ShopFilters from "@/components/shop/ShopFilters";
-import { isPerfume } from "@/lib/shop/catalogs";
+import { isPerfume, SHOP_INDEX_COLLECTION_HANDLE } from "@/lib/shop/catalogs";
 import { getDictionary } from "@/dictionaries/getDictionary";
 import type { Locale } from "@/i18n-config";
 import {
@@ -13,7 +14,7 @@ import {
 } from "@/lib/shop/catalog-filters";
 
 // Cards visible without scrolling (first row on desktop, two rows on mobile).
-const FIRST_ROW_PRIORITY_COUNT = 4;
+const PRIORITY_CARD_COUNT = 4;
 
 export default async function ShopIndexPage({
   params,
@@ -23,7 +24,6 @@ export default async function ShopIndexPage({
   searchParams: Promise<CatalogSearchParams & { gender?: string }>;
 }) {
   const { locale } = await params;
-  const dict = await getDictionary(locale);
   const sp = await searchParams;
 
   const legacyGender = sp.gender?.toLowerCase();
@@ -36,7 +36,12 @@ export default async function ShopIndexPage({
     redirect(`/${locale}/shop/${legacyGender}`);
   }
 
-  const products = await getShopifyProducts(locale);
+  const [dict, products, collection] = await Promise.all([
+    getDictionary(locale),
+    getShopifyProducts(locale),
+    getShopifyCollection(locale, SHOP_INDEX_COLLECTION_HANDLE),
+  ]);
+
   const base = products.filter(isPerfume);
 
   const { filtered, allNotes, availableGenders, availableCollections } =
@@ -45,12 +50,13 @@ export default async function ShopIndexPage({
       allowCollection: true,
     });
 
+  const title = collection?.title || dict.shopPage.title;
+
+  const subtitle = collection?.description || dict.shopPage.subtitle;
+
   return (
     <main>
-      <IntroCompact
-        title={dict.shopPage.title}
-        subtitle={dict.shopPage.subtitle}
-      />
+      <IntroCompact title={title} subtitle={subtitle} />
 
       <section className="w-full px-5 py-4 xl:px-6">
         <Suspense fallback={null}>
@@ -71,7 +77,7 @@ export default async function ShopIndexPage({
               key={product.id}
               p={product}
               locale={locale}
-              priority={index < FIRST_ROW_PRIORITY_COUNT}
+              priority={index < PRIORITY_CARD_COUNT}
             />
           ))}
         </div>

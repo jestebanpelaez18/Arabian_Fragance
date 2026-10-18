@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getShopifyProducts } from "@/lib/shopify/get-products";
+import { getShopifyCollection } from "@/lib/shopify/get-collection";
 import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
 import ShopFilters from "@/components/shop/ShopFilters";
@@ -11,7 +12,9 @@ import {
   COLLECTION_HANDLES,
   SHOP_CATALOGS,
   isShopSlug,
+  type ShopSlug,
 } from "@/lib/shop/catalogs";
+import { getCatalogCountLabels } from "@/lib/shop/catalog-labels";
 import {
   filterCatalog,
   type CatalogSearchParams,
@@ -21,6 +24,23 @@ type ShopPageParams = {
   locale: Locale;
   slug: string;
 };
+
+// Shopify content wins; local text is the fallback.
+async function getCatalogContent(locale: Locale, slug: ShopSlug) {
+  const catalog = SHOP_CATALOGS[slug];
+
+  const collection = catalog.collectionHandle
+    ? await getShopifyCollection(locale, catalog.collectionHandle)
+    : null;
+
+  return {
+    title: collection?.title || catalog.title,
+    subtitle: collection?.description || catalog.subtitle,
+  };
+}
+
+// Cards visible without scrolling (first row on desktop, two rows on mobile).
+const PRIORITY_CARD_COUNT = 4;
 
 export function generateStaticParams() {
   return i18n.locales.flatMap((locale) =>
@@ -36,22 +56,19 @@ export async function generateMetadata({
 }: {
   params: Promise<ShopPageParams>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale, slug } = await params;
 
   if (!isShopSlug(slug)) {
     notFound();
   }
 
-  const catalog = SHOP_CATALOGS[slug];
+  const content = await getCatalogContent(locale, slug);
 
   return {
-    title: `${catalog.title} | Arabian Fragrance`,
-    ...(catalog.subtitle ? { description: catalog.subtitle } : {}),
+    title: `${content.title} | Arabian Fragrance`,
+    ...(content.subtitle ? { description: content.subtitle } : {}),
   };
 }
-
-// Cards visible without scrolling (first row on desktop, two rows on mobile).
-const FIRST_ROW_PRIORITY_COUNT = 4;
 
 export default async function ShopCatalogPage({
   params,
@@ -67,9 +84,13 @@ export default async function ShopCatalogPage({
   }
 
   const catalog = SHOP_CATALOGS[slug];
-  const dict = await getDictionary(locale);
-  const products = await getShopifyProducts(locale);
-  const sp = await searchParams;
+
+  const [dict, products, sp, content] = await Promise.all([
+    getDictionary(locale),
+    getShopifyProducts(locale),
+    searchParams,
+    getCatalogContent(locale, slug),
+  ]);
 
   const base = products.filter(catalog.matches);
 
@@ -84,9 +105,16 @@ export default async function ShopCatalogPage({
       allowCollection: isGenderCatalog,
     });
 
+  const countLabels = getCatalogCountLabels(locale, slug, dict.shopPage);
+
+  const filterLabels = {
+    ...dict.shopPage,
+    ...countLabels,
+  };
+
   return (
     <main>
-      <IntroCompact title={catalog.title} subtitle={catalog.subtitle} />
+      <IntroCompact title={content.title} subtitle={content.subtitle} />
 
       <section className="w-full px-5 py-4 xl:px-6">
         <Suspense fallback={null}>
@@ -95,7 +123,7 @@ export default async function ShopCatalogPage({
             availableGenders={availableGenders}
             availableCollections={availableCollections}
             count={filtered.length}
-            labels={dict.shopPage}
+            labels={filterLabels}
           />
         </Suspense>
       </section>
@@ -107,7 +135,7 @@ export default async function ShopCatalogPage({
               key={product.id}
               p={product}
               locale={locale}
-              priority={index < FIRST_ROW_PRIORITY_COUNT}
+              priority={index < PRIORITY_CARD_COUNT}
             />
           ))}
         </div>

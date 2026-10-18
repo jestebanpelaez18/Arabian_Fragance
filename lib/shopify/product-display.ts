@@ -190,7 +190,11 @@ export function getConcentrationPercent(
   const value = rawConcentration?.trim();
   if (!value) return null;
 
-  const match = value.match(/^(\d+(?:[.,]\d+)?)\s*%?$/);
+  // Accept "100% Perfume Oil", "25 %" or a plain number.
+  const match =
+    value.match(/^(\d+(?:[.,]\d+)?)\s*%(?:\s+.*)?$/) ??
+    value.match(/^(\d+(?:[.,]\d+)?)$/);
+
   if (!match) return null;
 
   const percent = Number(match[1].replace(",", "."));
