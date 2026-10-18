@@ -84,7 +84,15 @@
     "scentProfile": "Scent profile",
     "selectOneOrMore": "Select one or more",
     "clearAll": "Clear all",
-    "applyFilters": "Apply filters"
+    "applyFilters": "Apply filters",
+    "genderGroup": "Gender",
+    "collectionGroup": "Collection",
+    "genderOptions": { "women": "Women", "men": "Men", "unisex": "Unisex" },
+    "collectionOptions": {
+      "luxury": "Luxury",
+      "premium": "Premium",
+      "essential": "Essential"
+    }
   },
   "showroomPage": {
     "dividerFinland": "FINLAND",

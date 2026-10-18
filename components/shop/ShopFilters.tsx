@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, useTransition } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type ShopFiltersLabels = {
@@ -13,20 +13,50 @@ type ShopFiltersLabels = {
   selectOneOrMore: string;
   clearAll: string;
   applyFilters: string;
+  genderGroup: string;
+  collectionGroup: string;
+  genderOptions: Record<string, string>;
+  collectionOptions: Record<string, string>;
 };
 
 type Props = {
   allNotes: string[];
+  availableGenders: string[];
+  availableCollections: string[];
   count: number;
   labels: ShopFiltersLabels;
 };
 
-function NoteCheckbox({
-  note,
+type Selection = {
+  notes: string[];
+  genders: string[];
+  collections: string[];
+};
+
+const SIDE_GROUP_GRID =
+  "grid grid-cols-2 gap-x-6 sm:grid-cols-3 lg:grid-cols-1";
+
+function emptySelection(): Selection {
+  return { notes: [], genders: [], collections: [] };
+}
+
+function readSelection(value: string | null, available: string[]): string[] {
+  return Array.from(
+    new Set(
+      (value ?? "")
+        .split(",")
+        .map((item) => item.trim())
+        .filter((item) => available.includes(item)),
+    ),
+  );
+}
+
+function FilterCheckbox({
+  label,
   checked,
   onToggle,
 }: {
-  note: string;
+  label: string;
   checked: boolean;
   onToggle: () => void;
 }) {
@@ -54,16 +84,58 @@ function NoteCheckbox({
         </svg>
       </span>
 
-      <span className="transition-colors group-hover:text-black">{note}</span>
+      <span className="transition-colors group-hover:text-black">{label}</span>
     </label>
   );
 }
 
-export default function ShopFilters({ allNotes, count, labels }: Props) {
+function FilterGroup({
+  title,
+  options,
+  selected,
+  onToggle,
+  gridClassName,
+}: {
+  title: string;
+  options: { value: string; label: string }[];
+  selected: string[];
+  onToggle: (value: string) => void;
+  gridClassName: string;
+}) {
+  if (options.length === 0) return null;
+
+  return (
+    <fieldset className="min-w-0">
+      <legend className="font-magister mb-4 text-base font-normal uppercase">
+        {title}
+      </legend>
+
+      <div className={gridClassName}>
+        {options.map(({ value, label }) => (
+          <FilterCheckbox
+            key={value}
+            label={label}
+            checked={selected.includes(value)}
+            onToggle={() => onToggle(value)}
+          />
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+export default function ShopFilters({
+  allNotes,
+  availableGenders,
+  availableCollections,
+  count,
+  labels,
+}: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const titleId = useId();
+  const [isPending, startTransition] = useTransition();
 
   const dialogRef = useRef<HTMLDialogElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -72,15 +144,29 @@ export default function ShopFilters({ allNotes, count, labels }: Props) {
   const closingRef = useRef(false);
   const scrollLockRef = useRef<string | null>(null);
 
-  const [draft, setDraft] = useState<string[]>([]);
+  const [draft, setDraft] = useState<Selection>(emptySelection);
 
-  const selected = Array.from(
-    new Set(
-      (searchParams.get("notes") ?? "")
-        .split(",")
-        .filter((note) => allNotes.includes(note)),
+  const selected: Selection = {
+    notes: readSelection(searchParams.get("notes"), allNotes),
+    genders: readSelection(searchParams.get("genders"), availableGenders),
+    collections: readSelection(
+      searchParams.get("collections"),
+      availableCollections,
     ),
-  );
+  };
+
+  const activeCount =
+    selected.notes.length +
+    selected.genders.length +
+    selected.collections.length;
+
+  const hasOptions =
+    allNotes.length > 0 ||
+    availableGenders.length > 0 ||
+    availableCollections.length > 0;
+
+  const hasExtraGroups =
+    availableGenders.length > 0 || availableCollections.length > 0;
 
   function cancelAnimations() {
     animationsRef.current.forEach((animation) => animation.cancel());
@@ -155,7 +241,6 @@ export default function ShopFilters({ allNotes, count, labels }: Props) {
 
     closingRef.current = true;
 
-    // Capture the current position if closed during the opening animation.
     const transform = getComputedStyle(panel).transform;
     const opacity = getComputedStyle(overlay).opacity;
 
@@ -183,43 +268,60 @@ export default function ShopFilters({ allNotes, count, labels }: Props) {
     if (dialog.open) dialog.close();
   }
 
-  function updateNotes(notes: string[]) {
+  function updateFilters(selection: Selection) {
     const params = new URLSearchParams(searchParams.toString());
 
-    if (notes.length > 0) {
-      params.set("notes", notes.join(","));
-    } else {
-      params.delete("notes");
+    for (const key of ["notes", "genders", "collections"] as const) {
+      if (selection[key].length > 0) {
+        params.set(key, selection[key].join(","));
+      } else {
+        params.delete(key);
+      }
     }
 
     const query = params.toString();
+    const nextUrl = query ? `${pathname}?${query}` : pathname;
+    const currentQuery = searchParams.toString();
+    const currentUrl = currentQuery ? `${pathname}?${currentQuery}` : pathname;
 
-    router.push(query ? `${pathname}?${query}` : pathname, {
-      scroll: false,
+    if (nextUrl === currentUrl) return;
+
+    startTransition(() => {
+      router.push(nextUrl, { scroll: false });
     });
   }
 
-  function toggleNote(note: string) {
-    setDraft((current) =>
-      current.includes(note)
-        ? current.filter((value) => value !== note)
-        : [...current, note],
-    );
+  function toggleOption(group: keyof Selection, value: string) {
+    setDraft((current) => ({
+      ...current,
+      [group]: current[group].includes(value)
+        ? current[group].filter((item) => item !== value)
+        : [...current[group], value],
+    }));
+  }
+
+  function clearAll() {
+    const cleared = emptySelection();
+    setDraft(cleared);
+    updateFilters(cleared);
   }
 
   async function applyFilters() {
-    const nextNotes = [...draft];
+    if (closingRef.current || isPending) return;
+
+    const nextSelection = draft;
+
     await closeFilters();
-    updateNotes(nextNotes);
+    updateFilters(nextSelection);
   }
 
   return (
-    <div className="w-full text-neutral-900">
+    <div className="w-full text-neutral-900" aria-busy={isPending}>
       <div className="flex min-h-12 items-center justify-between gap-4">
         <button
           type="button"
           onClick={openFilters}
-          disabled={allNotes.length === 0}
+          disabled={!hasOptions}
           className="font-garamond flex min-h-11 min-w-36 items-center justify-center gap-3 border border-black/10 px-5 text-sm tracking-[0.08em] uppercase transition-colors duration-200 hover:bg-neutral-900 hover:text-white disabled:opacity-40"
         >
           <svg
@@ -233,8 +335,9 @@ export default function ShopFilters({ allNotes, count, labels }: Props) {
           >
             <path d="M4 7h16M4 17h16M9 4v6M15 14v6" />
           </svg>
+
           {labels.filterButton}
-          {selected.length > 0 ? ` (${selected.length})` : ""}
+          {activeCount > 0 ? ` (${activeCount})` : ""}
         </button>
 
         <p
@@ -304,37 +407,60 @@ export default function ShopFilters({ allNotes, count, labels }: Props) {
             </button>
           </div>
 
-          <div className="overflow-y-auto overscroll-contain px-5 pt-4 pb-8 md:pt-6 md:pb-12 xl:px-6">
-            <fieldset>
-              <legend className="font-magister text-base font-normal uppercase">
-                {labels.scentProfile}
-              </legend>
+          <div className="min-h-0 overflow-y-auto overscroll-contain px-5 pt-4 pb-8 md:pt-6 md:pb-12 xl:px-6">
+            <p className="font-garamond mb-6 text-base text-black/60">
+              {labels.selectOneOrMore}
+            </p>
 
-              <p className="font-garamond mt-2 mb-5 text-base text-black/60">
-                {labels.selectOneOrMore}
-              </p>
+            <div
+              className={
+                hasExtraGroups
+                  ? "grid items-start gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-12"
+                  : "grid gap-8"
+              }
+            >
+              <FilterGroup
+                title={labels.scentProfile}
+                options={allNotes.map((note) => ({ value: note, label: note }))}
+                selected={draft.notes}
+                onToggle={(value) => toggleOption("notes", value)}
+                gridClassName={
+                  hasExtraGroups
+                    ? "grid grid-cols-2 gap-x-6 gap-y-1 sm:grid-cols-3"
+                    : "grid grid-cols-2 gap-x-6 gap-y-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
+                }
+              />
 
-              <div className="grid grid-cols-2 gap-x-6 gap-y-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
-                {allNotes.map((note) => (
-                  <NoteCheckbox
-                    key={note}
-                    note={note}
-                    checked={draft.includes(note)}
-                    onToggle={() => toggleNote(note)}
-                  />
-                ))}
-              </div>
-            </fieldset>
+              <FilterGroup
+                title={labels.genderGroup}
+                options={availableGenders.map((value) => ({
+                  value,
+                  label: labels.genderOptions[value] ?? value,
+                }))}
+                selected={draft.genders}
+                onToggle={(value) => toggleOption("genders", value)}
+                gridClassName={SIDE_GROUP_GRID}
+              />
+
+              <FilterGroup
+                title={labels.collectionGroup}
+                options={availableCollections.map((value) => ({
+                  value,
+                  label: labels.collectionOptions[value] ?? value,
+                }))}
+                selected={draft.collections}
+                onToggle={(value) => toggleOption("collections", value)}
+                gridClassName={SIDE_GROUP_GRID}
+              />
+            </div>
           </div>
 
           <div className="font-garamond flex shrink-0 items-center justify-end gap-6 border-t border-black/10 px-5 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] xl:px-6">
             <button
               type="button"
-              onClick={() => {
-                setDraft([]);
-                updateNotes([]);
-              }}
-              className="min-h-11 text-sm underline underline-offset-4"
+              onClick={clearAll}
+              disabled={isPending}
+              className="min-h-11 text-sm underline underline-offset-4 disabled:opacity-40"
             >
               {labels.clearAll}
             </button>
@@ -342,7 +468,8 @@ export default function ShopFilters({ allNotes, count, labels }: Props) {
             <button
               type="button"
               onClick={() => void applyFilters()}
-              className="min-h-11 min-w-40 bg-neutral-900 px-6 text-sm tracking-[0.08em] text-white uppercase transition-colors hover:bg-neutral-800"
+              disabled={isPending}
+              className="min-h-11 min-w-40 bg-neutral-900 px-6 text-sm tracking-[0.08em] text-white uppercase transition-colors hover:bg-neutral-800 disabled:opacity-50"
             >
               {labels.applyFilters}
             </button>

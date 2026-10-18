@@ -84,7 +84,15 @@
     "scentProfile": "Doftprofil",
     "selectOneOrMore": "Välj en eller flera",
     "clearAll": "Rensa alla",
-    "applyFilters": "Tillämpa filter"
+    "applyFilters": "Tillämpa filter",
+    "genderGroup": "Kön",
+    "collectionGroup": "Kollektion",
+    "genderOptions": { "women": "Dam", "men": "Herr", "unisex": "Unisex" },
+    "collectionOptions": {
+      "luxury": "Luxury",
+      "premium": "Premium",
+      "essential": "Essential"
+    }
   },
   "showroomPage": {
     "dividerFinland": "FINLAND",

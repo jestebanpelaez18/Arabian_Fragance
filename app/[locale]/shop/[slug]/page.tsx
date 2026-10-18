@@ -7,12 +7,15 @@ import IntroCompact from "@/components/shop/IntroCompact";
 import ShopFilters from "@/components/shop/ShopFilters";
 import { i18n, type Locale } from "@/i18n-config";
 import { getDictionary } from "@/dictionaries/getDictionary";
-import { SHOP_CATALOGS, isShopSlug } from "@/lib/shop/catalogs";
 import {
-  getAvailablePrimaryNotes,
-  productMatchesAnyNote,
-  sanitizeSelectedNotes,
-} from "@/lib/shop/note-filters";
+  COLLECTION_HANDLES,
+  SHOP_CATALOGS,
+  isShopSlug,
+} from "@/lib/shop/catalogs";
+import {
+  filterCatalog,
+  type CatalogSearchParams,
+} from "@/lib/shop/catalog-filters";
 
 type ShopPageParams = {
   locale: Locale;
@@ -52,7 +55,7 @@ export default async function ShopCatalogPage({
   searchParams,
 }: {
   params: Promise<ShopPageParams>;
-  searchParams: Promise<{ notes?: string }>;
+  searchParams: Promise<CatalogSearchParams>;
 }) {
   const { locale, slug } = await params;
 
@@ -66,31 +69,35 @@ export default async function ShopCatalogPage({
   const sp = await searchParams;
 
   const base = products.filter(catalog.matches);
-  const allNotes = getAvailablePrimaryNotes(base);
 
-  const selected = sp.notes?.split(",").filter(Boolean) ?? [];
-  const activeFilters = sanitizeSelectedNotes(selected, allNotes);
+  // A gender catalog can be refined by collection, and vice versa.
+  const isGenderCatalog =
+    slug === "women" || slug === "men" || slug === "unisex";
+  const isCollectionCatalog = slug in COLLECTION_HANDLES;
 
-  const filtered = base.filter((product) =>
-    productMatchesAnyNote(product, activeFilters),
-  );
+  const { filtered, allNotes, availableGenders, availableCollections } =
+    filterCatalog(base, sp, {
+      allowGender: isCollectionCatalog,
+      allowCollection: isGenderCatalog,
+    });
 
   return (
     <main>
       <IntroCompact title={catalog.title} subtitle={catalog.subtitle} />
 
-      <section className="mt-6 w-full px-5 md:mt-8 md:px-5 xl:px-6">
+      <section className="w-full px-5 py-4 xl:px-6">
         <Suspense fallback={null}>
           <ShopFilters
             allNotes={allNotes}
+            availableGenders={availableGenders}
+            availableCollections={availableCollections}
             count={filtered.length}
             labels={dict.shopPage}
           />
         </Suspense>
-        <div className="mt-6 h-px w-full md:mt-8" />
       </section>
 
-      <section className="w-full px-5 pb-12 md:px-5 xl:px-6">
+      <section className="w-full px-5 pb-12 xl:px-6">
         <div className="grid grid-cols-2 gap-x-2.5 gap-y-16 md:gap-x-5 lg:grid-cols-4">
           {filtered.map((product) => (
             <ProductCard key={product.id} p={product} locale={locale} />

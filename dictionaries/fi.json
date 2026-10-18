@@ -84,7 +84,15 @@
     "scentProfile": "Tuoksuprofiili",
     "selectOneOrMore": "Valitse yksi tai useampi",
     "clearAll": "Tyhjennä kaikki",
-    "applyFilters": "Käytä suodattimia"
+    "applyFilters": "Käytä suodattimia",
+    "genderGroup": "Sukupuoli",
+    "collectionGroup": "Kokoelma",
+    "genderOptions": { "women": "Naiset", "men": "Miehet", "unisex": "Unisex" },
+    "collectionOptions": {
+      "luxury": "Luxury",
+      "premium": "Premium",
+      "essential": "Essential"
+    }
   },
   "showroomPage": {
     "dividerFinland": "SUOMI",

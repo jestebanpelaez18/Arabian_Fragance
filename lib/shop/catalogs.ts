@@ -16,6 +16,12 @@ function belongsToPerfumeCollection(product: Product, handle: string): boolean {
   );
 }
 
+export const COLLECTION_HANDLES = {
+  luxury: "luxury-collection",
+  premium: "premium-collection",
+  essential: "essential-collection",
+} as const;
+
 export const SHOP_CATALOGS = {
   women: {
     title: "Women's Perfumes",
@@ -42,19 +48,19 @@ export const SHOP_CATALOGS = {
     title: "Luxury Collection",
     subtitle: "",
     matches: (product: Product) =>
-      belongsToPerfumeCollection(product, "luxury-collection"),
+      belongsToPerfumeCollection(product, COLLECTION_HANDLES.luxury),
   },
   premium: {
     title: "Premium Collection",
     subtitle: "",
     matches: (product: Product) =>
-      belongsToPerfumeCollection(product, "premium-collection"),
+      belongsToPerfumeCollection(product, COLLECTION_HANDLES.premium),
   },
   essential: {
     title: "Essential Collection",
     subtitle: "",
     matches: (product: Product) =>
-      belongsToPerfumeCollection(product, "essential-collection"),
+      belongsToPerfumeCollection(product, COLLECTION_HANDLES.essential),
   },
   tolas: {
     title: "Oils & Attars",

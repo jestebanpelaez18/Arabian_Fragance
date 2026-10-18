@@ -77,6 +77,10 @@ type Dictionary = {
     selectOneOrMore: string;
     clearAll: string;
     applyFilters: string;
+    genderGroup: string;
+    collectionGroup: string;
+    genderOptions: Record<"women" | "men" | "unisex", string>;
+    collectionOptions: Record<"luxury" | "premium" | "essential", string>;
   };
   showroomPage: {
     dividerFinland: string;
