@@ -7,6 +7,7 @@ import IntroCompact from "@/components/shop/IntroCompact";
 import ShopFilters from "@/components/shop/ShopFilters";
 import { isPerfume, SHOP_INDEX_COLLECTION_HANDLE } from "@/lib/shop/catalogs";
 import { getDictionary } from "@/dictionaries/getDictionary";
+import ShopEmptyState from "@/components/shop/ShopEmptyState";
 import type { Locale } from "@/i18n-config";
 import {
   filterCatalog,
@@ -71,16 +72,23 @@ export default async function ShopIndexPage({
       </section>
 
       <section className="w-full px-5 pb-12 xl:px-6">
-        <div className="grid grid-cols-2 gap-x-2.5 gap-y-16 md:gap-x-5 lg:grid-cols-4">
-          {filtered.map((product, index) => (
-            <ProductCard
-              key={product.id}
-              p={product}
-              locale={locale}
-              priority={index < PRIORITY_CARD_COUNT}
-            />
-          ))}
-        </div>
+        {filtered.length === 0 ? (
+          <ShopEmptyState
+            title={dict.shopPage.emptyTitle}
+            description={dict.shopPage.emptyDescription}
+          />
+        ) : (
+          <div className="grid grid-cols-2 gap-x-2.5 gap-y-16 md:gap-x-5 lg:grid-cols-4">
+            {filtered.map((product, index) => (
+              <ProductCard
+                key={product.id}
+                p={product}
+                locale={locale}
+                priority={index < PRIORITY_CARD_COUNT}
+              />
+            ))}
+          </div>
+        )}
       </section>
     </main>
   );

@@ -85,6 +85,8 @@
     "selectOneOrMore": "Select one or more",
     "clearAll": "Clear all",
     "applyFilters": "Apply filters",
+    "emptyTitle": "No matching products",
+    "emptyDescription": "Adjust your selection in the filters to explore more of the collection.",
     "genderGroup": "Gender",
     "collectionGroup": "Collection",
     "genderOptions": { "women": "Women", "men": "Men", "unisex": "Unisex" },

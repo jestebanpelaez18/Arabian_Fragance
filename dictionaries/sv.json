@@ -85,6 +85,8 @@
     "selectOneOrMore": "Välj en eller flera",
     "clearAll": "Rensa alla",
     "applyFilters": "Tillämpa filter",
+    "emptyTitle": "Inga matchande produkter",
+    "emptyDescription": "Ändra dina filterval för att upptäcka fler produkter i kollektionen.",
     "genderGroup": "Kön",
     "collectionGroup": "Kollektion",
     "genderOptions": { "women": "Dam", "men": "Herr", "unisex": "Unisex" },

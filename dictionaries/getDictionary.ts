@@ -77,6 +77,8 @@ type Dictionary = {
     selectOneOrMore: string;
     clearAll: string;
     applyFilters: string;
+    emptyTitle: string;
+    emptyDescription: string;
     genderGroup: string;
     collectionGroup: string;
     genderOptions: Record<"women" | "men" | "unisex", string>;

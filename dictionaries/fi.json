@@ -85,6 +85,8 @@
     "selectOneOrMore": "Valitse yksi tai useampi",
     "clearAll": "Tyhjennä kaikki",
     "applyFilters": "Käytä suodattimia",
+    "emptyTitle": "Ei hakua vastaavia tuotteita",
+    "emptyDescription": "Muuta suodatinvalintojasi nähdäksesi lisää kokoelman tuotteita.",
     "genderGroup": "Sukupuoli",
     "collectionGroup": "Kokoelma",
     "genderOptions": { "women": "Naiset", "men": "Miehet", "unisex": "Unisex" },
