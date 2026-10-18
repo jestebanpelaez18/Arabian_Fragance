@@ -3,14 +3,14 @@ import { Suspense } from "react";
 import { getShopifyProducts } from "@/lib/shopify/get-products";
 import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
-import NoteFilterChips from "@/components/shop/NoteFilterChips";
+import ShopFilters from "@/components/shop/ShopFilters";
 import { type Product } from "@/data/products";
 import { isPerfume } from "@/lib/shop/catalogs";
 import { getDictionary } from "@/dictionaries/getDictionary";
 import type { Locale } from "@/i18n-config";
 import {
   getAvailablePrimaryNotes,
-  productMatchesAllNotes,
+  productMatchesAnyNote,
   sanitizeSelectedNotes,
 } from "@/lib/shop/note-filters";
 
@@ -41,7 +41,7 @@ export default async function ShopIndexPage({
   const selected = sp.notes?.split(",").filter(Boolean) ?? [];
   const activeFilters = sanitizeSelectedNotes(selected, allNotes);
   const filtered = PRODUCTS.filter((product) =>
-    productMatchesAllNotes(product, activeFilters),
+    productMatchesAnyNote(product, activeFilters),
   );
 
   return (
@@ -49,16 +49,17 @@ export default async function ShopIndexPage({
       {/* Intro */}
       <IntroCompact
         title={dict.shopPage.title}
-        count={filtered.length}
-        countLabelSingular={dict.shopPage.countLabelSingular}
-        countLabelPlural={dict.shopPage.countLabelPlural}
         subtitle={dict.shopPage.subtitle}
       />
 
-      {/* Chips */}
+      {/* Filters */}
       <section className="mt-6 w-full px-5 md:mt-8">
         <Suspense fallback={null}>
-          <NoteFilterChips allNotes={allNotes} />
+          <ShopFilters
+            allNotes={allNotes}
+            count={filtered.length}
+            labels={dict.shopPage}
+          />
         </Suspense>
         <div className="mt-6 h-px w-full md:mt-8" />
         {/* Separation between filter and products */}

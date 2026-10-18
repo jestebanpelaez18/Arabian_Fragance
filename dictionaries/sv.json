@@ -77,7 +77,14 @@
     "title": "Alla parfymer",
     "subtitle": "Handgjorda kompositioner rotade i arabisk parfymkonst med resinost djup, lysande floraler och varm amber. Upptack vart fulla urval av tidlosa signaturer for varje stil.",
     "countLabelSingular": "Doft",
-    "countLabelPlural": "Dofter"
+    "countLabelPlural": "Dofter",
+    "filterButton": "Filtrera",
+    "filterTitle": "Filtrera",
+    "closeFilters": "Stäng filter",
+    "scentProfile": "Doftprofil",
+    "selectOneOrMore": "Välj en eller flera",
+    "clearAll": "Rensa alla",
+    "applyFilters": "Tillämpa filter"
   },
   "showroomPage": {
     "dividerFinland": "FINLAND",

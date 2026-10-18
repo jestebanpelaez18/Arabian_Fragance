@@ -4,13 +4,13 @@ import { Suspense } from "react";
 import { getShopifyProducts } from "@/lib/shopify/get-products";
 import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
-import NoteFilterChips from "@/components/shop/NoteFilterChips";
+import ShopFilters from "@/components/shop/ShopFilters";
 import { i18n, type Locale } from "@/i18n-config";
 import { getDictionary } from "@/dictionaries/getDictionary";
 import { SHOP_CATALOGS, isShopSlug } from "@/lib/shop/catalogs";
 import {
   getAvailablePrimaryNotes,
-  productMatchesAllNotes,
+  productMatchesAnyNote,
   sanitizeSelectedNotes,
 } from "@/lib/shop/note-filters";
 
@@ -72,22 +72,20 @@ export default async function ShopCatalogPage({
   const activeFilters = sanitizeSelectedNotes(selected, allNotes);
 
   const filtered = base.filter((product) =>
-    productMatchesAllNotes(product, activeFilters),
+    productMatchesAnyNote(product, activeFilters),
   );
 
   return (
     <main>
-      <IntroCompact
-        title={catalog.title}
-        count={filtered.length}
-        countLabelSingular={dict.shopPage.countLabelSingular}
-        countLabelPlural={dict.shopPage.countLabelPlural}
-        subtitle={catalog.subtitle}
-      />
+      <IntroCompact title={catalog.title} subtitle={catalog.subtitle} />
 
       <section className="mt-6 w-full px-5 md:mt-8 md:px-5 xl:px-6">
         <Suspense fallback={null}>
-          <NoteFilterChips allNotes={allNotes} />
+          <ShopFilters
+            allNotes={allNotes}
+            count={filtered.length}
+            labels={dict.shopPage}
+          />
         </Suspense>
         <div className="mt-6 h-px w-full md:mt-8" />
       </section>

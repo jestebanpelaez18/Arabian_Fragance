@@ -77,7 +77,14 @@
     "title": "Kaikki tuoksut",
     "subtitle": "Käsintehtyjä koostumuksia arabialaisen hajuvesiperinteen pohjalta - pihkaista syvyyttä, hehkuvia kukkaistuoksuja ja lämpimän meripihkaisia sävyjä. Löydä ajattomat suosikit jokaiseen tyyliin.",
     "countLabelSingular": "Tuoksu",
-    "countLabelPlural": "Tuoksua"
+    "countLabelPlural": "Tuoksua",
+    "filterButton": "Suodata",
+    "filterTitle": "Suodata",
+    "closeFilters": "Sulje suodattimet",
+    "scentProfile": "Tuoksuprofiili",
+    "selectOneOrMore": "Valitse yksi tai useampi",
+    "clearAll": "Tyhjennä kaikki",
+    "applyFilters": "Käytä suodattimia"
   },
   "showroomPage": {
     "dividerFinland": "SUOMI",
