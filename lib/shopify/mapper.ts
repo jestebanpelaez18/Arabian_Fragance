@@ -3,9 +3,30 @@ import { type Product, VALID_NOTES } from "@/data/products";
 type Note = NonNullable<Product["notes"]>[number];
 type Gender = NonNullable<Product["gender"]>;
 
-const NOTE_BY_NORMALIZED_VALUE = new Map(
-  VALID_NOTES.map((note) => [note.toLowerCase(), note] as const),
-);
+// Shopify translates the notes metafield under @inContext(language), so the
+// Finnish values are mapped back to the canonical notes used by the filters.
+const NOTE_TRANSLATIONS: Partial<Record<Note, string[]>> = {
+  Woody: ["puinen", "puu"],
+  Floral: ["kukkainen"],
+  Amber: ["ambra", "meripihka"],
+  Citrus: ["sitrus", "sitruksinen", "sitrushedelmäinen"],
+  Sweet: ["makea"],
+  Fresh: ["raikas"],
+  Fruity: ["hedelmäinen"],
+  Earthy: ["maanläheinen"],
+  Powdery: ["puuterinen"],
+  Leather: ["nahka", "nahkainen"],
+  Tobacco: ["tupakka"],
+  Vanilla: ["vanilja", "vaniljainen"],
+  Smoky: ["savua", "savuisuus", "savunomainen"],
+};
+
+const NOTE_BY_NORMALIZED_VALUE = new Map<string, Note>([
+  ...VALID_NOTES.map((note) => [note.toLowerCase(), note] as const),
+  ...Object.entries(NOTE_TRANSLATIONS).flatMap(([note, aliases]) =>
+    aliases.map((alias) => [alias, note as Note] as const),
+  ),
+]);
 
 const GENDERS: Gender[] = ["women", "men", "unisex"];
 

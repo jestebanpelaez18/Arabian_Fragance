@@ -7,8 +7,24 @@ type ShopCatalog = {
   matches: (product: Product) => boolean;
 };
 
+// Shopify translates productType under @inContext(language), so each type
+// is matched against its known translations (the English value is the key).
+const PRODUCT_TYPE_ALIASES = {
+  Perfume: ["Perfume", "Hajuvesi"],
+  Attar: ["Attar"],
+  "Body Mist": ["Body Mist"],
+  "Discovery Set": ["Discovery Set"],
+} as const;
+
+type ProductType = keyof typeof PRODUCT_TYPE_ALIASES;
+
+function hasProductType(product: Product, type: ProductType): boolean {
+  const aliases: readonly string[] = PRODUCT_TYPE_ALIASES[type];
+  return aliases.includes(product.productType ?? "");
+}
+
 export function isPerfume(product: Product): boolean {
-  return product.productType === "Perfume";
+  return hasProductType(product, "Perfume");
 }
 
 function belongsToPerfumeCollection(product: Product, handle: string): boolean {
@@ -75,19 +91,19 @@ export const SHOP_CATALOGS = {
     title: "Oils & Attars",
     subtitle: "",
     collectionHandle: "oils-attars",
-    matches: (product: Product) => product.productType === "Attar",
+    matches: (product: Product) => hasProductType(product, "Attar"),
   },
   "body-mists": {
     title: "Body Mists",
     subtitle: "",
     collectionHandle: "bath-body",
-    matches: (product: Product) => product.productType === "Body Mist",
+    matches: (product: Product) => hasProductType(product, "Body Mist"),
   },
   discovery: {
     title: "Discovery",
     subtitle: "",
     collectionHandle: "discovery",
-    matches: (product: Product) => product.productType === "Discovery Set",
+    matches: (product: Product) => hasProductType(product, "Discovery Set"),
   },
 } satisfies Record<string, ShopCatalog>;
 
