@@ -66,7 +66,7 @@ test.describe("Shop responsive navigation", () => {
     ).toBeVisible();
   });
 
-    test("desktop perfume menu navigates to a collection", async ({
+  test("desktop perfume menu navigates to a collection", async ({
     page,
     viewport,
   }) => {
