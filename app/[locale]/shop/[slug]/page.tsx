@@ -114,7 +114,7 @@ export default async function ShopCatalogPage({
   };
 
   return (
-    <main>
+    <div>
       <IntroCompact title={content.title} subtitle={content.subtitle} />
 
       <section className="w-full px-5 py-4 xl:px-6">
@@ -148,6 +148,6 @@ export default async function ShopCatalogPage({
           </div>
         )}
       </section>
-    </main>
+    </div>
   );
 }

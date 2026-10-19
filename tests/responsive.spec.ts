@@ -30,6 +30,7 @@ test.describe("Shop responsive navigation", () => {
     await menuButton.click();
 
     await expect(drawer).toHaveCount(0);
+    await expect(page.getByRole("main")).toHaveCount(1);
     await expect(page.getByRole("main")).toBeVisible();
   });
 

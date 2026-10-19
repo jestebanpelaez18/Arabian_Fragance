@@ -56,7 +56,7 @@ export default async function ShopIndexPage({
   const subtitle = collection?.description || dict.shopPage.subtitle;
 
   return (
-    <main>
+    <div>
       <IntroCompact title={title} subtitle={subtitle} />
 
       <section className="w-full px-5 py-4 xl:px-6">
@@ -90,6 +90,6 @@ export default async function ShopIndexPage({
           </div>
         )}
       </section>
-    </main>
+    </div>
   );
 }
