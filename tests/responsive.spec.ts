@@ -66,7 +66,7 @@ test.describe("Shop responsive navigation", () => {
     ).toBeVisible();
   });
 
-  test("desktop perfume menu navigates to a collection", async ({
+    test("desktop perfume menu navigates to a collection", async ({
     page,
     viewport,
   }) => {
@@ -89,7 +89,21 @@ test.describe("Shop responsive navigation", () => {
     });
 
     await expect(perfumesButton).toBeVisible();
+
+    // Wait for font loading before positioning the pointer.
+    await page.evaluate(async () => {
+      await document.fonts.ready;
+    });
+
+    await page.mouse.move(0, 0);
     await perfumesButton.hover();
+
+    // Verify that the pointer actually remains over the trigger.
+    await expect
+      .poll(() =>
+        perfumesButton.evaluate((element) => element.matches(":hover")),
+      )
+      .toBe(true);
 
     const collectionLink = header.getByRole("link", {
       name: "The Luxury Collection",
