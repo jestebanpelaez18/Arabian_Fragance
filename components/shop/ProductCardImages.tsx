@@ -1,35 +1,31 @@
 import SmoothImage from "../ui/SmoothImage";
 
-const IMAGE_SIZES = "(min-width:1280px) 25vw, (min-width:768px) 33vw, 50vw";
+const IMAGE_SIZES = "(min-width: 1024px) 25vw, 50vw";
 
-const PRIMARY_IMAGE_CLASS =
-  "object-cover transform-gpu transition-all duration-1800 ease-out group-hover:scale-[1.03]";
+const PRIMARY_IMAGE_CLASS = "object-cover";
 
-const HOVER_IMAGE_CLASS =
-  "absolute inset-0 object-cover opacity-0 transform-gpu scale-[1.05] transition-all duration-1800 ease-out group-hover:scale-[1.03] group-hover:opacity-100";
+const HOVER_IMAGE_CLASS = [
+  "absolute inset-0 object-cover opacity-0",
+  "transition-opacity duration-700 ease-in-out",
+  "[@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100",
+  "group-focus-within:opacity-100",
+  "motion-reduce:transition-none",
+].join(" ");
 
 type ProductCardImagesProps = {
   name: string;
   primaryImage: string;
   hoverImage: string | null;
+  priority?: boolean;
 };
 
 export default function ProductCardImages({
   name,
   primaryImage,
   hoverImage,
+  priority = false,
 }: ProductCardImagesProps) {
-  if (!hoverImage || hoverImage === primaryImage) {
-    return (
-      <SmoothImage
-        src={primaryImage}
-        alt={name}
-        fill
-        sizes={IMAGE_SIZES}
-        className={PRIMARY_IMAGE_CLASS}
-      />
-    );
-  }
+  const showHoverImage = hoverImage && hoverImage !== primaryImage;
 
   return (
     <>
@@ -38,16 +34,22 @@ export default function ProductCardImages({
         alt={name}
         fill
         sizes={IMAGE_SIZES}
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "auto"}
         className={PRIMARY_IMAGE_CLASS}
       />
 
-      <SmoothImage
-        src={hoverImage}
-        alt={`${name} detail`}
-        fill
-        sizes={IMAGE_SIZES}
-        className={HOVER_IMAGE_CLASS}
-      />
+      {showHoverImage && (
+        <SmoothImage
+          src={hoverImage}
+          alt=""
+          fill
+          sizes={IMAGE_SIZES}
+          loading="lazy"
+          fetchPriority="low"
+          className={HOVER_IMAGE_CLASS}
+        />
+      )}
     </>
   );
 }

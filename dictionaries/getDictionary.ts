@@ -70,6 +70,19 @@ type Dictionary = {
     subtitle: string;
     countLabelSingular: string;
     countLabelPlural: string;
+    filterButton: string;
+    filterTitle: string;
+    closeFilters: string;
+    scentProfile: string;
+    selectOneOrMore: string;
+    clearAll: string;
+    applyFilters: string;
+    emptyTitle: string;
+    emptyDescription: string;
+    genderGroup: string;
+    collectionGroup: string;
+    genderOptions: Record<"women" | "men" | "unisex", string>;
+    collectionOptions: Record<"luxury" | "premium" | "essential", string>;
   };
   showroomPage: {
     dividerFinland: string;

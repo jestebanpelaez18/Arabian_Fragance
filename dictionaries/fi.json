@@ -74,10 +74,27 @@
   "shopPage": {
     "breadcrumbHome": "Etusivu",
     "breadcrumbShop": "Kauppa",
-    "title": "KOKO ARABIAN FRAGRANCE",
+    "title": "Kaikki tuoksut",
     "subtitle": "Käsintehtyjä koostumuksia arabialaisen hajuvesiperinteen pohjalta - pihkaista syvyyttä, hehkuvia kukkaistuoksuja ja lämpimän meripihkaisia sävyjä. Löydä ajattomat suosikit jokaiseen tyyliin.",
     "countLabelSingular": "Tuoksu",
-    "countLabelPlural": "Tuoksua"
+    "countLabelPlural": "Tuoksua",
+    "filterButton": "Suodata",
+    "filterTitle": "Suodata",
+    "closeFilters": "Sulje suodattimet",
+    "scentProfile": "Tuoksuprofiili",
+    "selectOneOrMore": "Valitse yksi tai useampi",
+    "clearAll": "Tyhjennä kaikki",
+    "applyFilters": "Käytä suodattimia",
+    "emptyTitle": "Ei hakua vastaavia tuotteita",
+    "emptyDescription": "Muuta suodatinvalintojasi nähdäksesi lisää kokoelman tuotteita.",
+    "genderGroup": "Sukupuoli",
+    "collectionGroup": "Kokoelma",
+    "genderOptions": { "women": "Naiset", "men": "Miehet", "unisex": "Unisex" },
+    "collectionOptions": {
+      "luxury": "Luxury",
+      "premium": "Premium",
+      "essential": "Essential"
+    }
   },
   "showroomPage": {
     "dividerFinland": "SUOMI",

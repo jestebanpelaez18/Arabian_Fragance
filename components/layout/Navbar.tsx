@@ -1,5 +1,6 @@
 "use client";
 
+import { MAIN_LINKS, PERFUME_SECTIONS } from "@/lib/shop/navigation";
 import { Suspense, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -150,61 +151,24 @@ export default function Navbar() {
             <div className="bg-background invisible absolute top-full left-0 z-9999 w-full border-t border-black/5 opacity-0 shadow-md transition-all duration-300 group-hover:visible group-hover:opacity-100">
               {/* Container to align content with the rest of the navbar */}
               <div className="mx-auto flex max-w-7xl justify-center gap-24 px-12 py-10">
-                {/* Column 1: By Gender */}
-                <div className="flex flex-col gap-4">
-                  <h3 className="mb-2 text-xs font-bold tracking-[0.15em] text-black/50 uppercase">
-                    {labels.byCategory}
-                  </h3>
-                  <Link
-                    href="/shop/women"
-                    className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
-                  >
-                    {labels.womenPerfumes}
-                  </Link>
-                  <Link
-                    href="/shop/men"
-                    className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
-                  >
-                    {labels.menPerfumes}
-                  </Link>
-                  <Link
-                    href="/shop/unisex"
-                    className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
-                  >
-                    {labels.unisexPerfumes}
-                  </Link>
-                  <Link
-                    href="/shop"
-                    className="font-garamond mt-2 text-sm font-semibold text-black transition-colors hover:text-[#C9A46A]"
-                  >
-                    {labels.shopAll}
-                  </Link>
-                </div>
-
-                {/* Column 2: By Collection */}
-                <div className="flex flex-col gap-4">
-                  <h3 className="mb-2 text-xs font-bold tracking-[0.15em] text-black/50 uppercase">
-                    {labels.byCollection}
-                  </h3>
-                  <Link
-                    href="/collections/luxury"
-                    className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
-                  >
-                    {labels.luxuryCollection}
-                  </Link>
-                  <Link
-                    href="/collections/premium"
-                    className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
-                  >
-                    {labels.premiumCollection}
-                  </Link>
-                  <Link
-                    href="/collections/signature"
-                    className="font-garamond text-sm text-black transition-colors hover:text-[#C9A46A]"
-                  >
-                    {labels.signatureCollection}
-                  </Link>
-                </div>
+                {PERFUME_SECTIONS.map(({ title, links }) => (
+                  <div key={title} className="flex flex-col gap-4">
+                    <h3 className="mb-2 text-xs font-bold tracking-[0.15em] text-black/50 uppercase">
+                      {labels[title]}
+                    </h3>
+                    {links.map(({ path, label, emphasized }) => (
+                      <Link
+                        key={path}
+                        href={`/${locale}${path}`}
+                        className={`font-garamond text-sm text-black transition-colors hover:text-[#C9A46A] ${
+                          emphasized ? "mt-2 font-semibold" : ""
+                        }`}
+                      >
+                        {labels[label]}
+                      </Link>
+                    ))}
+                  </div>
+                ))}
 
                 {/* Column 3: Featured Image (Optional, very Amouage/Dior) */}
                 <div className="relative hidden h-64 w-48 overflow-hidden rounded-sm bg-white ring-1 ring-black/5 xl:block">
@@ -220,45 +184,15 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* 2. OILS & ATTARS */}
-          <Link
-            href="/oils"
-            className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
-          >
-            {labels.oilsAttars}
-          </Link>
-
-          {/* 3. BATH & BODY (You can add a similar group-hover dropdown here) */}
-          <Link
-            href="/body"
-            className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
-          >
-            {labels.bathBody}
-          </Link>
-
-          {/* 4. HOME */}
-          <Link
-            href="/home-fragrance"
-            className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
-          >
-            {labels.home}
-          </Link>
-
-          {/* 5. DISCOVERY */}
-          <Link
-            href="/product/discovery-set"
-            className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
-          >
-            {labels.discovery}
-          </Link>
-
-          {/* 6. HOUSE OF ARABIAN */}
-          <Link
-            href="/about"
-            className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
-          >
-            {labels.houseOfArabian}
-          </Link>
+          {MAIN_LINKS.map(({ path, label }) => (
+            <Link
+              key={path}
+              href={`/${locale}${path}`}
+              className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
+            >
+              {labels[label]}
+            </Link>
+          ))}
         </nav>
       </header>
 

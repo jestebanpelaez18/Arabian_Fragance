@@ -23,7 +23,7 @@ type UiLabels = {
     shopAll: string;
     luxuryCollection: string;
     premiumCollection: string;
-    signatureCollection: string;
+    essentialCollection: string;
     oilsAttars: string;
     bathBody: string;
     home: string;
@@ -194,7 +194,7 @@ const uiLabels: Record<Locale, UiLabels> = {
       shopAll: "Shop all",
       luxuryCollection: "The Luxury Collection",
       premiumCollection: "The Premium Collection",
-      signatureCollection: "The Signature Collection",
+      essentialCollection: "The Essential Collection",
       oilsAttars: "Oils & Attars",
       bathBody: "Bath & Body",
       home: "Home",
@@ -407,7 +407,7 @@ const uiLabels: Record<Locale, UiLabels> = {
       shopAll: "Osta kaikki",
       luxuryCollection: "Luxury-kokoelma",
       premiumCollection: "Premium-kokoelma",
-      signatureCollection: "Signature-kokoelma",
+      essentialCollection: "Essential-kokoelma",
       oilsAttars: "Oils & Attars",
       bathBody: "Bath & Body",
       home: "Koti",
@@ -624,7 +624,7 @@ const uiLabels: Record<Locale, UiLabels> = {
       shopAll: "Handla alla",
       luxuryCollection: "Luxury-kollektionen",
       premiumCollection: "Premium-kollektionen",
-      signatureCollection: "Signature-kollektionen",
+      essentialCollection: "Essential-kollektionen",
       oilsAttars: "Oils & Attars",
       bathBody: "Bath & Body",
       home: "Hem",

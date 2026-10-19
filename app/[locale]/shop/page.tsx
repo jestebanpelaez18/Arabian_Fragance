@@ -1,31 +1,34 @@
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { getShopifyProducts } from "@/lib/shopify/get-products";
+import { getShopifyCollection } from "@/lib/shopify/get-collection";
 import ProductCard from "@/components/shop/ProductCard";
 import IntroCompact from "@/components/shop/IntroCompact";
-import NoteFilterChips from "@/components/shop/NoteFilterChips";
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import { type Product } from "@/data/products";
+import ShopFilters from "@/components/shop/ShopFilters";
+import { isPerfume, SHOP_INDEX_COLLECTION_HANDLE } from "@/lib/shop/catalogs";
 import { getDictionary } from "@/dictionaries/getDictionary";
+import ShopEmptyState from "@/components/shop/ShopEmptyState";
 import type { Locale } from "@/i18n-config";
 import {
-  getAvailablePrimaryNotes,
-  productMatchesAllNotes,
-  sanitizeSelectedNotes,
-} from "@/lib/shop/note-filters";
+  filterCatalog,
+  type CatalogSearchParams,
+} from "@/lib/shop/catalog-filters";
+
+// Cards visible without scrolling (first row on desktop, two rows on mobile).
+const PRIORITY_CARD_COUNT = 4;
 
 export default async function ShopIndexPage({
   params,
   searchParams,
 }: {
   params: Promise<{ locale: Locale }>;
-  searchParams: Promise<{ notes?: string; gender?: string }>;
+  searchParams: Promise<CatalogSearchParams & { gender?: string }>;
 }) {
   const { locale } = await params;
-  const dict = await getDictionary(locale);
   const sp = await searchParams;
 
   const legacyGender = sp.gender?.toLowerCase();
+
   if (
     legacyGender === "women" ||
     legacyGender === "men" ||
@@ -34,51 +37,59 @@ export default async function ShopIndexPage({
     redirect(`/${locale}/shop/${legacyGender}`);
   }
 
-  const PRODUCTS: Product[] = await getShopifyProducts(locale);
-  const allNotes = getAvailablePrimaryNotes(PRODUCTS);
+  const [dict, products, collection] = await Promise.all([
+    getDictionary(locale),
+    getShopifyProducts(locale),
+    getShopifyCollection(locale, SHOP_INDEX_COLLECTION_HANDLE),
+  ]);
 
-  const selected = sp.notes?.split(",").filter(Boolean) ?? [];
-  const activeFilters = sanitizeSelectedNotes(selected, allNotes);
-  const filtered = PRODUCTS.filter((product) =>
-    productMatchesAllNotes(product, activeFilters),
-  );
+  const base = products.filter(isPerfume);
+
+  const { filtered, allNotes, availableGenders, availableCollections } =
+    filterCatalog(base, sp, {
+      allowGender: true,
+      allowCollection: true,
+    });
+
+  const title = collection?.title || dict.shopPage.title;
+
+  const subtitle = collection?.description || dict.shopPage.subtitle;
 
   return (
-    <main>
-      <Breadcrumbs
-        items={[
-          { label: dict.shopPage.breadcrumbHome, href: "/" },
-          { label: dict.shopPage.breadcrumbShop },
-        ]}
-      />
+    <div>
+      <IntroCompact title={title} subtitle={subtitle} />
 
-      {/* Intro */}
-      <IntroCompact
-        title={dict.shopPage.title}
-        count={filtered.length}
-        countLabelSingular={dict.shopPage.countLabelSingular}
-        countLabelPlural={dict.shopPage.countLabelPlural}
-        subtitle={<>{dict.shopPage.subtitle}</>}
-      />
-
-      {/* Chips */}
-      <section className="mt-6 w-full px-5 md:mt-8">
+      <section className="w-full px-5 py-4 xl:px-6">
         <Suspense fallback={null}>
-          <NoteFilterChips allNotes={allNotes} />
+          <ShopFilters
+            allNotes={allNotes}
+            availableGenders={availableGenders}
+            availableCollections={availableCollections}
+            count={filtered.length}
+            labels={dict.shopPage}
+          />
         </Suspense>
-        <div className="mt-6 h-px w-full md:mt-8" />
-        {/* Separation between filter and products */}
       </section>
 
-      {/* Grid */}
-      <section className="w-full px-5 pb-12 md:px-5 xl:px-6">
-        <div className="grid grid-cols-2 gap-x-2.5 gap-y-16 md:gap-x-5 lg:grid-cols-4">
-          {/* Al ser filtered un array de Product, ProductCard no se queja */}
-          {filtered.map((p) => (
-            <ProductCard key={p.id} p={p} locale={locale} />
-          ))}
-        </div>
+      <section className="w-full px-5 pb-12 xl:px-6">
+        {filtered.length === 0 ? (
+          <ShopEmptyState
+            title={dict.shopPage.emptyTitle}
+            description={dict.shopPage.emptyDescription}
+          />
+        ) : (
+          <div className="grid grid-cols-2 gap-x-2.5 gap-y-16 md:gap-x-5 lg:grid-cols-4">
+            {filtered.map((product, index) => (
+              <ProductCard
+                key={product.id}
+                p={product}
+                locale={locale}
+                priority={index < PRIORITY_CARD_COUNT}
+              />
+            ))}
+          </div>
+        )}
       </section>
-    </main>
+    </div>
   );
 }

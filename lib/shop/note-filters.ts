@@ -1,46 +1,33 @@
-import { type Product } from "@/data/products";
+import { VALID_NOTES, type Product } from "@/data/products";
 
 type ProductNote = NonNullable<Product["notes"]>[number];
 
-export const PRIMARY_NOTE_FAMILIES: ProductNote[] = [
-  "Floral",
-  "Woody",
-  "Amber",
-  "Spice",
-  "Musk",
-  "Citrus",
-  "Leather",
-];
-
 export function getAvailablePrimaryNotes(products: Product[]): ProductNote[] {
   const catalogNotes = new Set(
-    products
-      .flatMap((product) => product.notes ?? [])
-      .map((note) => note.trim())
-      .filter(Boolean),
+    products.flatMap((product) => product.notes ?? []),
   );
 
-  return PRIMARY_NOTE_FAMILIES.filter((note) => catalogNotes.has(note));
+  return VALID_NOTES.filter((note) => catalogNotes.has(note));
 }
 
 export function sanitizeSelectedNotes(
   selected: string[],
   availableNotes: ProductNote[],
 ): ProductNote[] {
-  const availableSet = new Set(availableNotes);
-  return selected.filter((note): note is ProductNote =>
-    availableSet.has(note as ProductNote),
+  const availableSet = new Set<string>(availableNotes);
+
+  return Array.from(new Set(selected)).filter((note): note is ProductNote =>
+    availableSet.has(note),
   );
 }
 
-export function productMatchesAllNotes(
+export function productMatchesAnyNote(
   product: Product,
   selectedNotes: ProductNote[],
 ): boolean {
   if (selectedNotes.length === 0) return true;
 
   const notes = product.notes ?? [];
-  if (notes.length === 0) return false;
 
-  return selectedNotes.every((note) => notes.includes(note));
+  return selectedNotes.some((note) => notes.includes(note));
 }

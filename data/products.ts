@@ -49,8 +49,11 @@ export type Product = {
   id: string;
   slug: string;
   name: string;
+  productType?: string;
+  collectionHandles?: string[];
   price: number;
   concentration?: string;
+  fragranceType?: string;
   image?: string | null;
   images?: string[];
   gender: "women" | "men" | "unisex";

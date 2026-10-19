@@ -74,10 +74,27 @@
   "shopPage": {
     "breadcrumbHome": "Home",
     "breadcrumbShop": "Shop",
-    "title": "ALL ARABIAN FRAGRANCE",
-    "subtitle": "Hand-crafted compositions rooted in Arabian perfumery-resinous depth, luminous florals and ambered warmth. Discover our full selection of timeless signatures for every style.",
+    "title": "All Perfumes",
+    "subtitle": "Hand-crafted compositions rooted in Arabian perfumery, with resinous depth, luminous florals, and ambered warmth. Discover our full selection of timeless signatures for every style.",
     "countLabelSingular": "Fragrance",
-    "countLabelPlural": "Fragrances"
+    "countLabelPlural": "Fragrances",
+    "filterButton": "Filter",
+    "filterTitle": "Filter",
+    "closeFilters": "Close filters",
+    "scentProfile": "Scent profile",
+    "selectOneOrMore": "Select one or more",
+    "clearAll": "Clear all",
+    "applyFilters": "Apply filters",
+    "emptyTitle": "No matching products",
+    "emptyDescription": "Adjust your selection in the filters to explore more of the collection.",
+    "genderGroup": "Gender",
+    "collectionGroup": "Collection",
+    "genderOptions": { "women": "Women", "men": "Men", "unisex": "Unisex" },
+    "collectionOptions": {
+      "luxury": "Luxury",
+      "premium": "Premium",
+      "essential": "Essential"
+    }
   },
   "showroomPage": {
     "dividerFinland": "FINLAND",

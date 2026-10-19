@@ -3,9 +3,30 @@ import { type Product, VALID_NOTES } from "@/data/products";
 type Note = NonNullable<Product["notes"]>[number];
 type Gender = NonNullable<Product["gender"]>;
 
-const NOTE_BY_NORMALIZED_VALUE = new Map(
-  VALID_NOTES.map((note) => [note.toLowerCase(), note] as const),
-);
+// Shopify translates the notes metafield under @inContext(language), so the
+// Finnish values are mapped back to the canonical notes used by the filters.
+const NOTE_TRANSLATIONS: Partial<Record<Note, string[]>> = {
+  Woody: ["puinen", "puu"],
+  Floral: ["kukkainen"],
+  Amber: ["ambra", "meripihka"],
+  Citrus: ["sitrus", "sitruksinen", "sitrushedelmäinen"],
+  Sweet: ["makea"],
+  Fresh: ["raikas"],
+  Fruity: ["hedelmäinen"],
+  Earthy: ["maanläheinen"],
+  Powdery: ["puuterinen"],
+  Leather: ["nahka", "nahkainen"],
+  Tobacco: ["tupakka"],
+  Vanilla: ["vanilja", "vaniljainen"],
+  Smoky: ["savua", "savuisuus", "savunomainen"],
+};
+
+const NOTE_BY_NORMALIZED_VALUE = new Map<string, Note>([
+  ...VALID_NOTES.map((note) => [note.toLowerCase(), note] as const),
+  ...Object.entries(NOTE_TRANSLATIONS).flatMap(([note, aliases]) =>
+    aliases.map((alias) => [alias, note as Note] as const),
+  ),
+]);
 
 const GENDERS: Gender[] = ["women", "men", "unisex"];
 
@@ -38,6 +59,13 @@ export interface ShopifyRawProduct {
   title?: string;
   name?: string;
   productType?: string;
+  collections?: {
+    edges: {
+      node: {
+        handle: string;
+      };
+    }[];
+  };
   description?: string;
   price?: string | number;
   priceRange?: { minVariantPrice: { amount: string } };
@@ -49,6 +77,7 @@ export interface ShopifyRawProduct {
   heartNotes?: { value: string } | string[] | string;
   baseNotes?: { value: string } | string[] | string;
   concentration?: { value: string } | string;
+  fragranceType?: { value: string } | string;
 }
 
 function parseShopifyListField(
@@ -182,27 +211,33 @@ export function normalizeProduct(p: ShopifyRawProduct): Product {
     ),
   );
 
-  let concentration: string | undefined;
-  if (
-    typeof p.concentration === "object" &&
-    p.concentration !== null &&
-    "value" in p.concentration
-  ) {
-    concentration = p.concentration.value?.trim();
-  } else if (typeof p.concentration === "string") {
-    concentration = p.concentration.trim();
-  }
+  const concentration =
+    (typeof p.concentration === "string"
+      ? p.concentration
+      : p.concentration?.value
+    )?.trim() || undefined;
 
-  if (!concentration) {
-    concentration = p.productType?.trim();
-  }
+  const fragranceType =
+    (typeof p.fragranceType === "string"
+      ? p.fragranceType
+      : p.fragranceType?.value
+    )?.trim() || undefined;
 
   return {
     id: p.id,
     slug: p.handle || p.slug || "product",
     name,
+    productType: p.productType?.trim() || undefined,
+    collectionHandles: Array.from(
+      new Set(
+        (p.collections?.edges ?? [])
+          .map(({ node }) => node.handle.trim())
+          .filter(Boolean),
+      ),
+    ),
     price,
     concentration,
+    fragranceType,
     gender,
     image,
     images,
