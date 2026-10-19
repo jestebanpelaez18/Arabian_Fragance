@@ -95,6 +95,16 @@ test.describe("Shop responsive navigation", () => {
       await document.fonts.ready;
     });
 
+    expect(
+      await page.evaluate(() => ({
+        hover: window.matchMedia("(hover: hover)").matches,
+        finePointer: window.matchMedia("(pointer: fine)").matches,
+      })),
+    ).toEqual({
+      hover: true,
+      finePointer: true,
+    });
+
     await page.mouse.move(0, 0);
     await perfumesButton.hover();
 

@@ -18,7 +18,19 @@ export default defineConfig({
   },
   projects: [
     { name: "Desktop Chrome", use: { ...devices["Desktop Chrome"] } },
-    { name: "Desktop Firefox", use: { ...devices["Desktop Firefox"] } },
+    {
+      name: "Desktop Firefox",
+      use: {
+        ...devices["Desktop Firefox"],
+        launchOptions: {
+          firefoxUserPrefs: {
+            // Emulate a desktop mouse with fine pointer and hover support.
+            "ui.primaryPointerCapabilities": 0x02 | 0x04,
+            "ui.allPointerCapabilities": 0x02 | 0x04,
+          },
+        },
+      },
+    },
     { name: "Mobile Safari", use: { ...devices["iPhone 12"] } },
     { name: "Mobile Chrome", use: { ...devices["Pixel 5"] } },
   ],
