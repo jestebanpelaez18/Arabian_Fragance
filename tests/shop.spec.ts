@@ -51,17 +51,18 @@ async function selectWomen(page: Page) {
 async function applyWomen(page: Page) {
   const dialog = await selectWomen(page);
 
-  await dialog.getByRole("button", {
-    name: "Apply filters",
-    exact: true,
-  }).click();
+  await dialog
+    .getByRole("button", {
+      name: "Apply filters",
+      exact: true,
+    })
+    .click();
 
   await expect(dialog).not.toBeVisible();
 
   await expect(page).toHaveURL((url) => {
     return (
-      url.pathname === "/en/shop" &&
-      url.searchParams.get("genders") === "women"
+      url.pathname === "/en/shop" && url.searchParams.get("genders") === "women"
     );
   });
 
@@ -75,8 +76,7 @@ async function applyWomen(page: Page) {
     .poll(async () => {
       const texts = await cards.allTextContents();
       return (
-        texts.length > 0 &&
-        texts.every((text) => text.includes("For Her"))
+        texts.length > 0 && texts.every((text) => text.includes("For Her"))
       );
     })
     .toBe(true);
@@ -101,9 +101,7 @@ test.describe("Shop filters", () => {
     const resultCount = await cards.count();
 
     await expect(counter).toHaveText(
-      `${resultCount} ${
-        resultCount === 1 ? "Fragrance" : "Fragrances"
-      }`,
+      `${resultCount} ${resultCount === 1 ? "Fragrance" : "Fragrances"}`,
     );
 
     await expect(filterButton).toHaveText("Filter (1)");
@@ -124,17 +122,20 @@ test.describe("Shop filters", () => {
     const dialog = await selectWomen(page);
 
     // There are two close controls: overlay and visible close button.
-    await dialog.getByRole("button", {
-      name: "Close filters",
-      exact: true,
-    }).last().click();
+    await dialog
+      .getByRole("button", {
+        name: "Close filters",
+        exact: true,
+      })
+      .last()
+      .click();
 
     await expect(dialog).not.toBeVisible();
     await expect(page).toHaveURL(/\/en\/shop$/);
 
-    await expect(
-      cards.getByRole("link").filter({ hasText: /\S/ }),
-    ).toHaveText(initialNames);
+    await expect(cards.getByRole("link").filter({ hasText: /\S/ })).toHaveText(
+      initialNames,
+    );
 
     await expect(counter).toHaveText(initialCounter);
 
@@ -159,8 +160,7 @@ test.describe("Shop filters", () => {
       .poll(async () => {
         const texts = await cards.allTextContents();
         return (
-          texts.length > 0 &&
-          texts.every((text) => text.includes("For Her"))
+          texts.length > 0 && texts.every((text) => text.includes("For Her"))
         );
       })
       .toBe(true);
@@ -190,31 +190,115 @@ test.describe("Shop filters", () => {
 
     const dialog = await openFilters(page);
 
-    await dialog.getByRole("button", {
-      name: "Clear all",
-      exact: true,
-    }).click();
+    await dialog
+      .getByRole("button", {
+        name: "Clear all",
+        exact: true,
+      })
+      .click();
 
     await expect(page).toHaveURL(/\/en\/shop$/);
 
     // Clear all applies immediately while leaving the panel open.
     await expect(dialog).toBeVisible();
-    await expect(dialog.getByRole("checkbox", {
-      checked: true,
-    })).toHaveCount(0);
+    await expect(
+      dialog.getByRole("checkbox", {
+        checked: true,
+      }),
+    ).toHaveCount(0);
 
     // Read the catalog after closing the panel, without pressing Apply.
-    await dialog.getByRole("button", {
-      name: "Close filters",
-      exact: true,
-    }).last().click();
+    await dialog
+      .getByRole("button", {
+        name: "Close filters",
+        exact: true,
+      })
+      .last()
+      .click();
 
     await expect(dialog).not.toBeVisible();
 
-    await expect(
-      cards.getByRole("link").filter({ hasText: /\S/ }),
-    ).toHaveText(initialNames);
+    await expect(cards.getByRole("link").filter({ hasText: /\S/ })).toHaveText(
+      initialNames,
+    );
 
+    await expect(counter).toHaveText(initialCounter);
+    await expect(filterButton).toHaveText("Filter");
+  });
+
+  test("Clear all restores the catalog from an empty result", async ({
+    page,
+  }) => {
+    const { main, cards, counter, filterButton } = shopElements(page);
+
+    const productNames = cards.getByRole("link").filter({ hasText: /\S/ });
+
+    const initialNames = await productNames.allTextContents();
+    const initialCounter = await counter.innerText();
+
+    await page.goto("/en/shop?notes=Sweet&collections=luxury&genders=men");
+
+    const emptyState = main.getByRole("status").filter({
+      has: page.getByRole("heading", {
+        name: "No matching products",
+        exact: true,
+      }),
+    });
+
+    await expect(emptyState).toBeVisible();
+    await expect(
+      emptyState.getByText(
+        "Adjust your selection in the filters to explore more of the collection.",
+        { exact: true },
+      ),
+    ).toBeVisible();
+
+    await expect(cards).toHaveCount(0);
+    await expect(counter).toHaveText("0 Fragrances");
+    await expect(filterButton).toHaveText("Filter (3)");
+
+    const dialog = await openFilters(page);
+
+    // Confirm that all three URL filters were recognized.
+    await expect(
+      dialog.getByRole("checkbox", {
+        name: "Sweet",
+        exact: true,
+      }),
+    ).toBeChecked();
+
+    await expect(
+      dialog
+        .getByRole("group", { name: "Collection", exact: true })
+        .getByRole("checkbox", { name: "Luxury", exact: true }),
+    ).toBeChecked();
+
+    await expect(
+      dialog
+        .getByRole("group", { name: "Gender", exact: true })
+        .getByRole("checkbox", { name: "Men", exact: true }),
+    ).toBeChecked();
+
+    await dialog
+      .getByRole("button", { name: "Clear all", exact: true })
+      .click();
+
+    await expect(page).toHaveURL(/\/en\/shop$/);
+    await expect(dialog).toBeVisible();
+
+    await expect(dialog.getByRole("checkbox", { checked: true })).toHaveCount(
+      0,
+    );
+
+    // Close without pressing Apply.
+    await dialog
+      .getByRole("button", { name: "Close filters", exact: true })
+      .last()
+      .click();
+
+    await expect(dialog).not.toBeVisible();
+    await expect(emptyState).toHaveCount(0);
+    await expect(productNames).toHaveText(initialNames);
     await expect(counter).toHaveText(initialCounter);
     await expect(filterButton).toHaveText("Filter");
   });

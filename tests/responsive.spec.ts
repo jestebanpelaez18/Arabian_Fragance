@@ -45,15 +45,11 @@ test.describe("Shop responsive navigation", () => {
 
     await page.goto("/en/shop");
 
-    await page
-      .getByRole("button", { name: "Open menu", exact: true })
-      .click();
+    await page.getByRole("button", { name: "Open menu", exact: true }).click();
 
     const drawer = page.getByRole("dialog");
 
-    await drawer
-      .getByRole("button", { name: "Perfumes", exact: true })
-      .click();
+    await drawer.getByRole("button", { name: "Perfumes", exact: true }).click();
 
     const collectionLink = drawer.getByRole("link", {
       name: "The Luxury Collection",
