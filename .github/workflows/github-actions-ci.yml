@@ -37,14 +37,17 @@ jobs:
       - name: Check types
         run: npm run typecheck
 
+      - name: Test catalog logic
+        run: npx playwright test --config=playwright.unit.config.ts
+
       - name: Build
         run: npm run build
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Test shop interactions
-        run: npx playwright test tests/shop.spec.ts
+      - name: Test shop interactions and responsive navigation
+        run: npx playwright test tests/shop.spec.ts tests/responsive.spec.ts
 
       - name: Upload Playwright results
         if: ${{ !cancelled() }}
