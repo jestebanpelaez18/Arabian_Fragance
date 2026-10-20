@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Button from "@/components/ui/button";
 import { useCart } from "@/lib/cart/store";
 
@@ -13,46 +12,64 @@ type Props = {
     image?: string | null;
   };
   stock?: number;
+  appearance?: "default" | "pdp";
 };
 
-export default function ProductActions({ product, stock = 0 }: Props) {
-  const add = useCart((s) => s.add);
-  const getQty = useCart((s) => s.getQty);
-  const [busy, setBusy] = useState(false);
+export default function ProductActions({
+  product,
+  stock = 0,
+  appearance = "default",
+}: Props) {
+  const add = useCart((state) => state.add);
 
-  const inBag = getQty(product.id);
-  const available = Math.max(0, (stock ?? 0) - inBag);
-  const disabled = available <= 0 || busy;
+  const inBag = useCart(
+    (state) => state.items.find((item) => item.id === product.id)?.qty ?? 0,
+  );
+
+  const available = Math.max(0, stock - inBag);
+  const disabled = available <= 0;
+  const isPdp = appearance === "pdp";
+
+  const buttonLabel = disabled ? "Out of stock" : "Add to Bag";
 
   function handleAdd() {
-    try {
-      setBusy(true);
-      add(
-        {
-          id: product.id,
-          slug: product.slug ?? product.id,
-          name: product.name,
-          price: product.price, // euros
-          image: product.image ?? "/placeholder.png",
-        },
-        1,
-      );
-      // TODO: show toast here if needed
-    } finally {
-      setBusy(false);
-    }
+    if (disabled) return;
+
+    add(
+      {
+        id: product.id,
+        slug: product.slug ?? product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image ?? "/placeholder.png",
+      },
+      1,
+    );
+  }
+
+  if (isPdp) {
+    return (
+      <button
+        type="button"
+        onClick={handleAdd}
+        disabled={disabled}
+        className="font-garamond enabled:hover:bg-background enabled:hover:text-ink enabled:active:bg-gold-soft enabled:active:text-ink flex h-12 w-full items-center justify-center border border-black bg-black px-5 text-xs font-normal tracking-[0.14em] text-[var(--background)] uppercase transition-[background-color,color] duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transition-none"
+      >
+        {buttonLabel}
+      </button>
+    );
   }
 
   return (
     <div className="mt-8 flex gap-4">
       <Button
+        type="button"
         onClick={handleAdd}
         variant="secondary"
         className="hover:text-gold rounded-full border-[var(--gold)] px-8 py-3 tracking-[0.14em] text-black hover:bg-[var(--gold-soft)]"
         disabled={disabled}
-        aria-live="polite"
       >
-        {disabled ? "Out of stock" : busy ? "Adding..." : "Add to Bag"}
+        {buttonLabel}
       </Button>
 
       <Button

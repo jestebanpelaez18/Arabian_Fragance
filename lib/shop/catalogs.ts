@@ -18,9 +18,16 @@ const PRODUCT_TYPE_ALIASES = {
 
 type ProductType = keyof typeof PRODUCT_TYPE_ALIASES;
 
-function hasProductType(product: Product, type: ProductType): boolean {
+function hasProductType(
+  product: Pick<Product, "productType">,
+  type: ProductType,
+): boolean {
   const aliases: readonly string[] = PRODUCT_TYPE_ALIASES[type];
   return aliases.includes(product.productType ?? "");
+}
+
+export function isAttar(product: Pick<Product, "productType">): boolean {
+  return hasProductType(product, "Attar");
 }
 
 export function isPerfume(product: Product): boolean {
@@ -91,7 +98,7 @@ export const SHOP_CATALOGS = {
     title: "Oils & Attars",
     subtitle: "",
     collectionHandle: "oils-attars",
-    matches: (product: Product) => hasProductType(product, "Attar"),
+    matches: isAttar,
   },
   "body-mists": {
     title: "Body Mists",

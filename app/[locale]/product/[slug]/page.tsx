@@ -3,67 +3,101 @@ import { notFound } from "next/navigation";
 import { shopifyFetch } from "@/lib/shopify/shopify";
 import RecommendedProducts from "@/components/product/RecommendedProducts";
 import ProductJsonLd from "@/components/product/ProductJsonLd";
-import ProductBreadcrumbs from "@/components/product/ProductBreadcrumbs";
-import ProductImage from "@/components/product/ProductImage";
-import { productJsonLd } from "@/lib/seo/jsonld";
+import ProductGallery from "@/components/product/ProductGallery";
 import ProductHeaderPanel from "@/components/product/ProductHeaderPanel";
-import { type Product } from "@/data/products";
-import { i18n } from "@/i18n-config";
+import { productJsonLd } from "@/lib/seo/jsonld";
+import type { Product } from "@/data/products";
+import { i18n, type Locale } from "@/i18n-config";
 import { getShopifyLanguageCode } from "@/lib/shopify/locale";
+import {
+  normalizeGender,
+  normalizeToKnownNote,
+  parseShopifyListField,
+} from "@/lib/shopify/mapper";
+import { isAttar } from "@/lib/shop/catalogs";
 
-// --- TYPES ---
-type Params = { slug: string; locale: "en" | "fi" | "sv" };
-type Gender = "women" | "men" | "unisex";
+type Params = {
+  slug: string;
+  locale: Locale;
+};
+
 type Note = NonNullable<Product["notes"]>[number];
 
-interface ShopifyMetafield {
+type ShopifyMetafield = {
   value: string;
-}
+};
 
-interface SingleProductOperation {
-  data: {
-    product: {
-      id: string;
-      title: string;
-      description: string;
-      handle: string;
-      availableForSale: boolean;
-      priceRange: {
-        minVariantPrice: {
+type LayeringProduct = {
+  __typename: "Product";
+  id: string;
+  handle: string;
+  title: string;
+};
+
+type ShopifyProduct = {
+  id: string;
+  title: string;
+  description: string;
+  descriptionHtml: string;
+  handle: string;
+  productType: string;
+  availableForSale: boolean;
+  priceRange: {
+    minVariantPrice: {
+      amount: string;
+      currencyCode: string;
+    };
+  };
+  images: {
+    edges: {
+      node: {
+        url: string;
+        altText?: string | null;
+      };
+    }[];
+  };
+  variants: {
+    edges: {
+      node: {
+        id: string;
+        sku?: string | null;
+        price: {
           amount: string;
           currencyCode: string;
         };
       };
-      images: {
-        edges: {
-          node: {
-            url: string;
-            altText?: string;
-          };
-        }[];
-      };
-      variants: {
-        edges: {
-          node: {
-            id: string;
-            sku?: string;
-            price: { amount: string; currencyCode: string };
-          };
-        }[];
-      };
-      ingredients?: ShopifyMetafield;
-      notes?: ShopifyMetafield;
-      topNotes?: ShopifyMetafield;
-      heartNotes?: ShopifyMetafield;
-      baseNotes?: ShopifyMetafield;
-      gender?: ShopifyMetafield;
-      storage_instructions?: ShopifyMetafield;
-    } | null;
+    }[];
   };
-}
+  ingredients?: ShopifyMetafield | null;
+  notes?: ShopifyMetafield | null;
+  topNotes?: ShopifyMetafield | null;
+  heartNotes?: ShopifyMetafield | null;
+  baseNotes?: ShopifyMetafield | null;
+  gender?: ShopifyMetafield | null;
+  fragranceType?: ShopifyMetafield | null;
+  size?: ShopifyMetafield | null;
+  concentration?: ShopifyMetafield | null;
+  storageInstructions?: ShopifyMetafield | null;
+  applicationInstructions?: ShopifyMetafield | null;
+  layeringDescription?: ShopifyMetafield | null;
+  layeringProducts?: {
+    references?: {
+      nodes: LayeringProduct[];
+    } | null;
+  } | null;
+};
 
-interface AllProductsOperation {
-  data: {
+type SingleProductOperation = {
+  data?: {
+    product: ShopifyProduct | null;
+  };
+  errors?: {
+    message: string;
+  }[];
+};
+
+type AllProductsOperation = {
+  data?: {
     products: {
       edges: {
         node: {
@@ -72,23 +106,30 @@ interface AllProductsOperation {
       }[];
     };
   };
-}
+};
 
 const singleProductQuery = `
-  query SingleProduct($handle: String!, $language: LanguageCode!) @inContext(language: $language) {
+  query SingleProduct(
+    $handle: String!
+    $language: LanguageCode!
+  ) @inContext(language: $language) {
     product(handle: $handle) {
       id
       title
       description
+      descriptionHtml
       handle
+      productType
       availableForSale
+
       priceRange {
         minVariantPrice {
           amount
           currencyCode
         }
       }
-      images(first: 10) {
+
+      images(first: 2) {
         edges {
           node {
             url
@@ -96,22 +137,83 @@ const singleProductQuery = `
           }
         }
       }
+
       variants(first: 1) {
         edges {
           node {
             id
             sku
-            price {amount currencyCode}
+            price {
+              amount
+              currencyCode
+            }
           }
         }
       }
-      ingredients: metafield(namespace: "custom", key: "ingredients") { value }
-      notes: metafield(namespace: "custom", key: "main_accord") { value }
-      topNotes: metafield(namespace: "custom", key: "top_notes") { value }
-      heartNotes: metafield(namespace: "custom", key: "hearth_notes") { value }
-      baseNotes: metafield(namespace: "custom", key: "base_notes") { value }
-      gender: metafield(namespace: "custom", key: "gender") { value }
-      storage_instructions: metafield(namespace: "custom", key: "storage_instructions") { value }
+
+      ingredients: metafield(namespace: "custom", key: "ingredients") {
+        value
+      }
+      notes: metafield(namespace: "custom", key: "main_accord") {
+        value
+      }
+      topNotes: metafield(namespace: "custom", key: "top_notes") {
+        value
+      }
+      heartNotes: metafield(namespace: "custom", key: "hearth_notes") {
+        value
+      }
+      baseNotes: metafield(namespace: "custom", key: "base_notes") {
+        value
+      }
+      gender: metafield(namespace: "custom", key: "gender") {
+        value
+      }
+      fragranceType: metafield(
+        namespace: "custom"
+        key: "fragrance_type"
+      ) {
+        value
+      }
+      size: metafield(namespace: "custom", key: "size") {
+        value
+      }
+      concentration: metafield(namespace: "custom", key: "concentration") {
+        value
+      }
+      storageInstructions: metafield(
+        namespace: "custom"
+        key: "storage_instructions"
+      ) {
+        value
+      }
+      applicationInstructions: metafield(
+        namespace: "custom"
+        key: "application_instructions"
+      ) {
+        value
+      }
+      layeringDescription: metafield(
+        namespace: "custom"
+        key: "layering_description"
+      ) {
+        value
+      }
+      layeringProducts: metafield(
+        namespace: "custom"
+        key: "layering_products"
+      ) {
+        references(first: 20) {
+          nodes {
+            __typename
+            ... on Product {
+              id
+              handle
+              title
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -128,11 +230,34 @@ const getAllSlugsQuery = `
   }
 `;
 
+async function getProduct(slug: string, locale: Locale) {
+  const response = await shopifyFetch<SingleProductOperation>({
+    query: singleProductQuery,
+    variables: {
+      handle: slug,
+      language: getShopifyLanguageCode(locale),
+    },
+  });
+
+  if (response.body?.errors?.length) {
+    throw new Error(
+      response.body.errors.map((error) => error.message).join("; "),
+    );
+  }
+
+  if (response.status >= 400 || !response.body?.data) {
+    throw new Error("Unable to load the product from Shopify.");
+  }
+
+  return response.body.data.product;
+}
+
 export async function generateStaticParams() {
   const response = await shopifyFetch<AllProductsOperation>({
     query: getAllSlugsQuery,
   });
-  const products = response.body?.data?.products?.edges || [];
+
+  const products = response.body?.data?.products?.edges ?? [];
 
   return i18n.locales.flatMap((locale) =>
     products.map(({ node }) => ({
@@ -148,33 +273,26 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const { slug, locale } = await params;
+  const product = await getProduct(slug, locale);
 
-  const response = await shopifyFetch<SingleProductOperation>({
-    query: singleProductQuery,
-    variables: {
-      handle: slug,
-      language: getShopifyLanguageCode(locale),
-    },
-  });
+  if (!product) return {};
 
-  const p = response.body?.data?.product;
-  if (!p) return {};
+  const title = `${product.title} | Arabian Fragrance`;
 
-  const title = `${p.title} | Arabian Fragrance`;
-  const desc = p.description
-    ? p.description.substring(0, 160)
-    : `Discover ${p.title}`;
-  const imageNode = p.images?.edges?.[1]?.node ?? p.images?.edges?.[0]?.node;
-  const img = imageNode?.url || "/catalog/Bottle_3.png";
+  const description = product.description
+    ? product.description.substring(0, 160)
+    : `Discover ${product.title}`;
+
+  const image = product.images.edges[0]?.node.url || "/catalog/Bottle_3.png";
 
   return {
     title,
-    description: desc,
+    description,
     openGraph: {
       type: "website",
       title,
-      description: desc,
-      images: [img],
+      description,
+      images: [image],
       siteName: "Arabian Fragrance",
     },
   };
@@ -186,110 +304,118 @@ export default async function ProductPage({
   params: Promise<Params>;
 }) {
   const { slug, locale } = await params;
+  const product = await getProduct(slug, locale);
 
-  const response = await shopifyFetch<SingleProductOperation>({
-    query: singleProductQuery,
-    variables: {
-      handle: slug,
-      language: getShopifyLanguageCode(locale),
-    },
-  });
+  if (!product) notFound();
 
-  const p = response.body?.data?.product;
-  if (!p) return notFound();
+  const images = product.images.edges.map(({ node }) => node);
+  const image = images[0]?.url || "/catalog/Bottle_3.png";
 
-  const imageNode = p.images?.edges?.[1]?.node ?? p.images?.edges?.[0]?.node;
-  const img = imageNode?.url || "/catalog/Bottle_3.png";
-  const priceAmount = parseFloat(p.priceRange.minVariantPrice.amount);
-  const sku = p.variants?.edges?.[0]?.node?.sku || "N/A";
-  const variantId = p.variants?.edges?.[0]?.node?.id;
+  const variant = product.variants.edges[0]?.node;
 
-  const cleanList = (value: string | undefined) => {
-    if (!value) return [];
-    const cleaned = value.replace(/[\[\]"]/g, "");
-    if (cleaned.includes("|")) return cleaned.split("|").map((s) => s.trim());
-    if (cleaned.includes("•")) return cleaned.split("•").map((s) => s.trim());
-    if (cleaned.includes("·")) return cleaned.split("·").map((s) => s.trim());
-    if (cleaned.includes(",")) return cleaned.split(",").map((s) => s.trim());
-    return [cleaned];
-  };
+  const price = Number(
+    variant?.price.amount ?? product.priceRange.minVariantPrice.amount,
+  );
 
-  const ingredients = p.ingredients?.value || "Ingredients not available yet.";
-  const storage_instructions =
-    p.storage_instructions?.value ||
-    "Store in a cool, dry place. Avoid direct sunlight.";
-
-  const rawGender = p.gender?.value?.toLowerCase();
-  const gender: Gender =
-    rawGender === "women" || rawGender === "men" || rawGender === "unisex"
-      ? rawGender
-      : "unisex";
-
-  let notes = cleanList(p.notes?.value) as Note[];
+  const gender = normalizeGender(product.gender);
 
   const pyramid = {
-    top: cleanList(p.topNotes?.value) as string[],
-    heart: cleanList(p.heartNotes?.value) as string[],
-    base: cleanList(p.baseNotes?.value) as string[],
+    top: parseShopifyListField(product.topNotes),
+    heart: parseShopifyListField(product.heartNotes),
+    base: parseShopifyListField(product.baseNotes),
   };
 
-  if (notes.length === 0) {
-    notes = [...pyramid.top, ...pyramid.heart, ...pyramid.base] as Note[];
-  }
+  const mainAccords = parseShopifyListField(product.notes);
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-  const productUrl = `${siteUrl}/product/${slug}`;
+  const recommendationNotes =
+    mainAccords.length > 0
+      ? mainAccords
+      : [...pyramid.top, ...pyramid.heart, ...pyramid.base];
+
+  const notes: Note[] = Array.from(
+    new Set(
+      recommendationNotes
+        .map(normalizeToKnownNote)
+        .filter((note): note is Note => note !== undefined),
+    ),
+  );
+
+  const productIsAttar = isAttar(product);
+
+  const layeringProducts = productIsAttar
+    ? (product.layeringProducts?.references?.nodes ?? []).filter(
+        (item) => item.__typename === "Product" && item.id !== product.id,
+      )
+    : [];
+
+  const siteUrl = (
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
+  ).replace(/\/$/, "");
+
+  const productUrl = `${siteUrl}/${locale}/product/${product.handle}`;
 
   const productForJson: Product = {
-    id: p.id,
-    name: p.title,
-    description: p.description,
-    image: img,
-    sku: sku,
-    price: priceAmount,
-    slug: p.handle,
-    status: p.availableForSale ? "active" : "active",
-    gender: gender,
-    notes: notes,
+    id: product.id,
+    name: product.title,
+    description: product.description,
+    image,
+    sku: variant?.sku || undefined,
+    price,
+    slug: product.handle,
+    status: "active",
+    gender,
+    notes,
   };
 
-  const jsonLd = productJsonLd(productForJson, { siteUrl, productUrl });
+  const jsonLd = productJsonLd(productForJson, {
+    siteUrl,
+    productUrl,
+  });
 
   return (
-    <main className="bg-background text-foreground">
+    <div className="bg-background text-foreground">
       <ProductJsonLd json={jsonLd} />
-      <ProductBreadcrumbs current={p.title} />
 
-      <section className="mx-auto w-full max-w-[1600px] px-5 py-10">
-        <div className="grid grid-cols-1 items-start gap-x-8 gap-y-10 md:grid-cols-12 lg:gap-x-12 xl:gap-x-16">
-          <div className="md:col-span-7">
-            <ProductImage src={img} alt={p.title} />
+      <section className="w-full px-5 pt-5 pb-12 lg:pt-6 lg:pb-20">
+        <div className="grid grid-cols-1 items-start gap-y-8 lg:grid-cols-12 lg:gap-x-12 xl:gap-x-16">
+          <div className="min-w-0 lg:col-span-6">
+            <ProductGallery
+              images={images}
+              name={product.title}
+              maxImages={productIsAttar ? 1 : 2}
+            />
           </div>
 
           <ProductHeaderPanel
-            name={p.title}
-            notes={notes}
-            price={priceAmount}
-            volumeMl={100}
-            sku={sku}
-            stock={p.availableForSale ? 10 : 0}
-            image={img}
-            description={p.description}
-            ingredients={ingredients}
+            name={product.title}
+            mainAccords={mainAccords}
+            price={price}
+            fragranceType={product.fragranceType?.value.trim()}
+            sizeLabel={product.size?.value.trim()}
+            sku={variant?.sku}
+            stock={product.availableForSale ? 10 : 0}
+            image={image}
+            description={product.description}
+            descriptionHtml={product.descriptionHtml}
+            ingredients={product.ingredients?.value}
             pyramid={pyramid}
-            storage_instructions={storage_instructions}
-            variantId={variantId}
+            storageInstructions={product.storageInstructions?.value}
+            applicationInstructions={product.applicationInstructions?.value}
+            layeringDescription={product.layeringDescription?.value}
+            layeringProducts={layeringProducts}
+            isAttar={productIsAttar}
+            variantId={variant?.id}
             locale={locale}
           />
         </div>
       </section>
 
       <RecommendedProducts
-        currentSlug={p.handle}
+        currentSlug={product.handle}
         currentNotes={notes}
         gender={gender}
         locale={locale}
       />
-    </main>
+    </div>
   );
 }

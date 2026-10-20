@@ -28,8 +28,6 @@ const NOTE_BY_NORMALIZED_VALUE = new Map<string, Note>([
   ),
 ]);
 
-const GENDERS: Gender[] = ["women", "men", "unisex"];
-
 const NORMALIZED_GENDER_BY_VALUE: Record<string, Gender> = {
   women: "women",
   woman: "women",
@@ -80,8 +78,8 @@ export interface ShopifyRawProduct {
   fragranceType?: { value: string } | string;
 }
 
-function parseShopifyListField(
-  field?: { value: string } | string[] | string,
+export function parseShopifyListField(
+  field?: { value: string } | string[] | string | null,
 ): string[] {
   if (!field) return [];
 
@@ -127,8 +125,32 @@ function parseShopifyListField(
   return [];
 }
 
-function normalizeToKnownNote(value: string): Note | undefined {
+export function normalizeToKnownNote(value: string): Note | undefined {
   return NOTE_BY_NORMALIZED_VALUE.get(value.trim().toLowerCase());
+}
+
+export function normalizeGender(
+  field?: { value: string } | string | null,
+): Gender {
+  const rawGender = typeof field === "string" ? field : field?.value;
+
+  const normalized = rawGender
+    ?.toLowerCase()
+    .trim()
+    .replace(/[\s_-]+/g, " ");
+
+  if (!normalized) return "unisex";
+
+  const tokens = normalized
+    .split(/[\/,|]/)
+    .map((token) => token.trim())
+    .filter(Boolean);
+
+  return (
+    NORMALIZED_GENDER_BY_VALUE[normalized] ??
+    tokens.map((token) => NORMALIZED_GENDER_BY_VALUE[token]).find(Boolean) ??
+    "unisex"
+  );
 }
 
 export function normalizeProduct(p: ShopifyRawProduct): Product {
@@ -156,42 +178,7 @@ export function normalizeProduct(p: ShopifyRawProduct): Product {
     image = images[0];
   }
 
-  let rawGender: string | undefined;
-
-  if (
-    typeof p.gender === "object" &&
-    p.gender !== null &&
-    "value" in p.gender
-  ) {
-    rawGender = p.gender.value;
-  } else if (typeof p.gender === "string") {
-    rawGender = p.gender;
-  }
-
-  const normalizedRawGender = rawGender
-    ?.toLowerCase()
-    .trim()
-    .replace(/[\s_-]+/g, " ");
-
-  const tokenCandidates = normalizedRawGender
-    ? normalizedRawGender
-        .split(/[\/,|]/)
-        .map((token) => token.trim())
-        .filter(Boolean)
-    : [];
-
-  const mappedGender =
-    NORMALIZED_GENDER_BY_VALUE[normalizedRawGender ?? ""] ??
-    tokenCandidates
-      .map((token) => NORMALIZED_GENDER_BY_VALUE[token])
-      .find(Boolean);
-
-  const gender: Gender =
-    mappedGender ??
-    (normalizedRawGender &&
-    (GENDERS as readonly string[]).includes(normalizedRawGender)
-      ? (normalizedRawGender as Gender)
-      : "unisex");
+  const gender = normalizeGender(p.gender);
 
   let notes = parseShopifyListField(p.notes);
 

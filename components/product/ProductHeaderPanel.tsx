@@ -1,108 +1,296 @@
-import PdpTabs from "./PdpTabs";
+import Link from "next/link";
+import ProductAccordion, {
+  type ProductAccordionItem,
+} from "./ProductAccordion";
+import ProductDescription from "./ProductDescription";
+import ShopifyRichText from "./ShopifyRichText";
 import ProductActions from "@/components/product/ProductActions";
 import type { Product } from "@/data/products";
 import type { Locale } from "@/i18n-config";
 import { getUiLabels } from "@/lib/i18n/uiLabels";
 
+type LayeringProduct = {
+  id: string;
+  handle: string;
+  title: string;
+};
+
 type ProductHeaderPanelProps = {
   name: string;
-  notes?: string[] | null;
+  mainAccords?: string[] | null;
   price: number;
-  volumeMl?: number | null;
+  fragranceType?: string | null;
+  sizeLabel?: string | null;
   sku?: string | null;
   stock: number;
   image: string;
   description?: string | null;
+  descriptionHtml?: string | null;
   ingredients?: string | null;
   pyramid?: Product["pyramid"];
-  storage_instructions?: string | null;
+  storageInstructions?: string | null;
+  applicationInstructions?: string | null;
+  layeringDescription?: string | null;
+  layeringProducts?: LayeringProduct[];
+  isAttar?: boolean;
   variantId?: string | null;
   locale?: Locale;
 };
 
+const LINK_CLASS =
+  "hover:text-gold underline underline-offset-4 transition-colors";
+
+const EXTRA_LABELS = {
+  en: {
+    mainAccords: "Main Accords",
+    application: "The Art of Application",
+    layering: "The Art of Layering",
+    shipping: "Shipping",
+    returns: "Returns & refunds",
+  },
+  fi: {
+    mainAccords: "Tuoksun pääsoinnut",
+    application: "Tuoksun käyttö",
+    layering: "Tuoksujen kerrostaminen",
+    shipping: "Toimitus",
+    returns: "Palautukset ja hyvitykset",
+  },
+  sv: {
+    mainAccords: "Doftackord",
+    application: "Konsten att applicera",
+    layering: "Konsten att kombinera dofter",
+    shipping: "Leverans",
+    returns: "Returer och återbetalningar",
+  },
+} satisfies Record<
+  Locale,
+  {
+    mainAccords: string;
+    application: string;
+    layering: string;
+    shipping: string;
+    returns: string;
+  }
+>;
+
 export default function ProductHeaderPanel({
   name,
-  notes,
+  mainAccords,
   price,
-  volumeMl,
-  sku,
+  fragranceType,
+  sizeLabel,
   stock,
   image,
   description,
+  descriptionHtml,
   ingredients,
   pyramid,
-  storage_instructions,
+  storageInstructions,
+  applicationInstructions,
+  layeringDescription,
+  layeringProducts = [],
+  isAttar = false,
   variantId,
+  sku,
   locale = "en",
 }: ProductHeaderPanelProps) {
-  const labels = getUiLabels(locale).commerce.productHeader;
+  const commerce = getUiLabels(locale).commerce;
+  const labels = commerce.pdpTabs;
+  const extraLabels = EXTRA_LABELS[locale];
+
+  const uniqueAccords = Array.from(
+    new Set((mainAccords ?? []).map((accord) => accord.trim()).filter(Boolean)),
+  );
+
+  const accordSummary = uniqueAccords.slice(0, 3).join(" · ");
+
+  const formatLabel = [fragranceType?.trim(), sizeLabel?.trim()]
+    .filter(Boolean)
+    .join(" · ");
+
+  const noteGroups = [
+    { id: "top", title: labels.top, values: pyramid?.top ?? [] },
+    { id: "heart", title: labels.heart, values: pyramid?.heart ?? [] },
+    { id: "base", title: labels.base, values: pyramid?.base ?? [] },
+  ].filter((group) => group.values.length > 0);
+
+  const items: ProductAccordionItem[] = [];
+
+  if (descriptionHtml?.trim() || description?.trim()) {
+    items.push({
+      id: "description",
+      title: labels.descriptionTab,
+      content: (
+        <ProductDescription html={descriptionHtml} fallback={description} />
+      ),
+    });
+  }
+
+  if (uniqueAccords.length > 0) {
+    items.push({
+      id: "main-accords",
+      title: extraLabels.mainAccords,
+      content: (
+        <ul className="grid grid-cols-2 gap-x-6 gap-y-2">
+          {uniqueAccords.map((accord) => (
+            <li key={accord}>{accord}</li>
+          ))}
+        </ul>
+      ),
+    });
+  }
+
+  if (noteGroups.length > 0) {
+    items.push({
+      id: "notes",
+      title: labels.notesTab,
+      content: (
+        <dl className="space-y-4">
+          {noteGroups.map((group) => (
+            <div
+              key={group.id}
+              className="grid grid-cols-[100px_minmax(0,1fr)] gap-4"
+            >
+              <dt className="text-neutral-900">{group.title}</dt>
+              <dd>{group.values.join(" · ")}</dd>
+            </div>
+          ))}
+        </dl>
+      ),
+    });
+  }
+
+  if (ingredients?.trim()) {
+    items.push({
+      id: "ingredients",
+      title: labels.ingredientsTab,
+      content: <p className="whitespace-pre-line">{ingredients}</p>,
+    });
+  }
+
+  if (applicationInstructions?.trim()) {
+    items.push({
+      id: "application",
+      title: extraLabels.application,
+      content: <ShopifyRichText value={applicationInstructions} />,
+    });
+  }
+
+  if (isAttar && (layeringDescription?.trim() || layeringProducts.length > 0)) {
+    items.push({
+      id: "layering",
+      title: extraLabels.layering,
+      content: (
+        <div className="space-y-5">
+          <ShopifyRichText value={layeringDescription} />
+
+          {layeringProducts.length > 0 && (
+            <ul className="space-y-3">
+              {layeringProducts.map((product) => (
+                <li key={product.id}>
+                  <Link
+                    href={`/${locale}/product/${product.handle}`}
+                    className={LINK_CLASS}
+                  >
+                    {product.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ),
+    });
+  }
+
+  if (storageInstructions?.trim()) {
+    items.push({
+      id: "care",
+      title: labels.packagingTab,
+      content: <p className="whitespace-pre-line">{storageInstructions}</p>,
+    });
+  }
+
+  items.push({
+    id: "policies",
+    title: labels.policiesTab,
+    content: (
+      <ul className="space-y-3">
+        <li>
+          <Link
+            href={`/${locale}/policies/shipping-policy`}
+            className={LINK_CLASS}
+          >
+            {extraLabels.shipping}
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            href={`/${locale}/policies/refund-policy`}
+            className={LINK_CLASS}
+          >
+            {extraLabels.returns}
+          </Link>
+        </li>
+      </ul>
+    ),
+  });
 
   return (
-    <aside className="md:col-span-5">
-      <div className="md:sticky md:top-24">
-        <header className="border-b border-black/10 pb-8">
-          <h1 className="text-[42px] leading-[1.08] md:text-[56px]">{name}</h1>
-          <p className="font-playfair-display mt-3 text-sm tracking-[0.18em] text-black/70 uppercase">
-            {notes?.length ? notes.join(" | ") : ""}
-          </p>
+    <aside className="min-w-0 lg:sticky lg:top-[132px] lg:col-span-6 lg:self-start">
+      <div className="mx-auto w-full lg:max-w-[560px] lg:px-6 lg:pt-10 xl:pt-12">
+        <header>
+          <h1 className="font-magister text-[28px] leading-tight font-normal tracking-[0.02em] text-neutral-900 md:text-[32px]">
+            {name}
+          </h1>
+
+          {(accordSummary || formatLabel) && (
+            <div className="mt-3">
+              {accordSummary && (
+                <p className="font-garamond text-base leading-relaxed text-neutral-600">
+                  {accordSummary}
+                </p>
+              )}
+
+              {formatLabel && (
+                <p
+                  className={[
+                    "font-garamond text-sm leading-relaxed tracking-[0.03em] text-neutral-600",
+                    accordSummary ? "mt-1.5" : "",
+                  ].join(" ")}
+                >
+                  {formatLabel}
+                </p>
+              )}
+            </div>
+          )}
         </header>
 
-        <section className="font-playfair-display pt-10">
-          <div className="text-[34px] tracking-tight md:text-[38px]">
-            {price} EUR
-          </div>
-          {volumeMl && (
-            <div className="mt-1.5 text-sm text-black/70">/ {volumeMl} ml</div>
-          )}
-        </section>
+        <p className="mt-5 font-serif text-lg font-light tracking-[0.06em] text-neutral-900">
+          {price} EUR
+        </p>
 
-        <dl className="mt-10 grid grid-cols-[180px_minmax(0,1fr)] gap-x-10 gap-y-6 text-[15px]">
-          <div className="contents">
-            <dt className="tracking-[0.18em] whitespace-nowrap text-black/60 uppercase">
-              {labels.concentration}
-            </dt>
-            <dd className="leading-7 text-black/90">Eau de Parfum</dd>
-          </div>
-
-          <div className="contents">
-            <dt className="tracking-[0.18em] whitespace-nowrap text-black/60 uppercase">
-              {labels.size}
-            </dt>
-            <dd className="leading-7 text-black/90">
-              <span className="inline-block border-b border-black/80 pb-0.5">
-                {volumeMl ?? 100} ml
-              </span>
-            </dd>
-          </div>
-
-          <div className="contents">
-            <dt className="tracking-[0.18em] whitespace-nowrap text-black/60 uppercase">
-              {labels.dispatch}
-            </dt>
-            <dd className="text-gold/90 leading-7">{labels.sameDayDispatch}</dd>
-          </div>
-        </dl>
-
-        <div className="mt-10 [&_a]:hidden [&_button]:h-14 [&_button]:w-full [&_button]:rounded-full [&_button]:bg-black [&_button]:text-sm [&_button]:tracking-[0.18em] [&_button]:text-[var(--background)] [&_button]:hover:opacity-90 [&_button:nth-of-type(2)]:hidden [&_div]:border-0 [&_div]:shadow-none [&_div]:ring-0 [&_form]:m-0 [&_form]:border-0 [&_form]:p-0 [&_form]:shadow-none [&_form]:ring-0">
+        <div className="mt-6">
           <ProductActions
-            product={{ id: variantId ?? sku ?? name, name, price, image }}
+            product={{
+              id: variantId ?? sku ?? name,
+              name,
+              price,
+              image,
+            }}
             stock={stock}
+            appearance="pdp"
           />
         </div>
 
-        <PdpTabs
-          description={description}
-          details={{
-            concentration: "Eau de Parfum",
-            sizeLabel: `${volumeMl ?? 100} ml`,
-            sku: sku ?? null,
-          }}
-          notes={notes ?? undefined}
-          policies={[...labels.policies.map((line) => `• ${line}`)]}
-          ingredients={ingredients ?? undefined}
-          pyramid={pyramid}
-          storage_instructions={storage_instructions}
-        />
+        <p className="font-garamond mt-3 text-center text-xs leading-relaxed tracking-[0.03em] text-neutral-500">
+          {commerce.productHeader.sameDayDispatch}
+        </p>
+
+        <div className="mt-8">
+          <ProductAccordion items={items} />
+        </div>
       </div>
     </aside>
   );
