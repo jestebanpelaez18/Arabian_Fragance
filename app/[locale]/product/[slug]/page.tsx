@@ -5,6 +5,7 @@ import RecommendedProducts from "@/components/product/RecommendedProducts";
 import ProductJsonLd from "@/components/product/ProductJsonLd";
 import ProductGallery from "@/components/product/ProductGallery";
 import ProductHeaderPanel from "@/components/product/ProductHeaderPanel";
+import ProductNotes from "@/components/product/ProductNotes";
 import { productJsonLd } from "@/lib/seo/jsonld";
 import type { Product } from "@/data/products";
 import { i18n, type Locale } from "@/i18n-config";
@@ -308,6 +309,8 @@ export default async function ProductPage({
 
   if (!product) notFound();
 
+  const productIsAttar = isAttar(product);
+
   const images = product.images.edges.map(({ node }) => node);
   const image = images[0]?.url || "/catalog/Bottle_3.png";
 
@@ -339,8 +342,6 @@ export default async function ProductPage({
         .filter((note): note is Note => note !== undefined),
     ),
   );
-
-  const productIsAttar = isAttar(product);
 
   const layeringProducts = productIsAttar
     ? (product.layeringProducts?.references?.nodes ?? []).filter(
@@ -376,7 +377,7 @@ export default async function ProductPage({
     <div className="bg-background text-foreground">
       <ProductJsonLd json={jsonLd} />
 
-      <section className="w-full px-5 pt-5 pb-12 lg:pt-6 lg:pb-20">
+      <section className="w-full px-5 pt-5 pb-8 lg:pt-6 lg:pb-12">
         <div className="grid grid-cols-1 items-start gap-y-8 lg:grid-cols-12 lg:gap-x-12 xl:gap-x-16">
           <div className="min-w-0 lg:col-span-6">
             <ProductGallery
@@ -409,6 +410,8 @@ export default async function ProductPage({
           />
         </div>
       </section>
+
+      <ProductNotes pyramid={pyramid} locale={locale} />
 
       <RecommendedProducts
         currentSlug={product.handle}
