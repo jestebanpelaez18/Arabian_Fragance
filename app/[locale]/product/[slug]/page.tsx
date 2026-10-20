@@ -413,12 +413,7 @@ export default async function ProductPage({
 
       <ProductNotes pyramid={pyramid} locale={locale} />
 
-      <RecommendedProducts
-        currentSlug={product.handle}
-        currentNotes={notes}
-        gender={gender}
-        locale={locale}
-      />
+      <RecommendedProducts currentSlug={product.handle} locale={locale} />
     </div>
   );
 }

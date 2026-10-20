@@ -1,117 +1,34 @@
-import { shopifyFetch } from "@/lib/shopify/shopify";
 import ProductCard from "@/components/shop/ProductCard";
-import { normalizeProduct, type ShopifyRawProduct } from "@/lib/shopify/mapper";
-import type { Product } from "@/data/products";
-import { getUiLabels } from "@/lib/i18n/uiLabels";
 import type { Locale } from "@/i18n-config";
-import { getShopifyLanguageCode } from "@/lib/shopify/locale";
+import { getUiLabels } from "@/lib/i18n/uiLabels";
+import { getRecommendedProducts } from "@/lib/shop/recommendations";
+import { getShopifyProducts } from "@/lib/shopify/get-products";
 
 type Props = {
   currentSlug: string;
-  currentNotes?: string[];
-  gender?: string;
   locale?: Locale;
 };
 
-type ProductEdge = {
-  node: ShopifyRawProduct;
-};
-
-type RecommendedProductsOperation = {
-  data: {
-    products: {
-      edges: ProductEdge[];
-    };
-  };
-};
-
-const recommendedQuery = `
-  query GetRecommendations(
-    $language: LanguageCode!
-  ) @inContext(language: $language) {
-    products(first: 10, sortKey: BEST_SELLING) {
-      edges {
-        node {
-          id
-          title
-          handle
-          productType
-
-          priceRange {
-            minVariantPrice {
-              amount
-              currencyCode
-            }
-          }
-
-          images(first: 2) {
-            edges {
-              node {
-                url
-                altText
-              }
-            }
-          }
-
-          notes: metafield(
-            namespace: "custom"
-            key: "main_accord"
-          ) {
-            value
-          }
-
-          gender: metafield(
-            namespace: "custom"
-            key: "gender"
-          ) {
-            value
-          }
-
-          concentration: metafield(
-            namespace: "custom"
-            key: "concentration"
-          ) {
-            value
-          }
-        }
-      }
-    }
-  }
-`;
+const RECOMMENDATION_COUNT = 4;
 
 export default async function RecommendedProducts({
   currentSlug,
-  currentNotes,
-  gender,
   locale = "en",
 }: Props) {
   const labels = getUiLabels(locale).commerce.recommended;
 
-  const response = await shopifyFetch<RecommendedProductsOperation>({
-    query: recommendedQuery,
-    variables: {
-      language: getShopifyLanguageCode(locale),
-    },
-  });
+  const products = await getShopifyProducts(locale);
+  const currentProduct = products.find(
+    (product) => product.slug === currentSlug,
+  );
 
-  const edges = response.body?.data?.products?.edges ?? [];
+  if (!currentProduct) return null;
 
-  const candidates: Product[] = edges.map(({ node }) => normalizeProduct(node));
-
-  const currentNotesSet = new Set(currentNotes ?? []);
-
-  const recommended = candidates
-    .filter((product) => {
-      if (product.slug === currentSlug) return false;
-
-      const genderMatch = !gender || product.gender === gender;
-
-      const notesMatch =
-        product.notes?.some((note) => currentNotesSet.has(note)) ?? false;
-
-      return genderMatch || notesMatch;
-    })
-    .slice(0, 4);
+  const recommended = getRecommendedProducts(
+    products,
+    currentProduct,
+    RECOMMENDATION_COUNT,
+  );
 
   if (recommended.length === 0) return null;
 
