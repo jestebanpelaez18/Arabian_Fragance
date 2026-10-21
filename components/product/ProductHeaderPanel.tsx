@@ -4,16 +4,12 @@ import ProductAccordion, {
 } from "./ProductAccordion";
 import ProductDescription from "./ProductDescription";
 import ShopifyRichText from "./ShopifyRichText";
+import ProductLayering from "./ProductLayering";
 import ProductActions from "@/components/product/ProductActions";
 import type { Product } from "@/data/products";
 import type { Locale } from "@/i18n-config";
 import { getUiLabels } from "@/lib/i18n/uiLabels";
-
-type LayeringProduct = {
-  id: string;
-  handle: string;
-  title: string;
-};
+import type { LayeringProduct } from "@/lib/shopify/get-layering-attars";
 
 type ProductHeaderPanelProps = {
   name: string;
@@ -73,6 +69,12 @@ const EXTRA_LABELS = {
   }
 >;
 
+const PERFUME_LAYERING_DESCRIPTIONS = {
+  en: "Explore perfume oils selected to layer with this fragrance.",
+  fi: "Tutustu hajusteöljyihin, jotka on valittu yhdistettäväksi tähän tuoksuun.",
+  sv: "Upptäck parfymoljor utvalda för att kombineras med denna doft.",
+} satisfies Record<Locale, string>;
+
 export default function ProductHeaderPanel({
   name,
   mainAccords,
@@ -109,10 +111,28 @@ export default function ProductHeaderPanel({
     .join(" · ");
 
   const noteGroups = [
-    { id: "top", title: labels.top, values: pyramid?.top ?? [] },
-    { id: "heart", title: labels.heart, values: pyramid?.heart ?? [] },
-    { id: "base", title: labels.base, values: pyramid?.base ?? [] },
+    {
+      id: "top",
+      title: labels.top,
+      values: pyramid?.top ?? [],
+    },
+    {
+      id: "heart",
+      title: labels.heart,
+      values: pyramid?.heart ?? [],
+    },
+    {
+      id: "base",
+      title: labels.base,
+      values: pyramid?.base ?? [],
+    },
   ].filter((group) => group.values.length > 0);
+
+  const showLayeringProducts = layeringProducts.length > 0;
+
+  const displayedLayeringDescription =
+    layeringDescription?.trim() ||
+    (isAttar ? undefined : PERFUME_LAYERING_DESCRIPTIONS[locale]);
 
   const items: ProductAccordionItem[] = [];
 
@@ -176,30 +196,13 @@ export default function ProductHeaderPanel({
     });
   }
 
-  if (isAttar && (layeringDescription?.trim() || layeringProducts.length > 0)) {
+  // Keep text-only layering advice in the accordion when
+  // no linked products are available.
+  if (isAttar && !showLayeringProducts && layeringDescription?.trim()) {
     items.push({
       id: "layering",
       title: extraLabels.layering,
-      content: (
-        <div className="space-y-5">
-          <ShopifyRichText value={layeringDescription} />
-
-          {layeringProducts.length > 0 && (
-            <ul className="space-y-3">
-              {layeringProducts.map((product) => (
-                <li key={product.id}>
-                  <Link
-                    href={`/${locale}/product/${product.handle}`}
-                    className={LINK_CLASS}
-                  >
-                    {product.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      ),
+      content: <ShopifyRichText value={layeringDescription} />,
     });
   }
 
@@ -291,6 +294,14 @@ export default function ProductHeaderPanel({
         <div className="mt-8">
           <ProductAccordion items={items} />
         </div>
+
+        {showLayeringProducts && (
+          <ProductLayering
+            products={layeringProducts}
+            description={displayedLayeringDescription}
+            locale={locale}
+          />
+        )}
       </div>
     </aside>
   );

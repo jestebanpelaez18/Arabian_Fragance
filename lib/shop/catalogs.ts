@@ -30,7 +30,7 @@ export function isAttar(product: Pick<Product, "productType">): boolean {
   return hasProductType(product, "Attar");
 }
 
-export function isPerfume(product: Product): boolean {
+export function isPerfume(product: Pick<Product, "productType">): boolean {
   return hasProductType(product, "Perfume");
 }
 

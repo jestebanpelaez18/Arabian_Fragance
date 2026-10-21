@@ -15,7 +15,11 @@ import {
   normalizeToKnownNote,
   parseShopifyListField,
 } from "@/lib/shopify/mapper";
-import { isAttar } from "@/lib/shop/catalogs";
+import { isAttar, isPerfume } from "@/lib/shop/catalogs";
+import {
+  getLayeringAttars,
+  type LayeringProduct,
+} from "@/lib/shopify/get-layering-attars";
 
 type Params = {
   slug: string;
@@ -28,11 +32,8 @@ type ShopifyMetafield = {
   value: string;
 };
 
-type LayeringProduct = {
+type LayeringReference = LayeringProduct & {
   __typename: "Product";
-  id: string;
-  handle: string;
-  title: string;
 };
 
 type ShopifyProduct = {
@@ -83,7 +84,7 @@ type ShopifyProduct = {
   layeringDescription?: ShopifyMetafield | null;
   layeringProducts?: {
     references?: {
-      nodes: LayeringProduct[];
+      nodes: LayeringReference[];
     } | null;
   } | null;
 };
@@ -211,6 +212,16 @@ const singleProductQuery = `
               id
               handle
               title
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
             }
           }
         }
@@ -312,6 +323,7 @@ export default async function ProductPage({
   const productIsAttar = isAttar(product);
 
   const images = product.images.edges.map(({ node }) => node);
+
   const image = images[0]?.url || "/catalog/Bottle_3.png";
 
   const variant = product.variants.edges[0]?.node;
@@ -343,11 +355,16 @@ export default async function ProductPage({
     ),
   );
 
-  const layeringProducts = productIsAttar
-    ? (product.layeringProducts?.references?.nodes ?? []).filter(
-        (item) => item.__typename === "Product" && item.id !== product.id,
-      )
-    : [];
+  // An attar lists its linked perfumes; a perfume lists the attars that link to it.
+  let layeringProducts: LayeringProduct[] = [];
+
+  if (productIsAttar) {
+    layeringProducts = (
+      product.layeringProducts?.references?.nodes ?? []
+    ).filter((item) => item.__typename === "Product" && item.id !== product.id);
+  } else if (isPerfume(product)) {
+    layeringProducts = await getLayeringAttars(product.id, locale);
+  }
 
   const siteUrl = (
     process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
