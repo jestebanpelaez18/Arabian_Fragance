@@ -1,16 +1,12 @@
 import type { Product } from "@/data/products";
 import type { Locale } from "@/i18n-config";
+import { getUiLabels } from "@/lib/i18n/uiLabels";
+import { getProductNoteGroups } from "@/lib/shop/product-note-groups";
 
 type ProductNotesProps = {
   pyramid?: Product["pyramid"];
+  keyNotes?: string | null;
   locale: Locale;
-};
-
-type NotesLabels = {
-  title: string;
-  top: string;
-  heart: string;
-  base: string;
 };
 
 const LABELS = {
@@ -32,7 +28,15 @@ const LABELS = {
     heart: "Hjärtnoter",
     base: "Basnoter",
   },
-} satisfies Record<Locale, NotesLabels>;
+} satisfies Record<
+  Locale,
+  {
+    title: string;
+    top: string;
+    heart: string;
+    base: string;
+  }
+>;
 
 // Full class names so Tailwind can detect them.
 const COLUMNS_CLASS: Record<number, string> = {
@@ -41,32 +45,23 @@ const COLUMNS_CLASS: Record<number, string> = {
   3: "md:grid-cols-3",
 };
 
-function cleanNotes(notes?: string[]): string[] {
-  return Array.from(
-    new Set((notes ?? []).map((note) => note.trim()).filter(Boolean)),
-  );
-}
-
-export default function ProductNotes({ pyramid, locale }: ProductNotesProps) {
+export default function ProductNotes({
+  pyramid,
+  keyNotes,
+  locale,
+}: ProductNotesProps) {
   const labels = LABELS[locale];
 
-  const groups = [
-    {
-      id: "top",
-      title: labels.top,
-      notes: cleanNotes(pyramid?.top),
-    },
-    {
-      id: "heart",
-      title: labels.heart,
-      notes: cleanNotes(pyramid?.heart),
-    },
-    {
-      id: "base",
-      title: labels.base,
-      notes: cleanNotes(pyramid?.base),
-    },
-  ].filter((group) => group.notes.length > 0);
+  const keyNotesLabel = getUiLabels(locale).commerce.pdpTabs.keyNotes;
+
+  const groupTitles = {
+    top: labels.top,
+    heart: labels.heart,
+    base: labels.base,
+    key: keyNotesLabel,
+  };
+
+  const groups = getProductNoteGroups(pyramid, keyNotes);
 
   if (groups.length === 0) return null;
 
@@ -87,20 +82,23 @@ export default function ProductNotes({ pyramid, locale }: ProductNotesProps) {
           className={[
             "mt-14 grid grid-cols-1 items-start gap-y-12",
             "md:mt-20 md:gap-x-12 lg:mt-24 lg:gap-x-20",
-            COLUMNS_CLASS[groups.length],
+            COLUMNS_CLASS[Math.min(groups.length, 3)],
           ].join(" ")}
         >
           {groups.map((group) => (
             <div
               key={group.id}
-              className="mx-auto w-full max-w-[340px] text-center"
+              className={[
+                "mx-auto w-full text-center",
+                group.id === "key" ? "max-w-[720px]" : "max-w-[340px]",
+              ].join(" ")}
             >
               <h3 className="font-garamond! text-base leading-normal font-medium tracking-[0.08em] text-neutral-600 uppercase">
-                {group.title}
+                {groupTitles[group.id]}
               </h3>
 
               <p className="font-garamond mt-5 text-2xl leading-relaxed font-normal text-neutral-900 lg:text-[28px]">
-                {group.notes.join(", ")}
+                {group.values.join(", ")}
               </p>
             </div>
           ))}

@@ -75,6 +75,7 @@ type ShopifyProduct = {
   topNotes?: ShopifyMetafield | null;
   heartNotes?: ShopifyMetafield | null;
   baseNotes?: ShopifyMetafield | null;
+  keyNotes?: ShopifyMetafield | null;
   gender?: ShopifyMetafield | null;
   fragranceType?: ShopifyMetafield | null;
   size?: ShopifyMetafield | null;
@@ -166,6 +167,9 @@ const singleProductQuery = `
         value
       }
       baseNotes: metafield(namespace: "custom", key: "base_notes") {
+        value
+      }
+      keyNotes: metafield(namespace: "custom", key: "key_notes") {
         value
       }
       gender: metafield(namespace: "custom", key: "gender") {
@@ -424,11 +428,16 @@ export default async function ProductPage({
             isAttar={productIsAttar}
             variantId={variant?.id}
             locale={locale}
+            keyNotes={product.keyNotes?.value}
           />
         </div>
       </section>
 
-      <ProductNotes pyramid={pyramid} locale={locale} />
+      <ProductNotes
+        pyramid={pyramid}
+        keyNotes={product.keyNotes?.value}
+        locale={locale}
+      />
 
       <RecommendedProducts currentSlug={product.handle} locale={locale} />
     </div>

@@ -139,10 +139,15 @@ type UiLabels = {
     recommended: {
       title: string;
     };
+    layeringGuide: {
+      title: string;
+      paragraphs: string[];
+    };
     pdpTabs: {
       ariaLabel: string;
       descriptionTab: string;
       notesTab: string;
+      keyNotes: string;
       ingredientsTab: string;
       packagingTab: string;
       policiesTab: string;
@@ -347,10 +352,18 @@ const uiLabels: Record<Locale, UiLabels> = {
       recommended: {
         title: "You may also like",
       },
+      layeringGuide: {
+        title: "The Art of Layering",
+        paragraphs: [
+          "Layering is the art of wearing two fragrances together on the skin to explore a different scent combination. Pairing a perfume oil with a spray fragrance allows their individual characters to interact, bringing different facets of the composition into focus.",
+          "Our tolas can be enjoyed on their own or combined with a perfume. Our suggested pairings offer a starting point for exploration: try a small amount and discover the balance you prefer.",
+        ],
+      },
       pdpTabs: {
         ariaLabel: "Product information",
         descriptionTab: "DESCRIPTION",
         notesTab: "NOTES",
+        keyNotes: "Key Notes",
         ingredientsTab: "INGREDIENTS",
         packagingTab: "PACKAGING & CARE",
         policiesTab: "POLICIES",
@@ -565,10 +578,18 @@ const uiLabels: Record<Locale, UiLabels> = {
       recommended: {
         title: "Saatat myös pitää",
       },
+      layeringGuide: {
+        title: "Tuoksujen kerrostaminen",
+        paragraphs: [
+          "Tuoksujen kerrostaminen tarkoittaa kahden tuoksun käyttämistä yhdessä iholla uuden tuoksuyhdistelmän löytämiseksi. Kun yhdistät hajusteöljyn suihkutettavaan hajuveteen, niiden ominaispiirteet kohtaavat ja tuovat esiin koostumuksen eri vivahteita.",
+          "Tola-hajusteöljyjämme voi käyttää sellaisenaan tai yhdessä hajuveden kanssa. Suosittelemamme yhdistelmät tarjoavat lähtökohdan kokeilulle: aloita pienellä määrällä ja löydä itsellesi mieluisa tasapaino.",
+        ],
+      },
       pdpTabs: {
         ariaLabel: "Tuotetiedot",
         descriptionTab: "KUVAUS",
         notesTab: "NUOTIT",
+        keyNotes: "Keskeiset tuoksunuotit",
         ingredientsTab: "AINESOSAT",
         packagingTab: "PAKKAUS JA HOITO",
         policiesTab: "KÄYTÄNNÖT",
@@ -782,10 +803,18 @@ const uiLabels: Record<Locale, UiLabels> = {
       recommended: {
         title: "Du kanske ocksa gillar",
       },
+      layeringGuide: {
+        title: "Konsten att kombinera dofter",
+        paragraphs: [
+          "Att kombinera dofter innebär att bära två dofter tillsammans på huden för att utforska en ny doftkombination. När en parfymolja kombineras med en sprayparfym möts deras individuella karaktärer och framhäver olika nyanser i kompositionen.",
+          "Våra tola-parfymoljor kan användas på egen hand eller tillsammans med en parfym. Våra föreslagna kombinationer är en utgångspunkt för att utforska: börja med en liten mängd och hitta den balans du föredrar.",
+        ],
+      },
       pdpTabs: {
         ariaLabel: "Produktinformation",
         descriptionTab: "BESKRIVNING",
         notesTab: "NOTER",
+        keyNotes: "Framträdande doftnoter",
         ingredientsTab: "INGREDIENSER",
         packagingTab: "FORPACKNING OCH SKOTSEL",
         policiesTab: "POLICYER",

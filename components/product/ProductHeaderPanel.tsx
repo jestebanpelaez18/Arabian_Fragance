@@ -10,6 +10,7 @@ import type { Product } from "@/data/products";
 import type { Locale } from "@/i18n-config";
 import { getUiLabels } from "@/lib/i18n/uiLabels";
 import type { LayeringProduct } from "@/lib/shopify/get-layering-attars";
+import { getProductNoteGroups } from "@/lib/shop/product-note-groups";
 
 type ProductHeaderPanelProps = {
   name: string;
@@ -31,6 +32,7 @@ type ProductHeaderPanelProps = {
   isAttar?: boolean;
   variantId?: string | null;
   locale?: Locale;
+  keyNotes?: string | null;
 };
 
 const LINK_CLASS =
@@ -40,21 +42,18 @@ const EXTRA_LABELS = {
   en: {
     mainAccords: "Main Accords",
     application: "The Art of Application",
-    layering: "The Art of Layering",
     shipping: "Shipping",
     returns: "Returns & refunds",
   },
   fi: {
     mainAccords: "Tuoksun pääsoinnut",
     application: "Tuoksun käyttö",
-    layering: "Tuoksujen kerrostaminen",
     shipping: "Toimitus",
     returns: "Palautukset ja hyvitykset",
   },
   sv: {
     mainAccords: "Doftackord",
     application: "Konsten att applicera",
-    layering: "Konsten att kombinera dofter",
     shipping: "Leverans",
     returns: "Returer och återbetalningar",
   },
@@ -63,17 +62,25 @@ const EXTRA_LABELS = {
   {
     mainAccords: string;
     application: string;
-    layering: string;
     shipping: string;
     returns: string;
   }
 >;
 
 const PERFUME_LAYERING_DESCRIPTIONS = {
-  en: "Explore perfume oils selected to layer with this fragrance.",
-  fi: "Tutustu hajusteöljyihin, jotka on valittu yhdistettäväksi tähän tuoksuun.",
-  sv: "Upptäck parfymoljor utvalda för att kombineras med denna doft.",
-} satisfies Record<Locale, string>;
+  en: [
+    "Discover another expression of this fragrance. Layering combines a perfume oil with your spray fragrance, allowing you to explore different nuances and create a more personal scent combination. The oils below have been selected to complement this perfume.",
+    "Apply a small amount of your chosen oil first, allow it to settle, then apply the spray fragrance lightly.",
+  ],
+  fi: [
+    "Löydä tästä tuoksusta uusia vivahteita. Kerrostamisessa hajusteöljy yhdistetään suihkutettavaan tuoksuun, jolloin voit tutkia erilaisia sävyjä ja luoda persoonallisen tuoksuyhdistelmän. Alla olevat öljyt on valittu täydentämään tätä hajuvettä.",
+    "Levitä ensin pieni määrä valitsemaasi öljyä, anna sen asettua iholle ja suihkuta sitten hajuvettä kevyesti.",
+  ],
+  sv: [
+    "Upptäck ett nytt uttryck för denna doft. Genom att kombinera en parfymolja med din sprayparfym kan du utforska olika nyanser och skapa en mer personlig doftkombination. Oljorna nedan har valts ut för att komplettera denna parfym.",
+    "Applicera först en liten mängd av den valda oljan, låt den sätta sig på huden och spraya sedan parfymen lätt.",
+  ],
+} satisfies Record<Locale, string[]>;
 
 export default function ProductHeaderPanel({
   name,
@@ -87,6 +94,7 @@ export default function ProductHeaderPanel({
   descriptionHtml,
   ingredients,
   pyramid,
+  keyNotes,
   storageInstructions,
   applicationInstructions,
   layeringDescription,
@@ -110,29 +118,26 @@ export default function ProductHeaderPanel({
     .filter(Boolean)
     .join(" · ");
 
-  const noteGroups = [
-    {
-      id: "top",
-      title: labels.top,
-      values: pyramid?.top ?? [],
-    },
-    {
-      id: "heart",
-      title: labels.heart,
-      values: pyramid?.heart ?? [],
-    },
-    {
-      id: "base",
-      title: labels.base,
-      values: pyramid?.base ?? [],
-    },
-  ].filter((group) => group.values.length > 0);
+  const noteGroupTitles = {
+    top: labels.top,
+    heart: labels.heart,
+    base: labels.base,
+    key: labels.keyNotes,
+  };
+
+  const noteGroups = getProductNoteGroups(pyramid, keyNotes).map((group) => ({
+    ...group,
+    title: noteGroupTitles[group.id],
+  }));
+
+  const hasKeyNotes = noteGroups[0]?.id === "key";
 
   const showLayeringProducts = layeringProducts.length > 0;
 
+  // ShopifyRichText also renders plain text, so paragraphs are joined by blank lines.
   const displayedLayeringDescription =
     layeringDescription?.trim() ||
-    (isAttar ? undefined : PERFUME_LAYERING_DESCRIPTIONS[locale]);
+    (isAttar ? undefined : PERFUME_LAYERING_DESCRIPTIONS[locale].join("\n\n"));
 
   const items: ProductAccordionItem[] = [];
 
@@ -151,11 +156,9 @@ export default function ProductHeaderPanel({
       id: "main-accords",
       title: extraLabels.mainAccords,
       content: (
-        <ul className="grid grid-cols-2 gap-x-6 gap-y-2">
-          {uniqueAccords.map((accord) => (
-            <li key={accord}>{accord}</li>
-          ))}
-        </ul>
+        <p className="font-garamond text-base leading-[1.9] text-neutral-600">
+          {uniqueAccords.join(" · ")}
+        </p>
       ),
     });
   }
@@ -163,16 +166,21 @@ export default function ProductHeaderPanel({
   if (noteGroups.length > 0) {
     items.push({
       id: "notes",
-      title: labels.notesTab,
-      content: (
+      title: hasKeyNotes ? labels.keyNotes : labels.notesTab,
+      content: hasKeyNotes ? (
+        <p className="font-garamond text-base leading-relaxed text-neutral-600">
+          {noteGroups[0].values.join(" · ")}
+        </p>
+      ) : (
         <dl className="space-y-4">
           {noteGroups.map((group) => (
             <div
               key={group.id}
               className="grid grid-cols-[100px_minmax(0,1fr)] gap-4"
             >
-              <dt className="text-neutral-900">{group.title}</dt>
-              <dd>{group.values.join(" · ")}</dd>
+              <dt className="text-ink font-semibold">{group.title}</dt>
+
+              <dd className="text-neutral-600">{group.values.join(" · ")}</dd>
             </div>
           ))}
         </dl>
@@ -196,13 +204,21 @@ export default function ProductHeaderPanel({
     });
   }
 
-  // Keep text-only layering advice in the accordion when
-  // no linked products are available.
-  if (isAttar && !showLayeringProducts && layeringDescription?.trim()) {
+  if (isAttar) {
     items.push({
       id: "layering",
-      title: extraLabels.layering,
-      content: <ShopifyRichText value={layeringDescription} />,
+      title: commerce.layeringGuide.title,
+      content: (
+        <div className="space-y-4">
+          {commerce.layeringGuide.paragraphs.map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}
+
+          {!showLayeringProducts && layeringDescription?.trim() && (
+            <ShopifyRichText value={layeringDescription} />
+          )}
+        </div>
+      ),
     });
   }
 
