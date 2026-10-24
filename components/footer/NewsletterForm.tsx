@@ -40,11 +40,11 @@ export default function NewsletterForm({
           type="email"
           required
           placeholder={labels.emailPlaceholder}
-          className="font-bodoni flex-1 border-none bg-transparent text-xs placeholder-stone-400 outline-none"
+          className="font-bodoni min-w-0 flex-1 border-none bg-transparent text-xs placeholder-stone-400 outline-none"
         />
         <button
           type="submit"
-          className="ml-2 text-white hover:text-stone-900"
+          className="ml-2 shrink-0 text-white hover:text-stone-900"
           aria-label={labels.subscribeAria}
           title={labels.subscribeTitle}
         >
