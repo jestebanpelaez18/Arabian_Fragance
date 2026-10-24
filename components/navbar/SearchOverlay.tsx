@@ -1,292 +1,457 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import SmoothImage from "../ui/SmoothImage";
+import type { Locale } from "@/i18n-config";
 import {
   searchProductsAction,
   getTrendingProducts,
+  type Product,
 } from "@/lib/shopify/actions";
-import type { Product } from "@/lib/shopify/actions";
 import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
-function useDebounce(value: string, delay: number) {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-  useEffect(() => {
-    const handler = setTimeout(() => setDebouncedValue(value), delay);
-    return () => clearTimeout(handler);
-  }, [value, delay]);
-  return debouncedValue;
-}
-
-export default function SearchOverlay({
-  isOpen,
-  onClose,
-}: {
+type Props = {
   isOpen: boolean;
   onClose: () => void;
+};
+
+type SearchState = {
+  query: string;
+  products: Product[];
+  failed: boolean;
+};
+
+const FOCUS_CLASS =
+  "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black";
+
+function SearchIcon() {
+  return (
+    <svg
+      width="21"
+      height="21"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      aria-hidden="true"
+      className="shrink-0"
+    >
+      <path
+        d="m21 21-5.2-5.2m0 0A7.5 7.5 0 1 0 5.2 5.2a7.5 7.5 0 0 0 10.6 10.6Z"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function SearchProductCard({
+  product,
+  locale,
+  onNavigate,
+}: {
+  product: Product;
+  locale: Locale;
+  onNavigate: () => void;
 }) {
-  const pathname = usePathname();
-  const locale = getLocaleFromPathname(pathname);
+  const amount = Number(product.priceRange.minVariantPrice.amount);
+
+  const price = Number.isFinite(amount)
+    ? new Intl.NumberFormat(locale, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      }).format(amount)
+    : "";
+
+  return (
+    <Link
+      href={`/${locale}/product/${product.handle}`}
+      onClick={onNavigate}
+      className={`group block min-w-0 text-center ${FOCUS_CLASS}`}
+    >
+      <div className="bg-background relative aspect-4/5 overflow-hidden">
+        {product.featuredImage && (
+          <Image
+            src={product.featuredImage.url}
+            alt=""
+            fill
+            sizes="(min-width: 1200px) 270px, (min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025] motion-reduce:transition-none"
+          />
+        )}
+      </div>
+
+      <h3 className="font-magister group-hover:text-gold mt-3 text-sm leading-relaxed font-normal text-neutral-900 transition-colors">
+        {product.title}
+      </h3>
+
+      {price && (
+        <p className="mt-1.5 font-serif text-xs leading-relaxed font-light tracking-[0.04em] text-neutral-700">
+          {price} {product.priceRange.minVariantPrice.currencyCode}
+        </p>
+      )}
+    </Link>
+  );
+}
+
+function ProductSkeletons() {
+  return (
+    <div aria-hidden="true" className="grid grid-cols-2 gap-4 md:grid-cols-3">
+      {[0, 1, 2].map((index) => (
+        <div key={index} className={index === 2 ? "hidden md:block" : ""}>
+          <div className="aspect-4/5 bg-black/[0.035] motion-safe:animate-pulse" />
+          <div className="mx-auto mt-4 h-3 w-1/2 bg-black/[0.035]" />
+          <div className="mx-auto mt-2 h-2 w-1/4 bg-black/[0.035]" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function SearchPanel({
+  locale,
+  onClose,
+}: {
+  locale: Locale;
+  onClose: () => void;
+}) {
   const labels = getUiLabels(locale).commerce.searchOverlay;
+  const searchTitle = getUiLabels(locale).navbar.search;
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const [term, setTerm] = useState("");
-  const [results, setResults] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [trending, setTrending] = useState<Product[]>([]); // State for trending products
-  const debouncedTerm = useDebounce(term, 500);
+  const [search, setSearch] = useState<SearchState | null>(null);
+  const [topProducts, setTopProducts] = useState<Product[] | null>(null);
+  const [topFailed, setTopFailed] = useState(false);
+  const [retry, setRetry] = useState(0);
 
-  // Load top products in the initial menu (trending products)
-  useEffect(() => {
-    async function loadTrending() {
-      const trendingProducts = await getTrendingProducts(locale);
-      setTrending(trendingProducts);
-    }
-    loadTrending();
-  }, [locale]);
+  const query = term.trim();
+  const hasQuery = query.length >= 2;
+
+  const searching = hasQuery && (search === null || search.query !== query);
+
+  const searchFailed = hasQuery && search?.query === query && search.failed;
+
+  const results = hasQuery && search?.query === query ? search.products : [];
+
+  const featured = topProducts?.slice(0, 3) ?? [];
+  const suggestions = topProducts?.slice(3, 7) ?? [];
 
   useEffect(() => {
-    async function fetchResults() {
-      if (debouncedTerm.length < 2) {
-        setResults([]);
-        return;
-      }
-      setLoading(true);
-      try {
-        const products = await searchProductsAction(debouncedTerm, locale);
-        setResults(products);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchResults();
-  }, [debouncedTerm, locale]);
+    const previousFocus =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
 
-  // Bloquear scroll + Autofocus
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      const input = document.getElementById("search-input");
-      if (input) input.focus();
-    } else {
-      document.body.style.overflow = "";
-    }
+    const frame = requestAnimationFrame(() => {
+      inputRef.current?.focus({ preventScroll: true });
+    });
+
     return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
+      cancelAnimationFrame(frame);
 
-  if (!isOpen) return null;
+      if (previousFocus?.isConnected) {
+        previousFocus.focus({ preventScroll: true });
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    void getTrendingProducts(locale)
+      .then((products) => {
+        if (cancelled) return;
+
+        setTopProducts(products);
+        setTopFailed(false);
+      })
+      .catch(() => {
+        if (cancelled) return;
+
+        setTopFailed(true);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [locale, retry]);
+
+  useEffect(() => {
+    if (query.length < 2) return;
+
+    let cancelled = false;
+
+    const timer = setTimeout(() => {
+      void searchProductsAction(query, locale)
+        .then((products) => {
+          if (cancelled) return;
+
+          setSearch({
+            query,
+            products,
+            failed: false,
+          });
+        })
+        .catch(() => {
+          if (cancelled) return;
+
+          setSearch({
+            query,
+            products: [],
+            failed: true,
+          });
+        });
+    }, 300);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [query, locale, retry]);
+
+  function retryLoading() {
+    if (hasQuery) {
+      setSearch(null);
+    } else {
+      setTopFailed(false);
+    }
+
+    setRetry((value) => value + 1);
+  }
 
   return (
     <>
-      {/* BACKDROP OSCURO (Cierra al hacer click fuera) */}
       <div
-        className="fixed inset-0 top-16 z-9990 bg-black/40 transition-opacity duration-300 lg:top-16"
+        aria-hidden="true"
         onClick={onClose}
+        className="fixed inset-x-0 top-16 bottom-0 z-9990 bg-black/30"
       />
 
-      {/* PANEL PRINCIPAL */}
-      <div className="animate-in slide-in-from-top-2 bg-background text-foreground fixed top-16 right-0 left-0 z-9999 flex flex-col overflow-hidden shadow-2xl duration-300 lg:top-16">
-        {/* --- 1. SEARCH BAR (Input limpia) --- */}
-        <div className="w-full px-6 pt-10 pb-6 md:px-12">
-          <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between border-b border-[#1a1a1a]/20 pb-4">
-            <div className="flex flex-1 items-center gap-6">
-              <svg
-                className="h-6 w-6 text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                />
-              </svg>
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="navigation-search-title"
+        onKeyDown={(event) => {
+          if (event.key === "Escape") {
+            event.preventDefault();
+            event.stopPropagation();
+            onClose();
+            return;
+          }
+
+          if (event.key !== "Tab") return;
+
+          const panel = panelRef.current;
+
+          if (!panel) return;
+
+          const focusable = Array.from(
+            panel.querySelectorAll<HTMLElement>(
+              'input, button:not([disabled]), a[href], [tabindex="0"]',
+            ),
+          ).filter((element) => element.getClientRects().length > 0);
+
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+
+          if (!first || !last) return;
+
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        }}
+        className="bg-background fixed inset-x-0 top-16 z-9999 flex max-h-[calc(100dvh-64px)] flex-col overflow-hidden text-neutral-900 shadow-[0_12px_24px_-20px_rgba(0,0,0,0.3)]"
+      >
+        <h2 id="navigation-search-title" className="sr-only">
+          {searchTitle}
+        </h2>
+
+        <div className="shrink-0 px-5 pt-5 pb-5 md:px-10 md:pt-8 md:pb-7">
+          <div className="mx-auto w-full max-w-[1120px]">
+            <div className="flex items-center gap-3 border-b border-black/20 pb-3 md:gap-5">
+              <span className="text-neutral-600">
+                <SearchIcon />
+              </span>
+
+              <label htmlFor="navigation-search-input" className="sr-only">
+                {searchTitle}
+              </label>
 
               <input
-                id="search-input"
-                type="text"
-                placeholder={labels.inputPlaceholder}
-                className="font-garamond w-full bg-transparent text-3xl text-[#1a1a1a] placeholder:text-gray-400 focus:outline-none"
+                ref={inputRef}
+                id="navigation-search-input"
+                type="search"
                 value={term}
-                onChange={(e) => setTerm(e.target.value)}
-                autoComplete="off"
-              />
-            </div>
+                maxLength={120}
+                onChange={(event) => {
+                  setTerm(event.target.value);
 
-            {/* Botón Cerrar */}
-            <button
-              onClick={onClose}
-              className="ml-4 p-2 text-[#1a1a1a] transition-transform hover:rotate-90 hover:opacity-70"
-            >
-              <svg
-                className="h-6 w-6 font-light"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1}
-                stroke="currentColor"
+                  contentRef.current?.scrollTo({
+                    top: 0,
+                    behavior: "instant",
+                  });
+                }}
+                placeholder={labels.inputPlaceholder}
+                autoComplete="off"
+                spellCheck={false}
+                enterKeyHint="search"
+                aria-describedby="navigation-search-status"
+                className="font-garamond min-w-0 flex-1 appearance-none bg-transparent py-1 text-xl leading-normal text-neutral-900 outline-none placeholder:text-neutral-500 md:text-2xl"
+              />
+
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label={labels.close}
+                className={`hover:text-gold -mr-2 flex h-11 w-11 shrink-0 items-center justify-center text-neutral-700 transition-colors ${FOCUS_CLASS}`}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  aria-hidden="true"
+                >
+                  <path d="M6 6l12 12M6 18L18 6" strokeLinecap="round" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* --- 2. CONTENIDO (Layout Armónico) --- */}
-        <div className="px-6 pb-16 md:px-12 md:pb-20">
-          {" "}
-          {/* Padding inferior generoso para evitar corte */}
-          <div className="mx-auto max-w-[1200px]">
-            {loading ? (
-              <div className="font-bodoni animate-pulse py-20 text-center text-xs tracking-widest text-gray-400 uppercase">
-                {labels.searching}
-              </div>
-            ) : term.length > 0 ? (
-              /* --- RESULTADOS DE BÚSQUEDA --- */
-              <div className="mt-8">
-                {results.length > 0 ? (
-                  // Grid de 4 columnas con espacio moderado (gap-6) para que las imágenes sean grandes
-                  <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-                    {results.slice(0, 4).map((product) => (
-                      <Link
-                        href={`/${locale}/product/${product.handle}`}
-                        key={product.id}
-                        onClick={onClose}
-                        className="group block"
-                      >
-                        <div className="relative mb-4 aspect-4/5 w-full overflow-hidden bg-white shadow-sm transition-shadow duration-300 group-hover:shadow-md">
-                          <SmoothImage
-                            src={
-                              product.featuredImage?.url ||
-                              "/catalog/Bottle_3.png"
-                            }
-                            alt={
-                              product.featuredImage?.altText || product.title
-                            }
-                            fill
-                            className="object-cover transition duration-700 ease-out group-hover:scale-105"
-                          />
-                        </div>
-                        <h3 className="text-center text-xs tracking-widest text-[#1a1a1a] uppercase transition-colors group-hover:text-[#C9A46A]">
-                          {product.title}
-                        </h3>
-                        <p className="font-garamond mt-1 text-center text-sm text-gray-500">
-                          {parseFloat(
-                            product.priceRange?.minVariantPrice?.amount,
-                          )}{" "}
-                          {product.priceRange?.minVariantPrice?.currencyCode}
-                        </p>
-                      </Link>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="py-12 text-center">
-                    <p className="font-garamond text-xl text-gray-400">
-                      {labels.noResultsFor} &quot;{term}&quot;
-                    </p>
-                  </div>
-                )}
-              </div>
-            ) : (
-              /* --- MENÚ INICIAL (TRENDING & TOP PRODUCTS) --- */
-              // Usamos un Grid con proporción 1/4 (Izq) y 3/4 (Der)
-              <div className="mt-8 grid grid-cols-1 gap-12 md:grid-cols-[250px_1fr]">
-                {/* COLUMNA IZQUIERDA: Trending */}
-                <div className="hidden h-full border-r border-[#1a1a1a]/10 pr-8 md:block">
-                  <h4 className="mb-6 text-xs font-bold tracking-widest text-[#1a1a1a] uppercase">
-                    {labels.trendingNow}
-                  </h4>
+        <div
+          ref={contentRef}
+          className="min-h-0 overflow-y-auto overscroll-contain px-5 pb-[max(2rem,env(safe-area-inset-bottom))] md:px-10 md:pb-10"
+        >
+          <div className="mx-auto w-full max-w-[1120px]">
+            <div
+              id="navigation-search-status"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+              className="font-garamond text-sm leading-relaxed text-neutral-600"
+            >
+              {query.length === 1 && <p className="pb-5">{labels.minimum}</p>}
 
-                  {trending.length > 0 ? (
-                    <ul className="space-y-4">
-                      {/* Mostramos los primeros 5 nombres */}
-                      {trending.slice(3, 7).map((product) => (
+              {searching && (
+                <p className="py-8 text-center">{labels.searching}</p>
+              )}
+
+              {searchFailed && (
+                <p className="pt-6 text-center">{labels.error}</p>
+              )}
+
+              {hasQuery &&
+                !searching &&
+                !searchFailed &&
+                results.length === 0 && (
+                  <p className="py-10 text-center text-base">
+                    {labels.noResultsFor} “{query}”
+                  </p>
+                )}
+
+              {!hasQuery && topFailed && (
+                <p className="pt-6 text-center">{labels.error}</p>
+              )}
+            </div>
+
+            {(searchFailed || (!hasQuery && topFailed)) && (
+              <div className="pb-8 text-center">
+                <button
+                  type="button"
+                  onClick={retryLoading}
+                  className={`font-garamond hover:text-gold mt-3 min-h-11 text-sm underline underline-offset-4 ${FOCUS_CLASS}`}
+                >
+                  {labels.retry}
+                </button>
+              </div>
+            )}
+
+            {hasQuery && !searching && !searchFailed && results.length > 0 && (
+              <section aria-label={labels.results} className="pt-2">
+                <div className="grid grid-cols-2 gap-x-4 gap-y-7 md:grid-cols-3 md:gap-x-6 lg:grid-cols-4">
+                  {results.map((product) => (
+                    <SearchProductCard
+                      key={product.id}
+                      product={product}
+                      locale={locale}
+                      onNavigate={onClose}
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {!hasQuery && !topFailed && (
+              <div className="grid grid-cols-1 gap-8 pt-3 md:grid-cols-[180px_minmax(0,1fr)] md:gap-10 md:pt-5 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-12">
+                <section className="hidden min-w-0 border-r border-black/10 pr-6 md:block">
+                  <h3 className="font-garamond! mb-5 text-sm leading-normal font-normal tracking-[0.12em] text-neutral-500 uppercase">
+                    {labels.suggestions}
+                  </h3>
+
+                  {topProducts === null ? (
+                    <div aria-hidden="true" className="space-y-5">
+                      {[0, 1, 2, 3].map((index) => (
+                        <div
+                          key={index}
+                          className="h-3 w-3/4 bg-black/[0.035] motion-safe:animate-pulse"
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <ul className="space-y-2">
+                      {suggestions.map((product) => (
                         <li key={product.id}>
                           <Link
                             href={`/${locale}/product/${product.handle}`}
-                            key={product.id}
                             onClick={onClose}
-                            className="font-garamond block w-full truncate text-left text-lg text-[#1a1a1a]/80 transition-colors hover:text-[#C9A46A]"
+                            className={`font-garamond hover:text-gold inline-flex min-h-10 items-center text-base leading-relaxed text-neutral-800 transition-colors ${FOCUS_CLASS}`}
                           >
                             {product.title}
                           </Link>
                         </li>
                       ))}
                     </ul>
-                  ) : (
-                    /* Skeleton de texto */
-                    <div className="space-y-4 opacity-30">
-                      <div className="h-4 w-3/4 rounded bg-gray-300"></div>
-                      <div className="h-4 w-1/2 rounded bg-gray-300"></div>
-                      <div className="h-4 w-2/3 rounded bg-gray-300"></div>
-                    </div>
                   )}
-                </div>
+                </section>
 
-                {/* COLUMNA DERECHA: Top Products */}
-                <div>
-                  <h4 className="mb-6 text-xs font-bold tracking-widest text-[#1a1a1a] uppercase">
+                <section className="min-w-0">
+                  <h3 className="font-garamond! mb-5 text-sm leading-normal font-normal tracking-[0.12em] text-neutral-500 uppercase">
                     {labels.topProducts}
-                  </h4>
+                  </h3>
 
-                  {trending.length > 0 ? (
-                    <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
-                      {trending.slice(0, 3).map((product) => (
-                        <Link
-                          href={`/${locale}/product/${product.handle}`}
-                          key={product.id}
-                          onClick={onClose}
-                          className="group cursor-pointer"
-                        >
-                          <div className="relative mb-3 aspect-square w-full overflow-hidden bg-[#EAE8E4]">
-                            <SmoothImage
-                              src={
-                                product.featuredImage?.url ||
-                                "/catalog/Bottle_3.png"
-                              }
-                              alt={product.title}
-                              fill
-                              className="object-cover transition-opacity duration-500 group-hover:opacity-90"
-                            />
-                          </div>
-                          <div className="text-center">
-                            <p className="font-bodoni truncate text-xs font-bold tracking-widest text-[#1a1a1a] uppercase">
-                              {product.title}
-                            </p>
-                            <p className="font-garamond mt-1 text-xs text-gray-500">
-                              {parseFloat(
-                                product.priceRange?.minVariantPrice?.amount,
-                              )}{" "}
-                              {
-                                product.priceRange?.minVariantPrice
-                                  ?.currencyCode
-                              }
-                            </p>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
+                  {topProducts === null ? (
+                    <ProductSkeletons />
                   ) : (
-                    <div className="grid grid-cols-3 gap-4 opacity-50">
-                      {[1, 2, 3].map((i) => (
+                    <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
+                      {featured.map((product, index) => (
                         <div
-                          key={i}
-                          className="aspect-square animate-pulse bg-gray-200"
-                        ></div>
+                          key={product.id}
+                          className={index === 2 ? "hidden md:block" : ""}
+                        >
+                          <SearchProductCard
+                            product={product}
+                            locale={locale}
+                            onNavigate={onClose}
+                          />
+                        </div>
                       ))}
                     </div>
                   )}
-                </div>
+                </section>
               </div>
             )}
           </div>
@@ -294,4 +459,13 @@ export default function SearchOverlay({
       </div>
     </>
   );
+}
+
+export default function SearchOverlay({ isOpen, onClose }: Props) {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+
+  if (!isOpen) return null;
+
+  return <SearchPanel key={locale} locale={locale} onClose={onClose} />;
 }
