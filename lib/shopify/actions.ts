@@ -480,9 +480,32 @@ export async function searchProductsAction(
 
   if (queryWords.length === 0) return [];
 
+  const paddedQuery = ` ${normalizedQuery} `;
+
+  // Prefer the longest matching phrase, e.g. "perfume oil" over "perfume".
+  const requestedTypeAliases = TYPE_ALIASES.map((aliases) =>
+    aliases.map(normalize),
+  )
+    .map((aliases) => ({
+      aliases,
+      match: Math.max(
+        0,
+        ...aliases
+          .filter((alias) => paddedQuery.includes(` ${alias} `))
+          .map((alias) => alias.length),
+      ),
+    }))
+    .filter(({ match }) => match > 0)
+    .sort((first, second) => second.match - first.match)[0]?.aliases;
+
   const products = await getSearchCatalog(locale);
 
   return products
+    .filter(
+      (product) =>
+        !requestedTypeAliases ||
+        requestedTypeAliases.includes(normalize(product.productType ?? "")),
+    )
     .map((product) => ({
       product,
       score: scoreProduct(product, queryWords, normalizedQuery),

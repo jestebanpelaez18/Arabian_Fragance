@@ -68,6 +68,7 @@ function SearchProductCard({
   return (
     <Link
       href={`/${locale}/product/${product.handle}`}
+      aria-label={product.title}
       onClick={onNavigate}
       className={`group block min-w-0 text-center ${FOCUS_CLASS}`}
     >

@@ -27,7 +27,7 @@ test.describe("Shop responsive navigation", () => {
       drawer.getByRole("link", { name: "Oils & Attars", exact: true }),
     ).toBeVisible();
 
-    await menuButton.click();
+    await drawer.getByRole("button", { name: /close/i }).click();
 
     await expect(drawer).toHaveCount(0);
     await expect(page.getByRole("main")).toHaveCount(1);
