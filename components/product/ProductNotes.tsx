@@ -9,35 +9,6 @@ type ProductNotesProps = {
   locale: Locale;
 };
 
-const LABELS = {
-  en: {
-    title: "Olfactory Notes",
-    top: "Top Notes",
-    heart: "Heart Notes",
-    base: "Base Notes",
-  },
-  fi: {
-    title: "Tuoksunuotit",
-    top: "Alkunuotit",
-    heart: "Sydännuotit",
-    base: "Pohjanuotit",
-  },
-  sv: {
-    title: "Doftnoter",
-    top: "Toppnoter",
-    heart: "Hjärtnoter",
-    base: "Basnoter",
-  },
-} satisfies Record<
-  Locale,
-  {
-    title: string;
-    top: string;
-    heart: string;
-    base: string;
-  }
->;
-
 // Full class names so Tailwind can detect them.
 const COLUMNS_CLASS: Record<number, string> = {
   1: "md:grid-cols-1",
@@ -50,15 +21,14 @@ export default function ProductNotes({
   keyNotes,
   locale,
 }: ProductNotesProps) {
-  const labels = LABELS[locale];
-
-  const keyNotesLabel = getUiLabels(locale).commerce.pdpTabs.keyNotes;
+  const commerce = getUiLabels(locale).commerce;
+  const labels = commerce.productDetails.notes;
 
   const groupTitles = {
     top: labels.top,
     heart: labels.heart,
     base: labels.base,
-    key: keyNotesLabel,
+    key: commerce.pdpTabs.keyNotes,
   };
 
   const groups = getProductNoteGroups(pyramid, keyNotes);

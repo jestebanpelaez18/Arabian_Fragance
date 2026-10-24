@@ -11,23 +11,18 @@ type Props = {
     price: number;
     image?: string | null;
   };
-  stock?: number;
+  available: boolean;
   appearance?: "default" | "pdp";
 };
 
 export default function ProductActions({
   product,
-  stock = 0,
+  available,
   appearance = "default",
 }: Props) {
   const add = useCart((state) => state.add);
 
-  const inBag = useCart(
-    (state) => state.items.find((item) => item.id === product.id)?.qty ?? 0,
-  );
-
-  const available = Math.max(0, stock - inBag);
-  const disabled = available <= 0;
+  const disabled = !available;
   const isPdp = appearance === "pdp";
 
   const buttonLabel = disabled ? "Out of stock" : "Add to Bag";

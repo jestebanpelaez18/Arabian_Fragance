@@ -19,7 +19,7 @@ type ProductHeaderPanelProps = {
   fragranceType?: string | null;
   sizeLabel?: string | null;
   sku?: string | null;
-  stock: number;
+  available: boolean;
   image: string;
   description?: string | null;
   descriptionHtml?: string | null;
@@ -38,57 +38,13 @@ type ProductHeaderPanelProps = {
 const LINK_CLASS =
   "hover:text-gold underline underline-offset-4 transition-colors";
 
-const EXTRA_LABELS = {
-  en: {
-    mainAccords: "Main Accords",
-    application: "The Art of Application",
-    shipping: "Shipping",
-    returns: "Returns & refunds",
-  },
-  fi: {
-    mainAccords: "Tuoksun pääsoinnut",
-    application: "Tuoksun käyttö",
-    shipping: "Toimitus",
-    returns: "Palautukset ja hyvitykset",
-  },
-  sv: {
-    mainAccords: "Doftackord",
-    application: "Konsten att applicera",
-    shipping: "Leverans",
-    returns: "Returer och återbetalningar",
-  },
-} satisfies Record<
-  Locale,
-  {
-    mainAccords: string;
-    application: string;
-    shipping: string;
-    returns: string;
-  }
->;
-
-const PERFUME_LAYERING_DESCRIPTIONS = {
-  en: [
-    "Discover another expression of this fragrance. Layering combines a perfume oil with your spray fragrance, allowing you to explore different nuances and create a more personal scent combination. The oils below have been selected to complement this perfume.",
-    "Apply a small amount of your chosen oil first, allow it to settle, then apply the spray fragrance lightly.",
-  ],
-  fi: [
-    "Löydä tästä tuoksusta uusia vivahteita. Kerrostamisessa hajusteöljy yhdistetään suihkutettavaan tuoksuun, jolloin voit tutkia erilaisia sävyjä ja luoda persoonallisen tuoksuyhdistelmän. Alla olevat öljyt on valittu täydentämään tätä hajuvettä.",
-    "Levitä ensin pieni määrä valitsemaasi öljyä, anna sen asettua iholle ja suihkuta sitten hajuvettä kevyesti.",
-  ],
-  sv: [
-    "Upptäck ett nytt uttryck för denna doft. Genom att kombinera en parfymolja med din sprayparfym kan du utforska olika nyanser och skapa en mer personlig doftkombination. Oljorna nedan har valts ut för att komplettera denna parfym.",
-    "Applicera först en liten mängd av den valda oljan, låt den sätta sig på huden och spraya sedan parfymen lätt.",
-  ],
-} satisfies Record<Locale, string[]>;
-
 export default function ProductHeaderPanel({
   name,
   mainAccords,
   price,
   fragranceType,
   sizeLabel,
-  stock,
+  available,
   image,
   description,
   descriptionHtml,
@@ -106,7 +62,7 @@ export default function ProductHeaderPanel({
 }: ProductHeaderPanelProps) {
   const commerce = getUiLabels(locale).commerce;
   const labels = commerce.pdpTabs;
-  const extraLabels = EXTRA_LABELS[locale];
+  const productDetails = commerce.productDetails;
 
   const uniqueAccords = Array.from(
     new Set((mainAccords ?? []).map((accord) => accord.trim()).filter(Boolean)),
@@ -137,7 +93,9 @@ export default function ProductHeaderPanel({
   // ShopifyRichText also renders plain text, so paragraphs are joined by blank lines.
   const displayedLayeringDescription =
     layeringDescription?.trim() ||
-    (isAttar ? undefined : PERFUME_LAYERING_DESCRIPTIONS[locale].join("\n\n"));
+    (isAttar
+      ? undefined
+      : productDetails.perfumeLayeringDescription.join("\n\n"));
 
   const items: ProductAccordionItem[] = [];
 
@@ -154,7 +112,7 @@ export default function ProductHeaderPanel({
   if (uniqueAccords.length > 0) {
     items.push({
       id: "main-accords",
-      title: extraLabels.mainAccords,
+      title: productDetails.mainAccords,
       content: (
         <p className="font-garamond text-base leading-[1.9] text-neutral-600">
           {uniqueAccords.join(" · ")}
@@ -199,7 +157,7 @@ export default function ProductHeaderPanel({
   if (applicationInstructions?.trim()) {
     items.push({
       id: "application",
-      title: extraLabels.application,
+      title: productDetails.application,
       content: <ShopifyRichText value={applicationInstructions} />,
     });
   }
@@ -240,7 +198,7 @@ export default function ProductHeaderPanel({
             href={`/${locale}/policies/shipping-policy`}
             className={LINK_CLASS}
           >
-            {extraLabels.shipping}
+            {productDetails.shipping}
           </Link>
         </li>
 
@@ -249,7 +207,7 @@ export default function ProductHeaderPanel({
             href={`/${locale}/policies/refund-policy`}
             className={LINK_CLASS}
           >
-            {extraLabels.returns}
+            {productDetails.returns}
           </Link>
         </li>
       </ul>
@@ -298,7 +256,7 @@ export default function ProductHeaderPanel({
               price,
               image,
             }}
-            stock={stock}
+            available={available}
             appearance="pdp"
           />
         </div>

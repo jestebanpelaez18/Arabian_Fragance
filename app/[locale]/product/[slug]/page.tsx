@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { shopifyFetch } from "@/lib/shopify/shopify";
 import RecommendedProducts from "@/components/product/RecommendedProducts";
 import ProductJsonLd from "@/components/product/ProductJsonLd";
 import ProductGallery from "@/components/product/ProductGallery";
@@ -9,7 +8,10 @@ import ProductNotes from "@/components/product/ProductNotes";
 import { productJsonLd } from "@/lib/seo/jsonld";
 import type { Product } from "@/data/products";
 import { i18n, type Locale } from "@/i18n-config";
-import { getShopifyLanguageCode } from "@/lib/shopify/locale";
+import {
+  getShopifyProductByHandle,
+  getShopifyProductHandles,
+} from "@/lib/shopify/get-product";
 import {
   normalizeGender,
   normalizeToKnownNote,
@@ -28,257 +30,13 @@ type Params = {
 
 type Note = NonNullable<Product["notes"]>[number];
 
-type ShopifyMetafield = {
-  value: string;
-};
-
-type LayeringReference = LayeringProduct & {
-  __typename: "Product";
-};
-
-type ShopifyProduct = {
-  id: string;
-  title: string;
-  description: string;
-  descriptionHtml: string;
-  handle: string;
-  productType: string;
-  availableForSale: boolean;
-  priceRange: {
-    minVariantPrice: {
-      amount: string;
-      currencyCode: string;
-    };
-  };
-  images: {
-    edges: {
-      node: {
-        url: string;
-        altText?: string | null;
-      };
-    }[];
-  };
-  variants: {
-    edges: {
-      node: {
-        id: string;
-        sku?: string | null;
-        price: {
-          amount: string;
-          currencyCode: string;
-        };
-      };
-    }[];
-  };
-  ingredients?: ShopifyMetafield | null;
-  notes?: ShopifyMetafield | null;
-  topNotes?: ShopifyMetafield | null;
-  heartNotes?: ShopifyMetafield | null;
-  baseNotes?: ShopifyMetafield | null;
-  keyNotes?: ShopifyMetafield | null;
-  gender?: ShopifyMetafield | null;
-  fragranceType?: ShopifyMetafield | null;
-  size?: ShopifyMetafield | null;
-  concentration?: ShopifyMetafield | null;
-  storageInstructions?: ShopifyMetafield | null;
-  applicationInstructions?: ShopifyMetafield | null;
-  layeringDescription?: ShopifyMetafield | null;
-  layeringProducts?: {
-    references?: {
-      nodes: LayeringReference[];
-    } | null;
-  } | null;
-};
-
-type SingleProductOperation = {
-  data?: {
-    product: ShopifyProduct | null;
-  };
-  errors?: {
-    message: string;
-  }[];
-};
-
-type AllProductsOperation = {
-  data?: {
-    products: {
-      edges: {
-        node: {
-          handle: string;
-        };
-      }[];
-    };
-  };
-};
-
-const singleProductQuery = `
-  query SingleProduct(
-    $handle: String!
-    $language: LanguageCode!
-  ) @inContext(language: $language) {
-    product(handle: $handle) {
-      id
-      title
-      description
-      descriptionHtml
-      handle
-      productType
-      availableForSale
-
-      priceRange {
-        minVariantPrice {
-          amount
-          currencyCode
-        }
-      }
-
-      images(first: 2) {
-        edges {
-          node {
-            url
-            altText
-          }
-        }
-      }
-
-      variants(first: 1) {
-        edges {
-          node {
-            id
-            sku
-            price {
-              amount
-              currencyCode
-            }
-          }
-        }
-      }
-
-      ingredients: metafield(namespace: "custom", key: "ingredients") {
-        value
-      }
-      notes: metafield(namespace: "custom", key: "main_accord") {
-        value
-      }
-      topNotes: metafield(namespace: "custom", key: "top_notes") {
-        value
-      }
-      heartNotes: metafield(namespace: "custom", key: "hearth_notes") {
-        value
-      }
-      baseNotes: metafield(namespace: "custom", key: "base_notes") {
-        value
-      }
-      keyNotes: metafield(namespace: "custom", key: "key_notes") {
-        value
-      }
-      gender: metafield(namespace: "custom", key: "gender") {
-        value
-      }
-      fragranceType: metafield(
-        namespace: "custom"
-        key: "fragrance_type"
-      ) {
-        value
-      }
-      size: metafield(namespace: "custom", key: "size") {
-        value
-      }
-      concentration: metafield(namespace: "custom", key: "concentration") {
-        value
-      }
-      storageInstructions: metafield(
-        namespace: "custom"
-        key: "storage_instructions"
-      ) {
-        value
-      }
-      applicationInstructions: metafield(
-        namespace: "custom"
-        key: "application_instructions"
-      ) {
-        value
-      }
-      layeringDescription: metafield(
-        namespace: "custom"
-        key: "layering_description"
-      ) {
-        value
-      }
-      layeringProducts: metafield(
-        namespace: "custom"
-        key: "layering_products"
-      ) {
-        references(first: 20) {
-          nodes {
-            __typename
-            ... on Product {
-              id
-              handle
-              title
-              featuredImage {
-                url
-                altText
-              }
-              priceRange {
-                minVariantPrice {
-                  amount
-                  currencyCode
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-const getAllSlugsQuery = `
-  query AllProducts {
-    products(first: 100) {
-      edges {
-        node {
-          handle
-        }
-      }
-    }
-  }
-`;
-
-async function getProduct(slug: string, locale: Locale) {
-  const response = await shopifyFetch<SingleProductOperation>({
-    query: singleProductQuery,
-    variables: {
-      handle: slug,
-      language: getShopifyLanguageCode(locale),
-    },
-  });
-
-  if (response.body?.errors?.length) {
-    throw new Error(
-      response.body.errors.map((error) => error.message).join("; "),
-    );
-  }
-
-  if (response.status >= 400 || !response.body?.data) {
-    throw new Error("Unable to load the product from Shopify.");
-  }
-
-  return response.body.data.product;
-}
-
 export async function generateStaticParams() {
-  const response = await shopifyFetch<AllProductsOperation>({
-    query: getAllSlugsQuery,
-  });
-
-  const products = response.body?.data?.products?.edges ?? [];
+  const handles = await getShopifyProductHandles();
 
   return i18n.locales.flatMap((locale) =>
-    products.map(({ node }) => ({
+    handles.map((slug) => ({
       locale,
-      slug: node.handle,
+      slug,
     })),
   );
 }
@@ -289,7 +47,7 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const { slug, locale } = await params;
-  const product = await getProduct(slug, locale);
+  const product = await getShopifyProductByHandle(slug, locale);
 
   if (!product) return {};
 
@@ -320,7 +78,7 @@ export default async function ProductPage({
   params: Promise<Params>;
 }) {
   const { slug, locale } = await params;
-  const product = await getProduct(slug, locale);
+  const product = await getShopifyProductByHandle(slug, locale);
 
   if (!product) notFound();
 
@@ -415,7 +173,7 @@ export default async function ProductPage({
             fragranceType={product.fragranceType?.value.trim()}
             sizeLabel={product.size?.value.trim()}
             sku={variant?.sku}
-            stock={product.availableForSale ? 10 : 0}
+            available={product.availableForSale}
             image={image}
             description={product.description}
             descriptionHtml={product.descriptionHtml}

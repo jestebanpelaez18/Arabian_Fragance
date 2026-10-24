@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Locale } from "@/i18n-config";
+import { getUiLabels } from "@/lib/i18n/uiLabels";
 import ShopifyRichText from "./ShopifyRichText";
 import type { LayeringProduct } from "@/lib/shopify/get-layering-attars";
 
@@ -9,12 +10,6 @@ type ProductLayeringProps = {
   description?: string | null;
   locale: Locale;
 };
-
-const TITLES = {
-  en: "Layer With",
-  fi: "Yhdistä tuoksuun",
-  sv: "Kombinera med",
-} satisfies Record<Locale, string>;
 
 function formatPrice(product: LayeringProduct, locale: Locale): string {
   const { amount, currencyCode } = product.priceRange.minVariantPrice;
@@ -38,6 +33,9 @@ export default function ProductLayering({
 }: ProductLayeringProps) {
   if (products.length === 0) return null;
 
+  const title =
+    getUiLabels(locale).commerce.productDetails.layeringProductsTitle;
+
   return (
     <section
       aria-labelledby="product-layering-heading"
@@ -47,7 +45,7 @@ export default function ProductLayering({
         id="product-layering-heading"
         className="font-garamond! text-lg leading-normal font-normal tracking-[0.06em] text-neutral-900 uppercase"
       >
-        {TITLES[locale]}
+        {title}
       </h2>
 
       {description?.trim() && (

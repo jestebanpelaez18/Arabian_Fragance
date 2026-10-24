@@ -143,6 +143,20 @@ type UiLabels = {
       title: string;
       paragraphs: string[];
     };
+    productDetails: {
+      mainAccords: string;
+      application: string;
+      shipping: string;
+      returns: string;
+      layeringProductsTitle: string;
+      perfumeLayeringDescription: string[];
+      notes: {
+        title: string;
+        top: string;
+        heart: string;
+        base: string;
+      };
+    };
     pdpTabs: {
       ariaLabel: string;
       descriptionTab: string;
@@ -358,6 +372,23 @@ const uiLabels: Record<Locale, UiLabels> = {
           "Layering is the art of wearing two fragrances together on the skin to explore a different scent combination. Pairing a perfume oil with a spray fragrance allows their individual characters to interact, bringing different facets of the composition into focus.",
           "Our tolas can be enjoyed on their own or combined with a perfume. Our suggested pairings offer a starting point for exploration: try a small amount and discover the balance you prefer.",
         ],
+      },
+      productDetails: {
+        mainAccords: "Main Accords",
+        application: "The Art of Application",
+        shipping: "Shipping",
+        returns: "Returns & refunds",
+        layeringProductsTitle: "Layer With",
+        perfumeLayeringDescription: [
+          "Discover another expression of this fragrance. Layering combines a perfume oil with your spray fragrance, allowing you to explore different nuances and create a more personal scent combination. The oils below have been selected to complement this perfume.",
+          "Apply a small amount of your chosen oil first, allow it to settle, then apply the spray fragrance lightly.",
+        ],
+        notes: {
+          title: "Olfactory Notes",
+          top: "Top Notes",
+          heart: "Heart Notes",
+          base: "Base Notes",
+        },
       },
       pdpTabs: {
         ariaLabel: "Product information",
@@ -585,6 +616,23 @@ const uiLabels: Record<Locale, UiLabels> = {
           "Tola-hajusteöljyjämme voi käyttää sellaisenaan tai yhdessä hajuveden kanssa. Suosittelemamme yhdistelmät tarjoavat lähtökohdan kokeilulle: aloita pienellä määrällä ja löydä itsellesi mieluisa tasapaino.",
         ],
       },
+      productDetails: {
+        mainAccords: "Tuoksun pääsoinnut",
+        application: "Tuoksun käyttö",
+        shipping: "Toimitus",
+        returns: "Palautukset ja hyvitykset",
+        layeringProductsTitle: "Yhdistä tuoksuun",
+        perfumeLayeringDescription: [
+          "Löydä tästä tuoksusta uusia vivahteita. Kerrostamisessa hajusteöljy yhdistetään suihkutettavaan tuoksuun, jolloin voit tutkia erilaisia sävyjä ja luoda persoonallisen tuoksuyhdistelmän. Alla olevat öljyt on valittu täydentämään tätä hajuvettä.",
+          "Levitä ensin pieni määrä valitsemaasi öljyä, anna sen asettua iholle ja suihkuta sitten hajuvettä kevyesti.",
+        ],
+        notes: {
+          title: "Tuoksunuotit",
+          top: "Alkunuotit",
+          heart: "Sydännuotit",
+          base: "Pohjanuotit",
+        },
+      },
       pdpTabs: {
         ariaLabel: "Tuotetiedot",
         descriptionTab: "KUVAUS",
@@ -809,6 +857,23 @@ const uiLabels: Record<Locale, UiLabels> = {
           "Att kombinera dofter innebär att bära två dofter tillsammans på huden för att utforska en ny doftkombination. När en parfymolja kombineras med en sprayparfym möts deras individuella karaktärer och framhäver olika nyanser i kompositionen.",
           "Våra tola-parfymoljor kan användas på egen hand eller tillsammans med en parfym. Våra föreslagna kombinationer är en utgångspunkt för att utforska: börja med en liten mängd och hitta den balans du föredrar.",
         ],
+      },
+      productDetails: {
+        mainAccords: "Doftackord",
+        application: "Konsten att applicera",
+        shipping: "Leverans",
+        returns: "Returer och återbetalningar",
+        layeringProductsTitle: "Kombinera med",
+        perfumeLayeringDescription: [
+          "Upptäck ett nytt uttryck för denna doft. Genom att kombinera en parfymolja med din sprayparfym kan du utforska olika nyanser och skapa en mer personlig doftkombination. Oljorna nedan har valts ut för att komplettera denna parfym.",
+          "Applicera först en liten mängd av den valda oljan, låt den sätta sig på huden och spraya sedan parfymen lätt.",
+        ],
+        notes: {
+          title: "Doftnoter",
+          top: "Toppnoter",
+          heart: "Hjärtnoter",
+          base: "Basnoter",
+        },
       },
       pdpTabs: {
         ariaLabel: "Produktinformation",
