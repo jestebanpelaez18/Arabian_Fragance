@@ -1,7 +1,7 @@
 import { type Product } from "@/data/products";
 import { i18n, type Locale } from "@/i18n-config";
 
-export type ConcentrationFamily =
+type ConcentrationFamily =
   | "extrait"
   | "parfum"
   | "eau_de_parfum"
@@ -155,7 +155,7 @@ function getProductDisplayLabels(
  * Reads the name configured in Shopify's Fragrance Type field.
  * The percentage is not used to infer this name.
  */
-export function formatFragranceTypeLabel(
+function formatFragranceTypeLabel(
   rawFragranceType?: string,
   locale: Locale = i18n.defaultLocale,
 ): string {
@@ -225,7 +225,7 @@ export function getConcentrationLevel(
   return 1;
 }
 
-export function formatNoteProfile(
+function formatNoteProfile(
   notes?: Product["notes"],
   locale: Locale = i18n.defaultLocale,
 ): string {
@@ -255,7 +255,7 @@ export function formatNoteProfile(
   )} ${labels.noteSuffix}`;
 }
 
-export function formatGenderPrefix(
+function formatGenderPrefix(
   gender?: Product["gender"],
   locale: Locale = i18n.defaultLocale,
 ): string {

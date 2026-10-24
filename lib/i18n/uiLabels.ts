@@ -139,24 +139,39 @@ type UiLabels = {
     recommended: {
       title: string;
     };
+    layeringGuide: {
+      title: string;
+      paragraphs: string[];
+    };
+    productDetails: {
+      mainAccords: string;
+      application: string;
+      shipping: string;
+      returns: string;
+      layeringProductsTitle: string;
+      perfumeLayeringDescription: string[];
+      purchase: {
+        addToBag: string;
+        outOfStock: string;
+        viewBag: string;
+      };
+      notes: {
+        title: string;
+        top: string;
+        heart: string;
+        base: string;
+      };
+    };
     pdpTabs: {
-      ariaLabel: string;
       descriptionTab: string;
       notesTab: string;
+      keyNotes: string;
       ingredientsTab: string;
       packagingTab: string;
       policiesTab: string;
-      defaultDescription: string;
       top: string;
       heart: string;
       base: string;
-      notesPrefix: string;
-      ingredientsHeading: string;
-      showLess: string;
-      showMore: string;
-      ingredientsUnavailable: string;
-      packagingLine1: string;
-      noPolicies: string;
     };
     searchOverlay: {
       inputPlaceholder: string;
@@ -166,11 +181,7 @@ type UiLabels = {
       topProducts: string;
     };
     productHeader: {
-      concentration: string;
-      size: string;
-      dispatch: string;
       sameDayDispatch: string;
-      policies: string[];
     };
   };
 };
@@ -347,27 +358,45 @@ const uiLabels: Record<Locale, UiLabels> = {
       recommended: {
         title: "You may also like",
       },
+      layeringGuide: {
+        title: "The Art of Layering",
+        paragraphs: [
+          "Layering is the art of wearing two fragrances together on the skin to explore a different scent combination. Pairing a perfume oil with a spray fragrance allows their individual characters to interact, bringing different facets of the composition into focus.",
+          "Our tolas can be enjoyed on their own or combined with a perfume. Our suggested pairings offer a starting point for exploration: try a small amount and discover the balance you prefer.",
+        ],
+      },
+      productDetails: {
+        mainAccords: "Main Accords",
+        application: "The Art of Application",
+        shipping: "Shipping",
+        returns: "Returns & refunds",
+        layeringProductsTitle: "Layer With",
+        perfumeLayeringDescription: [
+          "Discover another expression of this fragrance. Layering combines a perfume oil with your spray fragrance, allowing you to explore different nuances and create a more personal scent combination. The oils below have been selected to complement this perfume.",
+          "Apply a small amount of your chosen oil first, allow it to settle, then apply the spray fragrance lightly.",
+        ],
+        purchase: {
+          addToBag: "Add to Bag",
+          outOfStock: "Out of stock",
+          viewBag: "View Bag",
+        },
+        notes: {
+          title: "Olfactory Notes",
+          top: "Top Notes",
+          heart: "Heart Notes",
+          base: "Base Notes",
+        },
+      },
       pdpTabs: {
-        ariaLabel: "Product information",
         descriptionTab: "DESCRIPTION",
         notesTab: "NOTES",
+        keyNotes: "Key Notes",
         ingredientsTab: "INGREDIENTS",
         packagingTab: "PACKAGING & CARE",
         policiesTab: "POLICIES",
-        defaultDescription:
-          "A timeless composition crafted with refined notes.",
         top: "Top",
         heart: "Heart",
         base: "Base",
-        notesPrefix: "Notes",
-        ingredientsHeading: "Ingredients",
-        showLess: "Show less",
-        showMore: "Show more",
-        ingredientsUnavailable:
-          "Ingredients information is not available for this product.",
-        packagingLine1:
-          "All items are packaged in our signature Arabian Fragrance box, with complimentary gift wrap for a refined presentation.",
-        noPolicies: "No additional policies.",
       },
       searchOverlay: {
         inputPlaceholder: "Search...",
@@ -377,15 +406,7 @@ const uiLabels: Record<Locale, UiLabels> = {
         topProducts: "Top products",
       },
       productHeader: {
-        concentration: "Concentration",
-        size: "Size",
-        dispatch: "Dispatch",
         sameDayDispatch: "Same-day dispatch",
-        policies: [
-          "VAT included. Shipping from Helsinki.",
-          "Free shipping in the EU from EUR80.",
-          "Returns within 14 days.",
-        ],
       },
     },
   },
@@ -565,26 +586,45 @@ const uiLabels: Record<Locale, UiLabels> = {
       recommended: {
         title: "Saatat myös pitää",
       },
+      layeringGuide: {
+        title: "Tuoksujen kerrostaminen",
+        paragraphs: [
+          "Tuoksujen kerrostaminen tarkoittaa kahden tuoksun käyttämistä yhdessä iholla uuden tuoksuyhdistelmän löytämiseksi. Kun yhdistät hajusteöljyn suihkutettavaan hajuveteen, niiden ominaispiirteet kohtaavat ja tuovat esiin koostumuksen eri vivahteita.",
+          "Tola-hajusteöljyjämme voi käyttää sellaisenaan tai yhdessä hajuveden kanssa. Suosittelemamme yhdistelmät tarjoavat lähtökohdan kokeilulle: aloita pienellä määrällä ja löydä itsellesi mieluisa tasapaino.",
+        ],
+      },
+      productDetails: {
+        mainAccords: "Tuoksun pääsoinnut",
+        application: "Tuoksun käyttö",
+        shipping: "Toimitus",
+        returns: "Palautukset ja hyvitykset",
+        layeringProductsTitle: "Yhdistä tuoksuun",
+        perfumeLayeringDescription: [
+          "Löydä tästä tuoksusta uusia vivahteita. Kerrostamisessa hajusteöljy yhdistetään suihkutettavaan tuoksuun, jolloin voit tutkia erilaisia sävyjä ja luoda persoonallisen tuoksuyhdistelmän. Alla olevat öljyt on valittu täydentämään tätä hajuvettä.",
+          "Levitä ensin pieni määrä valitsemaasi öljyä, anna sen asettua iholle ja suihkuta sitten hajuvettä kevyesti.",
+        ],
+        purchase: {
+          addToBag: "Lisää ostoskoriin",
+          outOfStock: "Loppuunmyyty",
+          viewBag: "Näytä ostoskori",
+        },
+        notes: {
+          title: "Tuoksunuotit",
+          top: "Alkunuotit",
+          heart: "Sydännuotit",
+          base: "Pohjanuotit",
+        },
+      },
       pdpTabs: {
-        ariaLabel: "Tuotetiedot",
         descriptionTab: "KUVAUS",
         notesTab: "NUOTIT",
+        keyNotes: "Keskeiset tuoksunuotit",
         ingredientsTab: "AINESOSAT",
         packagingTab: "PAKKAUS JA HOITO",
         policiesTab: "KÄYTÄNNÖT",
-        defaultDescription: "Ajaton koostumus hienostuneilla nuoteilla.",
         top: "Ylänuotti",
         heart: "Sydännuotti",
         base: "Pohjanuotti",
-        notesPrefix: "Nuotit",
-        ingredientsHeading: "Ainesosat",
-        showLess: "Näytä vähemmän",
-        showMore: "Näytä lisää",
-        ingredientsUnavailable:
-          "Ainesosatietoja ei ole saatavilla tästä tuotteesta.",
-        packagingLine1:
-          "Kaikki tuotteet pakataan Arabian Fragrancen tunnuslaatikkoon ja viimeistellaan ilmaisella lahjapaketoinnilla.",
-        noPolicies: "Ei lisäkäytäntöjä.",
       },
       searchOverlay: {
         inputPlaceholder: "Hae...",
@@ -594,15 +634,7 @@ const uiLabels: Record<Locale, UiLabels> = {
         topProducts: "Suosituimmat tuotteet",
       },
       productHeader: {
-        concentration: "Pitoisuus",
-        size: "Koko",
-        dispatch: "Toimitus",
         sameDayDispatch: "Lähetys samana päivänä",
-        policies: [
-          "ALV sisältyy. Toimitus Helsingistä.",
-          "Ilmainen toimitus EU:ssa yli 80 EUR tilauksiin.",
-          "Palautus 14 päivän sisällä.",
-        ],
       },
     },
   },
@@ -782,26 +814,45 @@ const uiLabels: Record<Locale, UiLabels> = {
       recommended: {
         title: "Du kanske ocksa gillar",
       },
+      layeringGuide: {
+        title: "Konsten att kombinera dofter",
+        paragraphs: [
+          "Att kombinera dofter innebär att bära två dofter tillsammans på huden för att utforska en ny doftkombination. När en parfymolja kombineras med en sprayparfym möts deras individuella karaktärer och framhäver olika nyanser i kompositionen.",
+          "Våra tola-parfymoljor kan användas på egen hand eller tillsammans med en parfym. Våra föreslagna kombinationer är en utgångspunkt för att utforska: börja med en liten mängd och hitta den balans du föredrar.",
+        ],
+      },
+      productDetails: {
+        mainAccords: "Doftackord",
+        application: "Konsten att applicera",
+        shipping: "Leverans",
+        returns: "Returer och återbetalningar",
+        layeringProductsTitle: "Kombinera med",
+        perfumeLayeringDescription: [
+          "Upptäck ett nytt uttryck för denna doft. Genom att kombinera en parfymolja med din sprayparfym kan du utforska olika nyanser och skapa en mer personlig doftkombination. Oljorna nedan har valts ut för att komplettera denna parfym.",
+          "Applicera först en liten mängd av den valda oljan, låt den sätta sig på huden och spraya sedan parfymen lätt.",
+        ],
+        purchase: {
+          addToBag: "Lägg i varukorgen",
+          outOfStock: "Slut i lager",
+          viewBag: "Visa varukorg",
+        },
+        notes: {
+          title: "Doftnoter",
+          top: "Toppnoter",
+          heart: "Hjärtnoter",
+          base: "Basnoter",
+        },
+      },
       pdpTabs: {
-        ariaLabel: "Produktinformation",
         descriptionTab: "BESKRIVNING",
         notesTab: "NOTER",
+        keyNotes: "Framträdande doftnoter",
         ingredientsTab: "INGREDIENSER",
-        packagingTab: "FORPACKNING OCH SKOTSEL",
+        packagingTab: "FÖRPACKNING OCH SKÖTSEL",
         policiesTab: "POLICYER",
-        defaultDescription: "En tidlos komposition med forfinade noter.",
         top: "Topp",
-        heart: "Hjarta",
+        heart: "Hjärta",
         base: "Bas",
-        notesPrefix: "Noter",
-        ingredientsHeading: "Ingredienser",
-        showLess: "Visa mindre",
-        showMore: "Visa mer",
-        ingredientsUnavailable:
-          "Ingrediensinformation ar inte tillganglig for denna produkt.",
-        packagingLine1:
-          "Alla produkter levereras i var signaturlada fran Arabian Fragrance med kostnadsfri presentinslagning.",
-        noPolicies: "Inga ytterligare policyer.",
       },
       searchOverlay: {
         inputPlaceholder: "Sok...",
@@ -811,15 +862,7 @@ const uiLabels: Record<Locale, UiLabels> = {
         topProducts: "Topp-produkter",
       },
       productHeader: {
-        concentration: "Koncentration",
-        size: "Storlek",
-        dispatch: "Leverans",
         sameDayDispatch: "Skickas samma dag",
-        policies: [
-          "Moms ingar. Leverans fran Helsingfors.",
-          "Fri frakt i EU fran 80 EUR.",
-          "Retur inom 14 dagar.",
-        ],
       },
     },
   },

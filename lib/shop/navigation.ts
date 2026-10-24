@@ -2,7 +2,7 @@ import type { getUiLabels } from "@/lib/i18n/uiLabels";
 
 type NavLabels = ReturnType<typeof getUiLabels>["navbar"];
 
-export type NavLabelKey = {
+type NavLabelKey = {
   [K in keyof NavLabels]: NavLabels[K] extends string ? K : never;
 }[keyof NavLabels];
 
