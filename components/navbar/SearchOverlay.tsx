@@ -1,30 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/i18n-config";
-import {
-  searchProductsAction,
-  getTrendingProducts,
-  type Product,
-} from "@/lib/shopify/actions";
+import SearchProductCard from "@/components/navbar/search/SearchProductCard";
+import SearchSuggestions from "@/components/navbar/search/SearchSuggestions";
+import { FOCUS_CLASS } from "@/components/navbar/search/focus-class";
+import { useProductSearch } from "@/components/navbar/search/useProductSearch";
 import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
 };
-
-type SearchState = {
-  query: string;
-  products: Product[];
-  failed: boolean;
-};
-
-const FOCUS_CLASS =
-  "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black";
 
 function SearchIcon() {
   return (
@@ -47,70 +35,6 @@ function SearchIcon() {
   );
 }
 
-function SearchProductCard({
-  product,
-  locale,
-  onNavigate,
-}: {
-  product: Product;
-  locale: Locale;
-  onNavigate: () => void;
-}) {
-  const amount = Number(product.priceRange.minVariantPrice.amount);
-
-  const price = Number.isFinite(amount)
-    ? new Intl.NumberFormat(locale, {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2,
-      }).format(amount)
-    : "";
-
-  return (
-    <Link
-      href={`/${locale}/product/${product.handle}`}
-      aria-label={product.title}
-      onClick={onNavigate}
-      className={`group block min-w-0 text-center ${FOCUS_CLASS}`}
-    >
-      <div className="bg-background relative aspect-4/5 overflow-hidden">
-        {product.featuredImage && (
-          <Image
-            src={product.featuredImage.url}
-            alt=""
-            fill
-            sizes="(min-width: 1200px) 270px, (min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025] motion-reduce:transition-none"
-          />
-        )}
-      </div>
-
-      <h3 className="font-magister group-hover:text-gold mt-3 text-sm leading-relaxed font-normal text-neutral-900 transition-colors">
-        {product.title}
-      </h3>
-
-      {price && (
-        <p className="mt-1.5 font-serif text-xs leading-relaxed font-light tracking-[0.04em] text-neutral-700">
-          {price} {product.priceRange.minVariantPrice.currencyCode}
-        </p>
-      )}
-    </Link>
-  );
-}
-
-function ProductSkeletons() {
-  return (
-    <div aria-hidden="true" className="grid grid-cols-2 gap-4 md:grid-cols-3">
-      {[0, 1, 2].map((index) => (
-        <div key={index} className={index === 2 ? "hidden md:block" : ""}>
-          <div className="aspect-4/5 bg-black/[0.035] motion-safe:animate-pulse" />
-          <div className="mx-auto mt-4 h-3 w-1/2 bg-black/[0.035]" />
-          <div className="mx-auto mt-2 h-2 w-1/4 bg-black/[0.035]" />
-        </div>
-      ))}
-    </div>
-  );
-}
-
 function SearchPanel({
   locale,
   onClose,
@@ -126,22 +50,18 @@ function SearchPanel({
   const contentRef = useRef<HTMLDivElement>(null);
 
   const [term, setTerm] = useState("");
-  const [search, setSearch] = useState<SearchState | null>(null);
-  const [topProducts, setTopProducts] = useState<Product[] | null>(null);
-  const [topFailed, setTopFailed] = useState(false);
-  const [retry, setRetry] = useState(0);
 
   const query = term.trim();
-  const hasQuery = query.length >= 2;
 
-  const searching = hasQuery && (search === null || search.query !== query);
-
-  const searchFailed = hasQuery && search?.query === query && search.failed;
-
-  const results = hasQuery && search?.query === query ? search.products : [];
-
-  const featured = topProducts?.slice(0, 3) ?? [];
-  const suggestions = topProducts?.slice(3, 7) ?? [];
+  const {
+    hasQuery,
+    topProducts,
+    topFailed,
+    searching,
+    searchFailed,
+    results,
+    retryLoading,
+  } = useProductSearch(query, locale);
 
   useEffect(() => {
     const previousFocus =
@@ -161,70 +81,6 @@ function SearchPanel({
       }
     };
   }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    void getTrendingProducts(locale)
-      .then((products) => {
-        if (cancelled) return;
-
-        setTopProducts(products);
-        setTopFailed(false);
-      })
-      .catch(() => {
-        if (cancelled) return;
-
-        setTopFailed(true);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [locale, retry]);
-
-  useEffect(() => {
-    if (query.length < 2) return;
-
-    let cancelled = false;
-
-    const timer = setTimeout(() => {
-      void searchProductsAction(query, locale)
-        .then((products) => {
-          if (cancelled) return;
-
-          setSearch({
-            query,
-            products,
-            failed: false,
-          });
-        })
-        .catch(() => {
-          if (cancelled) return;
-
-          setSearch({
-            query,
-            products: [],
-            failed: true,
-          });
-        });
-    }, 300);
-
-    return () => {
-      cancelled = true;
-      clearTimeout(timer);
-    };
-  }, [query, locale, retry]);
-
-  function retryLoading() {
-    if (hasQuery) {
-      setSearch(null);
-    } else {
-      setTopFailed(false);
-    }
-
-    setRetry((value) => value + 1);
-  }
 
   return (
     <>
@@ -397,63 +253,12 @@ function SearchPanel({
             )}
 
             {!hasQuery && !topFailed && (
-              <div className="grid grid-cols-1 gap-8 pt-3 md:grid-cols-[180px_minmax(0,1fr)] md:gap-10 md:pt-5 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-12">
-                <section className="hidden min-w-0 border-r border-black/10 pr-6 md:block">
-                  <h3 className="font-garamond! mb-5 text-sm leading-normal font-normal tracking-[0.12em] text-neutral-500 uppercase">
-                    {labels.suggestions}
-                  </h3>
-
-                  {topProducts === null ? (
-                    <div aria-hidden="true" className="space-y-5">
-                      {[0, 1, 2, 3].map((index) => (
-                        <div
-                          key={index}
-                          className="h-3 w-3/4 bg-black/[0.035] motion-safe:animate-pulse"
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <ul className="space-y-2">
-                      {suggestions.map((product) => (
-                        <li key={product.id}>
-                          <Link
-                            href={`/${locale}/product/${product.handle}`}
-                            onClick={onClose}
-                            className={`font-garamond hover:text-gold inline-flex min-h-10 items-center text-base leading-relaxed text-neutral-800 transition-colors ${FOCUS_CLASS}`}
-                          >
-                            {product.title}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </section>
-
-                <section className="min-w-0">
-                  <h3 className="font-garamond! mb-5 text-sm leading-normal font-normal tracking-[0.12em] text-neutral-500 uppercase">
-                    {labels.topProducts}
-                  </h3>
-
-                  {topProducts === null ? (
-                    <ProductSkeletons />
-                  ) : (
-                    <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
-                      {featured.map((product, index) => (
-                        <div
-                          key={product.id}
-                          className={index === 2 ? "hidden md:block" : ""}
-                        >
-                          <SearchProductCard
-                            product={product}
-                            locale={locale}
-                            onNavigate={onClose}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </section>
-              </div>
+              <SearchSuggestions
+                products={topProducts}
+                locale={locale}
+                labels={labels}
+                onNavigate={onClose}
+              />
             )}
           </div>
         </div>

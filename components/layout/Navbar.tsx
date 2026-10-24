@@ -1,15 +1,16 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { MAIN_LINKS, PERFUME_SECTIONS } from "@/lib/shop/navigation";
+import { MAIN_LINKS } from "@/lib/shop/navigation";
 import NavRight from "@/components/navbar/NavRight";
 import NavCenter from "@/components/navbar/NavCenter";
 import MobileDrawer from "@/components/navbar/MobileDrawer";
 import SearchOverlay from "@/components/navbar/SearchOverlay";
 import LocalizationMenu from "@/components/navbar/LocalizationMenu";
-import FeaturedNavigationPerfume from "@/components/navbar/FeaturedNavigationPerfume";
+import DesktopPerfumeMenu from "@/components/navbar/DesktopPerfumeMenu";
+import { NAV_LINK_CLASS } from "@/components/navbar/nav-link-class";
 import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 type MobileView = "root" | "shop" | "language";
@@ -20,17 +21,11 @@ const MOBILE_VIEW_INDEX: Record<MobileView, number> = {
   language: 1,
 };
 
-const NAV_LINK_CLASS =
-  "font-garamond inline-flex min-h-11 items-center py-2 text-sm font-normal tracking-[0.16em] text-neutral-900 uppercase transition-colors duration-200 hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black";
-
 export default function Navbar() {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname);
   const labels = getUiLabels(locale).navbar;
   const [navigationReady, setNavigationReady] = useState(false);
-
-  const perfumeMenuRef = useRef<HTMLDivElement>(null);
-  const perfumeButtonRef = useRef<HTMLButtonElement>(null);
 
   const [openMobile, setOpenMobile] = useState(false);
   const [mobileView, setMobileView] = useState<MobileView>("root");
@@ -101,17 +96,9 @@ export default function Navbar() {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
 
-      const focusIsInPerfumeMenu =
-        document.activeElement !== null &&
-        perfumeMenuRef.current?.contains(document.activeElement);
-
       setOpenSearch(false);
       setOpenMobile(false);
       setOpenPerfumes(false);
-
-      if (focusIsInPerfumeMenu) {
-        perfumeButtonRef.current?.focus();
-      }
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -120,25 +107,6 @@ export default function Navbar() {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
-
-  useEffect(() => {
-    if (!openPerfumes) return;
-
-    const handlePointerDown = (event: PointerEvent) => {
-      if (
-        event.target instanceof Node &&
-        !perfumeMenuRef.current?.contains(event.target)
-      ) {
-        setOpenPerfumes(false);
-      }
-    };
-
-    document.addEventListener("pointerdown", handlePointerDown);
-
-    return () => {
-      document.removeEventListener("pointerdown", handlePointerDown);
-    };
-  }, [openPerfumes]);
 
   const closePerfumes = () => {
     setOpenPerfumes(false);
@@ -213,130 +181,13 @@ export default function Navbar() {
         </div>
 
         <nav className="relative hidden h-[52px] items-center justify-center gap-9 border-t border-black/5 lg:flex xl:gap-11">
-          <div
-            ref={perfumeMenuRef}
-            className="flex h-full items-center"
-            onPointerEnter={(event) => {
-              if (event.pointerType === "mouse" && !openSearch) {
-                setOpenPerfumes(true);
-              }
-            }}
-            onPointerLeave={(event) => {
-              if (event.pointerType === "mouse") {
-                closePerfumes();
-              }
-            }}
-            onBlur={(event) => {
-              const nextTarget = event.relatedTarget;
-
-              if (
-                !(nextTarget instanceof Node) ||
-                !event.currentTarget.contains(nextTarget)
-              ) {
-                closePerfumes();
-              }
-            }}
-          >
-            <button
-              ref={perfumeButtonRef}
-              type="button"
-              aria-expanded={showPerfumes}
-              aria-controls="desktop-perfume-menu"
-              className={NAV_LINK_CLASS}
-              onClick={(event) => {
-                setOpenSearch(false);
-
-                if (event.detail === 0) {
-                  // Keyboard activation toggles the menu.
-                  setOpenPerfumes((previous) => !previous);
-                } else {
-                  // A pointer click keeps the hovered menu open.
-                  setOpenPerfumes(true);
-                }
-              }}
-              onKeyDown={(event) => {
-                if (event.key !== "ArrowDown") return;
-
-                event.preventDefault();
-                setOpenPerfumes(true);
-
-                requestAnimationFrame(() => {
-                  perfumeMenuRef.current
-                    ?.querySelector<HTMLAnchorElement>(
-                      "#desktop-perfume-menu a",
-                    )
-                    ?.focus();
-                });
-              }}
-            >
-              {labels.perfumes}
-            </button>
-
-            <div
-              id="desktop-perfume-menu"
-              aria-hidden={!showPerfumes}
-              inert={!showPerfumes}
-              className={[
-                "bg-background absolute top-full left-0 z-9999 w-full",
-                "border-t border-black/10",
-                "shadow-[0_10px_18px_-18px_rgba(0,0,0,0.25)]",
-                "max-h-[calc(100dvh-116px)] overflow-y-auto overscroll-contain",
-                "transition-[opacity,visibility] duration-200 ease-out",
-                "motion-reduce:transition-none",
-                showPerfumes
-                  ? "visible opacity-100"
-                  : "pointer-events-none invisible opacity-0",
-              ].join(" ")}
-            >
-              <div className="mx-auto grid w-full max-w-[1040px] grid-cols-[minmax(0,1fr)_minmax(0,1fr)_208px] items-start gap-x-14 px-10 py-9 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_240px] xl:gap-x-20 xl:py-10">
-                {PERFUME_SECTIONS.map(({ title, links }) => (
-                  <div key={title} className="min-w-0">
-                    <h3 className="font-garamond! mb-5 text-sm leading-normal font-normal tracking-[0.12em] text-neutral-500 uppercase">
-                      {labels[title]}
-                    </h3>
-
-                    <ul className="space-y-1">
-                      {links.map(({ path, label, emphasized }) => {
-                        const href = `/${locale}${path}`;
-
-                        return (
-                          <li
-                            key={path}
-                            className={emphasized ? "pt-3" : undefined}
-                          >
-                            <Link
-                              href={href}
-                              onClick={closePerfumes}
-                              aria-current={
-                                pathname === href ? "page" : undefined
-                              }
-                              className={[
-                                "font-garamond inline-flex min-h-10 items-center",
-                                "text-base leading-relaxed font-normal text-neutral-900",
-                                "hover:text-gold transition-colors duration-200",
-                                "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black",
-                                emphasized
-                                  ? "underline decoration-black/20 underline-offset-4"
-                                  : "",
-                              ].join(" ")}
-                            >
-                              {labels[label]}
-                            </Link>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                ))}
-
-                <FeaturedNavigationPerfume
-                  locale={locale}
-                  active={showPerfumes}
-                  onNavigate={closePerfumes}
-                />
-              </div>
-            </div>
-          </div>
+          <DesktopPerfumeMenu
+            locale={locale}
+            isOpen={showPerfumes}
+            hoverDisabled={openSearch}
+            onOpenChange={setOpenPerfumes}
+            onTriggerClick={() => setOpenSearch(false)}
+          />
 
           {MAIN_LINKS.map(({ path, label }) => {
             const href = `/${locale}${path}`;
