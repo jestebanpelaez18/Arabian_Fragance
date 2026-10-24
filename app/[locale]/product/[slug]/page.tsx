@@ -93,6 +93,9 @@ export default async function ProductPage({
   const price = Number(
     variant?.price.amount ?? product.priceRange.minVariantPrice.amount,
   );
+  const currencyCode =
+    variant?.price.currencyCode ??
+    product.priceRange.minVariantPrice.currencyCode;
 
   const gender = normalizeGender(product.gender);
 
@@ -170,6 +173,7 @@ export default async function ProductPage({
             name={product.title}
             mainAccords={mainAccords}
             price={price}
+            currencyCode={currencyCode}
             fragranceType={product.fragranceType?.value.trim()}
             sizeLabel={product.size?.value.trim()}
             sku={variant?.sku}

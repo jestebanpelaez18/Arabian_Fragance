@@ -1,6 +1,8 @@
 "use client";
 
 import Button from "@/components/ui/button";
+import type { Locale } from "@/i18n-config";
+import { getUiLabels } from "@/lib/i18n/uiLabels";
 import { useCart } from "@/lib/cart/store";
 
 type Props = {
@@ -12,20 +14,23 @@ type Props = {
     image?: string | null;
   };
   available: boolean;
+  locale: Locale;
   appearance?: "default" | "pdp";
 };
 
 export default function ProductActions({
   product,
   available,
+  locale,
   appearance = "default",
 }: Props) {
   const add = useCart((state) => state.add);
+  const labels = getUiLabels(locale).commerce.productDetails.purchase;
 
   const disabled = !available;
   const isPdp = appearance === "pdp";
 
-  const buttonLabel = disabled ? "Out of stock" : "Add to Bag";
+  const buttonLabel = disabled ? labels.outOfStock : labels.addToBag;
 
   function handleAdd() {
     if (disabled) return;
@@ -72,7 +77,7 @@ export default function ProductActions({
         variant="secondary"
         className="text-ink/80 hover:text-ink rounded-full border-black/10 px-6 py-3"
       >
-        View Bag
+        {labels.viewBag}
       </Button>
     </div>
   );

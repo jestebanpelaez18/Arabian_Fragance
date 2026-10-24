@@ -16,6 +16,7 @@ type ProductHeaderPanelProps = {
   name: string;
   mainAccords?: string[] | null;
   price: number;
+  currencyCode: string;
   fragranceType?: string | null;
   sizeLabel?: string | null;
   sku?: string | null;
@@ -42,6 +43,7 @@ export default function ProductHeaderPanel({
   name,
   mainAccords,
   price,
+  currencyCode,
   fragranceType,
   sizeLabel,
   available,
@@ -245,7 +247,10 @@ export default function ProductHeaderPanel({
         </header>
 
         <p className="mt-5 font-serif text-lg font-light tracking-[0.06em] text-neutral-900">
-          {price} EUR
+          {new Intl.NumberFormat(locale, {
+            style: "currency",
+            currency: currencyCode,
+          }).format(price)}
         </p>
 
         <div className="mt-6">
@@ -257,6 +262,7 @@ export default function ProductHeaderPanel({
               image,
             }}
             available={available}
+            locale={locale}
             appearance="pdp"
           />
         </div>
