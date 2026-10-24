@@ -27,6 +27,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname);
   const labels = getUiLabels(locale).navbar;
+  const [navigationReady, setNavigationReady] = useState(false);
 
   const perfumeMenuRef = useRef<HTMLDivElement>(null);
   const perfumeButtonRef = useRef<HTMLButtonElement>(null);
@@ -93,6 +94,7 @@ export default function Navbar() {
     setOpenPerfumes(false);
     setMobileView("root");
     setIsVisible(true);
+    setNavigationReady(true);
   }, [pathname]);
 
   useEffect(() => {
@@ -162,6 +164,7 @@ export default function Navbar() {
   return (
     <>
       <header
+        data-navigation-ready={navigationReady ? "true" : "false"}
         className={[
           "bg-background fixed top-0 z-9900 w-full",
           "border-b border-black/5 text-neutral-900",

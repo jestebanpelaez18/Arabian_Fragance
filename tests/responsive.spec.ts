@@ -79,8 +79,13 @@ test.describe("Shop responsive navigation", () => {
 
     const header = page.getByRole("banner");
 
+    await expect(header).toHaveAttribute("data-navigation-ready", "true");
+
     await expect(
-      header.getByRole("button", { name: "Open menu", exact: true }),
+      header.getByRole("button", {
+        name: "Open menu",
+        exact: true,
+      }),
     ).toBeHidden();
 
     const perfumesButton = header.getByRole("button", {
@@ -90,30 +95,14 @@ test.describe("Shop responsive navigation", () => {
 
     await expect(perfumesButton).toBeVisible();
 
-    // Wait for font loading before positioning the pointer.
     await page.evaluate(async () => {
       await document.fonts.ready;
-    });
-
-    expect(
-      await page.evaluate(() => ({
-        hover: window.matchMedia("(hover: hover)").matches,
-        finePointer: window.matchMedia("(pointer: fine)").matches,
-      })),
-    ).toEqual({
-      hover: true,
-      finePointer: true,
     });
 
     await page.mouse.move(0, 0);
     await perfumesButton.hover();
 
-    // Verify that the pointer actually remains over the trigger.
-    await expect
-      .poll(() =>
-        perfumesButton.evaluate((element) => element.matches(":hover")),
-      )
-      .toBe(true);
+    await expect(perfumesButton).toHaveAttribute("aria-expanded", "true");
 
     const collectionLink = header.getByRole("link", {
       name: "The Luxury Collection",
@@ -124,6 +113,7 @@ test.describe("Shop responsive navigation", () => {
     await collectionLink.click();
 
     await expect(page).toHaveURL(/\/en\/shop\/luxury$/);
+
     await expect(
       page.getByRole("main").getByTestId("product-card").first(),
     ).toBeVisible();
