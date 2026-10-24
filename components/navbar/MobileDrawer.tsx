@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import type { Dispatch, SetStateAction } from "react";
+import {
+  useEffect,
+  useRef,
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
+} from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { i18n, type Locale } from "@/i18n-config";
 import { MAIN_LINKS, PERFUME_SECTIONS } from "@/lib/shop/navigation";
@@ -9,22 +15,65 @@ import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 type MobileView = "root" | "shop" | "language";
 
+type Props = {
+  openMobile: boolean;
+  setOpenMobile: Dispatch<SetStateAction<boolean>>;
+  mobileView: MobileView;
+  setMobileView: Dispatch<SetStateAction<MobileView>>;
+  viewIndex: number;
+  title: string;
+};
+
+const FOCUS_CLASS =
+  "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black";
+
+function Chevron({ back = false }: { back?: boolean }) {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      aria-hidden="true"
+      className="shrink-0"
+    >
+      <path
+        d={back ? "M15 6l-6 6 6 6" : "M9 6l6 6-6 6"}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function DrawerLink({
   href,
+  current,
   onNavigate,
-  className,
   children,
+  emphasized = false,
 }: {
   href: string;
+  current: boolean;
   onNavigate: () => void;
-  className: string;
-  children: React.ReactNode;
+  children: ReactNode;
+  emphasized?: boolean;
 }) {
   return (
     <Link
       href={href}
       onClick={onNavigate}
-      className={`${className} py-1 text-[#1a1a1a]`}
+      aria-current={current ? "page" : undefined}
+      className={[
+        "font-garamond flex min-h-11 items-center",
+        "text-lg leading-relaxed font-normal",
+        "hover:text-gold transition-colors duration-200",
+        FOCUS_CLASS,
+        current ? "text-gold" : "text-neutral-900",
+        emphasized ? "underline decoration-black/20 underline-offset-4" : "",
+      ].join(" ")}
     >
       {children}
     </Link>
@@ -38,227 +87,328 @@ export default function MobileDrawer({
   setMobileView,
   viewIndex,
   title,
-}: {
-  openMobile: boolean;
-  setOpenMobile: Dispatch<SetStateAction<boolean>>;
-  mobileView: MobileView;
-  setMobileView: Dispatch<SetStateAction<MobileView>>;
-  viewIndex: number;
-  title: string;
-}) {
+}: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  const dialogRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLSpanElement>(null);
+
   const currentLocale = getLocaleFromPathname(pathname);
   const labels = getUiLabels(currentLocale).navbar;
+  const isRoot = mobileView === "root";
 
-  const buildLocalizedPath = (nextLocale: Locale) => {
-    const segments = (pathname || "/").split("/");
-    if (i18n.locales.includes(segments[1] as Locale)) {
-      segments[1] = nextLocale;
-      return segments.join("/") || "/";
-    }
-    return `/${nextLocale}${pathname?.startsWith("/") ? pathname : `/${pathname}`}`;
+  const closeDrawer = () => {
+    setOpenMobile(false);
   };
 
-  const closeDrawer = () => setOpenMobile(false);
+  useEffect(() => {
+    if (!openMobile) return;
+
+    const previousFocus =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+
+    const frame = requestAnimationFrame(() => {
+      dialogRef.current?.focus();
+    });
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setOpenMobile(false);
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const dialog = dialogRef.current;
+
+      if (!dialog) return;
+
+      const focusable = Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex="0"]',
+        ),
+      ).filter(
+        (element) =>
+          !element.closest("[inert]") && element.getClientRects().length > 0,
+      );
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+      const activeIsFocusable = focusable.some((element) => element === active);
+
+      if (!first || !last) {
+        event.preventDefault();
+        dialog.focus();
+        return;
+      }
+
+      if (event.shiftKey && (!activeIsFocusable || active === first)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (!activeIsFocusable || active === last)) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("keydown", handleKeyDown);
+
+      if (previousFocus?.isConnected) {
+        previousFocus.focus({ preventScroll: true });
+      }
+    };
+  }, [openMobile, setOpenMobile]);
+
+  useEffect(() => {
+    if (!openMobile) return;
+
+    const frame = requestAnimationFrame(() => {
+      titleRef.current?.focus({ preventScroll: true });
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [mobileView, openMobile]);
 
   const handleLanguageChange = (nextLocale: Locale) => {
-    document.cookie = `USER_LOCALE=${nextLocale}; path=/; max-age=31536000; samesite=lax`;
+    if (nextLocale === currentLocale) {
+      closeDrawer();
+      return;
+    }
 
-    const nextPath = buildLocalizedPath(nextLocale);
-    const query = searchParams?.toString();
+    document.cookie =
+      `USER_LOCALE=${nextLocale}; path=/; ` + "max-age=31536000; samesite=lax";
 
+    const segments = (pathname || "/").split("/");
+
+    if (i18n.locales.includes(segments[1] as Locale)) {
+      segments[1] = nextLocale;
+    } else {
+      segments.splice(1, 0, nextLocale);
+    }
+
+    const nextPath = segments.join("/") || `/${nextLocale}`;
+    const query = searchParams.toString();
+
+    closeDrawer();
     router.push(query ? `${nextPath}?${query}` : nextPath);
-    setOpenMobile(false);
-    setMobileView("root");
   };
 
   return (
     <div
       aria-hidden={!openMobile}
-      className={`fixed inset-x-0 top-16 bottom-0 z-10000 lg:hidden ${
-        openMobile ? "pointer-events-auto" : "pointer-events-none"
-      }`}
+      inert={!openMobile}
+      className={[
+        "fixed inset-x-0 top-16 bottom-0 z-10000 overflow-hidden lg:hidden",
+        openMobile ? "pointer-events-auto" : "pointer-events-none",
+      ].join(" ")}
     >
       <button
+        type="button"
+        tabIndex={-1}
         aria-label={labels.mobileCloseMenu}
-        onClick={() => setOpenMobile(false)}
-        className={`absolute inset-0 z-10 bg-black/45 duration-300 motion-safe:transition-opacity ${
-          openMobile ? "opacity-100" : "opacity-0"
-        }`}
+        onClick={closeDrawer}
+        className={[
+          "absolute inset-0 z-10 bg-black/35",
+          "transition-opacity duration-300 motion-reduce:transition-none",
+          openMobile ? "opacity-100" : "opacity-0",
+        ].join(" ")}
       />
 
       <aside
-        className={`bg-background absolute top-0 left-0 z-20 flex h-full w-[88vw] max-w-[380px] flex-col overscroll-contain border-r border-black/5 shadow-2xl duration-300 ease-out will-change-transform motion-safe:transition-transform ${
-          openMobile ? "translate-x-0" : "-translate-x-full"
-        } `}
+        ref={dialogRef}
         role="dialog"
-        aria-modal="true"
+        aria-modal={openMobile ? true : undefined}
+        aria-labelledby="mobile-navigation-title"
+        tabIndex={-1}
+        className={[
+          "bg-background absolute inset-y-0 left-0 z-20",
+          "flex w-[88vw] max-w-[380px] min-w-0 flex-col",
+          "border-r border-black/10 outline-none",
+          "transition-transform duration-300 ease-out",
+          "motion-reduce:transition-none",
+          openMobile ? "translate-x-0" : "-translate-x-full",
+        ].join(" ")}
       >
-        {/* Header */}
-        <div className="flex h-14 shrink-0 items-center justify-between border-b border-black/5 px-4">
-          {mobileView !== "root" ? (
+        <div className="grid h-14 shrink-0 grid-cols-[44px_minmax(0,1fr)_44px] items-center border-b border-black/10 px-3">
+          {!isRoot ? (
             <button
+              type="button"
               onClick={() => setMobileView("root")}
-              className="-m-2 p-2 text-[#1a1a1a]/85 transition-opacity hover:opacity-70"
               aria-label={labels.mobileBack}
+              className={`hover:text-gold flex h-11 w-11 items-center justify-center text-neutral-700 ${FOCUS_CLASS}`}
             >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  d="M15 6l-6 6 6 6"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                  fill="none"
-                />
-              </svg>
+              <Chevron back />
             </button>
           ) : (
-            <span className="h-8 w-8" />
+            <span aria-hidden="true" />
           )}
 
-          <span className="font-bodoni text-xs tracking-[0.2em] text-[#1a1a1a] uppercase">
+          <span
+            ref={titleRef}
+            id="mobile-navigation-title"
+            tabIndex={-1}
+            className="font-garamond text-center text-sm leading-normal font-normal tracking-[0.12em] text-neutral-700 uppercase outline-none"
+          >
             {title || labels.mobileMenuTitle}
           </span>
-          <span className="h-8 w-8" />
+
+          <button
+            type="button"
+            onClick={closeDrawer}
+            aria-label={labels.mobileCloseMenu}
+            className={`hover:text-gold flex h-11 w-11 items-center justify-center text-neutral-700 ${FOCUS_CLASS}`}
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.2"
+              aria-hidden="true"
+            >
+              <path d="M6 6l12 12M6 18L18 6" strokeLinecap="round" />
+            </svg>
+          </button>
         </div>
 
-        {/* Sliding Content Container */}
-        <div className="relative flex-1 overflow-hidden">
+        <div className="relative min-h-0 flex-1 overflow-hidden">
           <div
-            className="flex h-full w-[200%] duration-300 ease-out motion-safe:transition-transform"
-            style={{ transform: `translateX(-${viewIndex * 100}%)` }}
+            className="flex h-full w-full transition-transform duration-300 ease-out motion-reduce:transition-none"
+            style={{
+              transform: `translateX(-${viewIndex * 100}%)`,
+            }}
           >
-            {/* PANEL 1: ROOT CATEGORIES */}
-            <section className="flex h-full min-w-full flex-col overflow-y-auto px-6 pt-8 pb-24">
-              <div className="flex-1 space-y-7">
+            <section
+              aria-hidden={!isRoot}
+              inert={!isRoot}
+              className="flex h-full w-full min-w-0 shrink-0 flex-col overflow-y-auto overscroll-contain px-6 pt-6 pb-[max(2rem,env(safe-area-inset-bottom))]"
+            >
+              <div className="space-y-3">
                 <button
-                  className="font-bodoni group flex w-full items-center justify-between text-left text-lg tracking-widest text-[#1a1a1a] uppercase"
+                  type="button"
                   onClick={() => setMobileView("shop")}
+                  className={[
+                    "font-garamond flex min-h-12 w-full items-center justify-between gap-4",
+                    "text-left text-lg font-normal tracking-[0.08em] text-neutral-900 uppercase",
+                    "hover:text-gold transition-colors",
+                    FOCUS_CLASS,
+                  ].join(" ")}
                 >
                   <span>{labels.perfumes}</span>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                    className="opacity-50 transition-opacity group-hover:opacity-100"
-                  >
-                    <path
-                      d="M9 6l6 6-6 6"
-                      stroke="currentColor"
-                      strokeWidth="1.2"
-                      strokeLinecap="round"
-                      fill="none"
-                    />
-                  </svg>
+                  <Chevron />
                 </button>
 
-                {MAIN_LINKS.map(({ path, label }) => (
-                  <DrawerLink
-                    key={path}
-                    href={`/${currentLocale}${path}`}
-                    onNavigate={closeDrawer}
-                    className="font-bodoni block text-lg tracking-widest uppercase"
-                  >
-                    {labels[label]}
-                  </DrawerLink>
-                ))}
+                {MAIN_LINKS.map(({ path, label }) => {
+                  const href = `/${currentLocale}${path}`;
+
+                  return (
+                    <Link
+                      key={path}
+                      href={href}
+                      onClick={closeDrawer}
+                      aria-current={pathname === href ? "page" : undefined}
+                      className={[
+                        "font-garamond flex min-h-12 items-center",
+                        "text-lg font-normal tracking-[0.08em] uppercase",
+                        "hover:text-gold transition-colors",
+                        FOCUS_CLASS,
+                        pathname === href ? "text-gold" : "text-neutral-900",
+                      ].join(" ")}
+                    >
+                      {labels[label]}
+                    </Link>
+                  );
+                })}
               </div>
 
-              {/* LOCALIZATION FOOTER */}
-              <div className="mt-12 border-t border-black/5 pt-6">
-                <ul className="space-y-6">
-                  {/* Language Button */}
-                  <li>
-                    <button
-                      onClick={() => setMobileView("language")}
-                      className="group flex w-full items-center justify-between text-left"
-                    >
-                      <span className="font-bodoni text-[10px] font-bold tracking-[0.2em] text-[#1a1a1a]/50 uppercase">
-                        {labels.language}
-                      </span>
-                      <div className="flex items-center gap-2">
-                        <span className="font-garamond text-base tracking-widest text-[#1a1a1a] capitalize transition-colors group-hover:text-[#C9A46A]">
-                          {labels.languageNames[currentLocale]}
-                        </span>
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          aria-hidden="true"
-                          className="opacity-30"
-                        >
-                          <path
-                            d="M9 6l6 6-6 6"
-                            stroke="currentColor"
-                            strokeWidth="1.2"
-                            strokeLinecap="round"
-                            fill="none"
-                          />
-                        </svg>
-                      </div>
-                    </button>
-                  </li>
-                </ul>
+              <div className="mt-auto pt-10">
+                <button
+                  type="button"
+                  onClick={() => setMobileView("language")}
+                  className={[
+                    "flex min-h-14 w-full items-center justify-between gap-4",
+                    "border-t border-black/10 pt-4 text-left",
+                    "hover:text-gold transition-colors",
+                    FOCUS_CLASS,
+                  ].join(" ")}
+                >
+                  <span className="font-garamond text-sm tracking-[0.1em] text-neutral-500 uppercase">
+                    {labels.language}
+                  </span>
+
+                  <span className="font-garamond flex items-center gap-3 text-base">
+                    {labels.languageNames[currentLocale]}
+                    <Chevron />
+                  </span>
+                </button>
               </div>
             </section>
 
-            {/* PANEL 2: DYNAMIC SUB-MENUS */}
-            <section className="h-full min-w-full overflow-y-auto px-6 pt-8 pb-24">
-              {/* SHOP SUB-MENU */}
-              {mobileView === "shop" && (
-                <>
-                  {PERFUME_SECTIONS.map(({ title, links }) => (
-                    <div key={title} className="mb-10 last:mb-0">
-                      <p className="font-bodoni mb-5 text-[10px] font-bold tracking-[0.2em] text-[#1a1a1a]/50 uppercase">
-                        {labels[title]}
-                      </p>
-                      <ul className="space-y-4">
-                        {links.map(({ path, label, emphasized }) => (
+            <section
+              aria-hidden={isRoot}
+              inert={isRoot}
+              className="h-full w-full min-w-0 shrink-0 overflow-y-auto overscroll-contain px-6 pt-7 pb-[max(2rem,env(safe-area-inset-bottom))]"
+            >
+              {mobileView === "shop" &&
+                PERFUME_SECTIONS.map(({ title: sectionTitle, links }) => (
+                  <div key={sectionTitle} className="mb-9 last:mb-0">
+                    <h2 className="font-garamond! mb-3 text-sm leading-normal font-normal tracking-[0.12em] text-neutral-500 uppercase">
+                      {labels[sectionTitle]}
+                    </h2>
+
+                    <ul className="space-y-1">
+                      {links.map(({ path, label, emphasized }) => {
+                        const href = `/${currentLocale}${path}`;
+
+                        return (
                           <li
                             key={path}
-                            className={emphasized ? "pt-2" : undefined}
+                            className={emphasized ? "pt-3" : undefined}
                           >
                             <DrawerLink
-                              href={`/${currentLocale}${path}`}
+                              href={href}
+                              current={pathname === href}
                               onNavigate={closeDrawer}
-                              className={`font-garamond block text-lg ${
-                                emphasized
-                                  ? "font-semibold underline decoration-black/20 underline-offset-4"
-                                  : ""
-                              }`}
+                              emphasized={emphasized}
                             >
                               {labels[label]}
                             </DrawerLink>
                           </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </>
-              )}
-              {/* LANGUAGE SUB-MENU */}
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ))}
+
               {mobileView === "language" && (
-                <ul className="font-garamond space-y-6 tracking-[0.05em] capitalize">
+                <ul className="space-y-2">
                   {i18n.locales.map((locale) => {
-                    const isActive = locale === currentLocale;
+                    const active = locale === currentLocale;
 
                     return (
                       <li key={locale}>
                         <button
+                          type="button"
                           onClick={() => handleLanguageChange(locale)}
-                          className={`block w-full text-left text-2xl hover:text-[#C9A46A] ${
-                            isActive ? "text-[#1a1a1a]" : "text-[#1a1a1a]/40"
-                          }`}
-                          aria-current={isActive ? "true" : undefined}
+                          aria-current={active ? "true" : undefined}
+                          className={[
+                            "font-garamond flex min-h-12 w-full items-center",
+                            "text-left text-xl leading-relaxed",
+                            "hover:text-gold transition-colors",
+                            FOCUS_CLASS,
+                            active ? "text-gold" : "text-neutral-900",
+                          ].join(" ")}
                         >
                           {labels.languageNames[locale]}
                         </button>

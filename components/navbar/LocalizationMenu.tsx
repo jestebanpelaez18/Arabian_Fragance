@@ -11,9 +11,7 @@ const LANGUAGE_LABELS: Record<Locale, string> = {
 };
 
 export default function LocalizationMenu() {
-  const [activeMenu, setActiveMenu] = useState<"currency" | "language" | null>(
-    null,
-  );
+  const [activeMenu, setActiveMenu] = useState<"language" | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const pathname = usePathname();
@@ -67,7 +65,7 @@ export default function LocalizationMenu() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const toggleMenu = (menu: "currency" | "language") => {
+  const toggleMenu = (menu: "language") => {
     setActiveMenu(activeMenu === menu ? null : menu);
   };
 
@@ -88,9 +86,9 @@ export default function LocalizationMenu() {
           {currentLocale.toUpperCase()}
         </button>
 
-        {/* LANGUAGE DROPDOWN PANEL (Centered) */}
+        {/* LANGUAGE DROPDOWN PANEL */}
         <div
-          className={`bg-background absolute top-[85%] left-1/2 z-50 mt-1 w-28 -translate-x-1/2 border border-black/5 py-2 shadow-sm transition-all duration-200 ${
+          className={`bg-background absolute top-full left-0 z-50 mt-2 w-28 border border-black/5 py-2 shadow-sm transition-all duration-200 ${
             activeMenu === "language"
               ? "visible translate-y-0 opacity-100"
               : "invisible -translate-y-2 opacity-0"

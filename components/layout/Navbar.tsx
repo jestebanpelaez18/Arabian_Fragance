@@ -1,34 +1,52 @@
 "use client";
 
-import { MAIN_LINKS, PERFUME_SECTIONS } from "@/lib/shop/navigation";
-import { Suspense, useState, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { MAIN_LINKS } from "@/lib/shop/navigation";
 import NavRight from "@/components/navbar/NavRight";
-import NavCenter from "../navbar/NavCenter";
+import NavCenter from "@/components/navbar/NavCenter";
 import MobileDrawer from "@/components/navbar/MobileDrawer";
 import SearchOverlay from "@/components/navbar/SearchOverlay";
-import SmoothImage from "@/components/ui/SmoothImage";
 import LocalizationMenu from "@/components/navbar/LocalizationMenu";
+import DesktopPerfumeMenu from "@/components/navbar/DesktopPerfumeMenu";
+import { NAV_LINK_CLASS } from "@/components/navbar/nav-link-class";
 import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 type MobileView = "root" | "shop" | "language";
+
+const MOBILE_VIEW_INDEX: Record<MobileView, number> = {
+  root: 0,
+  shop: 1,
+  language: 1,
+};
 
 export default function Navbar() {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname);
   const labels = getUiLabels(locale).navbar;
-
-  const isProductPage = pathname?.startsWith(`/${locale}/product/`) ?? false;
+  const [navigationReady, setNavigationReady] = useState(false);
 
   const [openMobile, setOpenMobile] = useState(false);
   const [mobileView, setMobileView] = useState<MobileView>("root");
   const [openSearch, setOpenSearch] = useState(false);
+  const [openPerfumes, setOpenPerfumes] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
-  const showNavbar = isProductPage || openMobile || openSearch || isVisible;
+  const isProductPage = pathname?.startsWith(`/${locale}/product/`) ?? false;
 
-  // Lock page scroll while a menu or the search is open.
+  const showNavbar =
+    isProductPage || openMobile || openSearch || openPerfumes || isVisible;
+
+  const mobileTitle =
+    mobileView === "shop"
+      ? labels.mobileShopTitle
+      : mobileView === "language"
+        ? labels.mobileLanguageTitle
+        : "";
+
+  const showPerfumes = openPerfumes && !openSearch && !openMobile;
+
   useEffect(() => {
     if (!openMobile && !openSearch) return;
 
@@ -40,10 +58,10 @@ export default function Navbar() {
     };
   }, [openMobile, openSearch]);
 
-  // Keep the navbar visible on product pages; elsewhere hide it on scroll
-  // down and show it on scroll up.
   useEffect(() => {
-    if (isProductPage || openMobile || openSearch) return;
+    if (isProductPage || openMobile || openSearch || openPerfumes) {
+      return;
+    }
 
     let previousScrollY = window.scrollY;
 
@@ -63,21 +81,24 @@ export default function Navbar() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [pathname, isProductPage, openMobile, openSearch]);
+  }, [pathname, isProductPage, openMobile, openSearch, openPerfumes]);
 
-  // Close menus on navigation.
   useEffect(() => {
     setOpenSearch(false);
     setOpenMobile(false);
+    setOpenPerfumes(false);
+    setMobileView("root");
+    setIsVisible(true);
+    setNavigationReady(true);
   }, [pathname]);
 
-  // Close menus with Escape.
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setOpenSearch(false);
-        setOpenMobile(false);
-      }
+      if (event.key !== "Escape") return;
+
+      setOpenSearch(false);
+      setOpenMobile(false);
+      setOpenPerfumes(false);
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -87,14 +108,22 @@ export default function Navbar() {
     };
   }, []);
 
+  const closePerfumes = () => {
+    setOpenPerfumes(false);
+  };
+
   const handleOpenSearch = () => {
     setOpenSearch(true);
     setOpenMobile(false);
+    setOpenPerfumes(false);
   };
 
   const handleMobileToggle = () => {
+    setOpenSearch(false);
+    setOpenPerfumes(false);
+
     if (!openMobile) {
-      setOpenSearch(false);
+      setMobileView("root");
     }
 
     setOpenMobile((previous) => !previous);
@@ -103,17 +132,22 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`bg-background fixed top-0 z-9900 w-full border-b border-black/5 text-[#1a1a1a] transition-transform duration-700 ease-in-out ${
-          showNavbar ? "translate-y-0" : "-translate-y-full"
-        }`}
+        data-navigation-ready={navigationReady ? "true" : "false"}
+        className={[
+          "bg-background fixed top-0 z-9900 w-full",
+          "border-b border-black/5 text-neutral-900",
+          "transition-transform duration-500 ease-in-out",
+          "motion-reduce:transition-none",
+          showNavbar ? "translate-y-0" : "-translate-y-full",
+        ].join(" ")}
       >
         <div className="grid h-16 grid-cols-3 items-center px-5 md:px-8">
-          <div className="flex items-center justify-start">
+          <div className="flex min-w-0 items-center justify-start">
             <button
               type="button"
-              className="p-2 transition-opacity hover:opacity-70 lg:hidden"
+              className="hover:text-gold -ml-2 inline-flex h-11 w-11 items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black lg:hidden"
               onClick={handleMobileToggle}
-              aria-label={labels.openMenu}
+              aria-label={openMobile ? labels.mobileCloseMenu : labels.openMenu}
               aria-expanded={openMobile}
             >
               <svg
@@ -127,7 +161,11 @@ export default function Navbar() {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M4 6h16M4 12h16M4 18h16"
+                  d={
+                    openMobile
+                      ? "M6 6l12 12M6 18L18 6"
+                      : "M4 6h16M4 12h16M4 18h16"
+                  }
                 />
               </svg>
             </button>
@@ -142,59 +180,35 @@ export default function Navbar() {
           <NavRight onOpenSearch={handleOpenSearch} />
         </div>
 
-        <nav className="relative hidden items-center justify-center gap-10 border-t border-black/5 py-3 lg:flex">
-          <div className="group h-full">
-            <button
-              type="button"
-              className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
-            >
-              {labels.perfumes}
-            </button>
+        <nav className="relative hidden h-[52px] items-center justify-center gap-9 border-t border-black/5 lg:flex xl:gap-11">
+          <DesktopPerfumeMenu
+            locale={locale}
+            isOpen={showPerfumes}
+            hoverDisabled={openSearch}
+            onOpenChange={setOpenPerfumes}
+            onTriggerClick={() => setOpenSearch(false)}
+          />
 
-            <div className="bg-background invisible absolute top-full left-0 z-9999 w-full border-t border-black/5 opacity-0 shadow-md transition-all duration-300 group-hover:visible group-hover:opacity-100">
-              <div className="mx-auto flex max-w-7xl justify-center gap-24 px-12 py-10">
-                {PERFUME_SECTIONS.map(({ title, links }) => (
-                  <div key={title} className="flex flex-col gap-4">
-                    <h3 className="mb-2 text-xs font-bold tracking-[0.15em] text-black/50 uppercase">
-                      {labels[title]}
-                    </h3>
+          {MAIN_LINKS.map(({ path, label }) => {
+            const href = `/${locale}${path}`;
 
-                    {links.map(({ path, label, emphasized }) => (
-                      <Link
-                        key={path}
-                        href={`/${locale}${path}`}
-                        className={`font-garamond text-sm text-black transition-colors hover:text-[#C9A46A] ${
-                          emphasized ? "mt-2 font-semibold" : ""
-                        }`}
-                      >
-                        {labels[label]}
-                      </Link>
-                    ))}
-                  </div>
-                ))}
-
-                <div className="relative hidden h-64 w-48 overflow-hidden rounded-sm bg-white ring-1 ring-black/5 xl:block">
-                  <SmoothImage
-                    src="/catalog/Bottle_3.png"
-                    alt={labels.featuredPerfumeAlt}
-                    fill
-                    sizes="192px"
-                    className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {MAIN_LINKS.map(({ path, label }) => (
-            <Link
-              key={path}
-              href={`/${locale}${path}`}
-              className="font-bodoni py-2 text-xs tracking-[0.2em] uppercase transition-colors hover:text-[#C9A46A]"
-            >
-              {labels[label]}
-            </Link>
-          ))}
+            return (
+              <Link
+                key={path}
+                href={href}
+                onPointerEnter={(event) => {
+                  if (event.pointerType === "mouse") {
+                    closePerfumes();
+                  }
+                }}
+                onFocus={closePerfumes}
+                aria-current={pathname === href ? "page" : undefined}
+                className={NAV_LINK_CLASS}
+              >
+                {labels[label]}
+              </Link>
+            );
+          })}
         </nav>
       </header>
 
@@ -204,14 +218,8 @@ export default function Navbar() {
           setOpenMobile={setOpenMobile}
           mobileView={mobileView}
           setMobileView={setMobileView}
-          viewIndex={mobileView === "root" ? 0 : 1}
-          title={
-            mobileView === "shop"
-              ? labels.mobileShopTitle
-              : mobileView === "language"
-                ? labels.mobileLanguageTitle
-                : ""
-          }
+          viewIndex={MOBILE_VIEW_INDEX[mobileView]}
+          title={mobileTitle}
         />
       </Suspense>
 

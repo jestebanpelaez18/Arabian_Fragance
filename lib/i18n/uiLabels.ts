@@ -177,7 +177,12 @@ type UiLabels = {
       inputPlaceholder: string;
       searching: string;
       noResultsFor: string;
-      trendingNow: string;
+      close: string;
+      suggestions: string;
+      minimum: string;
+      error: string;
+      results: string;
+      retry: string;
       topProducts: string;
     };
     productHeader: {
@@ -402,7 +407,12 @@ const uiLabels: Record<Locale, UiLabels> = {
         inputPlaceholder: "Search...",
         searching: "Searching...",
         noResultsFor: "No results for",
-        trendingNow: "Trending now",
+        close: "Close search",
+        suggestions: "Discover",
+        minimum: "Enter at least two characters to search.",
+        error: "We could not load the products. Please try again.",
+        results: "Search results",
+        retry: "Try again",
         topProducts: "Top products",
       },
       productHeader: {
@@ -630,7 +640,12 @@ const uiLabels: Record<Locale, UiLabels> = {
         inputPlaceholder: "Hae...",
         searching: "Haetaan...",
         noResultsFor: "Ei tuloksia haulle",
-        trendingNow: "Nyt pinnalla",
+        close: "Sulje haku",
+        suggestions: "Tutustu",
+        minimum: "Kirjoita vähintään kaksi merkkiä.",
+        error: "Tuotteita ei voitu ladata. Yritä uudelleen.",
+        results: "Hakutulokset",
+        retry: "Yritä uudelleen",
         topProducts: "Suosituimmat tuotteet",
       },
       productHeader: {
@@ -858,7 +873,12 @@ const uiLabels: Record<Locale, UiLabels> = {
         inputPlaceholder: "Sok...",
         searching: "Soker...",
         noResultsFor: "Inga resultat for",
-        trendingNow: "Trendigt nu",
+        close: "Stäng sökningen",
+        suggestions: "Upptäck",
+        minimum: "Ange minst två tecken för att söka.",
+        error: "Produkterna kunde inte laddas. Försök igen.",
+        results: "Sökresultat",
+        retry: "Försök igen",
         topProducts: "Topp-produkter",
       },
       productHeader: {

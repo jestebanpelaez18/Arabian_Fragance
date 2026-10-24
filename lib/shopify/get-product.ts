@@ -11,7 +11,7 @@ type LayeringReference = LayeringProduct & {
   __typename: "Product";
 };
 
-export type ShopifyProduct = {
+type ShopifyProduct = {
   id: string;
   title: string;
   description: string;
