@@ -30,17 +30,16 @@ export default async function SuccessPage({
       <p className="text-white/80">
         {orderRef ? (
           <>
-            Order <span className="font-mono">{orderRef}</span>{" "}
+            {dict.checkout.order} <span className="font-mono">{orderRef}</span>{" "}
             {dict.checkout.orderConfirmedSuffix}
           </>
         ) : (
           dict.checkout.paymentReceived
         )}
       </p>
-      <p>{dict.checkout.orderConfirmedSuffix}</p>
 
       <Link
-        href="/shop"
+        href={`/${locale}/shop`}
         className="inline-block rounded-full px-6 py-3 ring-1 ring-white/15 hover:bg-white/5"
       >
         {dict.checkout.continueShopping}

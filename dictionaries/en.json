@@ -138,6 +138,7 @@
     "reviewBag": "Review your bag",
     "paymentReceived": "Payment received",
     "sessionNotFound": "Session not found. If you already paid, please check your email.",
+    "order": "Order",
     "thankYou": "Thank you!",
     "orderConfirmedSuffix": "confirmed.",
     "confirmationSentPrefix": "A confirmation email was sent to",

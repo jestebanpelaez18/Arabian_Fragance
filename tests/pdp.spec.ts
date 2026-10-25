@@ -1,5 +1,11 @@
 import { expect, test, type Page } from "@playwright/test";
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("cookie_consent", "false");
+  });
+});
+
 const PRODUCT_URL = "/en/product/honey-musk";
 
 async function openProduct(page: Page) {
@@ -255,15 +261,6 @@ test.describe("Product responsive layout", () => {
       });
 
       // Dismiss the cookie notice through its real control.
-      const declineCookies = page.getByRole("button", {
-        name: "Decline",
-        exact: true,
-      });
-
-      if (await declineCookies.isVisible()) {
-        await declineCookies.click();
-        await expect(declineCookies).not.toBeVisible();
-      }
 
       // Reach the accordion using normal scrolling.
       // Check that its center is also free of overlapping elements.

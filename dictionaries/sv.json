@@ -135,6 +135,7 @@
     "reviewBag": "Granska din vaska",
     "paymentReceived": "Betalning mottagen",
     "sessionNotFound": "Session hittades inte. Om du redan har betalat, kontrollera din e-post.",
+    "order": "Order",
     "thankYou": "Tack!",
     "orderConfirmedSuffix": "bekraftad.",
     "confirmationSentPrefix": "En bekraftelse skickades till",
