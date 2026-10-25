@@ -4,7 +4,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { Product } from "@/data/products";
 
-type CartItem = Pick<Product, "id" | "slug" | "name" | "price"> & {
+export type CartItem = Pick<Product, "id" | "slug" | "name" | "price"> & {
   image?: string | null;
   qty: number;
 };
