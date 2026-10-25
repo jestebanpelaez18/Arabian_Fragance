@@ -73,7 +73,7 @@ export default function ProductActions({
       </Button>
 
       <Button
-        href="/bag"
+        href={`/${locale}/bag`}
         variant="secondary"
         className="text-ink/80 hover:text-ink rounded-full border-black/10 px-6 py-3"
       >

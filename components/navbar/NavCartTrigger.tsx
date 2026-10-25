@@ -1,30 +1,43 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
+import { usePathname } from "next/navigation";
 import CartDrawer from "@/components/cart/CartDrawer";
 import CartCount from "@/components/cart/CartCount";
 import Portal from "@/components/system/Portal";
-import { usePathname } from "next/navigation";
 import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 export default function NavCartTrigger() {
   const [open, setOpen] = useState(false);
+
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname);
   const labels = getUiLabels(locale).navbar;
 
-  function onClick(e: React.MouseEvent<HTMLAnchorElement>) {
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1)
+  function onClick(event: MouseEvent<HTMLAnchorElement>) {
+    if (
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey ||
+      event.button === 1
+    ) {
       return;
-    e.preventDefault();
+    }
+
+    event.preventDefault();
+
+    // Establish the return-focus target before opening the modal.
+    event.currentTarget.focus({ preventScroll: true });
+
     setOpen(true);
   }
 
   return (
     <>
       <Link
-        href="/bag"
+        href={`/${locale}/bag`}
         onClick={onClick}
         className="relative flex items-center opacity-75 transition-all hover:text-[#C9A46A] hover:opacity-100"
         aria-label={labels.openBag}
@@ -36,6 +49,7 @@ export default function NavCartTrigger() {
           strokeWidth={1.2}
           stroke="currentColor"
           className="h-[18px] w-[18px]"
+          aria-hidden="true"
         >
           <path
             strokeLinecap="round"

@@ -30,7 +30,7 @@ export default function ShowroomHero() {
         </div>
         <div className="pb-12">
           <Link
-            href="/contact"
+            href={`/${locale}/contact`}
             className="btn-luxe text-xs tracking-[0.18em] uppercase"
           >
             {labels.ctaLabel}

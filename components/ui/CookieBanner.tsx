@@ -2,9 +2,12 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname } from "@/lib/i18n/uiLabels";
 
 export default function CookieBanner() {
   const [showBanner, setShowBanner] = useState(false);
+  const locale = getLocaleFromPathname(usePathname());
 
   useEffect(() => {
     // 1. Comprobar si ya existe la cookie de consentimiento
@@ -44,7 +47,7 @@ export default function CookieBanner() {
           We use cookies to ensure you get the best experience on our digital
           boutique. By continuing, you accept our{" "}
           <Link
-            href="/policies/privacy-policy"
+            href={`/${locale}/policies/privacy-policy`}
             className="border-b border-[var(--gold)]/50 pb-0.5 text-[var(--ink)] transition-colors hover:text-[var(--gold)]"
           >
             Privacy Policy

@@ -40,7 +40,7 @@ export default async function SuccessPage({
       <p>{dict.checkout.orderConfirmedSuffix}</p>
 
       <Link
-        href="/shop"
+        href={`/${locale}/shop`}
         className="inline-block rounded-full px-6 py-3 ring-1 ring-white/15 hover:bg-white/5"
       >
         {dict.checkout.continueShopping}
