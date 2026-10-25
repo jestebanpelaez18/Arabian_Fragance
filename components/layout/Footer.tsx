@@ -17,6 +17,9 @@ export default function Footer() {
 
   const year = new Date().getFullYear();
 
+  const localizeHref = (href: string) =>
+    href.startsWith("/") ? `/${locale}${href}` : href;
+
   function onSubscribe(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     // TODO: connect to your ESP (Klaviyo/Mailchimp/etc.)
@@ -42,7 +45,7 @@ export default function Footer() {
                   {col.links.map((l) => (
                     <li key={l.label}>
                       <Link
-                        href={l.href}
+                        href={localizeHref(l.href)}
                         className="font-bodoni text-footer-text hover:text-footer-accent inline-flex items-center gap-2 text-sm transition"
                       >
                         {l.label}
@@ -72,7 +75,7 @@ export default function Footer() {
                 {col.links.map((l) => (
                   <li key={l.label}>
                     <Link
-                      href={l.href}
+                      href={localizeHref(l.href)}
                       className="nav-link text-footer-text hover:text-footer-accent inline-flex items-center gap-2 transition"
                     >
                       {l.label}

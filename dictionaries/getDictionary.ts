@@ -110,6 +110,7 @@ type Dictionary = {
     reviewBag: string;
     paymentReceived: string;
     sessionNotFound: string;
+    order: string;
     thankYou: string;
     orderConfirmedSuffix: string;
     confirmationSentPrefix: string;

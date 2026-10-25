@@ -138,6 +138,7 @@
     "reviewBag": "Tarkista ostoskori",
     "paymentReceived": "Maksu vastaanotettu",
     "sessionNotFound": "Istuntoa ei löytynyt. Jos olet jo maksanut, tarkista sähköpostisi.",
+    "order": "Tilaus",
     "thankYou": "Kiitos!",
     "orderConfirmedSuffix": "vahvistettu.",
     "confirmationSentPrefix": "Vahvistusviesti lähetettiin osoitteeseen",
