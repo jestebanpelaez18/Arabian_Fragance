@@ -117,6 +117,8 @@ type UiLabels = {
       subtotal: string;
       vatIncludedNote: string;
       checkout: string;
+      checkoutLoading: string;
+      checkoutError: string;
       closeCart: string;
       close: string;
       viewBag: string;
@@ -342,6 +344,8 @@ const uiLabels: Record<Locale, UiLabels> = {
         subtotal: "Subtotal",
         vatIncludedNote: "VAT included. Shipping calculated at checkout.",
         checkout: "Checkout",
+        checkoutLoading: "Redirecting…",
+        checkoutError: "We could not open checkout. Please try again.",
         closeCart: "Close cart",
         close: "Close",
         viewBag: "View Bag",
@@ -576,6 +580,8 @@ const uiLabels: Record<Locale, UiLabels> = {
         subtotal: "Välisumma",
         vatIncludedNote: "ALV sisältyy. Toimitus lasketaan kassalla.",
         checkout: "Kassa",
+        checkoutLoading: "Siirrytään kassalle…",
+        checkoutError: "Kassaa ei voitu avata. Yritä uudelleen.",
         closeCart: "Sulje ostoskori",
         close: "Sulje",
         viewBag: "Näytä ostoskori",
@@ -810,6 +816,8 @@ const uiLabels: Record<Locale, UiLabels> = {
         subtotal: "Delsumma",
         vatIncludedNote: "Moms ingår. Frakt beräknas i kassan.",
         checkout: "Kassa",
+        checkoutLoading: "Öppnar kassan…",
+        checkoutError: "Det gick inte att öppna kassan. Försök igen.",
         closeCart: "Stäng varukorgen",
         close: "Stäng",
         viewBag: "Visa varukorg",
