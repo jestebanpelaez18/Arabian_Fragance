@@ -119,6 +119,7 @@ type UiLabels = {
       checkout: string;
       closeCart: string;
       close: string;
+      viewBag: string;
     };
     collection: {
       filtersSort: string;
@@ -343,6 +344,7 @@ const uiLabels: Record<Locale, UiLabels> = {
         checkout: "Checkout",
         closeCart: "Close cart",
         close: "Close",
+        viewBag: "View Bag",
       },
       collection: {
         filtersSort: "Filters & Sort",
@@ -576,6 +578,7 @@ const uiLabels: Record<Locale, UiLabels> = {
         checkout: "Kassa",
         closeCart: "Sulje ostoskori",
         close: "Sulje",
+        viewBag: "Näytä ostoskori",
       },
       collection: {
         filtersSort: "Suodattimet ja lajittelu",
@@ -792,23 +795,24 @@ const uiLabels: Record<Locale, UiLabels> = {
     commerce: {
       breadcrumbs: "Navigering",
       cart: {
-        addForFreeShipping: "Lagg till",
-        freeShippingSuffix: "for fri frakt",
-        freeShippingUnlocked: "Du fick fri frakt!",
+        addForFreeShipping: "Lägg till",
+        freeShippingSuffix: "för fri frakt",
+        freeShippingUnlocked: "Du har fri frakt!",
         productImageAltFallback: "Produktbild",
         decreaseItemAriaPrefix: "Minska",
-        increaseItemAriaPrefix: "Oka",
+        increaseItemAriaPrefix: "Öka",
         removeItemAriaPrefix: "Ta bort",
         remove: "Ta bort",
-        emptyTitle: "Din vaska ar tom",
-        emptyDescription: "Upptack vara dofter och lagg till dina favoriter.",
+        emptyTitle: "Din varukorg är tom",
+        emptyDescription: "Upptäck våra dofter och lägg till dina favoriter.",
         shopNow: "Handla nu",
-        bagTitle: "Din vaska",
+        bagTitle: "Din varukorg",
         subtotal: "Delsumma",
-        vatIncludedNote: "Moms ingar. Frakt beraknas i kassan.",
+        vatIncludedNote: "Moms ingår. Frakt beräknas i kassan.",
         checkout: "Kassa",
-        closeCart: "Stang vaska",
-        close: "Stang",
+        closeCart: "Stäng varukorgen",
+        close: "Stäng",
+        viewBag: "Visa varukorg",
       },
       collection: {
         filtersSort: "Filter och sortering",

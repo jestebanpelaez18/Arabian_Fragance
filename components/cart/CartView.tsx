@@ -81,12 +81,14 @@ function CartItemRow({
   remove,
   labels,
   formatMoney,
+  compact = false,
 }: {
   item: CartItem;
   updateQty: (id: string, qty: number) => void;
   remove: (id: string) => void;
   labels: CartLabels;
   formatMoney: (amount: number) => string;
+  compact?: boolean;
 }) {
   const disableMinus = item.qty <= 1;
 
@@ -98,27 +100,69 @@ function CartItemRow({
   ].join(" ");
 
   return (
-    <li className="grid grid-cols-[80px_minmax(0,1fr)] items-start gap-x-4 py-6 sm:grid-cols-[112px_minmax(0,1fr)] sm:gap-x-5">
+    <li
+      className={
+        compact
+          ? "grid grid-cols-[80px_minmax(0,1fr)] items-start gap-x-4 py-6 sm:grid-cols-[112px_minmax(0,1fr)] sm:gap-x-5"
+          : "grid grid-cols-[80px_minmax(0,1fr)] items-start gap-x-4 py-6 md:grid-cols-[144px_minmax(0,1fr)] md:gap-x-7 md:py-8"
+      }
+    >
       <div className="bg-background relative aspect-4/5 overflow-hidden">
         <Image
           fill
-          sizes="(min-width: 640px) 112px, 80px"
+          sizes={
+            compact
+              ? "(min-width: 640px) 112px, 80px"
+              : "(min-width: 768px) 144px, 80px"
+          }
           src={item.image || "/catalog/Bottle_3.png"}
           alt={item.name || labels.productImageAltFallback}
           className="object-cover"
         />
       </div>
 
-      <div className="flex min-w-0 flex-col items-start">
-        <p className="font-magister text-sm leading-relaxed font-normal tracking-[0.02em] text-neutral-900">
-          {item.name}
-        </p>
+      <div
+        className={
+          compact
+            ? "flex min-w-0 flex-col items-start"
+            : "flex min-w-0 flex-col items-start md:min-h-[180px]"
+        }
+      >
+        <div
+          className={
+            compact
+              ? "w-full"
+              : "flex w-full flex-col gap-2 md:flex-row md:items-baseline md:justify-between md:gap-6"
+          }
+        >
+          <p
+            className={[
+              "font-magister text-sm leading-relaxed",
+              "font-normal tracking-[0.02em] text-neutral-900",
+              compact ? "" : "md:text-base",
+            ].join(" ")}
+          >
+            {item.name}
+          </p>
 
-        <p className="mt-2 font-serif text-sm font-light tracking-[0.04em] text-neutral-800 tabular-nums">
-          {formatMoney(item.price * item.qty)}
-        </p>
+          <p
+            className={[
+              "shrink-0 font-serif text-sm font-light",
+              "tracking-[0.04em] text-neutral-800 tabular-nums",
+              compact ? "mt-2" : "",
+            ].join(" ")}
+          >
+            {formatMoney(item.price * item.qty)}
+          </p>
+        </div>
 
-        <div className="mt-4 flex w-full flex-wrap items-center justify-start gap-x-5 gap-y-2">
+        <div
+          className={[
+            "mt-4 flex w-full flex-wrap items-center",
+            "justify-start gap-x-5 gap-y-2",
+            compact ? "" : "md:mt-auto md:pt-5",
+          ].join(" ")}
+        >
           <div className="inline-flex items-center border border-black/15">
             <button
               type="button"
@@ -274,6 +318,7 @@ export default function CartView({
                 remove={remove}
                 labels={labels}
                 formatMoney={formatMoney}
+                compact={compact}
               />
             ))}
           </ul>
@@ -308,6 +353,22 @@ export default function CartView({
           </p>
 
           <div className="mt-5">
+            {compact && (
+              <Link
+                href={`/${locale}/bag`}
+                onClick={onNavigate}
+                className={[
+                  "font-garamond hover:text-gold mb-2 flex min-h-11",
+                  "items-center justify-center text-sm text-neutral-600",
+                  "underline decoration-black/20 underline-offset-4",
+                  "transition-colors duration-200",
+                  FOCUS_CLASS,
+                ].join(" ")}
+              >
+                {labels.viewBag}
+              </Link>
+            )}
+
             <CheckoutButton
               className={[
                 "font-garamond inline-flex min-h-12 w-full",
