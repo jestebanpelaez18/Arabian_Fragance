@@ -12,6 +12,7 @@ const allProductsQuery = `
           title
           handle
           productType
+
           collections(first: 20) {
             edges {
               node {
@@ -19,13 +20,16 @@ const allProductsQuery = `
               }
             }
           }
+
           availableForSale
+
           priceRange {
             minVariantPrice {
               amount
               currencyCode
             }
           }
+
           images(first: 8) {
             edges {
               node {
@@ -34,6 +38,7 @@ const allProductsQuery = `
               }
             }
           }
+
           variants(first: 1) {
             edges {
               node {
@@ -41,27 +46,51 @@ const allProductsQuery = `
               }
             }
           }
-          gender: metafield(namespace: "custom", key: "gender") { value }
-          notes: metafield(namespace: "custom", key: "main_accord") { value }
-          topNotes: metafield(namespace: "custom", key: "top_notes") { value }
-          heartNotes: metafield(namespace: "custom", key: "hearth_notes") { value }
-          baseNotes: metafield(namespace: "custom", key: "base_notes") { value }
-          concentration: metafield(namespace: "custom", key: "concentration") { value }
-          fragranceType: metafield(namespace: "custom", key: "fragrance_type") { value }
+
+          gender: metafield(namespace: "custom", key: "gender") {
+            value
+          }
+
+          notes: metafield(namespace: "custom", key: "main_accord") {
+            value
+          }
+
+          topNotes: metafield(namespace: "custom", key: "top_notes") {
+            value
+          }
+
+          heartNotes: metafield(namespace: "custom", key: "hearth_notes") {
+            value
+          }
+
+          baseNotes: metafield(namespace: "custom", key: "base_notes") {
+            value
+          }
+
+          concentration: metafield(namespace: "custom", key: "concentration") {
+            value
+          }
+
+          fragranceType: metafield(namespace: "custom", key: "fragrance_type") {
+            value
+          }
         }
       }
     }
   }
 `;
 
-// Classification uses the original English product types in every locale.
-// IDs connect these values to the corresponding translated products.
-const productTypesQuery = `
-  query ProductTypes($ids: [ID!]!) @inContext(language: EN) {
+// Classification values remain consistent across storefront languages.
+const productClassificationQuery = `
+  query ProductClassification($ids: [ID!]!) @inContext(language: EN) {
     nodes(ids: $ids) {
       ... on Product {
         id
         productType
+
+        gender: metafield(namespace: "custom", key: "gender") {
+          value
+        }
       }
     }
   }
@@ -77,39 +106,57 @@ type ShopifyProductsOperation = {
   };
 };
 
-type ShopifyProductTypesOperation = {
-  data?: {
-    nodes: Array<{
-      id: string;
-      productType: string;
-    } | null>;
-  };
+type ProductClassification = {
+  id: string;
+  productType: string;
+  gender: {
+    value: string;
+  } | null;
 };
 
-async function getOriginalProductTypes(
+type ShopifyProductClassificationOperation = {
+  data?: {
+    nodes: Array<ProductClassification | null>;
+  };
+  errors?: Array<{ message: string }>;
+};
+
+async function getOriginalProductClassification(
   ids: string[],
-): Promise<Map<string, string>> {
-  const { body } = await shopifyFetch<ShopifyProductTypesOperation>({
-    query: productTypesQuery,
+): Promise<Map<string, ProductClassification>> {
+  const response = await shopifyFetch<ShopifyProductClassificationOperation>({
+    query: productClassificationQuery,
     variables: { ids },
     next: {
       revalidate: 300,
       tags: ["products"],
     },
   });
+  const { body } = response;
 
   const nodes = body?.data?.nodes;
 
-  const productTypes = new Map<string, string>();
+  if (
+    response.error ||
+    response.status >= 400 ||
+    body?.errors?.length ||
+    !nodes
+  ) {
+    console.error(
+      "Could not load original Shopify product classification.",
+      response.error ?? body?.errors,
+    );
+  }
 
-  // On failure the translated type is kept, so the page still renders.
+  const classification = new Map<string, ProductClassification>();
+
   for (const node of nodes ?? []) {
     if (node) {
-      productTypes.set(node.id, node.productType.trim());
+      classification.set(node.id, node);
     }
   }
 
-  return productTypes;
+  return classification;
 }
 
 export async function getShopifyProducts(locale: Locale) {
@@ -130,19 +177,26 @@ export async function getShopifyProducts(locale: Locale) {
     return [];
   }
 
-  // English products already contain the original classification.
   if (locale === "en") {
     return edges.map(({ node }) => normalizeProduct(node));
   }
 
-  const originalProductTypes = await getOriginalProductTypes(
-    edges.map(({ node }) => node.id),
-  );
+  const ids = edges.map(({ node }) => node.id);
+  const originalClassification = await getOriginalProductClassification(ids);
 
-  return edges.map(({ node }) =>
-    normalizeProduct({
+  return edges.map(({ node }) => {
+    const classification = originalClassification.get(node.id);
+
+    if (!classification) {
+      console.error(
+        `Missing original Shopify classification for product ${node.id}; using localized values.`,
+      );
+    }
+
+    return normalizeProduct({
       ...node,
-      productType: originalProductTypes.get(node.id) ?? node.productType,
-    }),
-  );
+      productType: classification?.productType.trim() || node.productType,
+      gender: classification?.gender ?? node.gender,
+    });
+  });
 }
