@@ -80,7 +80,8 @@ const allProductsQuery = `
   }
 `;
 
-// Classification values remain consistent across storefront languages.
+// Filters use the original classification values in every language.
+// Include the note pyramid because the mapper uses it when main_accord is empty.
 const productClassificationQuery = `
   query ProductClassification($ids: [ID!]!) @inContext(language: EN) {
     nodes(ids: $ids) {
@@ -89,6 +90,22 @@ const productClassificationQuery = `
         productType
 
         gender: metafield(namespace: "custom", key: "gender") {
+          value
+        }
+
+        notes: metafield(namespace: "custom", key: "main_accord") {
+          value
+        }
+
+        topNotes: metafield(namespace: "custom", key: "top_notes") {
+          value
+        }
+
+        heartNotes: metafield(namespace: "custom", key: "hearth_notes") {
+          value
+        }
+
+        baseNotes: metafield(namespace: "custom", key: "base_notes") {
           value
         }
       }
@@ -106,12 +123,18 @@ type ShopifyProductsOperation = {
   };
 };
 
+type ShopifyMetafield = {
+  value: string;
+} | null;
+
 type ProductClassification = {
   id: string;
   productType: string;
-  gender: {
-    value: string;
-  } | null;
+  gender: ShopifyMetafield;
+  notes: ShopifyMetafield;
+  topNotes: ShopifyMetafield;
+  heartNotes: ShopifyMetafield;
+  baseNotes: ShopifyMetafield;
 };
 
 type ShopifyProductClassificationOperation = {
@@ -135,13 +158,10 @@ async function getOriginalProductClassification(
   const { body } = response;
 
   const nodes = body?.data?.nodes;
+  const hasErrors =
+    response.error || response.status >= 400 || body?.errors?.length;
 
-  if (
-    response.error ||
-    response.status >= 400 ||
-    body?.errors?.length ||
-    !nodes
-  ) {
+  if (hasErrors || !nodes) {
     console.error(
       "Could not load original Shopify product classification.",
       response.error ?? body?.errors,
@@ -183,20 +203,32 @@ export async function getShopifyProducts(locale: Locale) {
 
   const ids = edges.map(({ node }) => node.id);
   const originalClassification = await getOriginalProductClassification(ids);
+  const missingClassifications: string[] = [];
 
-  return edges.map(({ node }) => {
+  const products = edges.map(({ node }) => {
     const classification = originalClassification.get(node.id);
 
     if (!classification) {
-      console.error(
-        `Missing original Shopify classification for product ${node.id}; using localized values.`,
-      );
+      missingClassifications.push(node.id);
     }
 
     return normalizeProduct({
       ...node,
       productType: classification?.productType.trim() || node.productType,
       gender: classification?.gender ?? node.gender,
+      notes: classification?.notes ?? node.notes,
+      topNotes: classification?.topNotes ?? node.topNotes,
+      heartNotes: classification?.heartNotes ?? node.heartNotes,
+      baseNotes: classification?.baseNotes ?? node.baseNotes,
     });
   });
+
+  if (missingClassifications.length > 0) {
+    console.error(
+      "Missing original Shopify classification for products; using localized values.",
+      missingClassifications,
+    );
+  }
+
+  return products;
 }
