@@ -2,6 +2,8 @@
 
 import { useEffect, useId, useRef, useState, useTransition } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { getLocaleFromPathname } from "@/lib/i18n/uiLabels";
+import { getNoteLabel } from "@/lib/i18n/note-labels";
 
 type ShopFiltersLabels = {
   countLabelSingular: string;
@@ -133,6 +135,7 @@ export default function ShopFilters({
 }: Props) {
   const router = useRouter();
   const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
   const searchParams = useSearchParams();
   const titleId = useId();
   const [isPending, startTransition] = useTransition();
@@ -421,7 +424,10 @@ export default function ShopFilters({
             >
               <FilterGroup
                 title={labels.scentProfile}
-                options={allNotes.map((note) => ({ value: note, label: note }))}
+                options={allNotes.map((note) => ({
+                  value: note,
+                  label: getNoteLabel(note, locale),
+                }))}
                 selected={draft.notes}
                 onToggle={(value) => toggleOption("notes", value)}
                 gridClassName={

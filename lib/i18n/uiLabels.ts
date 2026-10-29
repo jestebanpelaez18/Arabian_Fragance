@@ -908,5 +908,31 @@ export function getLocaleFromPathname(pathname: string | null): Locale {
 }
 
 export function getUiLabels(locale: Locale): UiLabels {
-  return uiLabels[locale] ?? uiLabels[i18n.defaultLocale];
+  const localized = uiLabels[locale] ?? uiLabels[i18n.defaultLocale];
+  const englishNavigation = uiLabels.en.navbar;
+
+  return {
+    ...localized,
+    navbar: {
+      ...localized.navbar,
+
+      // Navigation names remain in English across all storefront languages.
+      perfumes: englishNavigation.perfumes,
+      byCategory: englishNavigation.byCategory,
+      byCollection: englishNavigation.byCollection,
+      womenPerfumes: englishNavigation.womenPerfumes,
+      menPerfumes: englishNavigation.menPerfumes,
+      unisexPerfumes: englishNavigation.unisexPerfumes,
+      shopAll: englishNavigation.shopAll,
+      luxuryCollection: englishNavigation.luxuryCollection,
+      premiumCollection: englishNavigation.premiumCollection,
+      essentialCollection: englishNavigation.essentialCollection,
+      oilsAttars: englishNavigation.oilsAttars,
+      bathBody: englishNavigation.bathBody,
+      home: englishNavigation.home,
+      discovery: englishNavigation.discovery,
+      houseOfArabian: englishNavigation.houseOfArabian,
+      mobileShopTitle: englishNavigation.mobileShopTitle,
+    },
+  };
 }

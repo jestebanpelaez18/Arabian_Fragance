@@ -7,10 +7,8 @@ type ShopCatalog = {
   matches: (product: Product) => boolean;
 };
 
-// Shopify translates productType under @inContext(language), so each type
-// is matched against its known translations (the English value is the key).
 const PRODUCT_TYPE_ALIASES = {
-  Perfume: ["Perfume", "Hajuvesi"],
+  Perfume: ["Perfume"],
   Attar: ["Attar"],
   "Body Mist": ["Body Mist"],
   "Discovery Set": ["Discovery Set"],
@@ -23,6 +21,7 @@ function hasProductType(
   type: ProductType,
 ): boolean {
   const aliases: readonly string[] = PRODUCT_TYPE_ALIASES[type];
+
   return aliases.includes(product.productType ?? "");
 }
 
@@ -53,7 +52,7 @@ export const SHOP_CATALOGS = {
     title: "Women's Perfumes",
     subtitle:
       "Luminous florals with oriental warmth. Compositions crafted for elegance, sensuality and a lasting trail—unmistakably Arabian.",
-    collectionHandle: null,
+    collectionHandle: "women-perfumes",
     matches: (product: Product) =>
       isPerfume(product) && product.gender === "women",
   },
@@ -61,7 +60,7 @@ export const SHOP_CATALOGS = {
     title: "Men's Perfumes",
     subtitle:
       "Smoky woods, spice and amber facets in measured balance. Distinctive signatures designed for modern understatement.",
-    collectionHandle: null,
+    collectionHandle: "men-perfumes",
     matches: (product: Product) =>
       isPerfume(product) && product.gender === "men",
   },
@@ -69,7 +68,7 @@ export const SHOP_CATALOGS = {
     title: "Unisex Perfumes",
     subtitle:
       "Refined, versatile compositions: resinous depth, airy florals and citrus lift—contemporary scents made to be shared.",
-    collectionHandle: null,
+    collectionHandle: "unisex-perfumes",
     matches: (product: Product) =>
       isPerfume(product) && product.gender === "unisex",
   },
@@ -107,7 +106,7 @@ export const SHOP_CATALOGS = {
     matches: (product: Product) => hasProductType(product, "Body Mist"),
   },
   discovery: {
-    title: "Discovery",
+    title: "Discovery Set",
     subtitle: "",
     collectionHandle: "discovery",
     matches: (product: Product) => hasProductType(product, "Discovery Set"),

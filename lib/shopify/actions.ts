@@ -1,9 +1,9 @@
 "use server";
 
-import { shopifyFetch } from "@/lib/shopify/shopify";
 import type { Locale } from "@/i18n-config";
-import { getShopifyLanguageCode } from "@/lib/shopify/locale";
 import { rankProducts, type SearchableFields } from "@/lib/shop/search";
+import { getShopifyLanguageCode } from "@/lib/shopify/locale";
+import { shopifyFetch } from "@/lib/shopify/shopify";
 
 export type Product = {
   id: string;
@@ -174,8 +174,7 @@ async function getSearchCatalog(locale: Locale): Promise<SearchProduct[]> {
       response.body?.errors?.length ||
       !connection
     ) {
-      console.error("Unable to load the navigation search catalog.");
-      throw new Error("Unable to search products.");
+      throw new Error("Unable to load the navigation search catalog.");
     }
 
     for (const product of connection.nodes) {
@@ -197,6 +196,43 @@ async function getSearchCatalog(locale: Locale): Promise<SearchProduct[]> {
   }
 
   return Array.from(products.values());
+}
+
+function mergeOriginalClassification(
+  localizedProducts: SearchProduct[],
+  originalProducts: SearchProduct[],
+): SearchProduct[] {
+  const originalsById = new Map(
+    originalProducts.map((product) => [product.id, product]),
+  );
+
+  return localizedProducts.map((product) => {
+    const original = originalsById.get(product.id);
+
+    if (!original) {
+      throw new Error(
+        `Missing original search classification for ${product.id}.`,
+      );
+    }
+
+    return {
+      ...product,
+      productType: original.productType,
+      gender: original.gender,
+      mainAccords: original.mainAccords,
+      topNotes: original.topNotes,
+      heartNotes: original.heartNotes,
+      baseNotes: original.baseNotes,
+      keyNotes: original.keyNotes,
+      fragranceType: original.fragranceType,
+      collections: {
+        nodes: [
+          ...(original.collections?.nodes ?? []),
+          ...(product.collections?.nodes ?? []),
+        ],
+      },
+    };
+  });
 }
 
 export async function getTrendingProducts(locale: Locale): Promise<Product[]> {
@@ -229,7 +265,21 @@ export async function searchProductsAction(
   term: string,
   locale: Locale,
 ): Promise<Product[]> {
-  const products = await getSearchCatalog(locale);
+  if (locale === "en") {
+    const products = await getSearchCatalog(locale);
+
+    return rankProducts(products, term, locale).map(toProduct);
+  }
+
+  const [localizedProducts, originalProducts] = await Promise.all([
+    getSearchCatalog(locale),
+    getSearchCatalog("en"),
+  ]);
+
+  const products = mergeOriginalClassification(
+    localizedProducts,
+    originalProducts,
+  );
 
   return rankProducts(products, term, locale).map(toProduct);
 }
