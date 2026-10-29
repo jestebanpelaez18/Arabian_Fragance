@@ -1,6 +1,7 @@
 import type { Locale } from "@/i18n-config";
 import { isAttar } from "@/lib/shop/catalogs";
 import { getShopifyLanguageCode } from "@/lib/shopify/locale";
+import { withOriginalProductTypes } from "@/lib/shopify/product-types";
 import { shopifyFetch } from "@/lib/shopify/shopify";
 
 export type LayeringProduct = {
@@ -36,9 +37,7 @@ type LayeringOperation = {
       };
     };
   };
-  errors?: {
-    message: string;
-  }[];
+  errors?: Array<{ message: string }>;
 };
 
 const layeringQuery = `
@@ -46,11 +45,7 @@ const layeringQuery = `
     $language: LanguageCode!
     $after: String
   ) @inContext(language: $language) {
-    products(
-      first: 100
-      after: $after
-      sortKey: TITLE
-    ) {
+    products(first: 100, after: $after, sortKey: TITLE) {
       nodes {
         id
         handle
@@ -104,6 +99,7 @@ export async function getLayeringAttars(
   locale: Locale,
 ): Promise<LayeringProduct[]> {
   const matches = new Map<string, LayeringProduct>();
+  const visitedCursors = new Set<string>();
 
   let after: string | null = null;
 
@@ -111,6 +107,7 @@ export async function getLayeringAttars(
     const response: {
       status: number;
       body: LayeringOperation;
+      error?: string;
     } = await shopifyFetch<LayeringOperation>({
       query: layeringQuery,
       variables: {
@@ -123,19 +120,20 @@ export async function getLayeringAttars(
       },
     });
 
-    if (response.body?.errors?.length) {
-      throw new Error(
-        response.body.errors.map((error) => error.message).join("; "),
-      );
-    }
-
     const connection = response.body?.data?.products;
 
-    if (response.status >= 400 || !connection) {
+    if (
+      response.error ||
+      response.status >= 400 ||
+      response.body?.errors?.length ||
+      !connection
+    ) {
       throw new Error("Unable to load layering products from Shopify.");
     }
 
-    for (const product of connection.nodes) {
+    const candidates = await withOriginalProductTypes(connection.nodes, locale);
+
+    for (const product of candidates) {
       if (!isAttar(product) || product.id === perfumeId) {
         continue;
       }
@@ -144,7 +142,9 @@ export async function getLayeringAttars(
         product.layeringProducts?.value,
       );
 
-      if (!referencedIds.includes(perfumeId)) continue;
+      if (!referencedIds.includes(perfumeId)) {
+        continue;
+      }
 
       matches.set(product.id, {
         id: product.id,
@@ -155,15 +155,18 @@ export async function getLayeringAttars(
       });
     }
 
-    if (!connection.pageInfo.hasNextPage) break;
-
-    const nextCursor = connection.pageInfo.endCursor;
-
-    if (!nextCursor || nextCursor === after) {
-      throw new Error("Unable to continue Shopify layering pagination.");
+    if (!connection.pageInfo.hasNextPage) {
+      break;
     }
 
-    after = nextCursor;
+    const cursor: string | null = connection.pageInfo.endCursor;
+
+    if (!cursor || visitedCursors.has(cursor)) {
+      throw new Error("Invalid Shopify layering pagination.");
+    }
+
+    visitedCursors.add(cursor);
+    after = cursor;
   }
 
   return Array.from(matches.values());

@@ -1,5 +1,6 @@
 import { type Product } from "@/data/products";
 import { i18n, type Locale } from "@/i18n-config";
+import { getNoteLabel } from "@/lib/i18n/note-labels";
 
 type ConcentrationFamily =
   | "extrait"
@@ -78,8 +79,8 @@ const PRODUCT_DISPLAY_LABELS: Record<Locale, ProductDisplayLabels> = {
       Smoky: "Savuinen",
     },
     concentrationLabels: {
-      extrait: "Parfyymiuute",
-      parfum: "Parfyymi",
+      extrait: "Extrait de Parfum",
+      parfum: "Parfum",
       eau_de_parfum: "Eau de Parfum",
       eau_de_toilette: "Eau de Toilette",
       eau_de_cologne: "Eau de Cologne",
@@ -112,8 +113,8 @@ const PRODUCT_DISPLAY_LABELS: Record<Locale, ProductDisplayLabels> = {
       Smoky: "Rökig",
     },
     concentrationLabels: {
-      extrait: "Parfymextrakt",
-      parfum: "Parfym",
+      extrait: "Extrait de Parfum",
+      parfum: "Parfum",
       eau_de_parfum: "Eau de Parfum",
       eau_de_toilette: "Eau de Toilette",
       eau_de_cologne: "Eau de Cologne",
@@ -160,6 +161,7 @@ function formatFragranceTypeLabel(
   locale: Locale = i18n.defaultLocale,
 ): string {
   const value = rawFragranceType?.trim();
+
   if (!value) return "";
 
   const normalized = value
@@ -182,15 +184,15 @@ function formatFragranceTypeLabel(
 
 /**
  * Reads a percentage from Shopify's Concentration field.
- * Accepts "25%", "25 %" and plain numeric values such as "25".
+ * Accepts percentages, numeric values and "100% Perfume Oil".
  */
 export function getConcentrationPercent(
   rawConcentration?: string,
 ): number | null {
   const value = rawConcentration?.trim();
+
   if (!value) return null;
 
-  // Accept "100% Perfume Oil", "25 %" or a plain number.
   const match =
     value.match(/^(\d+(?:[.,]\d+)?)\s*%(?:\s+.*)?$/) ??
     value.match(/^(\d+(?:[.,]\d+)?)$/);
@@ -244,7 +246,7 @@ function formatNoteProfile(
   }
 
   const toDescriptor = (note: string): string =>
-    labels.noteAdjectives[note as ProductNote] ?? note;
+    labels.noteAdjectives[note as ProductNote] ?? getNoteLabel(note, locale);
 
   if (uniqueNotes.length === 1) {
     return `${toDescriptor(uniqueNotes[0])} ${labels.noteSuffix}`;

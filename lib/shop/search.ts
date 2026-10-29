@@ -172,7 +172,15 @@ function expandAliases(value: string, groups: string[][]): string {
 }
 
 function matchesWord(field: string[], queryWord: string): boolean {
-  return field.some((word) => word.startsWith(queryWord));
+  const aliasGroup = NOTE_ALIASES.find((aliases) =>
+    aliases.some((alias) => normalize(alias) === queryWord),
+  );
+
+  const queryAliases = aliasGroup?.map(normalize) ?? [queryWord];
+
+  return field.some((word) =>
+    queryAliases.some((alias) => word.startsWith(alias)),
+  );
 }
 
 function scoreProduct(

@@ -1,7 +1,8 @@
 import type { Locale } from "@/i18n-config";
-import { getShopifyLanguageCode } from "@/lib/shopify/locale";
-import { shopifyFetch } from "@/lib/shopify/shopify";
 import type { LayeringProduct } from "@/lib/shopify/get-layering-attars";
+import { getShopifyLanguageCode } from "@/lib/shopify/locale";
+import { withOriginalProductTypes } from "@/lib/shopify/product-types";
+import { shopifyFetch } from "@/lib/shopify/shopify";
 
 type ShopifyMetafield = {
   value: string;
@@ -69,9 +70,7 @@ type SingleProductOperation = {
   data?: {
     product: ShopifyProduct | null;
   };
-  errors?: {
-    message: string;
-  }[];
+  errors?: Array<{ message: string }>;
 };
 
 type AllProductsOperation = {
@@ -150,10 +149,7 @@ const singleProductQuery = `
       gender: metafield(namespace: "custom", key: "gender") {
         value
       }
-      fragranceType: metafield(
-        namespace: "custom"
-        key: "fragrance_type"
-      ) {
+      fragranceType: metafield(namespace: "custom", key: "fragrance_type") {
         value
       }
       size: metafield(namespace: "custom", key: "size") {
@@ -239,11 +235,19 @@ export async function getShopifyProductByHandle(
     );
   }
 
-  if (response.status >= 400 || !response.body?.data) {
+  if (response.error || response.status >= 400 || !response.body?.data) {
     throw new Error("Unable to load the product from Shopify.");
   }
 
-  return response.body.data.product;
+  const product = response.body.data.product;
+
+  if (!product) {
+    return null;
+  }
+
+  const products = await withOriginalProductTypes([product], locale);
+
+  return products[0] ?? null;
 }
 
 export async function getShopifyProductHandles() {
