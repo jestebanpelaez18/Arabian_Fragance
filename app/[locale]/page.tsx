@@ -1,6 +1,7 @@
+import HomeHero from "@/components/home/HomeHero";
 import DiscoverSection from "@/components/sections/DiscoverSection";
-import LuxeHero from "@/components/ui/LuxeHero";
 import CategoryShowcase from "@/components/sections/CategoryShowcase";
+import CollectionsShowcase from "@/components/sections/CollectionsShowcase";
 import GiftHero from "@/components/sections/GiftHero";
 import ShowroomSection from "@/components/showroom/ShowroomSection";
 import AboutSection from "@/components/sections/AboutSection";
@@ -8,7 +9,7 @@ import { getDictionary } from "@/dictionaries/getDictionary";
 import { i18n, type Locale } from "@/i18n-config";
 import { getShopifyProducts } from "@/lib/shopify/get-products";
 import { getHomeCollections } from "@/lib/shopify/get-collections";
-import CollectionsShowcase from "@/components/sections/CollectionsShowcase";
+import { getHomeHero, type HomeHeroContent } from "@/lib/shopify/get-home-hero";
 
 interface PageProps {
   params: Promise<{ locale: Locale }>;
@@ -19,8 +20,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const resolvedParams = await params;
-  const dictionary = await getDictionary(resolvedParams.locale);
+  const { locale } = await params;
+  const dictionary = await getDictionary(locale);
 
   return {
     title: dictionary.store.welcome,
@@ -28,28 +29,38 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function Home({ params }: PageProps) {
-  const resolvedParams = await params;
-  const dict = await getDictionary(resolvedParams.locale);
-  const products = await getShopifyProducts(resolvedParams.locale);
-  const collections = await getHomeCollections(resolvedParams.locale);
+  const { locale } = await params;
+
+  const [dict, products, collections, shopifyHero] = await Promise.all([
+    getDictionary(locale),
+    getShopifyProducts(locale),
+    getHomeCollections(locale),
+    getHomeHero(locale),
+  ]);
+
+  const fallbackHero: HomeHeroContent = {
+    title: dict.hero.title,
+    subtitle: dict.hero.subtitle,
+    desktopImage: {
+      url: "/hero/brand_hero.avif",
+      altText: null,
+      width: 1920,
+      height: 1080,
+    },
+    mobileImage: null,
+    buttonLabel: dict.hero.ctaLabel,
+    buttonHref: `/${locale}/shop`,
+  };
 
   return (
     <div>
-      {/* ===== Main HERO ===== */}
-      <LuxeHero
-        title={dict.hero.title}
-        subtitle={dict.hero.subtitle}
-        ctaLabel={dict.hero.ctaLabel}
-        ctaHref="/shop"
-        imageSrc="/hero/brand_hero.avif"
-        fit="cover"
-        objectClassName="object-[50%_35%]"
-        minH="min-h-[90svh] md:min-h-screen"
-      />
+      <HomeHero hero={shopifyHero ?? fallbackHero} />
+
       <CategoryShowcase
         headerTitle={dict.homeSections.artOfEssence.title}
         headerDescription={dict.homeSections.artOfEssence.description}
       />
+
       <CollectionsShowcase
         collections={collections}
         headerTitle={dict.homeSections.collections.title}
@@ -71,6 +82,7 @@ export default async function Home({ params }: PageProps) {
       />
 
       <ShowroomSection />
+
       <AboutSection
         title={dict.about.title}
         descriptions={[dict.about.description1, dict.about.description2]}
