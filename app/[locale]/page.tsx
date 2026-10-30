@@ -9,7 +9,6 @@ import { i18n, type Locale } from "@/i18n-config";
 import { getShopifyProducts } from "@/lib/shopify/get-products";
 import { getHomeCollections } from "@/lib/shopify/get-collections";
 import CollectionsShowcase from "@/components/sections/CollectionsShowcase";
-import QuickNav from "@/components/layout/QuickNav";
 
 interface PageProps {
   params: Promise<{ locale: Locale }>;
@@ -47,7 +46,6 @@ export default async function Home({ params }: PageProps) {
         objectClassName="object-[50%_35%]"
         minH="min-h-[90svh] md:min-h-screen"
       />
-      <QuickNav />
       <CategoryShowcase
         headerTitle={dict.homeSections.artOfEssence.title}
         headerDescription={dict.homeSections.artOfEssence.description}

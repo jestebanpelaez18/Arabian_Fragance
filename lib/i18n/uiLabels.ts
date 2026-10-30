@@ -68,13 +68,6 @@ type UiLabels = {
       unisexTab: string;
       viewAllPrefix: string;
     };
-    quickNav: {
-      newArrivals: string;
-      bestSellers: string;
-      luxuryCollection: string;
-      premiumCollection: string;
-      oudSignatures: string;
-    };
     showroomSection: {
       leftImageAlt: string;
       rightImageAlt: string;
@@ -292,13 +285,6 @@ const uiLabels: Record<Locale, UiLabels> = {
         menTab: "MEN",
         unisexTab: "UNISEX",
         viewAllPrefix: "View all",
-      },
-      quickNav: {
-        newArrivals: "New Arrivals",
-        bestSellers: "Best Sellers",
-        luxuryCollection: "Luxury Collection",
-        premiumCollection: "Premium Collection",
-        oudSignatures: "Oud Signatures",
       },
       showroomSection: {
         leftImageAlt: "Arabian Fragrance showroom",
@@ -529,13 +515,6 @@ const uiLabels: Record<Locale, UiLabels> = {
         unisexTab: "UNISEX",
         viewAllPrefix: "Näytä kaikki",
       },
-      quickNav: {
-        newArrivals: "Uutuudet",
-        bestSellers: "Myydyimmät",
-        luxuryCollection: "Luxury-kokoelma",
-        premiumCollection: "Premium-kokoelma",
-        oudSignatures: "Oud-signatuurit",
-      },
       showroomSection: {
         leftImageAlt: "Arabian Fragrancen showroom",
         rightImageAlt: "Showroom-yksityiskohta",
@@ -764,13 +743,6 @@ const uiLabels: Record<Locale, UiLabels> = {
         menTab: "HERR",
         unisexTab: "UNISEX",
         viewAllPrefix: "Visa alla",
-      },
-      quickNav: {
-        newArrivals: "Nyheter",
-        bestSellers: "Bastsaljare",
-        luxuryCollection: "Luxury-kollektionen",
-        premiumCollection: "Premium-kollektionen",
-        oudSignatures: "Oud-signaturer",
       },
       showroomSection: {
         leftImageAlt: "Arabian Fragrance showroom",
