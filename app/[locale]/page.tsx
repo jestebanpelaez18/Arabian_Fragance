@@ -9,6 +9,8 @@ import { getDictionary } from "@/dictionaries/getDictionary";
 import { i18n, type Locale } from "@/i18n-config";
 import { getShopifyProducts } from "@/lib/shopify/get-products";
 import { getHomeCollections } from "@/lib/shopify/get-collections";
+import { getHomeCategoryImages } from "@/lib/shopify/get-home-category-images";
+import { getHomeSection } from "@/lib/shopify/get-home-section";
 import { getHomeHero, type HomeHeroContent } from "@/lib/shopify/get-home-hero";
 
 interface PageProps {
@@ -31,11 +33,24 @@ export async function generateMetadata({ params }: PageProps) {
 export default async function Home({ params }: PageProps) {
   const { locale } = await params;
 
-  const [dict, products, collections, shopifyHero] = await Promise.all([
+  const [
+    dict,
+    products,
+    collections,
+    shopifyHero,
+    categoryImages,
+    shopifyCategoryHeader,
+    shopifyCollectionsHeader,
+    shopifyFeaturedHeader,
+  ] = await Promise.all([
     getDictionary(locale),
     getShopifyProducts(locale),
     getHomeCollections(locale),
     getHomeHero(locale),
+    getHomeCategoryImages(locale),
+    getHomeSection(locale, "categories"),
+    getHomeSection(locale, "collections"),
+    getHomeSection(locale, "featured"),
   ]);
 
   const fallbackHero: HomeHeroContent = {
@@ -52,25 +67,42 @@ export default async function Home({ params }: PageProps) {
     buttonHref: `/${locale}/shop`,
   };
 
+  const categoryHeader = shopifyCategoryHeader ?? {
+    title: dict.homeSections.artOfEssence.title,
+    description: dict.homeSections.artOfEssence.description,
+  };
+
+  const collectionsHeader = shopifyCollectionsHeader ?? {
+    title: dict.homeSections.collections.title,
+    description: dict.homeSections.collections.description,
+  };
+
+  const featuredHeader = shopifyFeaturedHeader ?? {
+    title: dict.homeSections.privateCollection.title,
+    description: dict.homeSections.privateCollection.description,
+  };
+
   return (
     <div>
       <HomeHero hero={shopifyHero ?? fallbackHero} />
 
       <CategoryShowcase
-        headerTitle={dict.homeSections.artOfEssence.title}
-        headerDescription={dict.homeSections.artOfEssence.description}
+        images={categoryImages}
+        locale={locale}
+        headerTitle={categoryHeader.title}
+        headerDescription={categoryHeader.description}
       />
 
       <CollectionsShowcase
         collections={collections}
-        headerTitle={dict.homeSections.collections.title}
-        headerDescription={dict.homeSections.collections.description}
+        headerTitle={collectionsHeader.title}
+        headerDescription={collectionsHeader.description}
       />
 
       <DiscoverSection
         products={products}
-        headerTitle={dict.homeSections.privateCollection.title}
-        headerDescription={dict.homeSections.privateCollection.description}
+        headerTitle={featuredHeader.title}
+        headerDescription={featuredHeader.description}
       />
 
       <GiftHero

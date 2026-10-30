@@ -1,164 +1,127 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import SmoothImage from "../ui/SmoothImage";
-import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
-import SectionHeader from "../ui/SectionHeader";
+import SmoothImage from "@/components/ui/SmoothImage";
+import type { Locale } from "@/i18n-config";
+import { getUiLabels } from "@/lib/i18n/uiLabels";
+import type { HomeCategoryImages } from "@/lib/shopify/get-home-category-images";
 
-type CategoryTheme = "light" | "dark";
+type CategoryKey = keyof HomeCategoryImages;
 
 type CategoryItem = {
+  key: CategoryKey;
   href: string;
-  imageSrc: string;
   title: string;
   subtitle: string;
-  ariaLabel?: string;
-  theme: CategoryTheme;
+  ariaLabel: string;
 };
 
 type CategoryShowcaseProps = {
+  images: HomeCategoryImages;
+  locale: Locale;
   headerTitle?: string;
   headerDescription?: string;
 };
 
 export default function CategoryShowcase({
+  images,
+  locale,
   headerTitle,
   headerDescription,
 }: CategoryShowcaseProps) {
-  const pathname = usePathname();
-  const locale = getLocaleFromPathname(pathname);
   const labels = getUiLabels(locale).sections.categoryShowcase;
 
-  const categoryItems: CategoryItem[] = [
+  const items: CategoryItem[] = [
     {
-      href: "/shop/women",
-      imageSrc: "/shop/bottle-women.png",
+      key: "women",
+      href: `/${locale}/shop/women`,
       title: labels.womenTitle,
       subtitle: labels.womenSubtitle,
       ariaLabel: labels.womenAria,
-      theme: "light",
     },
     {
-      href: "/shop/unisex",
-      imageSrc: "/shop/hero-unisex.jpg",
+      key: "unisex",
+      href: `/${locale}/shop/unisex`,
       title: labels.unisexTitle,
       subtitle: labels.unisexSubtitle,
       ariaLabel: labels.unisexAria,
-      theme: "dark",
     },
     {
-      href: "/shop/men",
-      imageSrc: "/shop/bottle-men.png",
+      key: "men",
+      href: `/${locale}/shop/men`,
       title: labels.menTitle,
       subtitle: labels.menSubtitle,
       ariaLabel: labels.menAria,
-      theme: "light",
     },
   ];
 
   return (
-    <>
-      {headerTitle && headerDescription ? (
-        <SectionHeader title={headerTitle} description={headerDescription} />
-      ) : null}
-
-      <section className="bg-background px-4 py-14 md:px-6 md:py-18">
-        <div className="w-full">
-          <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-3 lg:gap-8">
-            {categoryItems.map((item) => (
-              <CategoryCard
-                key={item.href}
-                href={item.href}
-                imageSrc={item.imageSrc}
-                title={item.title}
-                subtitle={item.subtitle}
-                ariaLabel={item.ariaLabel}
-                shopNowLabel={labels.shopNow}
-                theme={item.theme}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-    </>
-  );
-}
-
-type CategoryCardProps = {
-  href: string;
-  imageSrc: string;
-  title: string;
-  subtitle: string;
-  ariaLabel?: string;
-  shopNowLabel: string;
-  theme?: CategoryTheme;
-};
-
-function CategoryCard({
-  href,
-  imageSrc,
-  title,
-  subtitle,
-  ariaLabel,
-  shopNowLabel,
-  theme = "dark",
-}: CategoryCardProps) {
-  const isLight = theme === "light";
-
-  const ringClass = isLight
-    ? "ring-black/5 group-hover:ring-black/20"
-    : "ring-white/10 group-hover:ring-white/40";
-  const titleClass = isLight ? "text-gray-900" : "text-white";
-  const subtitleClass = isLight ? "text-gray-600" : "text-white/90";
-  const buttonClass = isLight
-    ? "border-gray-900 text-gray-900 group-hover:bg-gray-900 group-hover:text-white"
-    : "border-white text-white group-hover:bg-white group-hover:text-black";
-
-  return (
-    <Link
-      href={href}
-      aria-label={ariaLabel ?? title}
-      className="group relative block aspect-4/5 w-full overflow-hidden"
+    <section
+      aria-labelledby={headerTitle ? "home-categories-heading" : undefined}
+      className="bg-background w-full px-5 py-12 md:py-16 xl:px-6"
     >
-      <SmoothImage
-        src={imageSrc}
-        alt={ariaLabel ?? title}
-        fill
-        sizes="(min-width:768px) 33vw, 100vw"
-        className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-        loading="lazy"
-      />
-      {!isLight && (
-        <>
-          <div className="absolute inset-0 bg-black/10 transition-opacity duration-500 group-hover:bg-black/20" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-3/5 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
-        </>
+      {(headerTitle || headerDescription) && (
+        <header className="mx-auto mb-8 max-w-2xl text-center md:mb-12">
+          {headerTitle && (
+            <h2
+              id="home-categories-heading"
+              className="font-magister text-[28px] leading-tight font-normal tracking-[0.02em] text-neutral-900 md:text-4xl"
+            >
+              {headerTitle}
+            </h2>
+          )}
+
+          {headerDescription && (
+            <p className="font-garamond mt-4 text-base leading-relaxed text-neutral-600 md:text-lg">
+              {headerDescription}
+            </p>
+          )}
+        </header>
       )}
 
-      <div
-        className={`pointer-events-none absolute inset-0 ring-1 transition duration-500 ${ringClass}`}
-      />
+      <div className="grid grid-cols-1 gap-x-5 gap-y-10 md:grid-cols-3 lg:gap-x-6">
+        {items.map((item) => {
+          const image = images[item.key];
 
-      <div className="absolute inset-0 z-10 flex items-end">
-        <div className="mx-auto w-full p-8 text-center md:p-10">
-          <h2
-            className={`font-serif text-3xl leading-tight md:text-4xl ${titleClass}`}
-          >
-            {title}
-          </h2>
-          <p
-            className={`font-garamond mt-3 text-sm md:text-base ${subtitleClass}`}
-          >
-            {subtitle}
-          </p>
-          <span
-            className={`mt-8 inline-block border bg-transparent px-8 py-3 text-xs font-medium tracking-[0.2em] uppercase transition-colors ${buttonClass}`}
-          >
-            {shopNowLabel}
-          </span>
-        </div>
+          return (
+            <Link
+              key={item.key}
+              href={item.href}
+              aria-label={item.ariaLabel}
+              className="group flex h-full min-w-0 flex-col focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black"
+            >
+              <div className="bg-background relative aspect-4/5 w-full shrink-0 overflow-hidden">
+                <SmoothImage
+                  src={image.url}
+                  alt={image.altText ?? ""}
+                  fill
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className={[
+                    "transition-transform duration-700 ease-out",
+                    "group-hover:scale-[1.025]",
+                    "motion-reduce:transform-none motion-reduce:transition-none",
+                    item.key === "unisex" ? "object-cover" : "object-contain",
+                  ].join(" ")}
+                />
+              </div>
+
+              <div className="flex flex-1 flex-col items-center px-2 pt-6 text-center">
+                <h3 className="font-magister group-hover:text-gold text-2xl leading-tight font-normal tracking-[0.02em] text-neutral-900 transition-colors duration-300">
+                  {item.title}
+                </h3>
+
+                <p className="font-garamond mt-3 max-w-sm text-base leading-relaxed text-neutral-600">
+                  {item.subtitle}
+                </p>
+
+                <div className="mt-auto pt-5">
+                  <span className="font-garamond group-hover:border-gold group-hover:text-gold inline-block border-b border-neutral-900/30 pb-1.5 text-xs tracking-[0.14em] text-neutral-900 uppercase transition-colors duration-300">
+                    {labels.shopNow}
+                  </span>
+                </div>
+              </div>
+            </Link>
+          );
+        })}
       </div>
-    </Link>
+    </section>
   );
 }
