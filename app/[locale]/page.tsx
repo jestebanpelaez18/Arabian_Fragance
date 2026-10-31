@@ -12,6 +12,7 @@ import { getHomeCollections } from "@/lib/shopify/get-collections";
 import { getHomeCategoryImages } from "@/lib/shopify/get-home-category-images";
 import { getHomeSection } from "@/lib/shopify/get-home-section";
 import { getHomeHero, type HomeHeroContent } from "@/lib/shopify/get-home-hero";
+import { getHomePromotion } from "@/lib/shopify/get-home-promotion";
 
 interface PageProps {
   params: Promise<{ locale: Locale }>;
@@ -42,6 +43,7 @@ export default async function Home({ params }: PageProps) {
     shopifyCategoryHeader,
     shopifyCollectionsHeader,
     shopifyFeaturedHeader,
+    shopifyDiscoveryPromotion,
   ] = await Promise.all([
     getDictionary(locale),
     getShopifyProducts(locale),
@@ -51,6 +53,7 @@ export default async function Home({ params }: PageProps) {
     getHomeSection(locale, "categories"),
     getHomeSection(locale, "collections"),
     getHomeSection(locale, "featured"),
+    getHomePromotion(locale, "discovery"),
   ]);
 
   const fallbackHero: HomeHeroContent = {
@@ -82,6 +85,15 @@ export default async function Home({ params }: PageProps) {
     description: dict.homeSections.privateCollection.description,
   };
 
+  const discoveryPromotion = shopifyDiscoveryPromotion ?? {
+    title: dict.gift.title,
+    description: dict.gift.description,
+    imageSrc: "/hero/the_discovery_section.jpg",
+    imageAlt: "",
+    ctaLabel: dict.gift.ctaLabel,
+    ctaHref: `/${locale}/shop/discovery`,
+  };
+
   return (
     <div>
       <HomeHero hero={shopifyHero ?? fallbackHero} />
@@ -106,11 +118,12 @@ export default async function Home({ params }: PageProps) {
       />
 
       <GiftHero
-        imageSrc="/hero/the_discovery_section.jpg"
-        title={dict.gift.title}
-        description={dict.gift.description}
-        ctaLabel={dict.gift.ctaLabel}
-        ctaHref="/shop"
+        imageSrc={discoveryPromotion.imageSrc}
+        imageAlt={discoveryPromotion.imageAlt}
+        title={discoveryPromotion.title}
+        description={discoveryPromotion.description}
+        ctaLabel={discoveryPromotion.ctaLabel}
+        ctaHref={discoveryPromotion.ctaHref}
       />
 
       <ShowroomSection />
