@@ -44,6 +44,8 @@ export default async function Home({ params }: PageProps) {
     shopifyCollectionsHeader,
     shopifyFeaturedHeader,
     shopifyDiscoveryPromotion,
+    shopifyShowroomPromotion,
+    shopifyAboutPromotion,
   ] = await Promise.all([
     getDictionary(locale),
     getShopifyProducts(locale),
@@ -54,6 +56,8 @@ export default async function Home({ params }: PageProps) {
     getHomeSection(locale, "collections"),
     getHomeSection(locale, "featured"),
     getHomePromotion(locale, "discovery"),
+    getHomePromotion(locale, "showroom"),
+    getHomePromotion(locale, "about"),
   ]);
 
   const fallbackHero: HomeHeroContent = {
@@ -126,14 +130,27 @@ export default async function Home({ params }: PageProps) {
         ctaHref={discoveryPromotion.ctaHref}
       />
 
-      <ShowroomSection />
+      <ShowroomSection
+        imageSrc={shopifyShowroomPromotion?.imageSrc}
+        imageAlt={shopifyShowroomPromotion?.imageAlt}
+        heading={shopifyShowroomPromotion?.title}
+        description={shopifyShowroomPromotion?.description}
+        ctaLabel={shopifyShowroomPromotion?.ctaLabel}
+        ctaHref={shopifyShowroomPromotion?.ctaHref}
+      />
 
       <AboutSection
-        title={dict.about.title}
-        descriptions={[dict.about.description1, dict.about.description2]}
+        imageSrc={shopifyAboutPromotion?.imageSrc}
+        imageAlt={shopifyAboutPromotion?.imageAlt}
+        title={shopifyAboutPromotion?.title ?? dict.about.title}
+        descriptions={
+          shopifyAboutPromotion
+            ? [shopifyAboutPromotion.description]
+            : [dict.about.description1, dict.about.description2]
+        }
+        ctaHref={shopifyAboutPromotion?.ctaHref ?? `/${locale}/about`}
+        ctaLabel={shopifyAboutPromotion?.ctaLabel ?? dict.about.ctaLabel}
         reverse
-        ctaHref="/about"
-        ctaLabel={dict.about.ctaLabel}
       />
     </div>
   );
