@@ -148,7 +148,9 @@ function SearchPanel({
               <input
                 ref={inputRef}
                 id="navigation-search-input"
-                type="search"
+                type="text"
+                role="searchbox"
+                inputMode="search"
                 value={term}
                 maxLength={120}
                 onChange={(event) => {
