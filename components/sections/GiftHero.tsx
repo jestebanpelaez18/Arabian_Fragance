@@ -1,57 +1,60 @@
-"use client";
-
 import Link from "next/link";
-import SmoothImage from "../ui/SmoothImage";
-import SectionHeader from "@/components/ui/SectionHeader";
+import SmoothImage from "@/components/ui/SmoothImage";
 
-type GiftShowcaseProps = {
+type GiftHeroProps = {
   imageSrc: string;
+  imageAlt?: string;
   title: string;
   description: string;
   ctaLabel: string;
   ctaHref: string;
 };
 
-export default function GiftShowcase({
+export default function GiftHero({
   imageSrc,
+  imageAlt = "",
   title,
   description,
   ctaLabel,
   ctaHref,
-}: GiftShowcaseProps) {
+}: GiftHeroProps) {
   return (
-    <>
-      <SectionHeader title={title} description={description} />
+    <section
+      aria-labelledby="home-discovery-heading"
+      className="bg-background w-full px-5 py-12 md:py-16 xl:px-6"
+    >
+      <header className="mx-auto mb-10 max-w-2xl text-center md:mb-12">
+        <h2
+          id="home-discovery-heading"
+          className="font-magister text-[28px] leading-tight font-normal tracking-[0.02em] text-neutral-900 md:text-4xl"
+        >
+          {title}
+        </h2>
 
-      {/* We maintain the content block with matching background transitions */}
-      <section className="bg-background w-full pb-16">
-        {/* 2. UNIFIED HAUTE COUTURE CTA BUTTON */}
-        <div className="-mt-4 mb-14 w-full px-4 text-center">
-          <div className="mx-auto flex max-w-3xl flex-col items-center">
-            <Link
-              href={ctaHref}
-              className="inline-block border border-neutral-900 bg-transparent px-9 py-3.5 text-xs font-medium tracking-[0.22em] text-neutral-900 uppercase transition-colors duration-300 hover:bg-neutral-900 hover:text-white"
-            >
-              {ctaLabel}
-            </Link>
-          </div>
-        </div>
+        {description && (
+          <p className="font-garamond mt-4 text-base leading-relaxed whitespace-pre-line text-neutral-600 md:text-lg">
+            {description}
+          </p>
+        )}
 
-        {/* 3. FULL-BLEED CAMPAIGN IMAGE */}
-        <div className="w-full px-4 md:px-6">
-          <div className="relative aspect-4/3 w-full overflow-hidden md:aspect-video">
-            <SmoothImage
-              src={imageSrc}
-              alt={title}
-              fill
-              sizes="100vw"
-              className="object-cover object-center transition-transform duration-1000 hover:scale-[1.01]"
-              priority={false}
-              quality={88}
-            />
-          </div>
-        </div>
-      </section>
-    </>
+        <Link
+          href={ctaHref}
+          className="font-garamond hover:border-gold hover:text-gold mt-7 inline-block border-b border-neutral-900/30 pb-1.5 text-xs tracking-[0.14em] text-neutral-900 uppercase transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black md:mt-8"
+        >
+          {ctaLabel}
+        </Link>
+      </header>
+
+      <div className="relative aspect-4/3 w-full overflow-hidden md:aspect-video">
+        <SmoothImage
+          src={imageSrc}
+          alt={imageAlt}
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+          quality={88}
+        />
+      </div>
+    </section>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import SmoothImage from "../ui/SmoothImage";
 import { usePathname } from "next/navigation";
+import SmoothImage from "@/components/ui/SmoothImage";
 import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 interface AboutSectionProps {
@@ -21,10 +21,9 @@ export default function AboutSection({
   imageAlt,
   title,
   description,
-  ctaHref = "/about",
-  ctaLabel,
   descriptions,
-  // True = Imagen a la izquierda, Texto a la derecha (Como en "The Luxury Collection")
+  ctaHref,
+  ctaLabel,
   reverse = true,
 }: AboutSectionProps) {
   const pathname = usePathname();
@@ -32,81 +31,76 @@ export default function AboutSection({
   const labels = getUiLabels(locale).sections.aboutDefaults;
 
   const resolvedImageAlt = imageAlt ?? labels.imageAlt;
-  const resolvedEyebrow = labels.eyebrow ?? "Savoir-Faire";
-  const resolvedTitle = title ?? labels.title ?? "Our Story";
+  const resolvedTitle = title ?? labels.title;
   const resolvedDescription = description ?? labels.description;
-  const resolvedCtaLabel = ctaLabel ?? labels.ctaLabel ?? "Discover Our Story";
+  const resolvedCtaLabel = ctaLabel ?? labels.ctaLabel;
+  const resolvedCtaHref = ctaHref ?? `/${locale}/about`;
 
-  const imageOrder = reverse ? "lg:order-1" : "lg:order-2";
-  const textOrder = reverse ? "lg:order-2" : "lg:order-1";
+  const paragraphs = (
+    descriptions && descriptions.length > 0
+      ? descriptions
+      : [resolvedDescription]
+  )
+    .flatMap((text) => text.split(/\r?\n\s*\r?\n/))
+    .map((text) => text.trim())
+    .filter(Boolean);
 
   return (
-    <section className="bg-background w-full px-4 pt-12 pb-20 md:px-6 md:pt-16 md:pb-24">
-      <div className="grid w-full grid-cols-1 items-stretch overflow-hidden lg:min-h-[620px] lg:grid-cols-2 xl:min-h-[700px]">
-        {/* COLUMNA IMAGEN: A sangre 50% */}
+    <section
+      aria-labelledby="home-about-heading"
+      className="bg-background w-full px-5 pt-6 pb-12 md:py-16 xl:px-6"
+    >
+      <div className="grid grid-cols-1 items-center gap-7 lg:grid-cols-2 lg:gap-12">
         <div
-          className={`relative min-h-[380px] w-full md:min-h-[460px] lg:min-h-full ${imageOrder}`}
+          className={[
+            "relative aspect-4/5 w-full overflow-hidden",
+            reverse ? "lg:order-1" : "lg:order-2",
+          ].join(" ")}
         >
           <SmoothImage
             src={imageSrc}
             alt={resolvedImageAlt}
             fill
-            sizes="(min-width:1024px) 50vw, 100vw"
+            sizes="(min-width: 1024px) 50vw, 100vw"
             quality={85}
-            className="object-cover"
+            className="object-cover object-center"
             loading="lazy"
-            priority={false}
-            decoding="async"
           />
         </div>
 
-        {/* COLUMNA TEXTO: Padding asimétrico idéntico al CollectionsShowcase */}
         <div
-          className={`flex w-full flex-col justify-center px-6 py-10 md:px-10 md:py-12 ${
-            reverse
-              ? // Si el texto está a la derecha: padding a la izquierda para separarlo de la foto
-                "lg:pr-8 lg:pl-14 xl:pl-20"
-              : // Si el texto está a la izquierda: padding a la derecha para separarlo de la foto
-                "lg:pr-14 lg:pl-8 xl:pr-20"
-          } ${textOrder}`}
+          className={[
+            "px-2 text-center md:px-8 lg:px-10",
+            reverse ? "lg:order-2" : "lg:order-1",
+          ].join(" ")}
         >
-          {/* CONTENEDOR INTERNO: mr-auto / ml-auto ancla el bloque de texto cerca de la imagen */}
-          <div
-            className={`w-full max-w-[440px] ${reverse ? "mr-auto" : "ml-auto"}`}
-          >
-            <span className="mb-4 block text-[10px] font-light tracking-[0.3em] text-neutral-400 uppercase md:text-xs">
-              {resolvedEyebrow}
-            </span>
-
-            <h2 className="mb-6 font-serif text-3xl leading-tight font-light tracking-[0.08em] text-neutral-900 uppercase md:text-4xl lg:text-5xl">
+          <div className="mx-auto flex max-w-lg flex-col items-center">
+            <h2
+              id="home-about-heading"
+              className="font-magister text-[28px] leading-tight font-normal tracking-[0.02em] text-neutral-900 md:text-[34px] lg:text-[40px]"
+            >
               {resolvedTitle}
             </h2>
 
-            <div className="flex flex-col gap-5">
-              {descriptions && descriptions.length > 0 ? (
-                descriptions.map((para, idx) => (
+            {paragraphs.length > 0 && (
+              <div className="mt-5 flex flex-col gap-5">
+                {paragraphs.map((paragraph, index) => (
                   <p
-                    key={idx}
-                    className="font-garamond text-base leading-relaxed text-neutral-600 md:text-lg"
+                    key={index}
+                    className="font-garamond text-base leading-relaxed whitespace-pre-line text-neutral-600 md:text-lg"
                   >
-                    {para}
+                    {paragraph}
                   </p>
-                ))
-              ) : (
-                <p className="font-garamond text-base leading-relaxed text-neutral-600 md:text-lg">
-                  {resolvedDescription}
-                </p>
-              )}
-            </div>
+                ))}
+              </div>
+            )}
 
-            <div className="mt-12">
-              <Link
-                href={ctaHref}
-                className="inline-block border border-neutral-900 bg-transparent px-9 py-3.5 text-xs font-medium tracking-[0.22em] text-neutral-900 uppercase transition-colors duration-300 hover:bg-neutral-900 hover:text-white"
-              >
-                {resolvedCtaLabel}
-              </Link>
-            </div>
+            <Link
+              href={resolvedCtaHref}
+              className="font-garamond hover:border-gold hover:text-gold mt-7 inline-block border-b border-neutral-900/30 pb-1.5 text-xs tracking-[0.14em] text-neutral-900 uppercase transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black md:mt-8"
+            >
+              {resolvedCtaLabel}
+            </Link>
           </div>
         </div>
       </div>

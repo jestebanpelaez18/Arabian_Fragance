@@ -23,7 +23,7 @@ export default function ProductCard({
   locale = i18n.defaultLocale,
   priority = false,
 }: ProductCardProps) {
-  const href = `/product/${p.slug ?? p.id}`;
+  const href = `/${locale}/product/${p.slug ?? p.id}`;
 
   const uniqueImages = Array.from(new Set((p.images ?? []).filter(Boolean)));
 

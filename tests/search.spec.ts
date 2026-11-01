@@ -60,6 +60,9 @@ test.describe("Navigation search", () => {
 
     const { trigger, dialog, input } = await openSearch(page);
 
+    await expect(input).toHaveAttribute("type", "text");
+    await expect(input).toHaveAttribute("inputmode", "search");
+
     await input.press("Escape");
 
     await expect(dialog).toHaveCount(0);

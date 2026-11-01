@@ -68,13 +68,6 @@ type UiLabels = {
       unisexTab: string;
       viewAllPrefix: string;
     };
-    quickNav: {
-      newArrivals: string;
-      bestSellers: string;
-      luxuryCollection: string;
-      premiumCollection: string;
-      oudSignatures: string;
-    };
     showroomSection: {
       leftImageAlt: string;
       rightImageAlt: string;
@@ -239,7 +232,7 @@ const uiLabels: Record<Locale, UiLabels> = {
             { label: "FAQs", href: "/faq" },
             { label: "Terms & conditions", href: "/policies/terms-conditions" },
             { label: "Privacy policy", href: "/policies/privacy-policy" },
-            { label: "Cookies policy", href: "/cookies" },
+            { label: "Cookies policy", href: "/policies/cookies-policy" },
           ],
         },
         {
@@ -292,13 +285,6 @@ const uiLabels: Record<Locale, UiLabels> = {
         menTab: "MEN",
         unisexTab: "UNISEX",
         viewAllPrefix: "View all",
-      },
-      quickNav: {
-        newArrivals: "New Arrivals",
-        bestSellers: "Best Sellers",
-        luxuryCollection: "Luxury Collection",
-        premiumCollection: "Premium Collection",
-        oudSignatures: "Oud Signatures",
       },
       showroomSection: {
         leftImageAlt: "Arabian Fragrance showroom",
@@ -473,7 +459,7 @@ const uiLabels: Record<Locale, UiLabels> = {
             { label: "UKK", href: "/faq" },
             { label: "Käyttöehdot", href: "/policies/terms-conditions" },
             { label: "Tietosuojakäytäntö", href: "/policies/privacy-policy" },
-            { label: "Evästekäytäntö", href: "/cookies" },
+            { label: "Evästekäytäntö", href: "/policies/cookies-policy" },
           ],
         },
         {
@@ -528,13 +514,6 @@ const uiLabels: Record<Locale, UiLabels> = {
         menTab: "MIEHET",
         unisexTab: "UNISEX",
         viewAllPrefix: "Näytä kaikki",
-      },
-      quickNav: {
-        newArrivals: "Uutuudet",
-        bestSellers: "Myydyimmät",
-        luxuryCollection: "Luxury-kokoelma",
-        premiumCollection: "Premium-kokoelma",
-        oudSignatures: "Oud-signatuurit",
       },
       showroomSection: {
         leftImageAlt: "Arabian Fragrancen showroom",
@@ -709,7 +688,7 @@ const uiLabels: Record<Locale, UiLabels> = {
             { label: "Vanliga fragor", href: "/faq" },
             { label: "Villkor", href: "/policies/terms-conditions" },
             { label: "Integritetspolicy", href: "/policies/privacy-policy" },
-            { label: "Cookiepolicy", href: "/cookies" },
+            { label: "Cookiepolicy", href: "/policies/cookies-policy" },
           ],
         },
         {
@@ -764,13 +743,6 @@ const uiLabels: Record<Locale, UiLabels> = {
         menTab: "HERR",
         unisexTab: "UNISEX",
         viewAllPrefix: "Visa alla",
-      },
-      quickNav: {
-        newArrivals: "Nyheter",
-        bestSellers: "Bastsaljare",
-        luxuryCollection: "Luxury-kollektionen",
-        premiumCollection: "Premium-kollektionen",
-        oudSignatures: "Oud-signaturer",
       },
       showroomSection: {
         leftImageAlt: "Arabian Fragrance showroom",

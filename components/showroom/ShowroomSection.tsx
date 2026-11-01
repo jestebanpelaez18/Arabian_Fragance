@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import SmoothImage from "../ui/SmoothImage";
-import SectionHeader from "@/components/ui/SectionHeader";
 import { usePathname } from "next/navigation";
+import SmoothImage from "@/components/ui/SmoothImage";
 import { getLocaleFromPathname, getUiLabels } from "@/lib/i18n/uiLabels";
 
 type ShowroomSectionProps = {
@@ -21,59 +20,59 @@ export default function ShowroomSection({
   heading,
   description,
   ctaLabel,
-  ctaHref = "/showroom",
+  ctaHref,
 }: ShowroomSectionProps) {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname);
   const labels = getUiLabels(locale).sections.showroomSection;
 
-  // Resolving text fallbacks gracefully
-  const resolvedHeading = heading ?? labels.heading ?? "Our Showroom";
-  const resolvedDescription =
-    description ??
-    labels.description ??
-    "Experience the art of Arabian perfumery in person. Visit our Helsinki boutique to discover our rare ingredients and signature collections.";
-  const resolvedImageAlt =
-    imageAlt ?? labels.rightImageAlt ?? "Arabian Fragrance Showroom";
-  const resolvedCtaLabel = ctaLabel ?? labels.ctaLabel ?? "Visit Boutique";
+  const resolvedHeading = heading ?? labels.heading;
+
+  const resolvedDescription = description ?? labels.description;
+
+  const resolvedImageAlt = imageAlt ?? labels.rightImageAlt;
+  const resolvedCtaLabel = ctaLabel ?? labels.ctaLabel;
+
+  const resolvedCtaHref = ctaHref ?? `/${locale}/showroom`;
 
   return (
-    <>
-      <SectionHeader
-        title={resolvedHeading}
-        description={resolvedDescription}
-      />
+    <section
+      aria-labelledby="home-showroom-heading"
+      className="bg-background w-full px-5 pt-12 pb-6 md:py-16 xl:px-6"
+    >
+      <header className="mx-auto mb-10 max-w-2xl text-center md:mb-12">
+        <h2
+          id="home-showroom-heading"
+          className="font-magister text-[28px] leading-tight font-normal tracking-[0.02em] text-neutral-900 md:text-4xl"
+        >
+          {resolvedHeading}
+        </h2>
 
-      <section className="bg-background w-full pb-20">
-        {/* 2. HAUTE COUTURE CTA BUTTON: Matches the hero and gift sections */}
-        <div className="-mt-4 mb-16 w-full px-4 text-center">
-          <div className="mx-auto flex max-w-3xl flex-col items-center">
-            <Link
-              href={ctaHref}
-              className="inline-block border border-neutral-900 bg-transparent px-9 py-3.5 text-xs font-medium tracking-[0.22em] text-neutral-900 uppercase transition-colors duration-300 hover:bg-neutral-900 hover:text-white"
-            >
-              {resolvedCtaLabel}
-            </Link>
-          </div>
-        </div>
+        {resolvedDescription && (
+          <p className="font-garamond mt-4 text-base leading-relaxed whitespace-pre-line text-neutral-600 md:text-lg">
+            {resolvedDescription}
+          </p>
+        )}
 
-        {/* 3. CINEMATIC SHOWROOM IMAGE: Framed perfectly within the container */}
-        <div className="w-full px-4 md:px-6">
-          <div className="relative aspect-video w-full overflow-hidden bg-neutral-100">
-            <SmoothImage
-              src={imageSrc}
-              alt={resolvedImageAlt}
-              fill
-              sizes="(min-width:1024px) 100vw, 100vw"
-              className="object-cover object-center transition-transform duration-1000 hover:scale-[1.02]"
-              quality={85}
-              loading="lazy"
-              priority={false}
-              decoding="async"
-            />
-          </div>
-        </div>
-      </section>
-    </>
+        <Link
+          href={resolvedCtaHref}
+          className="font-garamond hover:border-gold hover:text-gold mt-7 inline-block border-b border-neutral-900/30 pb-1.5 text-xs tracking-[0.14em] text-neutral-900 uppercase transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black md:mt-8"
+        >
+          {resolvedCtaLabel}
+        </Link>
+      </header>
+
+      <div className="relative aspect-video w-full overflow-hidden bg-neutral-100">
+        <SmoothImage
+          src={imageSrc}
+          alt={resolvedImageAlt}
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+          quality={85}
+          loading="lazy"
+        />
+      </div>
+    </section>
   );
 }

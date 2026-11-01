@@ -1,7 +1,6 @@
 import Link from "next/link";
+import SmoothImage from "@/components/ui/SmoothImage";
 import type { HomeCollectionCard } from "@/lib/shopify/get-collections";
-import SmoothImage from "../ui/SmoothImage";
-import SectionHeader from "../ui/SectionHeader";
 
 type CollectionsShowcaseProps = {
   collections: HomeCollectionCard[];
@@ -14,86 +13,83 @@ export default function CollectionsShowcase({
   headerTitle,
   headerDescription,
 }: CollectionsShowcaseProps) {
-  return (
-    <>
-      <SectionHeader
-        title={headerTitle ?? "Our Collections"}
-        description={
-          headerDescription ??
-          "Discover the three tiers of olfactory excellence."
-        }
-      />
-      <section className="bg-background px-4 py-14 md:px-6 md:py-18">
-        <div className="w-full">
-          <div className="flex flex-col gap-24 md:gap-32">
-            {collections.map((collection, index) => (
-              <CollectionRow
-                key={collection.id}
-                collection={collection}
-                isEven={index % 2 === 0}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-    </>
-  );
-}
-
-type CollectionRowProps = {
-  collection: HomeCollectionCard;
-  isEven: boolean;
-};
-
-function CollectionRow({ collection, isEven }: CollectionRowProps) {
-  const rowLayoutClass = isEven ? "" : "lg:[&>*:first-child]:order-last";
-  const textSpacingClass = isEven
-    ? "px-4 md:px-12 lg:pl-16 lg:pr-8 xl:pl-24 xl:pr-12"
-    : "px-4 md:px-12 lg:pr-16 lg:pl-8 xl:pr-24 xl:pl-12";
+  if (collections.length === 0) return null;
 
   return (
-    <div
-      className={`grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-16 ${rowLayoutClass}`}
+    <section
+      aria-labelledby={headerTitle ? "home-collections-heading" : undefined}
+      className="bg-background w-full px-5 py-12 md:py-16 xl:px-6"
     >
-      <div className="w-full">
-        <Link
-          href={collection.href}
-          className="group bg-background relative block aspect-4/5 w-full overflow-hidden"
-        >
-          <SmoothImage
-            src={collection.imageSrc}
-            alt={collection.title}
-            fill
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            className="object-cover transition-transform duration-1000 group-hover:scale-105"
-          />
-        </Link>
-      </div>
+      {(headerTitle || headerDescription) && (
+        <header className="mx-auto mb-10 max-w-2xl text-center md:mb-12">
+          {headerTitle && (
+            <h2
+              id="home-collections-heading"
+              className="font-magister text-[28px] leading-tight font-normal tracking-[0.02em] text-neutral-900 md:text-4xl"
+            >
+              {headerTitle}
+            </h2>
+          )}
 
-      <div
-        className={`flex w-full flex-col justify-center text-center lg:items-start lg:text-left ${textSpacingClass}`}
-      >
-        <div className="mx-auto w-full max-w-md lg:mx-0">
-          <span className="text-xs font-semibold tracking-[0.2em] text-gray-400 uppercase">
-            {collection.subtitle}
-          </span>
-          <h3 className="mt-4 font-serif text-3xl leading-tight text-gray-900 md:text-4xl lg:text-5xl">
-            {collection.title}
-          </h3>
-          <p className="font-garamond mt-6 text-base leading-relaxed text-gray-600 md:text-lg">
-            {collection.description}
-          </p>
-          <Link
-            href={collection.href}
-            className="group mt-10 inline-flex min-w-max flex-col items-stretch"
+          {headerDescription && (
+            <p className="font-garamond mt-4 text-base leading-relaxed text-neutral-600 md:text-lg">
+              {headerDescription}
+            </p>
+          )}
+        </header>
+      )}
+
+      <div className="flex flex-col gap-14 md:gap-20">
+        {collections.map((collection, index) => (
+          <article
+            key={collection.id}
+            aria-labelledby={`home-collection-${index}`}
+            className="grid grid-cols-1 items-center gap-7 lg:grid-cols-2 lg:gap-12"
           >
-            <span className="font-garamond group-hover:text-gold text-center text-sm tracking-[0.15em] text-gray-900 uppercase transition-colors duration-200 lg:text-left">
-              {collection.buttonText}
-            </span>
-            <span className="group-hover:bg-gold mt-2 h-px w-full bg-gray-900/25 transition-colors duration-200" />
-          </Link>
-        </div>
+            <Link
+              href={collection.href}
+              aria-label={collection.title}
+              className={[
+                "group bg-background relative block aspect-4/5 w-full overflow-hidden",
+                "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black",
+                index % 2 === 1 ? "lg:order-2" : "",
+              ].join(" ")}
+            >
+              <SmoothImage
+                src={collection.imageSrc}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.025] motion-reduce:transform-none motion-reduce:transition-none"
+              />
+            </Link>
+
+            <div className="px-2 text-center md:px-8 lg:px-10">
+              <div className="mx-auto flex max-w-lg flex-col items-center">
+                <h3
+                  id={`home-collection-${index}`}
+                  className="font-magister text-[28px] leading-tight font-normal tracking-[0.02em] text-neutral-900 md:text-[34px] lg:text-[40px]"
+                >
+                  {collection.title}
+                </h3>
+
+                {collection.subtitle && (
+                  <p className="font-garamond mt-5 text-base leading-relaxed whitespace-pre-line text-neutral-600 md:text-lg">
+                    {collection.subtitle}
+                  </p>
+                )}
+
+                <Link
+                  href={collection.href}
+                  className="font-garamond hover:border-gold hover:text-gold mt-7 inline-block border-b border-neutral-900/30 pb-1.5 text-xs tracking-[0.14em] text-neutral-900 uppercase transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black md:mt-8"
+                >
+                  {collection.buttonText}
+                </Link>
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
-    </div>
+    </section>
   );
 }

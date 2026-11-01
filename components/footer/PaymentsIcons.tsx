@@ -1,20 +1,23 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 
 const methods = [
   {
     name: "Visa",
     src: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg",
-    padding: "p-1", // Ajuste fino para que no toque los bordes
+    padding: "p-1",
   },
   {
     name: "Mastercard",
     src: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg",
-    padding: "p-0", // Mastercard llena mejor la tarjeta
+    padding: "p-0.5",
   },
   {
     name: "American Express",
     src: "https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg",
-    padding: "p-0",
+    padding: "p-0.5",
   },
   {
     name: "Apple Pay",
@@ -22,7 +25,7 @@ const methods = [
     padding: "p-1",
   },
   {
-    name: "Mobile Pay",
+    name: "MobilePay",
     src: "https://upload.wikimedia.org/wikipedia/commons/f/fd/MobilePay_logo.svg",
     padding: "p-1",
   },
@@ -34,23 +37,39 @@ const methods = [
 ];
 
 export default function PaymentIcons() {
+  const [failedImages, setFailedImages] = useState<string[]>([]);
+
+  function handleImageError(name: string) {
+    setFailedImages((current) =>
+      current.includes(name) ? current : [...current, name],
+    );
+  }
+
   return (
-    <div className="mt-8 flex flex-wrap items-center justify-end gap-2">
+    <ul className="flex flex-wrap items-center justify-start gap-2">
       {methods.map((method) => (
-        <div
+        <li
           key={method.name}
-          className={`flex h-8 w-12 items-center justify-center overflow-hidden rounded bg-white shadow-sm ${method.padding}`}
+          className={`flex h-7 w-11 items-center justify-center overflow-hidden rounded-sm bg-white ${method.padding}`}
         >
-          <Image
-            src={method.src}
-            alt={method.name}
-            className="h-full w-full object-contain"
-            width={48}
-            height={32}
-            loading="lazy"
-          />
-        </div>
+          {failedImages.includes(method.name) ? (
+            <span className="px-0.5 text-center font-sans text-[8px] leading-tight font-semibold text-neutral-900">
+              {method.name}
+            </span>
+          ) : (
+            <Image
+              src={method.src}
+              alt={method.name}
+              width={44}
+              height={28}
+              unoptimized
+              loading="lazy"
+              onError={() => handleImageError(method.name)}
+              className="h-full w-full object-contain"
+            />
+          )}
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

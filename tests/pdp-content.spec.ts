@@ -28,7 +28,10 @@ async function openJild(page: Page) {
     .first();
 
   await expect(productLink).toBeVisible();
+  await expect(productLink).toHaveAttribute("href", /^\/en\/product\/[^/?#]+$/);
   await productLink.click();
+
+  await expect(page).toHaveURL(/\/en\/product\/[^/?#]+$/);
 
   const heading = page.getByRole("heading", { level: 1 });
 
