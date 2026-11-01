@@ -12,6 +12,9 @@ import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import CookieBanner from "@/components/ui/CookieBanner";
 import localFont from "next/font/local";
+import { notFound } from "next/navigation";
+import { i18n } from "@/i18n-config";
+import { getFooterSocialLinks } from "@/lib/shopify/get-footer-social-links";
 
 const magister = localFont({
   src: "../../public/fonts/Magister-Extended.otf",
@@ -91,17 +94,27 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }>) {
-  const { locale } = await params;
+  const { locale: requestedLocale } = await params;
+
+  const locale = i18n.locales.find((language) => language === requestedLocale);
+
+  if (!locale) {
+    notFound();
+  }
+
+  const socialLinks = await getFooterSocialLinks();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale}>
       <body
-        className={`${geistGaramond.variable} ${geistPlayfairDisplay.variable} ${geistRoboto.variable} ${geistCarlito.variable} ${jakarta.variable} ${bodoni.variable} ${magister.variable} antialiased`}
-        suppressHydrationWarning
+        className={`${geistGaramond.variable} ${geistPlayfairDisplay.variable} ${geistRoboto.variable} ${geistCarlito.variable} ${jakarta.variable} ${bodoni.variable} ${magister.variable} flex min-h-svh flex-col antialiased`}
       >
         <Navbar />
-        <main className="flex-grow pt-16 lg:pt-[116px]">{children}</main>
-        <Footer />
+
+        <main className="grow pt-16 lg:pt-[116px]">{children}</main>
+
+        <Footer socialLinks={socialLinks} />
+
         <CookieBanner />
       </body>
     </html>

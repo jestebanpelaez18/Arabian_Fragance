@@ -1,6 +1,6 @@
 export default function BrandCopy({ text }: { text: string }) {
   return (
-    <p className="font-bodoni mb-6 text-xs leading-relaxed text-white/90 md:mb-8">
+    <p className="font-garamond text-sm leading-relaxed text-white/75">
       {text}
     </p>
   );
