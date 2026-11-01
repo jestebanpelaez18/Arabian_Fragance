@@ -4,7 +4,6 @@ import {
   Playfair_Display,
   Roboto,
   Carlito,
-  Bodoni_Moda,
   Plus_Jakarta_Sans,
 } from "next/font/google";
 import "../globals.css";
@@ -43,9 +42,9 @@ const geistCarlito = Carlito({
   weight: "400",
 });
 
-const bodoni = Bodoni_Moda({
-  subsets: ["latin"],
-  weight: ["500", "600"],
+const bodoni = localFont({
+  src: "../../public/fonts/BodoniModa-Variable.woff2",
+  weight: "500 600",
   variable: "--font-bodoni",
   display: "swap",
 });
