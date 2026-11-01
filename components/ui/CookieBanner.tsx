@@ -44,13 +44,14 @@ export default function CookieBanner() {
       {/* Texto Legal */}
       <div className="max-w-4xl text-center md:text-left">
         <p className="font-garamond text-base leading-relaxed text-[var(--ink)] md:text-lg">
-          We use cookies to ensure you get the best experience on our digital
-          boutique. By continuing, you accept our{" "}
+          We use browser storage to remember your shopping cart and your choice
+          on this banner. Essential shopping cart storage remains active
+          whichever option you choose. Read our{" "}
           <Link
-            href={`/${locale}/policies/privacy-policy`}
+            href={`/${locale}/policies/cookies-policy`}
             className="border-b border-[var(--gold)]/50 pb-0.5 text-[var(--ink)] transition-colors hover:text-[var(--gold)]"
           >
-            Privacy Policy
+            Cookies Policy
           </Link>
           .
         </p>

@@ -1,104 +1,180 @@
+import type { Metadata } from "next";
+import { cache } from "react";
 import { notFound } from "next/navigation";
 import { shopifyFetch } from "@/lib/shopify/shopify";
-import type { Metadata } from "next";
 import type { Locale } from "@/i18n-config";
 import { getShopifyLanguageCode } from "@/lib/shopify/locale";
+import { sanitizeShopifyHtml } from "@/lib/sanitize-shopify-html";
 
-// ... (Types, Query y Policy_Map se quedan igual, no hace falta tocarlos) ...
 interface Policy {
   id: string;
   title: string;
   body: string;
 }
 
-interface ShopPoliciesData {
-  data: {
-    shop: {
-      privacyPolicy: Policy | null;
-      termsOfService: Policy | null;
-      refundPolicy: Policy | null;
-      shippingPolicy: Policy | null;
-    };
+type ShopPolicies = {
+  privacyPolicy: Policy | null;
+  termsOfService: Policy | null;
+  refundPolicy: Policy | null;
+  shippingPolicy: Policy | null;
+};
+
+type PolicyOperation = {
+  data?: {
+    shop?: ShopPolicies;
+    page?: Policy | null;
   };
+  errors?: Array<{ message: string }>;
+};
+
+interface PageProps {
+  params: Promise<{
+    locale: Locale;
+    slug: string;
+  }>;
 }
 
-const getPoliciesQuery = `
-  query getPolicies($language: LanguageCode!) @inContext(language: $language) {
-    shop {
-      privacyPolicy { id title body }
-      termsOfService { id title body }
-      refundPolicy { id title body }
-      shippingPolicy { id title body }
-    }
-  }
-`;
-
-const POLICY_MAP: Record<string, keyof ShopPoliciesData["data"]["shop"]> = {
+const POLICY_MAP: Record<string, keyof ShopPolicies> = {
   "privacy-policy": "privacyPolicy",
   "terms-conditions": "termsOfService",
   "refund-policy": "refundPolicy",
   "shipping-policy": "shippingPolicy",
 };
 
-async function getPolicy(slug: string, locale: Locale): Promise<Policy | null> {
-  const shopifyKey = POLICY_MAP[slug];
-  if (!shopifyKey) return null;
+const POLICY_SLUGS = [...Object.keys(POLICY_MAP), "cookies-policy"];
 
-  const res = await shopifyFetch<ShopPoliciesData>({
-    query: getPoliciesQuery,
-    variables: { language: getShopifyLanguageCode(locale) },
-    tags: ["policies"],
-  });
+const policiesQuery = `
+  query ShopPolicies($language: LanguageCode!)
+  @inContext(language: $language) {
+    shop {
+      privacyPolicy {
+        id
+        title
+        body
+      }
 
-  const shopData = res.body?.data?.shop;
-  if (!shopData || !shopData[shopifyKey]) return null;
+      termsOfService {
+        id
+        title
+        body
+      }
 
-  return shopData[shopifyKey];
-}
+      refundPolicy {
+        id
+        title
+        body
+      }
+
+      shippingPolicy {
+        id
+        title
+        body
+      }
+    }
+  }
+`;
+
+const cookiesPageQuery = `
+  query CookiesPolicy($language: LanguageCode!)
+  @inContext(language: $language) {
+    page(handle: "cookies-policy") {
+      id
+      title
+      body
+    }
+  }
+`;
+
+const getPolicy = cache(
+  async (slug: string, locale: Locale): Promise<Policy | null> => {
+    if (!POLICY_SLUGS.includes(slug)) {
+      return null;
+    }
+
+    const isCookiesPolicy = slug === "cookies-policy";
+
+    const response = await shopifyFetch<PolicyOperation>({
+      query: isCookiesPolicy ? cookiesPageQuery : policiesQuery,
+      variables: {
+        language: getShopifyLanguageCode(locale),
+      },
+      cache: "force-cache",
+      next: {
+        revalidate: 300,
+        tags: ["policies", `policy:${slug}`],
+      },
+    });
+
+    if (
+      response.error ||
+      response.status >= 400 ||
+      response.body?.errors?.length ||
+      !response.body?.data
+    ) {
+      throw new Error(
+        response.body?.errors?.map((error) => error.message).join("; ") ||
+          response.error ||
+          `Unable to load policy "${slug}" from Shopify.`,
+      );
+    }
+
+    const data = response.body.data;
+
+    const policy = isCookiesPolicy ? data.page : data.shop?.[POLICY_MAP[slug]];
+
+    if (!policy?.title.trim() || !policy.body.trim()) {
+      return null;
+    }
+
+    return policy;
+  },
+);
 
 export function generateStaticParams() {
-  return Object.keys(POLICY_MAP).map((slug) => ({ slug }));
+  return POLICY_SLUGS.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
   params,
-}: {
-  params: Promise<{ locale: Locale; slug: string }>;
-}): Promise<Metadata> {
+}: PageProps): Promise<Metadata> {
   const { locale, slug } = await params;
   const policy = await getPolicy(slug, locale);
-  if (!policy) return {};
+
+  if (!policy) {
+    return {};
+  }
+
   return {
-    title: `${policy.title} | Arabian Fragrance`,
+    title: policy.title,
   };
 }
 
-// --- COMPONENTE VISUAL ---
-export default async function PolicyPage({
-  params,
-}: {
-  params: Promise<{ locale: Locale; slug: string }>;
-}) {
+export default async function PolicyPage({ params }: PageProps) {
   const { locale, slug } = await params;
   const policy = await getPolicy(slug, locale);
 
-  if (!policy) return notFound();
+  if (!policy) {
+    notFound();
+  }
 
   return (
-    <main className="bg-background text-foreground min-h-screen w-full">
-      <article className="mx-auto px-6 py-24 md:py-32">
-        {/* HEADER */}
-        <header className="mb-20 text-center">
-          <h1 className="text-ink text-3xl tracking-[0.2em] uppercase md:text-5xl">
+    <div className="bg-background text-foreground w-full">
+      <article className="mx-auto px-5 pt-12 pb-16 md:px-6 md:pt-16 md:pb-24">
+        <header className="mx-auto mb-10 max-w-4xl text-center md:mb-14">
+          <h1 className="font-magister text-[30px] leading-tight font-normal tracking-[0.02em] text-neutral-900 md:text-[44px]">
             {policy.title}
           </h1>
-          <div className="bg-gold/50 mx-auto mt-8 h-px w-16" />
+
+          <div className="bg-gold/50 mx-auto mt-6 h-px w-12" />
         </header>
+
         <div
-          className="font-garamond policy-content"
-          dangerouslySetInnerHTML={{ __html: policy.body }}
+          className="policy-content"
+          dangerouslySetInnerHTML={{
+            __html: sanitizeShopifyHtml(policy.body),
+          }}
         />
       </article>
-    </main>
+    </div>
   );
 }

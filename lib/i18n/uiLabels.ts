@@ -232,7 +232,7 @@ const uiLabels: Record<Locale, UiLabels> = {
             { label: "FAQs", href: "/faq" },
             { label: "Terms & conditions", href: "/policies/terms-conditions" },
             { label: "Privacy policy", href: "/policies/privacy-policy" },
-            { label: "Cookies policy", href: "/cookies" },
+            { label: "Cookies policy", href: "/policies/cookies-policy" },
           ],
         },
         {
@@ -459,7 +459,7 @@ const uiLabels: Record<Locale, UiLabels> = {
             { label: "UKK", href: "/faq" },
             { label: "Käyttöehdot", href: "/policies/terms-conditions" },
             { label: "Tietosuojakäytäntö", href: "/policies/privacy-policy" },
-            { label: "Evästekäytäntö", href: "/cookies" },
+            { label: "Evästekäytäntö", href: "/policies/cookies-policy" },
           ],
         },
         {
@@ -688,7 +688,7 @@ const uiLabels: Record<Locale, UiLabels> = {
             { label: "Vanliga fragor", href: "/faq" },
             { label: "Villkor", href: "/policies/terms-conditions" },
             { label: "Integritetspolicy", href: "/policies/privacy-policy" },
-            { label: "Cookiepolicy", href: "/cookies" },
+            { label: "Cookiepolicy", href: "/policies/cookies-policy" },
           ],
         },
         {
