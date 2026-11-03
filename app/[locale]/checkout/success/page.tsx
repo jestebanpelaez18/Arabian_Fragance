@@ -5,15 +5,14 @@ import type { Locale } from "@/i18n-config";
 
 export const dynamic = "force-dynamic";
 
-// Next 15: searchParams es Promise<Record<string, string | string[] | undefined>>
-type SP = Promise<Record<string, string | string[] | undefined>>;
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
 export default async function SuccessPage({
   params,
   searchParams,
 }: {
   params: Promise<{ locale: Locale }>;
-  searchParams: SP;
+  searchParams: SearchParams;
 }) {
   const { locale } = await params;
   const dict = await getDictionary(locale);

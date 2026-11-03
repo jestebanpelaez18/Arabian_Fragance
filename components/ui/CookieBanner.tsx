@@ -10,10 +10,10 @@ export default function CookieBanner() {
   const locale = getLocaleFromPathname(usePathname());
 
   useEffect(() => {
-    // 1. Comprobar si ya existe la cookie de consentimiento
+    // Check whether a consent choice is already stored.
     const consent = localStorage.getItem("cookie_consent");
 
-    // 2. Si no existe, mostramos el banner tras un pequeño retraso (para que la web cargue primero)
+    // Delay the banner slightly so it does not interrupt the initial page load.
     if (!consent) {
       const timer = setTimeout(() => setShowBanner(true), 1500);
       return () => clearTimeout(timer);
@@ -21,12 +21,9 @@ export default function CookieBanner() {
   }, []);
 
   const handleAccept = () => {
-    // Guardamos la decisión en el navegador del usuario
+    // Store the choice in browser storage.
     localStorage.setItem("cookie_consent", "true");
     setShowBanner(false);
-
-    // AQUÍ es donde en el futuro activarías Google Analytics/Pixel
-    // window.gtag('consent', 'update', { ... })
   };
 
   const handleDecline = () => {

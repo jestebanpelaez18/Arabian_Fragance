@@ -20,7 +20,7 @@
   --background-alt: var(--paper); /* secciones especiales */
 
   /* Navbar */
-  --navbar-bg: #f7f3ea; /* navbar blanco */
+  --navbar-bg: #f7f3ea; /* navbar marfil */
   --navbar-text: #111111; /* texto negro */
   --navbar-hover: var(--gold); /* hover dorado */
   --navbar-border: rgba(201, 164, 106, 0.35); /* borde dorado arena suave */
@@ -70,13 +70,6 @@
   --font-jakarta: var(--font-jakarta);
   --font-bodoni: var(--font-bodoni);
   --font-magister: var(--font-magister);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--paper-alt);
-    --foreground: var(--ink);
-  }
 }
 
 /* ====== BASE ====== */
@@ -191,11 +184,6 @@ h6 {
   box-shadow: var(--shadow-soft);
 }
 
-/* Text shadows */
-.text-shadow-soft {
-  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.35);
-}
-
 .overlay-amber {
   background: radial-gradient(
     60% 50% at 50% 35%,
@@ -241,9 +229,11 @@ h6 {
 
 .link-gold {
   transition: color 0.4s var(--bezier-luxe);
+  text-decoration: none;
 }
 .link-gold:hover {
   color: var(--gold);
+  text-decoration: underline;
 }
 
 .card-luxe {
@@ -269,13 +259,6 @@ h6 {
 .section-light {
   background: var(--paper);
   color: var(--ink);
-}
-
-.link-gold {
-  text-decoration: none;
-}
-.link-gold:hover {
-  text-decoration: underline;
 }
 
 .text-shadow-soft {
