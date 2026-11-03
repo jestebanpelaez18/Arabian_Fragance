@@ -321,6 +321,12 @@ Inspect the report and trace. Check whether navigation failed or the destination
 
 Check the failing font in the build output. Bodoni Moda is already loaded locally; other Google-hosted fonts may still require investigation.
 
+## Visual design
+
+Colors, typography, page layouts, and responsive behavior are defined in the Next.js codebase. Shopify’s theme editor does not control this storefront.
+
+Content connected to Shopify—such as products, editorial text, images, policies, and social links—can be updated from the Shopify admin. Changes to the visual design require code changes and a new deployment through Vercel.
+
 ## License
 
 See [LICENSE](LICENSE) for the repository's usage restrictions.
