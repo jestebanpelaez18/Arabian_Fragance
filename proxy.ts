@@ -6,16 +6,13 @@ function isLocale(value: string): value is Locale {
   return i18n.locales.includes(value as Locale);
 }
 
-// Function to get the preferred locale from the user's request
+// Use a supported saved locale, or fall back to the configured default.
 function getLocale(request: NextRequest): Locale {
-  // Try to get the language from a saved cookie first
   const cookieLocale = request.cookies.get("USER_LOCALE")?.value;
   if (cookieLocale && isLocale(cookieLocale)) {
     return cookieLocale;
   }
 
-  // Basic implementation: fall back to default English
-  // (In the future, we can parse the 'accept-language' header here)
   return i18n.defaultLocale;
 }
 
