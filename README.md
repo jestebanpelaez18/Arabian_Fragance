@@ -172,21 +172,21 @@ Playwright reports and test results are uploaded as workflow artifacts and retai
 
 ## Project structure
 
-| Path                        | Responsibility                                           |
-| --------------------------- | -------------------------------------------------------- |
-| `app/[locale]/`             | Localized storefront routes and page metadata            |
-| `app/api/checkout/route.ts` | Create a Shopify cart and return its checkout URL        |
-| `components/`               | Layout, navigation, catalog, product and page components |
-| `lib/shopify/`              | Shopify queries, fetcher and product mapping             |
-| `lib/shop/`                 | Catalog definitions, filtering and search logic          |
+| Path                        | Responsibility                                                                                   |
+| --------------------------- | ------------------------------------------------------------------------------------------------ |
+| `app/[locale]/`             | Localized storefront routes and page metadata                                                    |
+| `app/api/checkout/route.ts` | Create a Shopify cart and return its checkout URL                                                |
+| `components/`               | Layout, navigation, catalog, product and page components                                         |
+| `lib/shopify/`              | Shopify queries, fetcher and product mapping                                                     |
+| `lib/shop/`                 | Catalog definitions, filtering and search logic                                                  |
 | `data/products.ts`          | Shared `Product` and `Note` types and `VALID_NOTES`; the product catalog is fetched from Shopify |
-| `lib/cart/store.ts`         | Zustand shopping bag and browser persistence             |
-| `lib/i18n/uiLabels.ts`      | Shared interface labels                                  |
-| `dictionaries/`             | Localized page text and fallback content                 |
-| `i18n-config.ts`            | Supported locales and default locale                     |
-| `public/`                   | Local images, logos and fonts                            |
-| `tests/`                    | Browser tests                                            |
-| `tests/unit/`               | Unit tests                                               |
+| `lib/cart/store.ts`         | Zustand shopping bag and browser persistence                                                     |
+| `lib/i18n/uiLabels.ts`      | Shared interface labels                                                                          |
+| `dictionaries/`             | Localized page text and fallback content                                                         |
+| `i18n-config.ts`            | Supported locales and default locale                                                             |
+| `public/`                   | Local images, logos and fonts                                                                    |
+| `tests/`                    | Browser tests                                                                                    |
+| `tests/unit/`               | Unit tests                                                                                       |
 
 ## Editing content
 
