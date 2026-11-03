@@ -43,11 +43,11 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
 Replace the Shopify placeholders with the values provided by the project administrator.
 
-| Variable | Local development | Vercel production |
-| --- | --- | --- |
-| `SHOPIFY_STORE_DOMAIN` | Shopify store hostname, without `https://` | Shopify store hostname |
-| `SHOPIFY_STOREFRONT_ACCESS_TOKEN` | Storefront API token | Configured in Vercel |
-| `NEXT_PUBLIC_SITE_URL` | `http://localhost:3000` | `https://wantafc.com` |
+| Variable                          | Local development                          | Vercel production      |
+| --------------------------------- | ------------------------------------------ | ---------------------- |
+| `SHOPIFY_STORE_DOMAIN`            | Shopify store hostname, without `https://` | Shopify store hostname |
+| `SHOPIFY_STOREFRONT_ACCESS_TOKEN` | Storefront API token                       | Configured in Vercel   |
+| `NEXT_PUBLIC_SITE_URL`            | `http://localhost:3000`                    | `https://wantafc.com`  |
 
 - `SHOPIFY_STORE_DOMAIN` identifies the Shopify backend, using its `.myshopify.com` hostname.
 - `NEXT_PUBLIC_SITE_URL` is used for site metadata and absolute URLs. It does not configure domain ownership or DNS.
@@ -78,16 +78,16 @@ Create a new deployment after changing environment variables so the updated conf
 
 ## Commands
 
-| Command | Purpose |
-| --- | --- |
-| `npm run dev` | Start the development server |
-| `npm run build` | Create the production build using Webpack |
-| `npm run start` | Serve the existing production build |
-| `npm run lint` | Run ESLint; warnings fail the check |
-| `npm run format` | Check formatting without modifying files |
-| `npm run format:write` | Apply Prettier formatting |
-| `npm run typecheck` | Check TypeScript types |
-| `npm run ci` | Run lint, formatting, type checks and build |
+| Command                | Purpose                                     |
+| ---------------------- | ------------------------------------------- |
+| `npm run dev`          | Start the development server                |
+| `npm run build`        | Create the production build using Webpack   |
+| `npm run start`        | Serve the existing production build         |
+| `npm run lint`         | Run ESLint; warnings fail the check         |
+| `npm run format`       | Check formatting without modifying files    |
+| `npm run format:write` | Apply Prettier formatting                   |
+| `npm run typecheck`    | Check TypeScript types                      |
+| `npm run ci`           | Run lint, formatting, type checks and build |
 
 **`npm run ci` does not run Playwright tests.** Run those separately.
 
@@ -172,20 +172,20 @@ Playwright reports and test results are uploaded as workflow artifacts and retai
 
 ## Project structure
 
-| Path | Responsibility |
-| --- | --- |
-| `app/[locale]/` | Localized storefront routes and page metadata |
-| `app/api/checkout/route.ts` | Create a Shopify cart and return its checkout URL |
-| `components/` | Layout, navigation, catalog, product and page components |
-| `lib/shopify/` | Shopify queries, fetcher and product mapping |
-| `lib/shop/` | Catalog definitions, filtering and search logic |
-| `lib/cart/store.ts` | Zustand shopping bag and browser persistence |
-| `lib/i18n/uiLabels.ts` | Shared interface labels |
-| `dictionaries/` | Localized page text and fallback content |
-| `i18n-config.ts` | Supported locales and default locale |
-| `public/` | Local images, logos and fonts |
-| `tests/` | Browser tests |
-| `tests/unit/` | Unit tests |
+| Path                        | Responsibility                                           |
+| --------------------------- | -------------------------------------------------------- |
+| `app/[locale]/`             | Localized storefront routes and page metadata            |
+| `app/api/checkout/route.ts` | Create a Shopify cart and return its checkout URL        |
+| `components/`               | Layout, navigation, catalog, product and page components |
+| `lib/shopify/`              | Shopify queries, fetcher and product mapping             |
+| `lib/shop/`                 | Catalog definitions, filtering and search logic          |
+| `lib/cart/store.ts`         | Zustand shopping bag and browser persistence             |
+| `lib/i18n/uiLabels.ts`      | Shared interface labels                                  |
+| `dictionaries/`             | Localized page text and fallback content                 |
+| `i18n-config.ts`            | Supported locales and default locale                     |
+| `public/`                   | Local images, logos and fonts                            |
+| `tests/`                    | Browser tests                                            |
+| `tests/unit/`               | Unit tests                                               |
 
 ## Editing content
 
@@ -193,24 +193,24 @@ This is a custom Next.js storefront. Shopify's theme editor does not control its
 
 Edit connected content in Shopify. Modify components and styles in this repository to change the storefront's presentation or behavior.
 
-| Content | Where to edit |
-| --- | --- |
-| Product titles, descriptions, prices, images and availability | Shopify products |
-| Product notes, concentration, ingredients and layering | Shopify product metafields |
-| Collection titles, descriptions and images | Shopify collections |
-| Homepage collection descriptions and button labels | Collection metafields `custom.home_subtitle` and `custom.home_button_label` |
-| Homepage hero | Metaobject `home_hero`, entry `homepage` |
-| Homepage section headings | Metaobject `home_section`, entries `categories`, `collections` and `featured` |
-| Homepage promotional sections | Metaobject `home_promotion`, entries `discovery`, `showroom` and `about` |
-| Our Story page | Metaobject `about_page`, entry `our-story` |
-| Showroom page | Metaobject `showroom_page`, entry `helsinki` |
-| Footer social links | Shopify menu with handle `footer-social` |
-| FAQ | Shopify page with handle `faq` |
-| Cookies Policy | Shopify page with handle `cookies-policy` |
-| Shipping, refunds, privacy and terms | Shopify Settings → Policies |
-| Contact page text | `dictionaries/` |
-| Contact page email | `CONTACT_EMAIL` in `app/[locale]/contact/page.tsx` |
-| Other interface labels and fallback text | `lib/i18n/uiLabels.ts` and `dictionaries/` |
+| Content                                                       | Where to edit                                                                 |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Product titles, descriptions, prices, images and availability | Shopify products                                                              |
+| Product notes, concentration, ingredients and layering        | Shopify product metafields                                                    |
+| Collection titles, descriptions and images                    | Shopify collections                                                           |
+| Homepage collection descriptions and button labels            | Collection metafields `custom.home_subtitle` and `custom.home_button_label`   |
+| Homepage hero                                                 | Metaobject `home_hero`, entry `homepage`                                      |
+| Homepage section headings                                     | Metaobject `home_section`, entries `categories`, `collections` and `featured` |
+| Homepage promotional sections                                 | Metaobject `home_promotion`, entries `discovery`, `showroom` and `about`      |
+| Our Story page                                                | Metaobject `about_page`, entry `our-story`                                    |
+| Showroom page                                                 | Metaobject `showroom_page`, entry `helsinki`                                  |
+| Footer social links                                           | Shopify menu with handle `footer-social`                                      |
+| FAQ                                                           | Shopify page with handle `faq`                                                |
+| Cookies Policy                                                | Shopify page with handle `cookies-policy`                                     |
+| Shipping, refunds, privacy and terms                          | Shopify Settings → Policies                                                   |
+| Contact page text                                             | `dictionaries/`                                                               |
+| Contact page email                                            | `CONTACT_EMAIL` in `app/[locale]/contact/page.tsx`                            |
+| Other interface labels and fallback text                      | `lib/i18n/uiLabels.ts` and `dictionaries/`                                    |
 
 Homepage promotions and their corresponding detail pages are independent content entries. Editing the homepage's Our Story or Showroom introduction does not update the full page.
 
@@ -243,18 +243,18 @@ The catalog uses these product types:
 
 Collection handles are mapped in `lib/shop/catalogs.ts`. These include:
 
-| Catalog | Shopify collection handle |
-| --- | --- |
-| Perfumes | `perfumes` |
-| Women | `women-perfumes` |
-| Men | `men-perfumes` |
-| Unisex | `unisex-perfumes` |
-| Luxury | `luxury-collection` |
-| Premium | `premium-collection` |
-| Essential | `essential-collection` |
-| Oils & Attars | `oils-attars` |
-| Body Mists | `bath-body` |
-| Discovery | `discovery` |
+| Catalog       | Shopify collection handle |
+| ------------- | ------------------------- |
+| Perfumes      | `perfumes`                |
+| Women         | `women-perfumes`          |
+| Men           | `men-perfumes`            |
+| Unisex        | `unisex-perfumes`         |
+| Luxury        | `luxury-collection`       |
+| Premium       | `premium-collection`      |
+| Essential     | `essential-collection`    |
+| Oils & Attars | `oils-attars`             |
+| Body Mists    | `bath-body`               |
+| Discovery     | `discovery`               |
 
 Filtering uses original English classification values to keep behavior consistent across locales.
 
